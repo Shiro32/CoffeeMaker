@@ -3,4 +3,16 @@
     <string name="title_home">ホーム</string>
     <string name="title_beans">マメ一覧</string>
     <string name="title_settings">設定など</string>
+    <string name="oneBrewMethodLabel">入れ方</string>
+    <string name="oneBrewBeanLabel">使用豆</string>
+    <string name="oneBrewResultLabel">評価</string>
+    <string name="editText">編集</string>
+    <string name="copyText">コピー</string>
+    <string name="deleteText">削除</string>
+    <string name="oneBrewGrind">挽粗さ</string>
+    <string name="oneBrewBeanUse">豆量</string>
+    <string name="oneBrewCupsLabel">カップ</string>
+    <string name="oneBrewTemp">温度</string>
+    <string name="oneBrewSteam">蒸らし</string>
+    <string name="oneBrewMemoLabel">メモ</string>
 </resources>
