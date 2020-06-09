@@ -33,7 +33,7 @@
             android:layout_marginTop="4dp"
             android:text="@string/oneBrewMethodLabel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewRatingLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewDateText" />
 
         <TextView
             android:id="@+id/oneBrewBeansLabel"
@@ -43,7 +43,7 @@
             android:layout_marginTop="4dp"
             android:text="@string/oneBrewBeanLabel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewMethodLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewCupsLabel" />
 
         <TextView
             android:id="@+id/oneBrewBeansKindText"
@@ -52,6 +52,7 @@
             android:text="ブルーマウンテンなどなど"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewBeansLabel"
             app:layout_constraintEnd_toStartOf="@+id/oneBrewBeansPassText"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/oneBrewBeansLabel"
             app:layout_constraintStart_toStartOf="@+id/oneBrewMethodText" />
 
@@ -62,7 +63,10 @@
             android:layout_marginEnd="8dp"
             android:text="7日経過"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewBeansKindText"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/oneBrewImage"
+            app:layout_constraintEnd_toStartOf="@+id/oneBrewImage"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/oneBrewBeansKindText" />
 
         <TextView
             android:id="@+id/oneBrewGrindLabel"
@@ -77,13 +81,11 @@
         <SeekBar
             android:id="@+id/oneBrewBeansGrindBar"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="0dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:max="5"
             android:progress="3"
             app:layout_constraintBottom_toBottomOf="@+id/oneBrewGrindLabel"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
 
         <TextView
@@ -91,44 +93,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
             android:text="@string/oneBrewBeanUse"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewGrindLabel" />
+            app:layout_constraintStart_toEndOf="@+id/oneBrewBeansGrindBar"
+            app:layout_constraintTop_toTopOf="@+id/oneBrewGrindLabel" />
 
         <SeekBar
             android:id="@+id/oneBrewBeansUseBar"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="0dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:max="10"
             android:progress="3"
-            app:layout_constraintBottom_toBottomOf="@+id/oneBrewBeansUseLabel"
-            app:layout_constraintEnd_toEndOf="@+id/oneBrewMethodText"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
+            app:layout_constraintBottom_toBottomOf="@+id/oneBrewGrindLabel"
+            app:layout_constraintStart_toEndOf="@+id/oneBrewBeansUseLabel" />
 
         <TextView
             android:id="@+id/oneBrewCupsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text="@string/oneBrewCupsLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansUseLabel" />
+            app:layout_constraintStart_toStartOf="@+id/oneBrewMethodLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewMethodLabel" />
 
         <SeekBar
             android:id="@+id/oneBrewCupsBar"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="0dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:max="5"
             android:progress="3"
             app:layout_constraintBottom_toBottomOf="@+id/oneBrewCupsLabel"
-            app:layout_constraintEnd_toEndOf="@+id/oneBrewBeansUseBar"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
+            app:layout_constraintStart_toEndOf="@+id/oneBrewCupsLabel" />
 
         <TextView
             android:id="@+id/oneBrewTempLabel"
@@ -138,18 +136,16 @@
             android:layout_marginTop="4dp"
             android:text="@string/oneBrewTemp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewCupsLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewGrindLabel" />
 
         <SeekBar
             android:id="@+id/oneBrewTempBar"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="0dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:max="100"
             android:progress="3"
             app:layout_constraintBottom_toBottomOf="@+id/oneBrewTempLabel"
-            app:layout_constraintEnd_toEndOf="@+id/oneBrewCupsBar"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
 
         <TextView
@@ -157,22 +153,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
             android:text="@string/oneBrewSteam"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewTempLabel" />
+            app:layout_constraintStart_toEndOf="@+id/oneBrewTempBar"
+            app:layout_constraintTop_toTopOf="@+id/oneBrewTempLabel" />
 
         <SeekBar
             android:id="@+id/oneBrewSteamBar"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="0dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:max="60"
             android:progress="3"
             app:layout_constraintBottom_toBottomOf="@+id/oneBrewSteamLabel"
-            app:layout_constraintEnd_toEndOf="@+id/oneBrewTempBar"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
+            app:layout_constraintStart_toEndOf="@+id/oneBrewSteamLabel" />
 
         <TextView
             android:id="@+id/oneBrewMemoLabel"
@@ -182,17 +176,15 @@
             android:layout_marginTop="4dp"
             android:text="@string/oneBrewMemoLabel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewSteamLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewTempLabel" />
 
         <TextView
             android:id="@+id/oneBrewMemoText"
-            android:layout_width="0dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:text="@string/oneBrewMemoLabel"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewMemoLabel"
-            app:layout_constraintEnd_toStartOf="@+id/oneBrewCopyBtn"
-            app:layout_constraintStart_toStartOf="@+id/oneBrewSteamBar" />
+            app:layout_constraintStart_toStartOf="@+id/oneBrewTempBar" />
 
         <ImageView
             android:id="@+id/oneBrewImage"
@@ -200,7 +192,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:adjustViewBounds="true"
+            app:layout_constraintBottom_toTopOf="@+id/oneBrewBeansUseBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/drink" />
@@ -210,21 +204,12 @@
             style="@android:style/Widget.Material.Light.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:numStars="5"
             android:rating="3"
             android:stepSize="0.5"
-            app:layout_constraintBottom_toBottomOf="@+id/oneBrewRatingLabel"
-            app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
-
-        <TextView
-            android:id="@+id/oneBrewRatingLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/oneBrewResultLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewDateText" />
+            app:layout_constraintStart_toEndOf="@+id/oneBrewDateText"
+            app:layout_constraintTop_toTopOf="@+id/oneBrewDateText" />
 
         <Button
             android:id="@+id/oneBrewEditBtn"
@@ -240,7 +225,7 @@
             android:id="@+id/oneBrewCopyBtn"
             android:layout_width="60dp"
             android:layout_height="35dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
             android:background="@android:drawable/btn_default_small"
@@ -251,10 +236,10 @@
 
         <TextView
             android:id="@+id/oneBrewMethodText"
-            android:layout_width="180sp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="ドリップ"
+            android:text="フレンチプレス"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewMethodLabel"
             app:layout_constraintStart_toEndOf="@+id/oneBrewMethodLabel" />
 

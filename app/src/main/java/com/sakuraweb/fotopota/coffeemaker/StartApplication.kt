@@ -55,7 +55,7 @@ private fun createBrewData() {
     // データゼロなら作る
     if( brews.size == 0 ) {
         val brewList = listOf<BrewDataInit>(
-            BrewDataInit("2020/06/01 00:00:00", 2, 1, 1, 1, 1, 1, 1, 1, 1, "http", "サンプルです"),
+            BrewDataInit("2020/06/01 12:34:56", 2, 1, 1, 1, 1, 1, 1, 1, 1, "http", "サンプルです"),
             BrewDataInit("2020/06/01 00:00:00", 2, 1, 1, 1, 1, 1, 1, 1, 1, "http", "サンプルです"),
             BrewDataInit("2020/06/01 00:00:00", 2, 1, 1, 1, 1, 1, 1, 1, 1, "http", "サンプルです"),
             BrewDataInit("2020/06/01 00:00:00", 2, 1, 1, 1, 1, 1, 1, 1, 1, "http", "サンプルです")
@@ -64,20 +64,20 @@ private fun createBrewData() {
 
         realm.beginTransaction()
         var id = 1
-        for (brew in brewList.reversed()) {
+        for (i in brewList.reversed()) {
             val c = realm.createObject<BrewData>(id++)
-            c.date      = brew.date.toDate()
-            c.rating    = brew.rating
-            c.methodID  = brew.methodID
-            c.beansID   = brew.beansID
-            c.beansPass = brew.beansPass
-            c.beansGrind= brew.beansGrind
-            c.beansUse  = brew.beansUse
-            c.cups      = brew.cups
-            c.temp      = brew.temp
-            c.steam     = brew.steam
-            c.imageURI  = brew.imageURI
-            c.memo      = brew.memo
+            c.date      = i.date.toDate()
+            c.rating    = i.rating
+            c.methodID  = i.methodID
+            c.beansID   = i.beansID
+            c.beansPass = i.beansPass
+            c.beansGrind= i.beansGrind
+            c.beansUse  = i.beansUse
+            c.cups      = i.cups
+            c.temp      = i.temp
+            c.steam     = i.steam
+            c.imageURI  = i.imageURI
+            c.memo      = i.memo
         }
         realm.commitTransaction()
     }

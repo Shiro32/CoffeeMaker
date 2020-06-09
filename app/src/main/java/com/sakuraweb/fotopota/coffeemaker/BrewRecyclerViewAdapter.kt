@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.realm.RealmResults
+import java.text.SimpleDateFormat
 
 /*
 アダプタクラスを作る
@@ -55,7 +56,10 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         val bp = brews[position]
 
         if( bp!=null ) {
-            holder.dateText?.text       = bp.date.toString()
+
+            val df = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+
+            holder.dateText?.text       = df.format(bp.date)
             holder.ratingBar?.progress  = bp.rating
             holder.methodText?.text     = bp.methodID.toString()
             holder.beansKindText?.text  = bp.beansID.toString()
@@ -66,7 +70,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             holder.tempBar?.progress        = bp.temp
             holder.steamBar?.progress       = bp.steam
             holder.memoText?.text           = bp.memo
-            holder.image?.setImageURI(Uri.parse(bp.imageURI))
+//            holder.image?.setImageURI(Uri.parse(bp.imageURI))
 
 //            holder.editBtn?.setOnClickListener {
 //                val intent = Intent(it.context, CourseEditActivity::class.java)
