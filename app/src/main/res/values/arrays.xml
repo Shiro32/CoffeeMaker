@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="grind_labels">
+        <item>粗</item>
+        <item>中</item>
+        <item>並</item>
+        <item>細</item>
+        <item>極細</item>
+    </array>
+</resources>

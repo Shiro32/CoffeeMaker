@@ -2,6 +2,9 @@ package com.sakuraweb.fotopota.coffeemaker
 
 import java.util.*
 
+// BrewDataがRealm内に存在しないときに、作るためのstruct
+// ほとんど出番なし。何とかならんのか？
+
 class BrewDataInit (
     var date: String,
     var rating: Int,
@@ -14,4 +17,6 @@ class BrewDataInit (
     var temp: Int,
     var steam: Int,
     var imageURI: String,
-    var memo: String) { }
+    var memo: String) {
+
+}

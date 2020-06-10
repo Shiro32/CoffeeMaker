@@ -5,6 +5,9 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.util.*
 
+
+// Realmで使うためには、絶対にopenにしないといけないので注意！
+
 open class BrewData : RealmObject() {
     // よくわからんが、PrimaryKeyというアノテーションで、DBの検索キーにするらしい
     @PrimaryKey

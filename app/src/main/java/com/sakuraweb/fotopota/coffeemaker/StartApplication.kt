@@ -49,6 +49,7 @@ private fun createBrewData() {
 
     Realm.setDefaultConfiguration(brewConfig)
 
+
     val realm = Realm.getDefaultInstance()
     val brews: RealmResults<BrewData> = realm.where(BrewData::class.java).findAll().sort("id", Sort.DESCENDING)
 
