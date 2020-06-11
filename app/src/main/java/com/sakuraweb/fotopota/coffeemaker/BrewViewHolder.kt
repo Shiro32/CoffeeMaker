@@ -35,8 +35,7 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
     // KOTLINではプライマリコンストラクタは、引数をローカル変数にコピーするだけ （ivに貰っている）
     // より具体的な初期化処理はinitブロックに記載する模様
     // プライマリコンストラクタ（引数代入）→イニシャライザ（init）→セカンダリコンストラクタ
-    // ３つのローカル変数に、３つのTextViewの参照のみを保持している （＝1行で3ポインターだけと効率的）
-    // のちに、アダプタの方から、holder.dateText = "1" みたいに設定する
+    // のちに、アダプタの方から、holder.dateText = "2020/6/1" みたいに表示できる文字列を設定する
     init {
         dateText        = iv.oneBrewDateText
         ratingBar       = iv.oneBrewRatingBar

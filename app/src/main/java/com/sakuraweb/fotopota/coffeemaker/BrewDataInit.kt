@@ -9,7 +9,7 @@ class BrewDataInit (
     var date: String,
     var rating: Int,
     var methodID: Int,
-    var beansID: Int,
+    var beansID: Long,
     var beansPass: Int,
     var beansGrind: Int,
     var beansUse: Int,
@@ -20,3 +20,4 @@ class BrewDataInit (
     var memo: String) {
 
 }
+

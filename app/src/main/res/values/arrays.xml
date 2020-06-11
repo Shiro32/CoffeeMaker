@@ -7,4 +7,17 @@
         <item>細</item>
         <item>極細</item>
     </array>
+
+    <string-array name="method_names">
+        <item>ドリップ</item>
+        <item>ドリップ（布）</item>
+        <item>コーヒーメーカー</item>
+        <item>エスプレッソメーカー</item>
+        <item>エスプレッソメーカー（直火）</item>
+        <item>フレンチプレス</item>
+        <item>サイフォン</item>
+        <item>水出し</item>
+        <item>ドリップパック</item>
+        <item>インスタント</item>
+    </string-array>
 </resources>

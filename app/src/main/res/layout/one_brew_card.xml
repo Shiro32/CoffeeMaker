@@ -32,6 +32,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:text="@string/oneBrewMethodLabel"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/oneBrewDateText" />
 
@@ -40,16 +41,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
             android:text="@string/oneBrewBeanLabel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewCupsLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewMethodLabel" />
 
         <TextView
             android:id="@+id/oneBrewBeansKindText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="ブルーマウンテンなどなど"
+            android:text="豆のなまえ"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewBeansLabel"
             app:layout_constraintEnd_toStartOf="@+id/oneBrewBeansPassText"
             app:layout_constraintHorizontal_bias="0.5"
@@ -73,10 +74,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="@string/oneBrewGrind"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewCupsLabel" />
 
         <com.warkiz.widget.IndicatorSeekBar
             android:id="@+id/oneBrewBeansGrindBar"
@@ -112,6 +113,7 @@
             app:isb_track_progress_color="@android:color/holo_red_light"
             app:isb_track_progress_size="4dp"
             app:isb_track_rounded_corners="false"
+            app:isb_user_seekable="false"
             app:layout_constraintStart_toEndOf="@+id/oneBrewBeansGrindLabel"
             app:layout_constraintTop_toTopOf="@+id/oneBrewBeansGrindLabel" />
 
@@ -156,6 +158,7 @@
             app:isb_track_progress_color="@android:color/holo_red_light"
             app:isb_track_progress_size="4dp"
             app:isb_track_rounded_corners="false"
+            app:isb_user_seekable="false"
             app:layout_constraintStart_toEndOf="@+id/oneBrewSteamLabel"
             app:layout_constraintTop_toTopOf="@+id/oneBrewTempLabel" />
 
@@ -163,10 +166,10 @@
             android:id="@+id/oneBrewCupsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="@string/oneBrewCupsLabel"
             app:layout_constraintStart_toStartOf="@+id/oneBrewMethodLabel"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewMethodLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansLabel" />
 
         <com.warkiz.widget.IndicatorSeekBar
             android:id="@+id/oneBrewCupsBar"
@@ -200,6 +203,7 @@
             app:isb_track_progress_color="@android:color/holo_red_light"
             app:isb_track_progress_size="4dp"
             app:isb_track_rounded_corners="false"
+            app:isb_user_seekable="false"
             app:layout_constraintStart_toStartOf="@+id/oneBrewMethodText"
             app:layout_constraintTop_toTopOf="@+id/oneBrewCupsLabel" />
 
@@ -245,6 +249,7 @@
             app:isb_track_progress_color="@android:color/holo_red_light"
             app:isb_track_progress_size="4dp"
             app:isb_track_rounded_corners="false"
+            app:isb_user_seekable="false"
             app:layout_constraintStart_toStartOf="@+id/oneBrewBeansGrindBar"
             app:layout_constraintTop_toTopOf="@+id/oneBrewTempLabel" />
 
@@ -290,6 +295,7 @@
             app:isb_track_progress_color="@android:color/holo_red_light"
             app:isb_track_progress_size="4dp"
             app:isb_track_rounded_corners="false"
+            app:isb_user_seekable="false"
             app:layout_constraintStart_toEndOf="@+id/oneBrewSteamLabel"
             app:layout_constraintTop_toTopOf="@+id/oneBrewBeansUseLabel" />
 
@@ -331,6 +337,8 @@
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:numStars="5"
+            android:progressBackgroundTint="@color/ratingBackColor"
+            android:progressTint="@color/ratingColor"
             android:rating="3"
             android:stepSize="0.5"
             app:layout_constraintStart_toEndOf="@+id/oneBrewDateText"
@@ -359,10 +367,11 @@
 
         <TextView
             android:id="@+id/oneBrewMethodText"
-            android:layout_width="130dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="フレンチプレス"
+            android:text="抽出方法"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewMethodLabel"
             app:layout_constraintStart_toEndOf="@+id/oneBrewMethodLabel" />
 

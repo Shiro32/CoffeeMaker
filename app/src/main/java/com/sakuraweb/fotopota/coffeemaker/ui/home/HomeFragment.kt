@@ -4,30 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.BrewData
 import com.sakuraweb.fotopota.coffeemaker.BrewRecyclerViewAdapter
 import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.brewConfig
+import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
 import io.realm.Realm
 import io.realm.Sort
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
-
-    // とりあえず、Realmのインスタンスを作る
-    private lateinit var realm: Realm
-
-    // アダプタのインスタンス
-    private lateinit var adapter: BrewRecyclerViewAdapter
-
-    // レイアウトマネージャーのインスタンス
-    private lateinit var layoutManager: RecyclerView.LayoutManager
+    private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
+    private lateinit var adapter: BrewRecyclerViewAdapter           // アダプタのインスタンス
+    private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
 
@@ -45,8 +36,9 @@ class HomeFragment : Fragment() {
         // ここから下がリスト表示（RecyclerView）
 
         // realmのインスタンスを作る
-        Realm.setDefaultConfiguration(brewConfig)
-        realm = Realm.getDefaultInstance()
+//        Realm.setDefaultConfiguration(brewConfig)
+//        realm = Realm.getDefaultInstance()
+        realm = Realm.getInstance(brewRealmConfig)
 
         // 追加ボタン（fab）のリスナを設定する（EditActivity画面を呼び出す）
         // 第2引数が投げる先のActivity。KOTLINじゃなくJAVAクラスで渡すため、::class.javaにする

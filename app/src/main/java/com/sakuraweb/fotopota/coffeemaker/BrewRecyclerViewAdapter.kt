@@ -5,8 +5,10 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
+import java.util.*
 
 /*
 アダプタクラスを作る
@@ -53,17 +55,20 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
 
     // ViewHolderの表示内容を更新する
     // 渡されたビューホルダにデータを書き込む
+    // RealmDB内のデータから、具体的なビューの表示文字列を生成してあげる
     override fun onBindViewHolder(holder: BrewViewHolder, position: Int) {
         val bp = brews[position]
 
         if( bp!=null ) {
 
-            val df = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+            val df = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
             holder.dateText?.text       = df.format(bp.date)
             holder.ratingBar?.progress  = bp.rating
-            holder.methodText?.text     = bp.methodID.toString()
-            holder.beansKindText?.text  = bp.beansID.toString()
+            holder.methodText?.text     = brewMethods[bp.methodID]
+            holder.beansKindText?.text = findBeansNameByID(bp.beansID)
+//            holder.beansKindText?.text  = bp.beansID.toString()
+
             holder.beansPassText?.text  = bp.beansPass.toString()
             holder.beansGrindBar?.setProgress(bp.beansGrind.toFloat())
             holder.beansUseBar?.setProgress(bp.beansUse.toFloat())
@@ -71,6 +76,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             holder.tempBar?.setProgress(bp.temp.toFloat())
             holder.steamBar?.setProgress(bp.steam.toFloat())
             holder.memoText?.text           = bp.memo
+
 
 //            val texts = arrayOf<String>("粗挽","中挽","標準","細挽","極細挽")
 //            holder.sampleBar?.customTickTexts(texts)

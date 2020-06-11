@@ -16,7 +16,7 @@ open class BrewData : RealmObject() {
     lateinit  var date: Date
     var rating: Int = 0
     var methodID: Int = 0
-    var beansID: Int = 0
+    var beansID: Long = 0
     var beansPass: Int = 0
     var beansGrind: Int = 0
     var beansUse: Int = 0
@@ -26,6 +26,7 @@ open class BrewData : RealmObject() {
     var imageURI: String = ""
     var memo: String=""
 
+//    var dummy: Int = 0
 }
 
 
