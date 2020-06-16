@@ -2,6 +2,7 @@ package com.sakuraweb.fotopota.coffeemaker
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -29,8 +30,13 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
                 R.id.navigation_home, R.id.navigation_beans, R.id.navigation_settings))
-        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        // ↓これでアクションバーの中身を勝手に書き換えている
+        // この行を残したままNoActionBar化するとハングアップする
+ //       setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        Log.d("SHIRO", "Home / onCreate------------------------")
     }
 
 }

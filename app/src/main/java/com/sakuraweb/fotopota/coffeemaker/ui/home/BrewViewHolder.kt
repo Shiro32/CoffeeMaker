@@ -1,4 +1,4 @@
-package com.sakuraweb.fotopota.coffeemaker
+package com.sakuraweb.fotopota.coffeemaker.ui.home
 
 import android.view.View
 import android.widget.*
@@ -45,7 +45,7 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         beansPassText   = iv.oneBrewBeansPassText
 
         // SeekBarだらけ
-        beansGrindBar   = iv.oneBrewBeansGrindBar
+        beansGrindBar   = iv.brewEditCupBar
         beansUseBar     = iv.oneBrewBeansUseBar
         cupsBar         = iv.oneBrewCupsBar
         tempBar         = iv.oneBrewTempBar

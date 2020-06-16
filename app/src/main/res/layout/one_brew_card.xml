@@ -80,7 +80,7 @@
             app:layout_constraintTop_toBottomOf="@+id/oneBrewCupsLabel" />
 
         <com.warkiz.widget.IndicatorSeekBar
-            android:id="@+id/oneBrewBeansGrindBar"
+            android:id="@+id/brewEditCupBar"
             android:layout_width="141dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -250,7 +250,7 @@
             app:isb_track_progress_size="4dp"
             app:isb_track_rounded_corners="false"
             app:isb_user_seekable="false"
-            app:layout_constraintStart_toStartOf="@+id/oneBrewBeansGrindBar"
+            app:layout_constraintStart_toStartOf="@+id/brewEditCupBar"
             app:layout_constraintTop_toTopOf="@+id/oneBrewTempLabel" />
 
         <TextView

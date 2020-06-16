@@ -15,4 +15,17 @@
     <string name="oneBrewTemp">湯温</string>
     <string name="oneBrewSteam">蒸し</string>
     <string name="oneBrewMemoLabel">メモ</string>
+    <string name="brewEditHeaderText">コーヒーを作ったときの記録を残しましょう。\n全部の項目を入れなくても大丈夫です（＾＾）。</string>
+    <string name="brewEditTitle">コーヒー作成記録編集</string>
+    <string name="brewEditMethodLabel">抽出方法</string>
+    <string name="brewEditDateLabel">作った日</string>
+    <string name="brewEditCupLabel">作った量</string>
+    <string name="brewEditBeansLabel">使用豆</string>
+    <string name="brewEditGrindLabel">挽き目</string>
+    <string name="brewEditBeansUseLabel">豆の量</string>
+    <string name="brewEditTempLabel">湯の温度</string>
+    <string name="brewEditSteamLabel">蒸らし時間</string>
+    <string name="brewEditMemoLabel">メモ</string>
+    <string name="brewEditRatingLabel">できばえ</string>
+    <string name="brewEditBeansHint">例：ブルーマウンテン</string>
 </resources>

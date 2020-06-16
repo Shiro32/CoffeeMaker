@@ -1,4 +1,4 @@
-package com.sakuraweb.fotopota.coffeemaker
+package com.sakuraweb.fotopota.coffeemaker.ui.beans
 
 import android.net.Uri
 import io.realm.RealmObject

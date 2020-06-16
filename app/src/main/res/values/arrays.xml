@@ -9,8 +9,8 @@
     </array>
 
     <string-array name="method_names">
-        <item>ドリップ</item>
-        <item>ドリップ（布）</item>
+        <item>ペーパードリップ</item>
+        <item>布ドリップ</item>
         <item>コーヒーメーカー</item>
         <item>エスプレッソメーカー</item>
         <item>エスプレッソメーカー（直火）</item>

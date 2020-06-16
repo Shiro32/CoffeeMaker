@@ -9,6 +9,10 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansDataInit
+import com.sakuraweb.fotopota.coffeemaker.ui.home.BrewData
+import com.sakuraweb.fotopota.coffeemaker.ui.home.BrewDataInit
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
@@ -59,13 +63,30 @@ class StartApplication : Application() {
 
         // インスタンス化
         val realm = Realm.getInstance(beansRealmConfig)
-        val beans: RealmResults<BeansData> = realm.where(BeansData::class.java).findAll().sort("id", Sort.DESCENDING)
+        val beans: RealmResults<BeansData> = realm.where(
+            BeansData::class.java).findAll().sort("id", Sort.DESCENDING)
 
         // データ数ゼロならサンプルを作る
         if( beans.size == 0) {
             val beansList = listOf<BeansDataInit>(
-                BeansDataInit("2019/12/31", "マイルドKALDI", 200, 1, "KALDI",399,"特売"),
-                BeansDataInit("2020/03/01", "ブルーマウンテンブレンド",100,3,"神戸屋珈琲",2000,"超奮発")
+                BeansDataInit(
+                    "2019/12/31",
+                    "マイルドKALDI",
+                    200,
+                    1,
+                    "KALDI",
+                    399,
+                    "特売"
+                ),
+                BeansDataInit(
+                    "2020/03/01",
+                    "ブルーマウンテンブレンド",
+                    100,
+                    3,
+                    "神戸屋珈琲",
+                    2000,
+                    "超奮発"
+                )
             )
 
             // DB書き込み
@@ -94,19 +115,124 @@ class StartApplication : Application() {
             .build()
 
         val realm = Realm.getInstance(brewRealmConfig)
-        val brews: RealmResults<BrewData> = realm.where(BrewData::class.java).findAll().sort("id", Sort.DESCENDING)
+        val brews: RealmResults<BrewData> = realm.where(
+            BrewData::class.java).findAll().sort("id", Sort.DESCENDING)
 
         // データゼロなら作る
         if( brews.size == 0 ) {
             val brewList = listOf<BrewDataInit>(
-                BrewDataInit("2020/06/01 12:34", 2, 0, 0, 1, 1, 1, 1, 1, 1, "http", "サンプルです"),
-                BrewDataInit("2020/06/02 00:00", 5, 1, 1, 1, 4, 5, 1, 1, 4, "http", "2杯目"),
-                BrewDataInit("2020/06/03 00:00", 3, 2, 2, 1, 2, 5, 1, 1, 4, "http", "最高の出来です"),
-                BrewDataInit("2020/06/04 00:00", 2, 3, 1, 1, 3, 5, 1, 1, 1, "http", "最悪です"),
-                BrewDataInit("2020/06/01 12:34", 2, 4, 1, 1, 1, 1, 1, 1, 1, "http", "サンプルです"),
-                BrewDataInit("2020/06/02 00:00", 5, 5, 1, 1, 4, 5, 1, 1, 4, "http", "2杯目"),
-                BrewDataInit("2020/06/03 00:00", 3, 6, 1, 1, 2, 5, 1, 1, 4, "http", "最高の出来です"),
-                BrewDataInit("2020/06/04 00:00", 2, 7, 1, 1, 3, 5, 1, 1, 1, "http", "最悪です")
+                BrewDataInit(
+                    "2020/06/01 12:34",
+                    2,
+                    0,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    "http",
+                    "サンプルです"
+                ),
+                BrewDataInit(
+                    "2020/06/02 00:00",
+                    5,
+                    1,
+                    1,
+                    1,
+                    4,
+                    5,
+                    1,
+                    1,
+                    4,
+                    "http",
+                    "2杯目"
+                ),
+                BrewDataInit(
+                    "2020/06/03 00:00",
+                    3,
+                    2,
+                    2,
+                    1,
+                    2,
+                    5,
+                    1,
+                    1,
+                    4,
+                    "http",
+                    "最高の出来です"
+                ),
+                BrewDataInit(
+                    "2020/06/04 00:00",
+                    2,
+                    3,
+                    1,
+                    1,
+                    3,
+                    5,
+                    1,
+                    1,
+                    1,
+                    "http",
+                    "最悪です"
+                ),
+                BrewDataInit(
+                    "2020/06/01 12:34",
+                    2,
+                    4,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    "http",
+                    "サンプルです"
+                ),
+                BrewDataInit(
+                    "2020/06/02 00:00",
+                    5,
+                    5,
+                    1,
+                    1,
+                    4,
+                    5,
+                    1,
+                    1,
+                    4,
+                    "http",
+                    "2杯目"
+                ),
+                BrewDataInit(
+                    "2020/06/03 00:00",
+                    3,
+                    6,
+                    1,
+                    1,
+                    2,
+                    5,
+                    1,
+                    1,
+                    4,
+                    "http",
+                    "最高の出来です"
+                ),
+                BrewDataInit(
+                    "2020/06/04 00:00",
+                    2,
+                    7,
+                    1,
+                    1,
+                    3,
+                    5,
+                    1,
+                    1,
+                    1,
+                    "http",
+                    "最悪です"
+                )
             )
             // DBに書き込む
             realm.beginTransaction()

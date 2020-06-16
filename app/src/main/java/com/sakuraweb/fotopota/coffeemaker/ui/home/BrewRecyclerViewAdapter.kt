@@ -1,14 +1,15 @@
-package com.sakuraweb.fotopota.coffeemaker
+package com.sakuraweb.fotopota.coffeemaker.ui.home
 
 import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.sakuraweb.fotopota.coffeemaker.R
+import com.sakuraweb.fotopota.coffeemaker.brewMethods
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
-import java.util.*
 
 /*
 アダプタクラスを作る
@@ -49,7 +50,8 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         // 1行ビューをもとに、ViewHolder（←自分で作ったヤツ）インスタンスを生成
         // 今作ったView（LinearLayout）を渡す
         // ビューホルダは、内部のローカル変数に1行分のデータを保持（日付、血圧、脈拍）
-        val holder = BrewViewHolder(view)
+        val holder =
+            BrewViewHolder(view)
         return holder
     }
 
@@ -66,21 +68,26 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             holder.dateText?.text       = df.format(bp.date)
             holder.ratingBar?.progress  = bp.rating
             holder.methodText?.text     = brewMethods[bp.methodID]
-            holder.beansKindText?.text = findBeansNameByID(bp.beansID)
-//            holder.beansKindText?.text  = bp.beansID.toString()
-
+            holder.beansKindText?.text  = findBeansNameByID(bp.beansID)
+            holder.memoText?.text       = bp.memo
             holder.beansPassText?.text  = bp.beansPass.toString()
+
             holder.beansGrindBar?.setProgress(bp.beansGrind.toFloat())
             holder.beansUseBar?.setProgress(bp.beansUse.toFloat())
             holder.cupsBar?.setProgress(bp.cups.toFloat())
             holder.tempBar?.setProgress(bp.temp.toFloat())
             holder.steamBar?.setProgress(bp.steam.toFloat())
-            holder.memoText?.text           = bp.memo
 
+            holder.editBtn?.setOnClickListener {
+                val intent = Intent(it.context, BrewEditActivity::class.java)
+                it.context.startActivity(intent)
+            }
 
-//            val texts = arrayOf<String>("粗挽","中挽","標準","細挽","極細挽")
-//            holder.sampleBar?.customTickTexts(texts)
-//            holder.sampleBar?.setIndicatorTextFormat("\${TICK_TEXT}")
+            holder.copyBtn?.setOnClickListener {
+                val intent = Intent(it.context, BrewEditActivity::class.java)
+                it.context.startActivity(intent)
+            }
+
 
 //            holder.image?.setImageURI(Uri.parse(bp.imageURI))
 

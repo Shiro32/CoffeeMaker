@@ -1,15 +1,11 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.beans
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
-import com.sakuraweb.fotopota.coffeemaker.BeansData
 import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.beansRealmConfig
 import io.realm.Realm
@@ -28,9 +24,23 @@ class BeansFragment : Fragment() {
 
         val root = inflater.inflate(R.layout.fragment_beans, container, false)
 //        root.button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.navigation_dashboard, null))
+
+        Log.d("SHIRO", "beans / onCreateView")
         return root
     }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("SHIRO", "beans / onStart")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("SHIRO", "beans / onDestroy")
+    }
 }
+
+
 
 fun findBeansNameByID( id: Long ): String {
     val realm = Realm.getInstance(beansRealmConfig)
@@ -39,4 +49,14 @@ fun findBeansNameByID( id: Long ): String {
     realm.close()
 
     return name
+}
+
+class BeansDataInit(
+    var date: String,
+    var name: String,
+    var gram: Int,
+    var roast: Int,
+    var shop: String,
+    var price: Int,
+    var memo: String) {
 }

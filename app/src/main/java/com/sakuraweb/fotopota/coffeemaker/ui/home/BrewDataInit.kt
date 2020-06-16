@@ -1,4 +1,4 @@
-package com.sakuraweb.fotopota.coffeemaker
+package com.sakuraweb.fotopota.coffeemaker.ui.home
 
 import java.util.*
 
