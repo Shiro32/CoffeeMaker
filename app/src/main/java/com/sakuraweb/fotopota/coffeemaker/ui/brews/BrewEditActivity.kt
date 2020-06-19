@@ -1,5 +1,6 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -130,7 +131,7 @@ class BrewEditActivity : AppCompatActivity() {
             ttp.show()
         }
 
-
+// TODO: あちこちのフィールドで、空欄時に死亡してしまう事例が散見。nullチェックすべし
 
         // SAVEボタンのリスナ
         // RealmDBに１件分のBREWデータを修正・追加する （intentのidによって、編集と新規作成両方やる）
@@ -189,6 +190,8 @@ class BrewEditActivity : AppCompatActivity() {
                 blackToast(applicationContext, "修正完了！")
             }
             // 編集画面クローズ
+            val intent = Intent()
+            setResult(RESULT_OK, intent)
             finish()
         } // saveBtn
 
@@ -199,11 +202,16 @@ class BrewEditActivity : AppCompatActivity() {
                 realm.where<BrewData>().equalTo("id", intentID)?.findFirst()?.deleteFromRealm()
             }
             blackToast(applicationContext, "削除しました")
+
+            val intent = Intent()
+            setResult(Activity.RESULT_OK, intent)
             finish()
         }
 
         // キャンセルボタン
         brewEditCancelBtn.setOnClickListener {
+            val intent = Intent()
+            setResult(Activity.RESULT_CANCELED, intent)
             finish()
         }
 

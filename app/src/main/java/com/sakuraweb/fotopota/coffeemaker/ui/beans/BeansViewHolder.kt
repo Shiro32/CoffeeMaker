@@ -19,19 +19,16 @@ class BeansViewHolder(iv: View) : RecyclerView.ViewHolder (iv){
     var price:      TextView? = null
     var memo:       TextView? = null
 
-    var copyBtn:    Button? = null
 
     init {
         name        = iv.oneBeansNameText
         ratingBar   = iv.oneBeansRatingBar
         dateText    = iv.oneBeansDateText
         pastText    = iv.oneBeansPastText
-        gramBar     = iv.oneBeansGramBar
         roastBar    = iv.oneBeansRoastBar
         shop        = iv.oneBeansShopText
         price       = iv.oneBeansPriceText
         memo        = iv.oneBeansMemoText
 
-        copyBtn     = iv.oneBeansCopyBtn
     }
 }

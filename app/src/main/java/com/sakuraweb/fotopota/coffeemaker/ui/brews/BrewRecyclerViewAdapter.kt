@@ -76,16 +76,32 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             holder.tempBar?.setProgress(bp.temp.toFloat())
             holder.steamBar?.setProgress(bp.steam.toFloat())
 
-            holder.editBtn?.setOnClickListener {
-                val intent = Intent(it.context, BrewEditActivity::class.java)
+
+            // 各カードに配置するボタンなどのリスナ
+
+            // 行そのもの（Card）のリスナ。okButtonなど使わず、ここに直接かけないの！？
+            // 書けた・・・、今までの苦労はいったい・・・。
+            holder.itemView.setOnClickListener {
+                val intent = Intent(it.context, BrewDetailsActivity::class.java)
                 intent.putExtra("id", bp.id)
                 it.context.startActivity(intent)
             }
 
-            holder.copyBtn?.setOnClickListener {
-                val intent = Intent(it.context, BrewEditActivity::class.java)
+/*
+            holder.editBtn?.setOnClickListener {
+                val intent = Intent(it.context, BrewDetailsActivity::class.java)
+                intent.putExtra("id", bp.id)
                 it.context.startActivity(intent)
             }
+*/
+
+/*
+            holder.copyBtn?.setOnClickListener {
+                val intent = Intent(it.context, BrewEditActivity::class.java)
+                intent.putExtra("id", bp.id)
+                it.context.startActivity(intent)
+            }
+*/
 
 
 //            holder.image?.setImageURI(Uri.parse(bp.imageURI))

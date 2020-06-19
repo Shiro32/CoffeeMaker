@@ -38,39 +38,47 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
     override fun onBindViewHolder(holder: BeansViewHolder, position: Int) {
         val bean = beansList[position]
 
-        if( bean!=null ) {
+        if (bean != null) {
             val df = SimpleDateFormat("yyyy/MM/dd")
 
-            holder.name?.text           = bean.name
-            holder.ratingBar?.rating    = bean.rating
-            holder.dateText?.text       = df.format(bean.date)
-            holder.pastText?.text       = "(１００日経過）"    // TODO:経過日数を作らねば
+            holder.name?.text = bean.name
+            holder.ratingBar?.rating = bean.rating
+            holder.dateText?.text = df.format(bean.date)
+            holder.pastText?.text = "(１００日経過）"    // TODO:経過日数を作らねば
             holder.gramBar?.setProgress(bean.gram)
             holder.roastBar?.setProgress(bean.roast)
-            holder.shop?.text           = bean.shop
-            holder.price?.text          = bean.price.toString()
-            holder.memo?.text           = bean.memo
+            holder.shop?.text = bean.shop
+            holder.price?.text = bean.price.toString()
+            holder.memo?.text = bean.memo
 
+/*
             holder.copyBtn?.setOnClickListener {
                 val intent = Intent(it.context, BeansEditActivity::class.java)
                 intent.putExtra("id", bean.id)
                 it.context.startActivity(intent)
             }
+*/
 
-            // TODO: 編集は１行タップで。Copyボタンも実装（ダイアログかな？）
-
-
-            // Brewの編集画面から呼ばれたときは、マメ選択なので、タップで決定とする
-            // そのためのリスナを設定。意外と面倒
-            if( isCalledFromBrewEdit ) {
+            // 行タップした際のアクションをリスナで登録
+            // ボタンは廃止しました
+            if (isCalledFromBrewEdit) {
+                // Brew-Editから呼び出された場合は、豆を選択なのでタップで決定とする
                 holder.itemView.setOnClickListener {
                     listener.okBtnTapped(bean)
                 }
+            } else {
+                // Naviから呼び出された場合は、豆を編集する
+                holder.itemView.setOnClickListener {
+                    val intent = Intent(it.context, BeansEditActivity::class.java)
+                    intent.putExtra("id", bean.id)
+                    it.context.startActivity(intent)
+                }
             }
+
 
         }
 
-    }
+    } // override
 
     // アダプターの必須昨日の、サイズを返すメソッド
     override fun getItemCount(): Int {

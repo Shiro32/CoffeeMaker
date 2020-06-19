@@ -116,58 +116,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="60dp"
             android:text="@string/oneBeansRoastLabel"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBeansShopLabel" />
-
-        <TextView
-            android:id="@+id/oneBeansGramLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="48dp"
-            android:text="@string/oneBeansGramLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBeansRoastLabel" />
-
-        <com.warkiz.widget.IndicatorSeekBar
-            android:id="@+id/oneBeansGramBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="8dp"
-            android:paddingLeft="5sp"
-            android:paddingEnd="4sp"
-            app:isb_clear_default_padding="true"
-            app:isb_indicator_color="@android:color/holo_red_light"
-            app:isb_indicator_text_color="@android:color/white"
-            app:isb_indicator_text_size="10sp"
-            app:isb_max="400"
-            app:isb_min="100"
-            app:isb_only_thumb_draggable="false"
-            app:isb_progress="200"
-            app:isb_seek_smoothly="false"
-            app:isb_show_indicator="circular_bubble"
-            app:isb_show_tick_marks_type="oval"
-            app:isb_show_tick_texts="true"
-            app:isb_thumb_color="@android:color/holo_red_light"
-            app:isb_thumb_size="10sp"
-            app:isb_tick_marks_color="@drawable/selector_colors"
-            app:isb_tick_marks_ends_hide="false"
-            app:isb_tick_marks_size="7sp"
-            app:isb_tick_marks_swept_hide="false"
-            app:isb_tick_texts_color="@android:color/black"
-            app:isb_tick_texts_size="10sp"
-            app:isb_ticks_count="4"
-            app:isb_track_background_color="#dddddd"
-            app:isb_track_background_size="2dp"
-            app:isb_track_progress_color="@android:color/holo_red_light"
-            app:isb_track_progress_size="4dp"
-            app:isb_track_rounded_corners="false"
-            app:isb_user_seekable="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/oneBeansGramLabel"
-            app:layout_constraintTop_toTopOf="@+id/oneBeansGramLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBeansMemoLabel" />
 
         <TextView
             android:id="@+id/oneBeansMemoLabel"
@@ -177,7 +130,7 @@
             android:layout_marginTop="4dp"
             android:text="@string/oneBeansMemo"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBeansGramLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBeansShopLabel" />
 
         <TextView
             android:id="@+id/oneBeansMemoText"
@@ -188,19 +141,6 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansMemoLabel"
             app:layout_constraintStart_toEndOf="@+id/oneBeansDateLabel"
             tools:text="最高です" />
-
-        <Button
-            android:id="@+id/oneBeansCopyBtn"
-            android:layout_width="60dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"
-            android:background="@android:drawable/btn_default_small"
-            android:text="@string/copyText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBeansGramBar" />
 
         <com.warkiz.widget.IndicatorSeekBar
             android:id="@+id/oneBeansRoastBar"
@@ -244,11 +184,12 @@
 
         <TextView
             android:id="@+id/roastL1"
-            android:layout_width="wrap_content"
+            android:layout_width="28sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.6"
             android:orientation="vertical"
             android:text="シ\nテ\nィ"
+            android:textAlignment="viewStart"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL2"
             app:layout_constraintHorizontal_bias="0.5"
@@ -258,11 +199,12 @@
 
         <TextView
             android:id="@+id/roastL2"
-            android:layout_width="wrap_content"
+            android:layout_width="18sp"
             android:layout_height="wrap_content"
-            android:lineSpacingMultiplier="0.5"
+            android:lineSpacingMultiplier="0.6"
             android:orientation="vertical"
             android:text="シ\nナ\nモ\nン"
+            android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL3"
             app:layout_constraintHorizontal_bias="0.5"
@@ -271,11 +213,12 @@
 
         <TextView
             android:id="@+id/roastL3"
-            android:layout_width="wrap_content"
+            android:layout_width="28sp"
             android:layout_height="wrap_content"
-            android:lineSpacingMultiplier="0.5"
+            android:lineSpacingMultiplier="0.6"
             android:orientation="vertical"
             android:text="ミ\nデ\nィ\nア\nム"
+            android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL4"
             app:layout_constraintHorizontal_bias="0.5"
@@ -284,11 +227,12 @@
 
         <TextView
             android:id="@+id/roastL4"
-            android:layout_width="wrap_content"
+            android:layout_width="28sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.6"
             android:orientation="vertical"
             android:text="ハ\nイ"
+            android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL5"
             app:layout_constraintHorizontal_bias="0.5"
@@ -297,11 +241,12 @@
 
         <TextView
             android:id="@+id/roastL5"
-            android:layout_width="wrap_content"
+            android:layout_width="28sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.6"
             android:orientation="vertical"
             android:text="シ\nテ\nィ"
+            android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL6"
             app:layout_constraintHorizontal_bias="0.5"
@@ -310,11 +255,12 @@
 
         <TextView
             android:id="@+id/roastL6"
-            android:layout_width="wrap_content"
+            android:layout_width="28sp"
             android:layout_height="wrap_content"
-            android:lineSpacingMultiplier="0.5"
+            android:lineSpacingMultiplier="0.6"
             android:orientation="vertical"
             android:text="フ\nル\nシ\nテ\nィ"
+            android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL7"
             app:layout_constraintHorizontal_bias="0.5"
@@ -323,11 +269,12 @@
 
         <TextView
             android:id="@+id/roastL7"
-            android:layout_width="wrap_content"
+            android:layout_width="15sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.6"
             android:orientation="vertical"
             android:text="フ\nレ\nン\nチ"
+            android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL8"
             app:layout_constraintHorizontal_bias="0.5"
@@ -336,11 +283,12 @@
 
         <TextView
             android:id="@+id/roastL8"
-            android:layout_width="wrap_content"
+            android:layout_width="28sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.6"
             android:orientation="vertical"
-            android:text="イ\nタ\nリ\nア\nン"
+            android:text="イリ\nタア\nン"
+            android:textAlignment="viewEnd"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/oneBeansRoastBar"
             app:layout_constraintHorizontal_bias="0.5"

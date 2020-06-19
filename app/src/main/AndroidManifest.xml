@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.beans.BeansEditActivity"></activity>
+        <activity android:name=".ui.brews.BrewDetailsActivity"></activity>
+        <activity android:name=".ui.beans.BeansEditActivity" />
         <activity android:name=".ui.beans.BeansListActivity" />
         <activity android:name=".ui.brews.BrewEditActivity" />
         <activity

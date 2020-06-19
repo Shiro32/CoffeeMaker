@@ -16,7 +16,7 @@
     <string name="oneBrewTemp">湯温</string>
     <string name="oneBrewSteam">蒸し</string>
     <string name="oneBrewMemoLabel">メモ</string>
-    <string name="brewEditHeaderText">コーヒーを作ったときの記録を残しましょう。\nスライダを多用したら、かえって入力しにくくなってゴメンナサイ・・・m(_ _)m</string>
+    <string name="brewEditHeaderText">スライダを多用したら、かえって入力しにくくなってゴメンナサイ・・・m(_ _)m</string>
     <string name="brewEditTitle">コーヒー作成記録編集</string>
     <string name="brewEditMethodLabel">抽出方法</string>
     <string name="brewEditDateLabel">作った日時</string>
@@ -59,4 +59,8 @@
     <string name="beansEditShopHintLabel">例：KALDI銀座店</string>
     <string name="beansEditPriceHintLabel">例：800</string>
     <string name="beansEditNameBtnLabel">選択</string>
+    <string name="brewDetailsTitle">詳細画面</string>
+    <string name="brewDetailsHeaderText">詳細画面です（要らないか？）</string>
+    <string name="editBtnLabel">編集</string>
+    <string name="returnBtnLabel">一覧に戻る</string>
 </resources>

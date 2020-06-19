@@ -46,15 +46,11 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         // SeekBarだらけ
         beansGrindBar   = iv.oneBrewGrindBar
         beansUseBar     = iv.oneBrewBeansUseBar
-        cupsBar         = iv.oneBrewCupsBar
         tempBar         = iv.oneBrewTempBar
         steamBar        = iv.oneBrewSteamBar
 
         memoText        = iv.oneBrewMemoText
         image           = iv.oneBrewImage
-        editBtn         = iv.oneBrewEditBtn
-        copyBtn         = iv.oneBrewCopyBtn
-
     }
 }
 
