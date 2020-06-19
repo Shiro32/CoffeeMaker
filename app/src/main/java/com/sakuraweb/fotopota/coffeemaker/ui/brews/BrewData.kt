@@ -1,11 +1,11 @@
-package com.sakuraweb.fotopota.coffeemaker.ui.home
+package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.net.Uri
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.util.*
 
-
+// コーヒーデータのデータ形式Class
 // Realmで使うためには、絶対にopenにしないといけないので注意！
 
 open class BrewData : RealmObject() {
@@ -14,15 +14,15 @@ open class BrewData : RealmObject() {
     var id: Long = 0
 
     lateinit  var date: Date
-    var rating: Int = 0
+    var rating: Float = 0.0F
     var methodID: Int = 0
     var beansID: Long = 0
-    var beansPass: Int = 0
-    var beansGrind: Int = 0
-    var beansUse: Int = 0
-    var cups: Int = 0
-    var temp: Int = 0
-    var steam: Int = 0
+    var beansPast: Int = 0
+    var beansGrind: Float = 0.0F
+    var beansUse: Float = 0.0F
+    var cups: Float = 0.0F
+    var temp: Float = 0.0F
+    var steam: Float = 0.0F
     var imageURI: String = ""
     var memo: String=""
 

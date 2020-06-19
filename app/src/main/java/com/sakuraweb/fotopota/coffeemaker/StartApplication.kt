@@ -5,14 +5,15 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.provider.Settings.Global.getString
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansDataInit
-import com.sakuraweb.fotopota.coffeemaker.ui.home.BrewData
-import com.sakuraweb.fotopota.coffeemaker.ui.home.BrewDataInit
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewDataInit
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
@@ -69,24 +70,9 @@ class StartApplication : Application() {
         // データ数ゼロならサンプルを作る
         if( beans.size == 0) {
             val beansList = listOf<BeansDataInit>(
-                BeansDataInit(
-                    "2019/12/31",
-                    "マイルドKALDI",
-                    200,
-                    1,
-                    "KALDI",
-                    399,
-                    "特売"
-                ),
-                BeansDataInit(
-                    "2020/03/01",
-                    "ブルーマウンテンブレンド",
-                    100,
-                    3,
-                    "神戸屋珈琲",
-                    2000,
-                    "超奮発"
-                )
+                BeansDataInit("マイルドKALDI", 3F, "2019/12/31", 200F, 1F, "KALDI", 399, "特売"),
+                BeansDataInit("ブルーマウンテンブレンド", 2F, "2020/03/01", 100F, 3F, "神戸屋珈琲", 2000, "超奮発"),
+                BeansDataInit("万で李", 5F, "2018/03/01", 300F, 7F, "オードバックス", 20, "まずい")
             )
 
             // DB書き込み
@@ -121,118 +107,14 @@ class StartApplication : Application() {
         // データゼロなら作る
         if( brews.size == 0 ) {
             val brewList = listOf<BrewDataInit>(
-                BrewDataInit(
-                    "2020/06/01 12:34",
-                    2,
-                    0,
-                    0,
-                    1,
-                    1,
-                    1,
-                    1,
-                    1,
-                    1,
-                    "http",
-                    "サンプルです"
-                ),
-                BrewDataInit(
-                    "2020/06/02 00:00",
-                    5,
-                    1,
-                    1,
-                    1,
-                    4,
-                    5,
-                    1,
-                    1,
-                    4,
-                    "http",
-                    "2杯目"
-                ),
-                BrewDataInit(
-                    "2020/06/03 00:00",
-                    3,
-                    2,
-                    2,
-                    1,
-                    2,
-                    5,
-                    1,
-                    1,
-                    4,
-                    "http",
-                    "最高の出来です"
-                ),
-                BrewDataInit(
-                    "2020/06/04 00:00",
-                    2,
-                    3,
-                    1,
-                    1,
-                    3,
-                    5,
-                    1,
-                    1,
-                    1,
-                    "http",
-                    "最悪です"
-                ),
-                BrewDataInit(
-                    "2020/06/01 12:34",
-                    2,
-                    4,
-                    1,
-                    1,
-                    1,
-                    1,
-                    1,
-                    1,
-                    1,
-                    "http",
-                    "サンプルです"
-                ),
-                BrewDataInit(
-                    "2020/06/02 00:00",
-                    5,
-                    5,
-                    1,
-                    1,
-                    4,
-                    5,
-                    1,
-                    1,
-                    4,
-                    "http",
-                    "2杯目"
-                ),
-                BrewDataInit(
-                    "2020/06/03 00:00",
-                    3,
-                    6,
-                    1,
-                    1,
-                    2,
-                    5,
-                    1,
-                    1,
-                    4,
-                    "http",
-                    "最高の出来です"
-                ),
-                BrewDataInit(
-                    "2020/06/04 00:00",
-                    2,
-                    7,
-                    1,
-                    1,
-                    3,
-                    5,
-                    1,
-                    1,
-                    1,
-                    "http",
-                    "最悪です"
-                )
+                BrewDataInit("2020/01/19 12:34", 2F, 0, 0, 1, 1F, 1F, 1F, 1F, 1F, "http", "サンプルです"),
+                BrewDataInit("2020/01/18 00:00", 5F, 1, 1, 100, 4F, 5F, 1F, 1F, 4F, "http", "2杯目"),
+                BrewDataInit("2020/01/17 00:00", 3F, 2, 2, 50, 2F, 5F, 1F, 1F, 4F, "http", "最高の出来です"),
+                BrewDataInit("2020/01/16 00:00", 2F, 3, 0, 10, 3F, 5F, 1F, 1F, 1F, "http", "最悪です"),
+                BrewDataInit("2020/01/15 12:34", 2F, 4, 1, 5, 1F, 1F, 1F, 1F, 1F, "http", "サンプルです"),
+                BrewDataInit("2020/01/14 00:00", 5F, 5, 2, 5, 4F, 5F, 1F, 1F, 4F, "http", "2杯目"),
+                BrewDataInit("2020/01/13 00:00", 3F, 6, 0, 1, 2F, 5F, 1F, 1F, 4F, "http", "最高の出来です"),
+                BrewDataInit("2020/01/12 00:00", 2F, 7, 1, 1, 3F, 5F, 1F, 1F, 1F, "http", "最悪です")
             )
             // DBに書き込む
             realm.beginTransaction()
@@ -243,7 +125,7 @@ class StartApplication : Application() {
                 c.rating    = i.rating
                 c.methodID  = i.methodID
                 c.beansID   = i.beansID
-                c.beansPass = i.beansPass
+                c.beansPast = i.beansPast
                 c.beansGrind= i.beansGrind
                 c.beansUse  = i.beansUse
                 c.cups      = i.cups
@@ -276,9 +158,16 @@ public fun blackToast(c: Context, s: String) {
     toast.show()
 }
 
-fun String.toDate(pattern: String = "yyyy/MM/dd HH:mm"): Date {
+//fun String.toDate(pattern: String = "yyyy/MM/dd HH:mm"): Date {
+public fun String.toDate(pattern: String = "yyyy/MM/dd HH:mm"): Date {
     val df = SimpleDateFormat(pattern)
     val dt = df.parse(this)
     return dt
 
+}
+
+fun Date.toString(pattern: String = "yyyy/MM/dd"): String {
+    val df = SimpleDateFormat(pattern)
+    val ds = df.format(this)
+    return  ds
 }

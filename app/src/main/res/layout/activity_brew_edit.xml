@@ -5,7 +5,8 @@
     android:id="@+id/brewEditLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.BrewEditActivity">
+    android:focusableInTouchMode="true"
+    tools:context=".ui.brews.BrewEditActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/brewEditToolbar"
@@ -25,8 +26,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/brewEditSaveBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/brewEditToolbar">
+        app:layout_constraintTop_toBottomOf="@+id/brewEditToolbar"
+        app:layout_constraintVertical_bias="0.0">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,36 +58,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/brewEditDateLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-            <EditText
-                android:id="@+id/brewEditDateedit"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/brewEditDateText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="date"
+                android:text="1999/01/01"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBaseline_toBaselineOf="@+id/brewEditDateLabel"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+            <TextView
+                android:id="@+id/brewEditTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="12:00"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintBaseline_toBaselineOf="@+id/brewEditDateLabel"
+                app:layout_constraintStart_toEndOf="@+id/brewEditDateText" />
 
             <TextView
                 android:id="@+id/brewEditRatingLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/brewEditRatingLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditDateLabel" />
 
             <RatingBar
-                android:id="@+id/ratingBar"
+                android:id="@+id/brewEditRatingBar"
                 style="@style/Widget.AppCompat.RatingBar.Indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:isIndicator="false"
+                android:progressBackgroundTint="@color/ratingBackColor"
+                android:progressTint="@color/ratingColor"
                 app:layout_constraintBottom_toBottomOf="@+id/brewEditRatingLabel"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/brewEditRatingLabel" />
@@ -94,39 +109,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/brewEditMethodLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditRatingLabel" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/brewEditMethodSpin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:background="@android:drawable/btn_dropdown"
                 android:entries="@array/method_names"
+                android:scrollbarSize="4dp"
                 app:layout_constraintBottom_toBottomOf="@+id/brewEditMethodLabel"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline2" />
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/brewEditMethodLabel" />
 
             <TextView
                 android:id="@+id/brewEditBeansLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/brewEditBeansLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditMethodLabel" />
 
-            <EditText
-                android:id="@+id/brewEditBeansEdit"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/brewEditBeansText"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/brewEditBeansHint"
-                android:inputType="text"
+                android:text="エンドウ豆など"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBaseline_toBaselineOf="@+id/brewEditBeansLabel"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
             <TextView
@@ -135,17 +153,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/brewEditVerticalSkip"
+                android:gravity="center"
                 android:text="@string/brewEditCupLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditBeansLabel" />
 
             <com.warkiz.widget.IndicatorSeekBar
-                android:id="@+id/brewEditCupBar"
+                android:id="@+id/brewEditCupsBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:paddingLeft="9sp"
-                android:paddingEnd="8sp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="14sp"
                 app:isb_clear_default_padding="true"
                 app:isb_indicator_color="@android:color/holo_red_light"
                 app:isb_indicator_text_color="@android:color/white"
@@ -153,7 +172,7 @@
                 app:isb_max="5"
                 app:isb_min="1"
                 app:isb_only_thumb_draggable="false"
-                app:isb_progress="3"
+                app:isb_progress="1"
                 app:isb_seek_smoothly="false"
                 app:isb_show_indicator="circular_bubble"
                 app:isb_show_tick_marks_type="oval"
@@ -164,7 +183,6 @@
                 app:isb_tick_marks_ends_hide="false"
                 app:isb_tick_marks_size="@dimen/brewEditTickMarkSize"
                 app:isb_tick_marks_swept_hide="false"
-                app:isb_tick_texts_array="@array/grind_labels"
                 app:isb_tick_texts_color="@android:color/black"
                 app:isb_tick_texts_size="@dimen/brewEditTickTextSize"
                 app:isb_ticks_count="5"
@@ -194,8 +212,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:paddingLeft="9sp"
-                android:paddingEnd="8sp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="14sp"
                 app:isb_clear_default_padding="true"
                 app:isb_indicator_color="@android:color/holo_red_light"
                 app:isb_indicator_text_color="@android:color/white"
@@ -203,14 +221,14 @@
                 app:isb_max="5"
                 app:isb_min="1"
                 app:isb_only_thumb_draggable="false"
-                app:isb_progress="3"
+                app:isb_progress="1"
                 app:isb_seek_smoothly="false"
                 app:isb_show_indicator="circular_bubble"
                 app:isb_show_tick_marks_type="oval"
                 app:isb_show_tick_texts="true"
                 app:isb_thumb_color="@android:color/holo_red_light"
                 app:isb_thumb_size="@dimen/brewEditBarThumbSize"
-                app:isb_tick_marks_color="@drawable/selector_colors"
+                app:isb_tick_marks_color="#dddddd"
                 app:isb_tick_marks_ends_hide="false"
                 app:isb_tick_marks_size="@dimen/brewEditTickMarkSize"
                 app:isb_tick_marks_swept_hide="false"
@@ -220,8 +238,8 @@
                 app:isb_ticks_count="5"
                 app:isb_track_background_color="#dddddd"
                 app:isb_track_background_size="3sp"
-                app:isb_track_progress_color="@android:color/holo_red_light"
-                app:isb_track_progress_size="8dp"
+                app:isb_track_progress_color="#dddddd"
+                app:isb_track_progress_size="3dp"
                 app:isb_track_rounded_corners="false"
                 app:isb_user_seekable="true"
                 app:layout_constraintBottom_toBottomOf="@+id/brewEditGrindLabel"
@@ -235,6 +253,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/brewEditVerticalSkip"
+                android:gravity="center"
                 android:text="@string/brewEditBeansUseLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditGrindLabel" />
@@ -244,8 +263,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:paddingLeft="9sp"
-                android:paddingEnd="8sp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="14sp"
                 app:isb_clear_default_padding="true"
                 app:isb_indicator_color="@android:color/holo_red_light"
                 app:isb_indicator_text_color="@android:color/white"
@@ -253,7 +272,7 @@
                 app:isb_max="60"
                 app:isb_min="0"
                 app:isb_only_thumb_draggable="false"
-                app:isb_progress="10"
+                app:isb_progress="0"
                 app:isb_seek_smoothly="true"
                 app:isb_show_indicator="circular_bubble"
                 app:isb_show_tick_marks_type="oval"
@@ -285,9 +304,50 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/brewEditVerticalSkip"
+                android:gravity="center"
                 android:text="@string/brewEditTempLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditBeansUseLabel" />
+
+            <com.warkiz.widget.IndicatorSeekBar
+                android:id="@+id/brewEditTempBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="13dp"
+                app:isb_clear_default_padding="true"
+                app:isb_indicator_color="@android:color/holo_red_light"
+                app:isb_indicator_text_color="@android:color/white"
+                app:isb_indicator_text_size="@dimen/brewEditBarIndicatorSize"
+                app:isb_max="100"
+                app:isb_min="0"
+                app:isb_only_thumb_draggable="false"
+                app:isb_progress="0"
+                app:isb_seek_smoothly="true"
+                app:isb_show_indicator="circular_bubble"
+                app:isb_show_tick_marks_type="oval"
+                app:isb_show_tick_texts="true"
+                app:isb_thumb_adjust_auto="false"
+                app:isb_thumb_color="@android:color/holo_red_light"
+                app:isb_thumb_size="@dimen/brewEditBarThumbSize"
+                app:isb_tick_marks_color="#dddddd"
+                app:isb_tick_marks_ends_hide="false"
+                app:isb_tick_marks_size="@dimen/brewEditTickMarkSize"
+                app:isb_tick_marks_swept_hide="false"
+                app:isb_tick_texts_color="@android:color/black"
+                app:isb_tick_texts_size="@dimen/brewEditTickTextSize"
+                app:isb_ticks_count="6"
+                app:isb_track_background_color="#dddddd"
+                app:isb_track_background_size="3sp"
+                app:isb_track_progress_color="#dddddd"
+                app:isb_track_progress_size="3sp"
+                app:isb_track_rounded_corners="false"
+                app:isb_user_seekable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/brewEditTempLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/brewEditTempLabel" />
 
             <TextView
                 android:id="@+id/brewEditSteamLabel"
@@ -295,12 +355,53 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/brewEditVerticalSkip"
+                android:gravity="center"
                 android:text="@string/brewEditSteamLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditTempLabel" />
 
+            <com.warkiz.widget.IndicatorSeekBar
+                android:id="@+id/brewEditSteamBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="12sp"
+                app:isb_clear_default_padding="true"
+                app:isb_indicator_color="@android:color/holo_red_light"
+                app:isb_indicator_text_color="@android:color/white"
+                app:isb_indicator_text_size="@dimen/brewEditBarIndicatorSize"
+                app:isb_max="120"
+                app:isb_min="0"
+                app:isb_only_thumb_draggable="false"
+                app:isb_progress="0"
+                app:isb_seek_smoothly="true"
+                app:isb_show_indicator="circular_bubble"
+                app:isb_show_tick_marks_type="oval"
+                app:isb_show_tick_texts="true"
+                app:isb_thumb_adjust_auto="false"
+                app:isb_thumb_color="@android:color/holo_red_light"
+                app:isb_thumb_size="@dimen/brewEditBarThumbSize"
+                app:isb_tick_marks_color="#dddddd"
+                app:isb_tick_marks_ends_hide="false"
+                app:isb_tick_marks_size="@dimen/brewEditTickMarkSize"
+                app:isb_tick_marks_swept_hide="false"
+                app:isb_tick_texts_color="@android:color/black"
+                app:isb_tick_texts_size="@dimen/brewEditTickTextSize"
+                app:isb_ticks_count="5"
+                app:isb_track_background_color="#dddddd"
+                app:isb_track_background_size="3sp"
+                app:isb_track_progress_color="#dddddd"
+                app:isb_track_progress_size="3sp"
+                app:isb_track_rounded_corners="false"
+                app:isb_user_seekable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/brewEditSteamLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/brewEditSteamLabel" />
+
             <TextView
-                android:id="@+id/brewEditSteamLabel2"
+                android:id="@+id/brewEditMemoLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -309,12 +410,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditSteamLabel" />
 
+            <EditText
+                android:id="@+id/brewEditMemoText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintBaseline_toBaselineOf="@+id/brewEditMemoLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="78dp" />
+                app:layout_constraintGuide_begin="100dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -323,9 +435,31 @@
         android:id="@+id/brewEditSaveBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="保存～！"
+        android:text="@string/brewEditSaveBtnLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/brewEditCancelBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/brewEditDeleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/brewEditDeleteBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/brewEditCancelBtn" />
+
+    <Button
+        android:id="@+id/brewEditCancelBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/brewEditCancelBtnLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/brewEditDeleteBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/brewEditSaveBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

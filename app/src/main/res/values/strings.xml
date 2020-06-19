@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">CoffeeMaker</string>
     <string name="title_home">ホーム</string>
-    <string name="title_beans">マメ一覧</string>
+    <string name="title_brews">コーヒー記録</string>
+    <string name="title_beans">豆一覧</string>
     <string name="title_settings">設定など</string>
     <string name="oneBrewMethodLabel">方法</string>
     <string name="oneBrewBeanLabel">豆</string>
@@ -15,17 +16,47 @@
     <string name="oneBrewTemp">湯温</string>
     <string name="oneBrewSteam">蒸し</string>
     <string name="oneBrewMemoLabel">メモ</string>
-    <string name="brewEditHeaderText">コーヒーを作ったときの記録を残しましょう。\n全部の項目を入れなくても大丈夫です（＾＾）。</string>
+    <string name="brewEditHeaderText">コーヒーを作ったときの記録を残しましょう。\nスライダを多用したら、かえって入力しにくくなってゴメンナサイ・・・m(_ _)m</string>
     <string name="brewEditTitle">コーヒー作成記録編集</string>
     <string name="brewEditMethodLabel">抽出方法</string>
-    <string name="brewEditDateLabel">作った日</string>
-    <string name="brewEditCupLabel">作った量</string>
+    <string name="brewEditDateLabel">作った日時</string>
+    <string name="brewEditCupLabel">作った量\n(カップ)</string>
     <string name="brewEditBeansLabel">使用豆</string>
     <string name="brewEditGrindLabel">挽き目</string>
-    <string name="brewEditBeansUseLabel">豆の量</string>
-    <string name="brewEditTempLabel">湯の温度</string>
-    <string name="brewEditSteamLabel">蒸らし時間</string>
+    <string name="brewEditBeansUseLabel">豆の量\n(g)</string>
+    <string name="brewEditTempLabel">湯の温度\n(℃)</string>
+    <string name="brewEditSteamLabel">蒸らし\n(秒)</string>
     <string name="brewEditMemoLabel">メモ</string>
     <string name="brewEditRatingLabel">できばえ</string>
     <string name="brewEditBeansHint">例：ブルーマウンテン</string>
+    <string name="brewDateFormat">yyyy/MM/dd HH:mm</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="brewEditSaveBtnLabel">保存</string>
+    <string name="brewEditDeleteBtnLabel">削除</string>
+    <string name="brewEditCancelBtnLabel">キャンセル</string>
+
+    <string name="dateFormat">%d/%02d/%02d</string>
+    <string name="timeFormat">%02d:%02d</string>
+    <string name="oneBeansBuyDateLabel">購入日</string>
+    <string name="oneBeansShop">購入店</string>
+    <string name="oneBeansGrindLabel">挽目</string>
+    <string name="oneBeansGramLabel">グラム</string>
+    <string name="oneBeansPriceLabel">億円</string>
+    <string name="oneBeansMemo">メモ</string>
+    <string name="oneBeansRoastLabel">焙煎度</string>
+    <string name="beansEditHeader">豆の購入記録です</string>
+    <string name="beansEditDateLabel">購入日</string>
+    <string name="beansEditNameLabel">銘柄</string>
+    <string name="beansEditRatingLabel">お気に入り度</string>
+    <string name="購入したお店" />
+    <string name="beansEditShopLabel">購入した店</string>
+    <string name="beansEditRoastLabel">焙煎度合い</string>
+    <string name="beansEditGramLabel">グラム</string>
+    <string name="beansEditPriceLabel">お値段</string>
+    <string name="beansEditMemoLabel">メモ</string>
+    <string name="beansEditNameHint">例：マンデリン</string>
+    <string name="beansEditShopHintLabel">例：KALDI銀座店</string>
+    <string name="beansEditPriceHintLabel">例：800</string>
+    <string name="beansEditNameBtnLabel">選択</string>
 </resources>

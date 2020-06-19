@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/beansEditLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    tools:context=".ui.beans.BeansEditActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/beansEditToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="コーヒー豆購入記録編集" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/beansEditCancelBtn"
+        app:layout_constraintTop_toBottomOf="@+id/beansEditToolbar"
+        tools:layout_editor_absoluteX="44dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/beansEditHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/beansEditHeader"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/beansEditNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/beansEditNameLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditHeader" />
+
+            <EditText
+                android:id="@+id/beansEditNameEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:hint="@string/beansEditNameHint"
+                android:inputType="text"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditNameLabel"
+                app:layout_constraintEnd_toStartOf="@+id/button2"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansEditRatingLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/beansEditRatingLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditNameLabel" />
+
+            <TextView
+                android:id="@+id/beansEditDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/beansEditDateLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditRatingLabel" />
+
+            <TextView
+                android:id="@+id/beansEditDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1999/01/01"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditDateLabel"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <RatingBar
+                android:id="@+id/beansEditRatingBar"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="false"
+                android:progressBackgroundTint="@color/ratingBackColor"
+                android:progressTint="@color/ratingColor"
+                app:layout_constraintBottom_toBottomOf="@+id/beansEditRatingLabel"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/beansEditRatingLabel" />
+
+            <TextView
+                android:id="@+id/beansEditRoastLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/beansEditRoastLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditDateLabel" />
+
+            <com.warkiz.widget.IndicatorSeekBar
+                android:id="@+id/beansEditRoastBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="14sp"
+                app:isb_clear_default_padding="true"
+                app:isb_indicator_color="@android:color/holo_red_light"
+                app:isb_indicator_text_color="@android:color/white"
+                app:isb_indicator_text_size="@dimen/brewEditBarIndicatorSize"
+                app:isb_max="7"
+                app:isb_min="0"
+                app:isb_only_thumb_draggable="false"
+                app:isb_progress="3"
+                app:isb_seek_smoothly="false"
+                app:isb_show_indicator="circular_bubble"
+                app:isb_show_tick_marks_type="oval"
+                app:isb_show_tick_texts="false"
+                app:isb_thumb_color="@android:color/holo_red_light"
+                app:isb_thumb_size="@dimen/brewEditBarThumbSize"
+                app:isb_tick_marks_color="#dddddd"
+                app:isb_tick_marks_ends_hide="false"
+                app:isb_tick_marks_size="@dimen/brewEditTickMarkSize"
+                app:isb_tick_marks_swept_hide="false"
+                app:isb_tick_texts_color="@android:color/black"
+                app:isb_tick_texts_size="@dimen/brewEditTickTextSize"
+                app:isb_ticks_count="8"
+                app:isb_track_background_color="#dddddd"
+                app:isb_track_background_size="3sp"
+                app:isb_track_progress_color="#dddddd"
+                app:isb_track_progress_size="3sp"
+                app:isb_track_rounded_corners="false"
+                app:isb_user_seekable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/beansEditRoastLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/beansEditRoastLabel" />
+
+            <TextView
+                android:id="@+id/roastL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:lineSpacingMultiplier="0.6"
+                android:orientation="vertical"
+                android:text="シ\nテ\nィ"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/roastL9"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="@+id/beansEditRoastBar"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditRoastBar" />
+
+            <TextView
+                android:id="@+id/roastL14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="0.6"
+                android:orientation="vertical"
+                android:text="フ\nレ\nン\nチ"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/roastL15"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/roastL13"
+                app:layout_constraintTop_toTopOf="@+id/roastL" />
+
+            <TextView
+                android:id="@+id/roastL9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="0.5"
+                android:orientation="vertical"
+                android:text="シ\nナ\nモ\nン"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/roastL10"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/roastL"
+                app:layout_constraintTop_toTopOf="@+id/roastL" />
+
+            <TextView
+                android:id="@+id/roastL10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="0.5"
+                android:orientation="vertical"
+                android:text="ミ\nデ\nィ\nア\nム"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/roastL11"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/roastL9"
+                app:layout_constraintTop_toTopOf="@+id/roastL" />
+
+            <TextView
+                android:id="@+id/roastL11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="0.6"
+                android:orientation="vertical"
+                android:text="ハ\nイ"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/roastL12"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/roastL10"
+                app:layout_constraintTop_toTopOf="@+id/roastL" />
+
+            <TextView
+                android:id="@+id/roastL12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="0.6"
+                android:orientation="vertical"
+                android:text="シ\nテ\nィ"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/roastL13"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/roastL11"
+                app:layout_constraintTop_toTopOf="@+id/roastL" />
+
+            <TextView
+                android:id="@+id/roastL13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="0.5"
+                android:orientation="vertical"
+                android:text="フ\nル\nシ\nテ\nィ"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/roastL14"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/roastL12"
+                app:layout_constraintTop_toTopOf="@+id/roastL" />
+
+            <TextView
+                android:id="@+id/roastL15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:lineSpacingMultiplier="0.6"
+                android:orientation="vertical"
+                android:text="イ\nタ\nリ\nア\nン"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/beansEditRoastBar"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/roastL14"
+                app:layout_constraintTop_toTopOf="@+id/roastL" />
+
+            <TextView
+                android:id="@+id/beansEditGramLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="90dp"
+                android:text="@string/beansEditGramLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditRoastLabel" />
+
+            <com.warkiz.widget.IndicatorSeekBar
+                android:id="@+id/beansEditGramBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="13dp"
+                app:isb_clear_default_padding="true"
+                app:isb_indicator_color="@android:color/holo_red_light"
+                app:isb_indicator_text_color="@android:color/white"
+                app:isb_indicator_text_size="@dimen/brewEditBarIndicatorSize"
+                app:isb_max="400"
+                app:isb_min="100"
+                app:isb_only_thumb_draggable="false"
+                app:isb_progress="200"
+                app:isb_seek_smoothly="false"
+                app:isb_show_indicator="circular_bubble"
+                app:isb_show_tick_marks_type="oval"
+                app:isb_show_tick_texts="true"
+                app:isb_thumb_adjust_auto="false"
+                app:isb_thumb_color="@android:color/holo_red_light"
+                app:isb_thumb_size="@dimen/brewEditBarThumbSize"
+                app:isb_tick_marks_color="#dddddd"
+                app:isb_tick_marks_ends_hide="false"
+                app:isb_tick_marks_size="@dimen/brewEditTickMarkSize"
+                app:isb_tick_marks_swept_hide="false"
+                app:isb_tick_texts_color="@android:color/black"
+                app:isb_tick_texts_size="@dimen/brewEditTickTextSize"
+                app:isb_ticks_count="4"
+                app:isb_track_background_color="#dddddd"
+                app:isb_track_background_size="3sp"
+                app:isb_track_progress_color="#dddddd"
+                app:isb_track_progress_size="3sp"
+                app:isb_track_rounded_corners="false"
+                app:isb_user_seekable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/beansEditGramLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/beansEditGramLabel" />
+
+            <TextView
+                android:id="@+id/beansEditShopLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/beansEditShopLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditGramLabel" />
+
+            <EditText
+                android:id="@+id/beansEditShopEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:hint="@string/beansEditShopHintLabel"
+                android:inputType="text"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditShopLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansEditPriceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/beansEditPriceLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditShopLabel" />
+
+            <EditText
+                android:id="@+id/beansEditPriceEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:hint="@string/beansEditPriceHintLabel"
+                android:inputType="number|text"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditPriceLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansEditMemo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/beansEditMemoLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditPriceLabel" />
+
+            <EditText
+                android:id="@+id/beansEditMemoEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:inputType="number|text"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditMemo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="101dp" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="168dp"
+                android:layout_height="136dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditMemoEdit"
+                app:srcCompat="@drawable/beans" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/beansEditNameBtnLabel"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditNameEdit"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:entries="@array/beans_names"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/beansEditSaveBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/brewEditSaveBtnLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/beansEditCancelBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/beansEditCancelBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/brewEditCancelBtnLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/beansEditDeleteBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/beansEditSaveBtn" />
+
+    <Button
+        android:id="@+id/beansEditDeleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/brewEditDeleteBtnLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/beansEditCancelBtn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

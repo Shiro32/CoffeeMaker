@@ -1,9 +1,8 @@
-package com.sakuraweb.fotopota.coffeemaker.ui.home
+package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.brewMethods
@@ -50,8 +49,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         // 1行ビューをもとに、ViewHolder（←自分で作ったヤツ）インスタンスを生成
         // 今作ったView（LinearLayout）を渡す
         // ビューホルダは、内部のローカル変数に1行分のデータを保持（日付、血圧、脈拍）
-        val holder =
-            BrewViewHolder(view)
+        val holder = BrewViewHolder(view)
         return holder
     }
 
@@ -66,11 +64,11 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             val df = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
             holder.dateText?.text       = df.format(bp.date)
-            holder.ratingBar?.progress  = bp.rating
+            holder.ratingBar?.rating    = bp.rating
             holder.methodText?.text     = brewMethods[bp.methodID]
             holder.beansKindText?.text  = findBeansNameByID(bp.beansID)
             holder.memoText?.text       = bp.memo
-            holder.beansPassText?.text  = bp.beansPass.toString()
+            holder.beansPassText?.text  = bp.beansPast.toString()
 
             holder.beansGrindBar?.setProgress(bp.beansGrind.toFloat())
             holder.beansUseBar?.setProgress(bp.beansUse.toFloat())
@@ -80,6 +78,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
 
             holder.editBtn?.setOnClickListener {
                 val intent = Intent(it.context, BrewEditActivity::class.java)
+                intent.putExtra("id", bp.id)
                 it.context.startActivity(intent)
             }
 
@@ -91,11 +90,6 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
 
 //            holder.image?.setImageURI(Uri.parse(bp.imageURI))
 
-//            holder.editBtn?.setOnClickListener {
-//                val intent = Intent(it.context, CourseEditActivity::class.java)
-//                intent.putExtra("id", bp.id)
-//                it.context.startActivity(intent)
-//            }
 
         }
     }

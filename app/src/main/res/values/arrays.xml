@@ -1,11 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <array name="beans_names">
+        <item>ブルーマウンテン</item>
+        <item>キリマンジャロ</item>
+        <item>グアテマラ</item>
+        <item>コロンビア</item>
+        <item>ブラジル</item>
+        <item>マンデリン</item>
+        <item>コナ</item>
+        <item>モカ</item>
+        <item>トラジャ</item>
+        <item>ジャワ</item>
+        <item>ケニア</item>
+        <item>コスタリカ</item>
+        <item>ゲイシャ</item>
+        <item>----</item>
+        <item>マイルドKALDI</item>
+        <item>スペシャルブレンド</item>
+        <item>バードフレンドリー</item>
+        <item>アイスブレンド</item>
+        <item>リッチブレンド</item>
+        <item>ブルーマウンテンブレンド</item>
+        <item>モカブレンド</item>
+        <item>モーニングブレンド</item>
+        <item>エスプレッソブレンド</item>
+        <item>アメリカンブレンド</item>
+        <item>ツッカーノブルボン</item>
+        <item>カフェオレブレンド</item>
+        <item>モカマタリ</item>
+        <item>イタリアンロースト</item>
+        <item>ノエル</item>
+        <item>----</item>
+        <item>UCC職人のコーヒー</item>
+        <item>Blendiドリップパック</item>
+    </array>
+
+
     <array name="grind_labels">
         <item>粗</item>
         <item>中</item>
         <item>並</item>
         <item>細</item>
         <item>極細</item>
+    </array>
+
+    <array name="roast_labels">
+        <item>ライト</item>
+        <item>シナモン</item>
+        <item>ミディアム</item>
+        <item>ハイ</item>
+        <item>シティ</item>
+        <item>フルシティ</item>
+        <item>仏</item>
+        <item>伊</item>
     </array>
 
     <string-array name="method_names">

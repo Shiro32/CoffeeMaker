@@ -1,4 +1,4 @@
-package com.sakuraweb.fotopota.coffeemaker.ui.home
+package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import java.util.*
 
@@ -7,15 +7,15 @@ import java.util.*
 
 class BrewDataInit (
     var date: String,
-    var rating: Int,
+    var rating: Float,
     var methodID: Int,
     var beansID: Long,
-    var beansPass: Int,
-    var beansGrind: Int,
-    var beansUse: Int,
-    var cups: Int,
-    var temp: Int,
-    var steam: Int,
+    var beansPast: Int,
+    var beansGrind: Float,
+    var beansUse: Float,
+    var cups: Float,
+    var temp: Float,
+    var steam: Float,
     var imageURI: String,
     var memo: String) {
 

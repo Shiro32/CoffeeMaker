@@ -4,37 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.beans.BeansFragment">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/beansListToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:title="ほげほげ" />
+    tools:context=".ui.home.HomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/beansRecycleView"
+        android:id="@+id/brewRecycleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="5.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/beansListToolbar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/beansFAB"
+        android:id="@+id/brewFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@android:color/holo_red_light"
         android:clickable="true"
         android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@android:color/holo_red_light"
-        app:layout_constraintBottom_toBottomOf="@+id/beansRecycleView"
+        app:layout_constraintBottom_toBottomOf="@+id/brewRecycleView"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

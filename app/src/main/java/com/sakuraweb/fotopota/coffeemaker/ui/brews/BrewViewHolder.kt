@@ -1,4 +1,4 @@
-package com.sakuraweb.fotopota.coffeemaker.ui.home
+package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.view.View
 import android.widget.*
@@ -29,7 +29,6 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
     var editBtn:        Button? = null
     var copyBtn:        Button? = null
 
-    var sampleBar:      IndicatorSeekBar?=null
 
     // 初期化処理
     // KOTLINではプライマリコンストラクタは、引数をローカル変数にコピーするだけ （ivに貰っている）
@@ -45,7 +44,7 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         beansPassText   = iv.oneBrewBeansPassText
 
         // SeekBarだらけ
-        beansGrindBar   = iv.brewEditCupBar
+        beansGrindBar   = iv.oneBrewGrindBar
         beansUseBar     = iv.oneBrewBeansUseBar
         cupsBar         = iv.oneBrewCupsBar
         tempBar         = iv.oneBrewTempBar
