@@ -22,6 +22,7 @@ import java.util.*
 
 
 // TODO:有名な豆ポップアップ、なんとかしたい。　ストレート・ブレンド・ドリップパックの３ボタンを備えた選択画面でも作るか？無駄か？
+// TODO: 粗挽きなどのスライダのポップアップを直す　        m2.setIndicatorTextFormat("\${TICK_TEXT}")
 
 const val REQUEST_CODE_NAME_SELECT = 1
 

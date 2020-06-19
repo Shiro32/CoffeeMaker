@@ -62,5 +62,5 @@
     <string name="brewDetailsTitle">詳細画面</string>
     <string name="brewDetailsHeaderText">詳細画面です（要らないか？）</string>
     <string name="editBtnLabel">編集</string>
-    <string name="returnBtnLabel">一覧に戻る</string>
+    <string name="returnBtnLabel">← リストに戻る</string>
 </resources>

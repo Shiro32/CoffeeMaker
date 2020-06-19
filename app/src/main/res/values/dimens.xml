@@ -7,7 +7,12 @@
     <dimen name="brewEditBarThumbSize">25sp</dimen>
     <dimen name="brewEditTickMarkSize">15sp</dimen>
     <dimen name="brewEditTickTextSize">15sp</dimen>
+
     <dimen name="brewDetailsThumbSize">15sp</dimen>
     <dimen name="brewDetailsTickMarkSize">10sp</dimen>
     <dimen name="brewDetailsVerticalSkip">18dp</dimen>
+
+    <dimen name="beansDetailsBarThumbSize">15sp</dimen>
+    <dimen name="beansDetailsTickMarkSize">10sp</dimen>
+    <dimen name="beansDetailsTickTextSize">15sp</dimen>
 </resources>

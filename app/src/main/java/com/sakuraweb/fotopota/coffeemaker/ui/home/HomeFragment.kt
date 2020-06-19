@@ -32,8 +32,8 @@ class HomeFragment : Fragment() {
 //        root.button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.navigation_dashboard, null))
 
         calcCupsOfLife()
+        root.cupsText.text = cupsFromTheFirstDay.toString() + "cups"
         root.sinceText.text = theFirstBrew
-        root.cupsText.text = cupsFromTheFirstDay.toString()
 
         Log.d("SHIRO", "home / onCreateView")
         return root

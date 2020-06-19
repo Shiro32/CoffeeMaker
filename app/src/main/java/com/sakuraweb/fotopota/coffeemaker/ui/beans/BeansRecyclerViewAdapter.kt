@@ -69,7 +69,7 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
             } else {
                 // Naviから呼び出された場合は、豆を編集する
                 holder.itemView.setOnClickListener {
-                    val intent = Intent(it.context, BeansEditActivity::class.java)
+                    val intent = Intent(it.context, BeansDetailsActivity::class.java)
                     intent.putExtra("id", bean.id)
                     it.context.startActivity(intent)
                 }
