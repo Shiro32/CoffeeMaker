@@ -41,7 +41,6 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         methodText      = iv.oneBrewMethodText
 
         beansKindText   = iv.oneBrewBeansKindText
-        beansPassText   = iv.oneBrewBeansPassText
 
         // SeekBarだらけ
         beansGrindBar   = iv.oneBrewGrindBar

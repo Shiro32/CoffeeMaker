@@ -28,6 +28,10 @@ lateinit var brewRealmConfig: RealmConfiguration
 lateinit var beansRealmConfig: RealmConfiguration
 
 lateinit var brewMethods: Array<String>
+lateinit var beansKind: Array<String>
+lateinit var beansSpecial: Array<String>
+lateinit var beansBlend: Array<String>
+lateinit var beansPack: Array<String>
 
 // 一番最初に実行されるApplicationクラス
 // いつもの、AppCompatActivity（MainActivity）は、manifest.xmlで最初の画面（Acitivity）として実行される
@@ -50,7 +54,10 @@ class StartApplication : Application() {
 
         // そのほか、グローバル変数セット
         brewMethods = resources.getStringArray(R.array.method_names)
-
+        beansKind = resources.getStringArray(R.array.beans_kind)
+        beansSpecial = resources.getStringArray(R.array.beans_special)
+        beansBlend = resources.getStringArray(R.array.beans_blend)
+        beansPack   = resources.getStringArray(R.array.beans_pack)
 
 
     }

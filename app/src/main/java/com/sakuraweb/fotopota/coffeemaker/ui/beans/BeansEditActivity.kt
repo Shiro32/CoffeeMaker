@@ -6,25 +6,23 @@ import android.content.Intent
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.sakuraweb.fotopota.coffeemaker.*
-import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.select.BeansSelectAvtivity
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.REQUEST_CODE_BEANS_SELECT
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_beans_edit.*
-import kotlinx.android.synthetic.main.activity_brew_edit.*
 import java.util.*
 
 
 // TODO:有名な豆ポップアップ、なんとかしたい。　ストレート・ブレンド・ドリップパックの３ボタンを備えた選択画面でも作るか？無駄か？
 // TODO: 粗挽きなどのスライダのポップアップを直す　        m2.setIndicatorTextFormat("\${TICK_TEXT}")
 
-const val REQUEST_CODE_NAME_SELECT = 1
+const val REQUEST_CODE_BEANS_SELECT = 1
 
 class BeansEditActivity : AppCompatActivity() {
     private lateinit var realm: Realm
@@ -94,6 +92,13 @@ class BeansEditActivity : AppCompatActivity() {
                 }, year, month, day
             )
             dtp.show()
+        }
+
+        // 豆セレクト画面へ
+        // もちろん結果が欲しいので、forResult付きで
+        beansEditSelectBtn.setOnClickListener {
+            val intent = Intent(it.context, BeansSelectAvtivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_BEANS_SELECT)
         }
 
 

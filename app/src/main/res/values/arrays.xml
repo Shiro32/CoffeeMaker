@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="beans_names">
+    <array name="beans_special">
         <item>ブルーマウンテン</item>
         <item>キリマンジャロ</item>
         <item>グアテマラ</item>
@@ -14,7 +14,9 @@
         <item>ケニア</item>
         <item>コスタリカ</item>
         <item>ゲイシャ</item>
-        <item>----</item>
+    </array>
+
+    <array name="beans_blend">
         <item>マイルドKALDI</item>
         <item>スペシャルブレンド</item>
         <item>バードフレンドリー</item>
@@ -30,11 +32,18 @@
         <item>モカマタリ</item>
         <item>イタリアンロースト</item>
         <item>ノエル</item>
-        <item>----</item>
-        <item>UCC職人のコーヒー</item>
-        <item>Blendiドリップパック</item>
     </array>
 
+    <array name="beans_pack">
+        <item>UCC職人のコーヒー</item>
+        <item>Blendyドリップパック</item>
+    </array>
+
+    <array name="beans_kind">
+        <item>スペシャリティ</item>
+        <item>ブレンド</item>
+        <item>ドリップパック</item>
+    </array>
 
     <array name="grind_labels">
         <item>粗</item>
