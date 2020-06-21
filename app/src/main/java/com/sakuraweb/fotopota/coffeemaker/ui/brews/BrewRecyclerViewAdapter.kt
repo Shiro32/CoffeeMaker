@@ -1,8 +1,13 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
+import android.app.Activity
+import android.app.Application
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.brewMethods
@@ -11,28 +16,7 @@ import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
 
-/*
-アダプタクラスを作る
-アダプタとは、ビューに表示するすべてのリストデータを管理し、ビューの各行に当てはめていくオブジェクト
-
-〇表示用ViewHolderインスタンスを生成（onCreateViewHolder）
-　レイアウトに従って1行分のViewを生成
-　ViewHolderを生成して、上記Viewをセットして完了
-
-〇表示内容の更新（onBindViewHolder）　
-　ViewHolderのインスタンスを更新してやる（holder.name = "hoge"）
-
- ListViewでは、ArrayAdapterやSimpleAdapterなどの既存アダプタが利用できた（データ種別による）
- RecyclerViewでは、アダプがが無いので自分で作ってあげる必要がある
- でたらめなアダプタではいけないので、RecyclerView.adapterでインターフェースを定義されているので、
- 必要な3メソッドを実装してやり、のちにメインプログラムでインスタンスを生成、RecycleViewのadapterにセットする
- ３つのメソッドは（onCreateViewHolder, getItemCount, onBindViewHolder）
-
- なんでも格納できるRealmResultsクラスに対して、BloodPressクラスに限定している
- 結局、「RealmResults<BloodPress>」型になる。もう、何が何だか。
-
- RecyclerViewのサブクラス、Adapterクラス（型引数でViewHolder）を継承する
- */
+const val REQUEST_CODE_SHOW_DETAILS = 1
 
 // リスト本体ボディのリスナは不要
 //　リスト本体をクリックして確定させたいような場合は、こいつのクラスをマルチ継承するみたい
@@ -81,32 +65,21 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
 
             // 各カードに配置するボタンなどのリスナ
 
-            // 行そのもの（Card）のリスナ。okButtonなど使わず、ここに直接かけないの！？
-            // 書けた・・・、今までの苦労はいったい・・・。
+            // 行そのもの（Card）のリスナ
+            // 行タップすることで編集画面(BrewEdit）に移行
+            // 戻り値によって、TO_LISTやTO_HOMEもあり得るのでforResultで呼ぶ
             holder.itemView.setOnClickListener {
                 val intent = Intent(it.context, BrewDetailsActivity::class.java)
                 intent.putExtra("id", bp.id)
-                it.context.startActivity(intent)
+//                it.context.startActivity(intent)
+
+                // ２時間かけて思いつきました！！！！×無限
+                // contextを無理矢理変えて、forResultを呼ぶ
+                // ここの結果を、メインのFragmentでキャッチして、DetailsやEditの結果を知る
+                val it2 = it.context as Activity // 無茶苦茶だけど
+                it2.startActivityForResult(intent, REQUEST_CODE_SHOW_DETAILS)
+
             }
-
-/*
-            holder.editBtn?.setOnClickListener {
-                val intent = Intent(it.context, BrewDetailsActivity::class.java)
-                intent.putExtra("id", bp.id)
-                it.context.startActivity(intent)
-            }
-*/
-
-/*
-            holder.copyBtn?.setOnClickListener {
-                val intent = Intent(it.context, BrewEditActivity::class.java)
-                intent.putExtra("id", bp.id)
-                it.context.startActivity(intent)
-            }
-*/
-
-
-//            holder.image?.setImageURI(Uri.parse(bp.imageURI))
 
 
         }
@@ -117,4 +90,6 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         return brews.size
     }
 
+
 }
+

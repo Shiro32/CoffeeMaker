@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">CoffeeMaker</string>
+    <string name="app_name">Coffee Recorder</string>
+    <string name="brewListTitle">最近のコーヒー記録</string>
+    <string name="beansListTitle">最近のコーヒー豆一覧</string>
+
     <string name="title_home">ホーム</string>
     <string name="title_brews">コーヒー記録</string>
     <string name="title_beans">豆一覧</string>
@@ -68,12 +71,18 @@
     <string name="beansKindPack">ドリップパック</string>
 
 
-    <string name="brewDetailsOptionEdit">編集する</string>
-    <string name="brewDetailsOptionDelete">削除</string>
-    <string name="optMenuItemHome">ホーム</string>
-
+    <!-- ダイアログ -->
     <string name="deleteConfirmDialogTitle">削除確認</string>
     <string name="deleteConfirmDialogMessage">データを削除してよろしいですか？</string>
     <string name="deleteConfirmDialogOkBtn">はい</string>
     <string name="deleteConfirmDialogCancelBtn">キャンセル</string>
+
+    <!-- メニュー -->
+    <!-- Type3 -->
+    <string name="optMenu3ItemEdit">編集する</string>
+    <string name="optMenu3ItemDelete">削除</string>
+    <string name="optMenu3ItemHome">ホーム</string>
+    <string name="optMenu3ItemCancel">リストへ戻る</string>
+    <string name="optMenu1ItemHome">ホーム</string>
 </resources>
+

@@ -9,10 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.blackToast
-import com.sakuraweb.fotopota.coffeemaker.brewMethods
-import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
+import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.Realm
 import io.realm.kotlin.where
@@ -96,6 +93,8 @@ class BrewDetailsActivity : AppCompatActivity() {
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(brewDetailsToolbar)
         supportActionBar?.title = dateStr+"のコーヒーの詳細"
+
+        // 戻るボタン。表示だけで、実走はonSupportNavigateUp()で。超面倒くせえ！
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -112,7 +111,7 @@ class BrewDetailsActivity : AppCompatActivity() {
     // メニュー設置
     // TODO: ゴミ箱も作りたい・・・けど
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_brew_details_option_menu_list, menu)
+        menuInflater.inflate(R.menu.menu_opt_menu_3, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -122,7 +121,7 @@ class BrewDetailsActivity : AppCompatActivity() {
         val intentID = this.intent.getLongExtra("id", 0L)
 
         when( item.itemId ) {
-            R.id.brewDetailsOptMenuItemEdit -> {
+            R.id.optMenu3ItemEdit -> {
                 val intent = Intent(applicationContext, BrewEditActivity::class.java)
                 intent.putExtra("id", intentID)
 
@@ -131,7 +130,7 @@ class BrewDetailsActivity : AppCompatActivity() {
                 startActivityForResult(intent, REQUEST_EDIT_BREW)
             }
 
-            R.id.brewDetailsOptMenuItemDelete -> {
+            R.id.optMenu3ItemDelete -> {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle(R.string.deleteConfirmDialogTitle)
                 builder.setMessage(R.string.deleteConfirmDialogMessage)
@@ -149,8 +148,12 @@ class BrewDetailsActivity : AppCompatActivity() {
 
             }
 
-            R.id.brewDetailsOptMenuItemHome -> {
-                finish()
+            R.id.optMenu1ItemHome -> {
+                // 新機軸！ ちゃんとホームまで帰っていく！
+                val intent = Intent()
+                setResult( RESULT_TO_HOME, intent)
+//            blackToast(applicationContext, "TO_HOME発動！")
+            finish()
             }
         }
 
@@ -161,6 +164,17 @@ class BrewDetailsActivity : AppCompatActivity() {
     // TODO: バックスタックが若干気になるけど、大丈夫か？
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        if( requestCode == REQUEST_EDIT_BREW ) {
+            when( resultCode ) {
+                RESULT_TO_LIST -> {
+                    finish()
+                }
+                RESULT_TO_HOME -> {
+                    finish()
+                }
+            }
+        }
 
         if( requestCode == REQUEST_EDIT_BREW && resultCode == Activity.RESULT_OK) finish()
     } // onActivityResult

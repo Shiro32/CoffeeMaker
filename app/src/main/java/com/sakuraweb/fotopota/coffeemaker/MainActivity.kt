@@ -14,7 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.Sort
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
+
+// 各アクティビティ間のグローバルな移動のためのRESULT CODE
+const val RESULT_TO_HOME = 1    // ホーム画面へ戻るコード
+const val RESULT_TO_LIST = 2    // BREWやBEANSのリスト画面目へ戻るコード
+
 
 // メイン画面（Home, Brew, Bean, Setting）をViewHolderで横スクロール？
 
@@ -33,10 +39,15 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(setOf(
                 R.id.navigation_home, R.id.navigation_beans, R.id.navigation_settings))
 
+
         // ↓これでアクションバーの中身を勝手に書き換えている
         // この行を残したままNoActionBar化するとハングアップする
  //       setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+        // 反省して自前でToolbarを設置し、Activity画面のトップに置く（Fragmentにはおかない）
+        setSupportActionBar(mainToolbar)
 
         Log.d("SHIRO", "Home / onCreate------------------------")
     }

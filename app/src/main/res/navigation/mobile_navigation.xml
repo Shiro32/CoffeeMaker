@@ -15,7 +15,7 @@
         android:id="@+id/navigation_beans"
         android:name="com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansFragment"
         android:label="@string/title_beans"
-        tools:layout="@layout/fragment_beans" />
+        tools:layout="@layout/fragment_beans_list" />
 
     <fragment
         android:id="@+id/navigation_settings"

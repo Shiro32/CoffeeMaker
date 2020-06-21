@@ -4,11 +4,9 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,9 +15,8 @@ import com.sakuraweb.fotopota.coffeemaker.beansRealmConfig
 import io.realm.Realm
 import io.realm.Sort
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.fragment_beans.*
-import kotlinx.android.synthetic.main.fragment_beans.view.*
-import kotlinx.android.synthetic.main.fragment_beans.view.beansRecycleView
+import kotlinx.android.synthetic.main.fragment_beans_list.*
+import kotlinx.android.synthetic.main.fragment_beans_list.view.*
 
 var isCalledFromBrewEdit: Boolean = false
 
@@ -29,7 +26,7 @@ class BeansFragment : Fragment(), SetBeansListener {
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
-        val root = inflater.inflate(R.layout.fragment_beans, container, false)
+        val root = inflater.inflate(R.layout.fragment_beans_list, container, false)
 
 // TODO: 呼び出し元の検知方法。どこかで出番があるかも
 //        if( activity?.intent?.getStringExtra("from") == "Edit" ) {

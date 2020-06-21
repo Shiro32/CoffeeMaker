@@ -1,26 +1,24 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.CalendarView
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
-import com.sakuraweb.fotopota.coffeemaker.toString
-import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
-import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewRecyclerViewAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.sakuraweb.fotopota.coffeemaker.*
+import com.sakuraweb.fotopota.coffeemaker.ui.home.HomeFragment
 import io.realm.Realm
 import io.realm.Sort
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.fragment_brews.*
-import kotlinx.android.synthetic.main.fragment_brews.view.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_brew_list.*
+import kotlinx.android.synthetic.main.fragment_brew_list.view.*
 import android.content.Intent as Intent
 
 class BrewFragment : Fragment() {
@@ -29,17 +27,17 @@ class BrewFragment : Fragment() {
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
+
         // 当初は色々あったけど、全部削除した
 
         // このfragment自身を指す。ボタンなどを指定するには、rootが必要
-        val root = inflater.inflate(R.layout.fragment_brews, container, false)
+        val root = inflater.inflate(R.layout.fragment_brew_list, container, false)
 
         // 他のフラグメントへ移動するサンプル。ここから直接豆リストはないか？
-//        root.button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.navigation_dashboard, null))
+//        root.button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.navigation_settings, null))
+        // これよりも、onClickイベントを発生させた方が良いみたい（＾＾）
 
-        // ここまでが、よくわからん下部関係の動き？ AppBarも？
-        // ここから下がリスト表示（RecyclerView）
-
+        // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
         // realmのインスタンスを作る。Configはグローバル化してあるので、そのままインスタンスを作るだけ
         realm = Realm.getInstance(brewRealmConfig)
 
@@ -50,13 +48,64 @@ class BrewFragment : Fragment() {
         }
 
 
+        // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
+        // 「戻る」ボタン
+        val ac = activity as AppCompatActivity
+        ac.supportActionBar?.title = getString(R.string.brewListTitle)
+
+        // メニュー構築（実装はonCreateOptionsMenu内で）
+        setHasOptionsMenu(true)
+
         Log.d("SHIRO", "brew / onCreateView - DB OPEN")
         return root
     }
 
 
+    // オプションメニュー設置
+    // Fragment内からActivity側のToolbarに無理矢理設置する
+    // 本来は逆だけど、こうすればFragmentごとに違うメニューが作れる
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
 
-    // いよいよここでリスト表示
+        inflater?.inflate(R.menu.menu_opt_menu_1, menu)
+    }
+
+    // オプションメニュー対応
+    // あまり項目がないけど（ホームのみ？）
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId ) {
+            R.id.optMenu1ItemHome -> {
+                activity?.nav_view?.selectedItemId = R.id.navigation_home
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    // Details画面からの返事を処理
+    // RESULT_TO_HOMEならホーム画面まで、
+    // RESULT_TO_LISTならリスト画面まで（＝ここ）
+    // だけどスルーされちゃうみたい・・・。
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+                Toast.makeText(activity, "BREW-LIST-キャッチ！", Toast.LENGTH_SHORT).show()
+        if( requestCode == REQUEST_CODE_SHOW_DETAILS) {
+            when( resultCode ) {
+                RESULT_TO_LIST -> {
+                    Toast.makeText(activity, "TO_LIST", Toast.LENGTH_SHORT).show()
+                }
+                RESULT_TO_HOME -> {
+                    Toast.makeText(activity, "TO_HOME", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
+    }
+
+
+    // ━━━━━━━━━　いよいよここでリスト表示　━━━━━━━━━
     // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
     override fun onStart() {
         super.onStart()
