@@ -11,7 +11,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.select.BeansSelectAvtivity
-import com.sakuraweb.fotopota.coffeemaker.ui.brews.REQUEST_CODE_BEANS_SELECT
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
@@ -19,10 +18,20 @@ import kotlinx.android.synthetic.main.activity_beans_edit.*
 import java.util.*
 
 
-// TODO:有名な豆ポップアップ、なんとかしたい。　ストレート・ブレンド・ドリップパックの３ボタンを備えた選択画面でも作るか？無駄か？
 // TODO: 粗挽きなどのスライダのポップアップを直す　        m2.setIndicatorTextFormat("\${TICK_TEXT}")
+// TODO: どうせなら全部やる？（↑）
+// TODO: おそらく空欄があるとクラッシュするので直す
+// TODO: 新規作成と既存編集時でタイトルを正しく合わせる
+// TODO: 決定時にDetailsを飛ばしてリストまで戻してあげたい（Details側の処理か？）
+// TODO: オプションメニュー、戻るメニューの設置、編集画面ボタンの整理（削除の削除、保存・キャンセルの位置等）
+// TODO: 削除メニューには確認ダイアログを忘れずに
+// TODO: 「使用マメ」テキストがイマイチクリッカブル感が無いので、ボタンにしちゃう？
+// TODO: 円やグラムの単位
+// TODO: スライダが狭すぎ
+// TODO: 日付ポップアップボタン見えにくくない？
+// TODO: イラストの唐突感を何とかする
 
-const val REQUEST_CODE_BEANS_SELECT = 1
+const val REQUEST_CODE_BEANS_NAME_SELECT = 1
 
 class BeansEditActivity : AppCompatActivity() {
     private lateinit var realm: Realm
@@ -98,7 +107,7 @@ class BeansEditActivity : AppCompatActivity() {
         // もちろん結果が欲しいので、forResult付きで
         beansEditSelectBtn.setOnClickListener {
             val intent = Intent(it.context, BeansSelectAvtivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_BEANS_SELECT)
+            startActivityForResult(intent, REQUEST_CODE_BEANS_NAME_SELECT)
         }
 
 
@@ -171,6 +180,23 @@ class BeansEditActivity : AppCompatActivity() {
 
 
     } // onCreate
+
+
+    // 豆銘柄獲得の画面から、戻ってきたらViewに格納してあげる
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if( resultCode==RESULT_OK && requestCode==REQUEST_CODE_BEANS_NAME_SELECT) {
+            val name = data?.getStringExtra("name")
+
+            beansEditNameEdit.setText(name)
+        }
+    }
+
+
+
+
+
 
     override fun onDestroy() {
         super.onDestroy()

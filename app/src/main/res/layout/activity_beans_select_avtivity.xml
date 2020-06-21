@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="代表的な豆リストから選択" />
+        app:title="著名な？豆リストから選択" />
 
 
     <androidx.viewpager.widget.ViewPager
@@ -36,25 +36,22 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:tabBackground="@drawable/tab_color_selector">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_cup"
-                android:icon="@drawable/ic_beans"
                 android:text="@string/beansKindSpecial" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/ic_cup"
                 android:text="@string/beansKindBlend" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@android:drawable/ic_partial_secure"
                 android:text="@string/beansKindPack" />
         </com.google.android.material.tabs.TabLayout>
 

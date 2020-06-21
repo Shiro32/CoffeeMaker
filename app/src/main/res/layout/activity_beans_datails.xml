@@ -361,6 +361,19 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="101dp" />
 
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsMemoText"
+                app:srcCompat="@drawable/back1" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -368,6 +381,7 @@
         android:id="@+id/beansDetailsReturnBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_default_small"
         android:text="@string/returnBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/beansDetailsEditBtn"
@@ -379,6 +393,7 @@
         android:id="@+id/beansDetailsEditBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_default_small"
         android:text="@string/editBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/beansDetailsDeleteBtn"

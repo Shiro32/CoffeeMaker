@@ -1,11 +1,15 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.beans.select
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ListView
 
 import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.beansBlend
@@ -56,17 +60,28 @@ class BeansSelectFragment : Fragment() {
         when(param1) {
             "SPECIAL" -> root.beansListView.adapter = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, beansSpecial)
             "BLEND" ->   root.beansListView.adapter = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, beansBlend)
-            "PACK" ->    root.beansListView.adapter = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, beansPack)
-        }
+            "PACK" -> {
+                root.beansListView.adapter = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, beansPack)
 
+            }
+        }
+        root.beansListView.onItemClickListener = ListItemClickListener()
         return root
     }
 
+    private inner class ListItemClickListener : AdapterView.OnItemClickListener {
+        override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            val item = parent?.getItemAtPosition(position) as String
+            val intent = Intent()
+            intent.putExtra("name", item)
+            activity?.setResult(Activity.RESULT_OK, intent)
+            activity?.finish()
+        }
+    }
+
+
     override fun onStart() {
         super.onStart()
-
-
-
     }
 
     companion object {

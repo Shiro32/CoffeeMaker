@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.brewMethods
+import com.sakuraweb.fotopota.coffeemaker.brewMethodsImages
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
@@ -76,6 +77,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             holder.tempBar?.setProgress(bp.temp.toFloat())
             holder.steamBar?.setProgress(bp.steam.toFloat())
 
+            holder.image?.setImageDrawable(brewMethodsImages.getDrawable(bp.methodID))
 
             // 各カードに配置するボタンなどのリスナ
 

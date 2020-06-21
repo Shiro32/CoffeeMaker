@@ -385,12 +385,16 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="168dp"
-                android:layout_height="136dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:adjustViewBounds="true"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/beansEditMemoEdit"
-                app:srcCompat="@drawable/beans" />
+                app:srcCompat="@drawable/back1" />
 
             <Button
                 android:id="@+id/beansEditSelectBtn"
@@ -401,17 +405,6 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/beansEditNameEdit"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="8dp"
-                android:background="@android:drawable/btn_dropdown"
-                android:entries="@array/beans_special"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beansEditSelectBtn" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -419,6 +412,7 @@
         android:id="@+id/beansEditCancelBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_default_small"
         android:text="@string/brewEditCancelBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/beansEditSaveBtn"

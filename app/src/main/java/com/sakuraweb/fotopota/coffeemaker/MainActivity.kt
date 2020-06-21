@@ -16,6 +16,8 @@ import io.realm.RealmConfiguration
 import io.realm.Sort
 import kotlinx.android.synthetic.main.fragment_home.*
 
+// メイン画面（Home, Brew, Bean, Setting）をViewHolderで横スクロール？
+
 // メインアクティビティー
 // リスト表示画面そのもの
 class MainActivity : AppCompatActivity() {

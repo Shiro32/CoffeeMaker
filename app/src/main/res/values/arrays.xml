@@ -68,12 +68,25 @@
         <item>ペーパードリップ</item>
         <item>布ドリップ</item>
         <item>コーヒーメーカー</item>
-        <item>エスプレッソメーカー</item>
-        <item>エスプレッソメーカー（直火）</item>
+        <item>エスプレッソマシン</item>
+        <item>マキネッタ</item>
         <item>フレンチプレス</item>
         <item>サイフォン</item>
         <item>水出し</item>
         <item>ドリップパック</item>
         <item>インスタント</item>
+    </string-array>
+
+    <string-array name="method_images">
+        <item>@drawable/drip300_2</item>
+        <item>@drawable/drip300_2</item>
+        <item>@drawable/machine4_160</item>
+        <item>@drawable/machine2_160</item>
+        <item>@drawable/makinet160</item>
+        <item>@drawable/press300_2</item>
+        <item>@drawable/cyphone160</item>
+        <item>@drawable/pot160</item>
+        <item>@drawable/pack300</item>
+        <item>@drawable/instant399</item>
     </string-array>
 </resources>

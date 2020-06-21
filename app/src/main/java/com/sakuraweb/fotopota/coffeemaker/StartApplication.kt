@@ -2,6 +2,7 @@ package com.sakuraweb.fotopota.coffeemaker
 
 import android.app.Application
 import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -28,6 +29,7 @@ lateinit var brewRealmConfig: RealmConfiguration
 lateinit var beansRealmConfig: RealmConfiguration
 
 lateinit var brewMethods: Array<String>
+lateinit var brewMethodsImages: TypedArray
 lateinit var beansKind: Array<String>
 lateinit var beansSpecial: Array<String>
 lateinit var beansBlend: Array<String>
@@ -53,11 +55,12 @@ class StartApplication : Application() {
         createBeansData()
 
         // そのほか、グローバル変数セット
-        brewMethods = resources.getStringArray(R.array.method_names)
-        beansKind = resources.getStringArray(R.array.beans_kind)
-        beansSpecial = resources.getStringArray(R.array.beans_special)
-        beansBlend = resources.getStringArray(R.array.beans_blend)
-        beansPack   = resources.getStringArray(R.array.beans_pack)
+        brewMethods         = resources.getStringArray(R.array.method_names)
+        brewMethodsImages   = resources.obtainTypedArray(R.array.method_images)
+        beansKind           = resources.getStringArray(R.array.beans_kind)
+        beansSpecial        = resources.getStringArray(R.array.beans_special)
+        beansBlend          = resources.getStringArray(R.array.beans_blend)
+        beansPack           = resources.getStringArray(R.array.beans_pack)
 
 
     }

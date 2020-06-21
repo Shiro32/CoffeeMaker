@@ -428,6 +428,17 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="100dp" />
 
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/brewEditMemoLabel"
+                app:srcCompat="@drawable/back2" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

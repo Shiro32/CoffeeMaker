@@ -26,6 +26,15 @@ import java.util.*
 
 const val REQUEST_CODE_BEANS_SELECT = 1
 
+// TODO: 新規作成と既存編集時でタイトルを正しく合わせる
+// TODO: スライダのポップアップを合わせる（シティ、シナモン・・・）
+// TODO: 銘柄のポップアップボタンを立体化、かつ邪魔なのでどかす
+// TODO: メニューボタン実装、キャンセルボタン名称合わせるなど
+// TODO: イラストの唐突感を何とかする
+// TODO: ヘッダテキスト要らないよね
+// TODO: 日付ポップアップボタン見えにくくない？
+// TODO: Beansに合わせてイラスト挿入（淹れている瞬間の緩い絵が良い）
+
 // Brewの各カードの編集画面
 // 事実上、全画面表示のダイアログ
 // 呼び出し元は、HomeのEditボタン（編集） or FAB（新規）
@@ -44,6 +53,8 @@ class BrewEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_brew_edit)
+
+        // TODO: 新規作成と既存編集時でタイトルを正しく合わせる
 
         // いつもの背景クリック・確定用
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

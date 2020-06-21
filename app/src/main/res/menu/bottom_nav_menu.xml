@@ -8,12 +8,12 @@
 
     <item
         android:id="@+id/navigation_brews"
-        android:icon="@drawable/ic_cup"
+        android:icon="@drawable/cup300"
         android:title="@string/title_brews" />
 
     <item
         android:id="@+id/navigation_beans"
-        android:icon="@drawable/ic_beans"
+        android:icon="@drawable/beans150"
         android:title="@string/title_beans" />
 
     <item

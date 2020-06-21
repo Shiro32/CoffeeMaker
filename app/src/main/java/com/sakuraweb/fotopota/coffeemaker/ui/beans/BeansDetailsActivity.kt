@@ -19,6 +19,13 @@ import java.util.*
 
 const val REQUEST_EDIT_BEANS = 1
 
+// TODO: 編集画面からの戻り時に、スキップしてリストへ。やり方はBrewも同じ
+// TODO: メニューボタン実装、キャンセルボタン名称合わせるなど
+// TODO: イラストの唐突感を何とかする
+// TODO: スライダが狭すぎ
+// TODO: スライダがなぜか変更できる！
+// TODO: 円やグラムの単位
+
 // Beansの１カードごとの詳細画面
 // 当初は編集画面と一体化していたけど、List→Details→Editと３段階に変更
 
