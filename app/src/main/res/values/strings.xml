@@ -2,6 +2,8 @@
     <string name="app_name">Coffee Recorder</string>
     <string name="brewListTitle">最近のコーヒー記録</string>
     <string name="beansListTitle">最近のコーヒー豆一覧</string>
+    <string name="beansListFromBrewEditTitle">最近の豆一覧</string>
+    <string name="beansListFromBtnvTitle">使用した豆を選択してください</string>
 
     <string name="title_home">ホーム</string>
     <string name="title_brews">コーヒー記録</string>
@@ -22,7 +24,7 @@
     <string name="brewEditHeaderText">スライダを多用したら、かえって入力しにくくなってゴメンナサイ・・・m(_ _)m</string>
     <string name="brewEditTitle">コーヒー作成記録編集</string>
     <string name="brewEditMethodLabel">抽出方法</string>
-    <string name="brewEditDateLabel">作った日時</string>
+    <string name="brewEditDateLabel">作った日</string>
     <string name="brewEditCupLabel">作った量\n(カップ)</string>
     <string name="brewEditBeansLabel">使用豆</string>
     <string name="brewEditGrindLabel">挽き目</string>
@@ -37,7 +39,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="brewEditSaveBtnLabel">保存</string>
     <string name="brewEditDeleteBtnLabel">削除</string>
-    <string name="brewEditCancelBtnLabel">キャンセル</string>
+    <string name="brewEditCancelBtnLabel">← リストに戻る</string>
 
     <string name="dateFormat">%d/%02d/%02d</string>
     <string name="timeFormat">%02d:%02d</string>
@@ -51,10 +53,9 @@
     <string name="beansEditHeader">豆の購入記録です。代表的な豆銘柄はボタンから選択できるかもしれませぬ。</string>
     <string name="beansEditDateLabel">購入日</string>
     <string name="beansEditNameLabel">銘柄</string>
-    <string name="beansEditRatingLabel">お気に入り度</string>
-    <string name="購入したお店" />
-    <string name="beansEditShopLabel">購入した店</string>
-    <string name="beansEditRoastLabel">焙煎度合い</string>
+    <string name="beansEditRatingLabel">評価</string>
+    <string name="beansEditShopLabel">購入店</string>
+    <string name="beansEditRoastLabel">焙煎</string>
     <string name="beansEditGramLabel">グラム</string>
     <string name="beansEditPriceLabel">お値段</string>
     <string name="beansEditMemoLabel">メモ</string>
@@ -79,10 +80,22 @@
 
     <!-- メニュー -->
     <!-- Type3 -->
+    <string name="optMenu1ItemHome">ホーム</string>
+
+    <string name="optMenu2ItemHome">ホーム</string>
+    <string name="optMenu2ItemCancel">編集画面へ戻る</string>
+
     <string name="optMenu3ItemEdit">編集する</string>
     <string name="optMenu3ItemDelete">削除</string>
     <string name="optMenu3ItemHome">ホーム</string>
     <string name="optMenu3ItemCancel">リストへ戻る</string>
-    <string name="optMenu1ItemHome">ホーム</string>
+
+    <!-- Type4 -->
+    <string name="optMenu4ItemHome">ホーム</string>
+    <string name="optMenu4ItemCancel">詳細へ戻る</string>
+    <string name="optMenu4ItemSave">保存</string>
+    <string name="optMenu4ItemDelete">削除</string>
+    <string name="beansEditMemoHint">例：特売でした（＾＾）</string>
+    <string name="brewEditMemoHint">例：温度測り忘れた</string>
 </resources>
 

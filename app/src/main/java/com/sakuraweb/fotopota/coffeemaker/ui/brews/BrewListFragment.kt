@@ -6,13 +6,9 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sakuraweb.fotopota.coffeemaker.*
-import com.sakuraweb.fotopota.coffeemaker.ui.home.HomeFragment
 import io.realm.Realm
 import io.realm.Sort
 import io.realm.kotlin.where
@@ -82,7 +78,7 @@ class BrewFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    // Details画面からの返事を処理
+/*    // Details画面からの返事を処理
     // RESULT_TO_HOMEならホーム画面まで、
     // RESULT_TO_LISTならリスト画面まで（＝ここ）
     // だけどスルーされちゃうみたい・・・。
@@ -90,7 +86,7 @@ class BrewFragment : Fragment() {
 
         super.onActivityResult(requestCode, resultCode, data)
 
-                Toast.makeText(activity, "BREW-LIST-キャッチ！", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "BREW-LIST-キャッチ！", Toast.LENGTH_SHORT).show()
         if( requestCode == REQUEST_CODE_SHOW_DETAILS) {
             when( resultCode ) {
                 RESULT_TO_LIST -> {
@@ -102,7 +98,7 @@ class BrewFragment : Fragment() {
 
             }
         }
-    }
+    }*/
 
 
     // ━━━━━━━━━　いよいよここでリスト表示　━━━━━━━━━

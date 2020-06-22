@@ -134,7 +134,7 @@
                 app:isb_track_progress_color="#dddddd"
                 app:isb_track_progress_size="3sp"
                 app:isb_track_rounded_corners="false"
-                app:isb_user_seekable="true"
+                app:isb_user_seekable="false"
                 app:layout_constraintBottom_toBottomOf="@+id/beansDetailsRoastLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -185,7 +185,7 @@
                 android:id="@+id/roastL10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingMultiplier="0.5"
+                android:lineSpacingMultiplier="0.6"
                 android:orientation="vertical"
                 android:text="ミ\nデ\nィ\nア\nム"
                 android:textSize="14sp"
@@ -224,7 +224,7 @@
                 android:id="@+id/roastL13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingMultiplier="0.5"
+                android:lineSpacingMultiplier="0.6"
                 android:orientation="vertical"
                 android:text="フ\nル\nシ\nテ\nィ"
                 android:textSize="14sp"
@@ -252,10 +252,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="90dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/beansEditGramLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beansDetailsRoastLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/roastL10" />
 
             <com.warkiz.widget.IndicatorSeekBar
                 android:id="@+id/beansDetailsGramBar"
@@ -291,7 +291,7 @@
                 app:isb_track_progress_color="#dddddd"
                 app:isb_track_progress_size="3sp"
                 app:isb_track_rounded_corners="false"
-                app:isb_user_seekable="true"
+                app:isb_user_seekable="false"
                 app:layout_constraintBottom_toBottomOf="@+id/beansDetailsGramLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -359,7 +359,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="101dp" />
+                app:layout_constraintGuide_begin="65dp" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -396,18 +396,7 @@
         android:background="@android:drawable/btn_default_small"
         android:text="@string/editBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/beansDetailsDeleteBtn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/beansDetailsReturnBtn" />
-
-    <Button
-        android:id="@+id/beansDetailsDeleteBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/brewEditDeleteBtnLabel"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/beansDetailsEditBtn" />
+        app:layout_constraintStart_toEndOf="@+id/beansDetailsReturnBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

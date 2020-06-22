@@ -26,10 +26,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/brewEditSaveBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brewEditToolbar"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="1.0">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,36 +41,23 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/brewEditHeaderText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/brewEditDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:text="@string/brewEditDateLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/brewEditDateText"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/brewEditDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="1999/01/01"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintBaseline_toBaselineOf="@+id/brewEditDateLabel"
-                app:layout_constraintStart_toStartOf="@+id/guideline2" />
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/brewEditTimeText"
@@ -109,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/brewEditMethodLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditRatingLabel" />
@@ -416,7 +403,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:hint="@string/brewEditMemoHint"
+                android:inputType="text"
                 app:layout_constraintBaseline_toBaselineOf="@+id/brewEditMemoLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2" />
@@ -426,7 +414,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="100dp" />
+                app:layout_constraintGuide_begin="78dp" />
 
             <ImageView
                 android:id="@+id/imageView6"
@@ -436,8 +424,21 @@
                 android:adjustViewBounds="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brewEditMemoLabel"
+                app:layout_constraintTop_toBottomOf="@+id/button"
                 app:srcCompat="@drawable/back2" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@android:drawable/btn_default_small"
+                android:paddingStart="8dp"
+                android:text="ブルーマウンテンブレンド"
+                android:textAlignment="viewStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/brewEditMemoText"
+                app:layout_constraintTop_toBottomOf="@+id/brewEditMemoText" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -448,19 +449,9 @@
         android:layout_height="wrap_content"
         android:text="@string/brewEditSaveBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/brewEditCancelBtn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/brewEditDeleteBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/brewEditDeleteBtnLabel"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/brewEditCancelBtn" />
 
     <Button
@@ -469,8 +460,8 @@
         android:layout_height="wrap_content"
         android:text="@string/brewEditCancelBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/brewEditDeleteBtn"
+        app:layout_constraintEnd_toStartOf="@+id/brewEditSaveBtn"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/brewEditSaveBtn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -116,9 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="45dp"
             android:text="@string/oneBeansRoastLabel"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/oneBeansMemoLabel" />
 
@@ -201,11 +199,13 @@
             android:id="@+id/roastL2"
             android:layout_width="18sp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:lineSpacingMultiplier="0.6"
             android:orientation="vertical"
             android:text="シ\nナ\nモ\nン"
             android:textAlignment="center"
             android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/roastL3"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/roastL1"

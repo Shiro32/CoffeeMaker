@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.beans.BeansListActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/beansListToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="使った豆を選択してください" />
+
     <fragment
         android:id="@+id/fragment"
         android:name="com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansFragment"
@@ -14,5 +26,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/beansListToolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,7 +20,6 @@ import java.util.*
 const val REQUEST_EDIT_BREW = 1
 
 // TODO: 抽出方法のアイコンを出す（メインと同じ）
-// TODO: LABELに比べて、TEXTを気持ち大きくしてやる（日付と同じくらい）
 // TODO: Beansに合わせてイラスト挿入（淹れている瞬間の緩い絵が良い）
 
 // Brewの１カードごとの詳細画面
@@ -76,14 +75,7 @@ class BrewDetailsActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_EDIT_BREW)
         }
 
-        // 削除ボタン
-//        brewDetailsDeleteBtn.setOnClickListener {
-//            realm.executeTransaction {
-//                realm.where<BrewData>().equalTo("id", intentID)?.findFirst()?.deleteFromRealm()
-//            }
-//            blackToast(applicationContext, "削除しました")
-//            finish()
-//        }
+
 
         // 一覧へ戻るボタン
         brewDetailsReturnBtn.setOnClickListener {
@@ -109,7 +101,6 @@ class BrewDetailsActivity : AppCompatActivity() {
     }
 
     // メニュー設置
-    // TODO: ゴミ箱も作りたい・・・けど
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_opt_menu_3, menu)
         return super.onCreateOptionsMenu(menu)
@@ -143,17 +134,18 @@ class BrewDetailsActivity : AppCompatActivity() {
                         finish()
                     }
                 })
-
                 builder.show()
-
             }
 
-            R.id.optMenu1ItemHome -> {
+            R.id.optMenu3ItemHome -> {
                 // 新機軸！ ちゃんとホームまで帰っていく！
                 val intent = Intent()
                 setResult( RESULT_TO_HOME, intent)
-//            blackToast(applicationContext, "TO_HOME発動！")
-            finish()
+                finish()
+            }
+
+            R.id.optMenu3ItemCancel -> {
+                finish()
             }
         }
 
@@ -161,22 +153,23 @@ class BrewDetailsActivity : AppCompatActivity() {
     }
 
     // 編集画面から戻ってきたときは、この画面をSkipしてリスト画面に飛んでやる
-    // TODO: バックスタックが若干気になるけど、大丈夫か？
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if( requestCode == REQUEST_EDIT_BREW ) {
             when( resultCode ) {
-                RESULT_TO_LIST -> {
+                RESULT_TO_LIST, RESULT_OK -> {
                     finish()
                 }
+
+                // これで、HOME画面までスタックをバックトレースしていく！ これは機能している
                 RESULT_TO_HOME -> {
+                    val intent = Intent()
+                    setResult(RESULT_TO_HOME, intent)
                     finish()
                 }
             }
         }
-
-        if( requestCode == REQUEST_EDIT_BREW && resultCode == Activity.RESULT_OK) finish()
     } // onActivityResult
 
 

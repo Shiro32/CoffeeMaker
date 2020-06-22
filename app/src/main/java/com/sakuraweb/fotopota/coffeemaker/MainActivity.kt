@@ -3,6 +3,7 @@ package com.sakuraweb.fotopota.coffeemaker
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -52,4 +53,20 @@ class MainActivity : AppCompatActivity() {
         Log.d("SHIRO", "Home / onCreate------------------------")
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("SHIRO", "HOME / onActivityResult" )
+
+
+Toast.makeText(applicationContext, "MainのonActivityResult", Toast.LENGTH_SHORT).show()
+
+        // ものすご～く気に入らないけど、これで我慢しよう・・・
+        // 配下のfragmentのさらにRecylerViewのAdapterで呼び出した時は、
+        // 当該のfragmentのonResultには戻らず、ここに戻ってきちゃうみたい
+        // だったらそれでいいよ、ということでここでやっちゃう
+        if( resultCode == RESULT_TO_HOME ) {
+            nav_view?.selectedItemId = R.id.navigation_home
+        }
+    }
 }

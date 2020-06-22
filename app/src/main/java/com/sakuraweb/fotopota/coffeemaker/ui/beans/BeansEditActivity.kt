@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -15,6 +17,7 @@ import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_beans_edit.*
+import kotlinx.android.synthetic.main.activity_brew_edit.*
 import java.util.*
 
 
@@ -22,12 +25,8 @@ import java.util.*
 // TODO: どうせなら全部やる？（↑）
 // TODO: おそらく空欄があるとクラッシュするので直す
 // TODO: 新規作成と既存編集時でタイトルを正しく合わせる
-// TODO: 決定時にDetailsを飛ばしてリストまで戻してあげたい（Details側の処理か？）
-// TODO: オプションメニュー、戻るメニューの設置、編集画面ボタンの整理（削除の削除、保存・キャンセルの位置等）
-// TODO: 削除メニューには確認ダイアログを忘れずに
 // TODO: 「使用マメ」テキストがイマイチクリッカブル感が無いので、ボタンにしちゃう？
 // TODO: 円やグラムの単位
-// TODO: スライダが狭すぎ
 // TODO: 日付ポップアップボタン見えにくくない？
 // TODO: イラストの唐突感を何とかする
 
@@ -76,7 +75,7 @@ class BeansEditActivity : AppCompatActivity() {
             }
         } else {
             // 新規データの登録（といっても「削除ボタン」の削除くらい）
-            beansEditDeleteBtn.visibility = View.INVISIBLE
+            // beansEditDeleteBtn.visibility = View.INVISIBLE
         }
         // ここまでで基本的に画面構成終了
 
@@ -160,37 +159,99 @@ class BeansEditActivity : AppCompatActivity() {
             }
 
             // 編集画面を閉める
+            // EDIT→DETAILS→LISTへ戻れるよう、setResult
+            val intent = Intent()
+            setResult(RESULT_TO_LIST, intent)
             finish()
         } // SaveBtn
 
-
-        // 削除ボタン
-        beansEditDeleteBtn.setOnClickListener {
-            realm.executeTransaction {
-                realm.where<BeansData>().equalTo("id", intentID)?.findFirst()?.deleteFromRealm()
-            }
-            blackToast(applicationContext, "削除しました")
-            finish()
-        }
+// メニューに押し込んだ
+//        // 削除ボタン
+//        beansEditDeleteBtn.setOnClickListener {
+//            realm.executeTransaction {
+//                realm.where<BeansData>().equalTo("id", intentID)?.findFirst()?.deleteFromRealm()
+//            }
+//            blackToast(applicationContext, "削除しました")
+//            finish()
+//        }
 
         // キャンセルボタン
         beansEditCancelBtn.setOnClickListener {
             finish()
         }
 
+        // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
+        setSupportActionBar(beansEditToolbar) // これやらないと落ちるよ
+        supportActionBar?.title = "豆データの編集"
+
+        // 戻るボタン。表示だけで、実走はonSupportNavigateUp()で。超面倒くせえ！
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     } // onCreate
+
+    // ツールバーの「戻る」ボタン
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
+    }
+
+    // メニュー設置
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_opt_menu_4, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    // メニュー選択の対応
+    // TODO: ボタンでの処理と同じなので共通化したいな
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intentID = this.intent.getLongExtra("id", 0L)
+        when( item.itemId ) {
+            // saveは面倒くさいので後回し・・・。
+
+            R.id.optMenu4ItemHome -> {
+                // 新機軸！ ちゃんとホームまで帰っていく！
+                val intent = Intent()
+                setResult( RESULT_TO_HOME, intent)
+                finish()
+            }
+
+            R.id.optMenu4ItemCancel -> {
+                finish()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+
 
 
     // 豆銘柄獲得の画面から、戻ってきたらViewに格納してあげる
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if( resultCode==RESULT_OK && requestCode==REQUEST_CODE_BEANS_NAME_SELECT) {
-            val name = data?.getStringExtra("name")
-
-            beansEditNameEdit.setText(name)
+        when( requestCode ) {
+            REQUEST_CODE_BEANS_NAME_SELECT -> {
+                when( resultCode ) {
+                    RESULT_OK -> {
+                        val name = data?.getStringExtra("name")
+                        beansEditNameEdit.setText(name)
+                    }
+                    RESULT_TO_HOME -> {
+                        val intent = Intent()
+                        setResult(RESULT_TO_HOME, intent)
+                        finish()
+                    }
+                }
+            }
         }
+
+//        if( resultCode==RESULT_OK && requestCode==REQUEST_CODE_BEANS_NAME_SELECT) {
+//            val name = data?.getStringExtra("name")
+//
+//            beansEditNameEdit.setText(name)
+//        }
     }
 
 

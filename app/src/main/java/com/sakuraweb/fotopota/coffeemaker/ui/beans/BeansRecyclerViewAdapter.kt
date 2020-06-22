@@ -1,5 +1,6 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.beans
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.R
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
+
+const val REQUEST_CODE_SHOW_BEANS_DETAILS = 100
 
 // RecyclerViewをタップで決定するためのリスナ（ハンドラー）
 // よくわからんけど、抽象インターフェースで
@@ -71,7 +74,9 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
                 holder.itemView.setOnClickListener {
                     val intent = Intent(it.context, BeansDetailsActivity::class.java)
                     intent.putExtra("id", bean.id)
-                    it.context.startActivity(intent)
+                    val it2 = it.context as Activity
+                    it2.startActivityForResult(intent, REQUEST_CODE_SHOW_BEANS_DETAILS)
+//                    it.context.startActivity(intent)
                 }
             }
 

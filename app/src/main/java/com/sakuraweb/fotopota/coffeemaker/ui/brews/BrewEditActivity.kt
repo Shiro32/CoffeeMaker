@@ -1,26 +1,29 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.blackToast
-import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
-import com.sakuraweb.fotopota.coffeemaker.toDate
+import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_beans_select_avtivity.*
+import kotlinx.android.synthetic.main.activity_brew_details.*
 import kotlinx.android.synthetic.main.activity_brew_edit.*
 import java.util.*
 
@@ -29,10 +32,7 @@ const val REQUEST_CODE_BEANS_SELECT = 1
 // TODO: 新規作成と既存編集時でタイトルを正しく合わせる
 // TODO: スライダのポップアップを合わせる（シティ、シナモン・・・）
 // TODO: 銘柄のポップアップボタンを立体化、かつ邪魔なのでどかす
-// TODO: メニューボタン実装、キャンセルボタン名称合わせるなど
-// TODO: イラストの唐突感を何とかする
-// TODO: ヘッダテキスト要らないよね
-// TODO: 日付ポップアップボタン見えにくくない？
+// TODO: 日付ポップアップもボタン化
 // TODO: Beansに合わせてイラスト挿入（淹れている瞬間の緩い絵が良い）
 
 // Brewの各カードの編集画面
@@ -69,7 +69,7 @@ class BrewEditActivity : AppCompatActivity() {
 
         // 入力ダイアログ用に現在日時を取得しておく（インスタンス化と現在日時同時）
         val calender = Calendar.getInstance()
-
+        var dateStr:String = ""
 
         // 既存データをRealmDBからダイアログのViewに読み込む
         if( intentID>0L ) {
@@ -90,7 +90,7 @@ class BrewEditActivity : AppCompatActivity() {
             }
         }  else {
             // 新規データの登録（といっても「削除ボタン」の削除くらい）
-            brewEditDeleteBtn.visibility = View.INVISIBLE
+            // brewEditDeleteBtn.visibility = View.INVISIBLE
         }
         // ここまでで基本的に画面構成終了
 
@@ -201,23 +201,24 @@ class BrewEditActivity : AppCompatActivity() {
                 blackToast(applicationContext, "修正完了！")
             }
             // 編集画面クローズ
+            // EDIT→DETAILS→LISTへ戻れるよう、setResult
             val intent = Intent()
-            setResult(RESULT_OK, intent)
+            setResult(RESULT_TO_LIST, intent)
             finish()
         } // saveBtn
 
-
-        // 削除ボタン
-        brewEditDeleteBtn.setOnClickListener {
-            realm.executeTransaction {
-                realm.where<BrewData>().equalTo("id", intentID)?.findFirst()?.deleteFromRealm()
-            }
-            blackToast(applicationContext, "削除しました")
-
-            val intent = Intent()
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-        }
+        // 面倒くさいのでメニューに移動
+//        // 削除ボタン
+//        brewEditDeleteBtn.setOnClickListener {
+//            realm.executeTransaction {
+//                realm.where<BrewData>().equalTo("id", intentID)?.findFirst()?.deleteFromRealm()
+//            }
+//            blackToast(applicationContext, "削除しました")
+//
+//            val intent = Intent()
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
+//        }
 
         // キャンセルボタン
         brewEditCancelBtn.setOnClickListener {
@@ -226,9 +227,55 @@ class BrewEditActivity : AppCompatActivity() {
             finish()
         }
 
+
+        // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
+        dateStr   = getString(R.string.dateFormat).format(year,month+1,day)
+        setSupportActionBar(brewEditToolbar) // これやらないと落ちるよ
+        supportActionBar?.title = dateStr+"の編集"
+
+        // 戻るボタン。表示だけで、実走はonSupportNavigateUp()で。超面倒くせえ！
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         Log.d("SHIRO", "brew-edit / onCreate")
 
     } // 編集画面のonCreate
+
+
+    // ツールバーの「戻る」ボタン
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
+    }
+
+    // メニュー設置
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_opt_menu_4, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    // メニュー選択の対応
+    // TODO: ボタンでの処理と同じなので共通化したいな
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intentID = this.intent.getLongExtra("id", 0L)
+        when( item.itemId ) {
+            // saveは面倒くさいので後回し・・・。
+
+            R.id.optMenu4ItemHome -> {
+                // 新機軸！ ちゃんとホームまで帰っていく！
+                val intent = Intent()
+                setResult( RESULT_TO_HOME, intent)
+                finish()
+            }
+
+            R.id.optMenu4ItemCancel -> {
+                finish()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -244,13 +291,20 @@ class BrewEditActivity : AppCompatActivity() {
         when (requestCode) {
             // マメ選択画面
             REQUEST_CODE_BEANS_SELECT -> {
-                if (resultCode == RESULT_OK) {
-                    val id = data?.getLongExtra("id", 0L)
-                    val name = data?.getStringExtra("name")
+                when( resultCode ) {
+                    RESULT_OK -> {
+                        val id = data?.getLongExtra("id", 0L)
+                        val name = data?.getStringExtra("name")
 
-                    brewEditBeansText.text = name
-                    beansID = id as Long
-                    blackToast(applicationContext, "${name}/ID${beansID}を選択しました")
+                        brewEditBeansText.text = name
+                        beansID = id as Long
+                        blackToast(applicationContext, "${name}を選択")
+                    }
+                    RESULT_TO_HOME -> {
+                        val intent = Intent()
+                        setResult(RESULT_TO_HOME, intent)
+                        finish()
+                    }
                 }
             }
         }
@@ -266,18 +320,5 @@ class BrewEditActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(event)
     }
 } // Class
-
-
-//    private fun showDatePicker() {
-//        val datePickerDialog = DatePickerDialog(
-//            this,
-//            DatePickerDialog.OnDateSetListener() {view, year, month, dayOfMonth->
-//                textView.text = "選択した日付は「${year}/${month + 1}/${dayOfMonth}」です"
-//            },
-//            2020,
-//            3,
-//            1)
-//        datePickerDialog.show()
-//    }
 
 
