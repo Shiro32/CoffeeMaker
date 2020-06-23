@@ -3,6 +3,8 @@ package com.sakuraweb.fotopota.coffeemaker
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextMenu
+import android.view.View
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,7 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_brew_list.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 // 各アクティビティ間のグローバルな移動のためのRESULT CODE
@@ -47,11 +50,24 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
+
         // 反省して自前でToolbarを設置し、Activity画面のトップに置く（Fragmentにはおかない）
         setSupportActionBar(mainToolbar)
 
+        // コンテキストメニューをセット
+        // TODO: ここでセットすると落ちる。fragmentが出来上がっていないから？
+//        registerForContextMenu(sampleButton)
+
         Log.d("SHIRO", "Home / onCreate------------------------")
     }
+
+//    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+//        super.onCreateContextMenu(menu, v, menuInfo)
+//
+//        // TODO: インフレーターが見当たらず、activityを使ったけど大丈夫か？
+//        menuInflater.inflate(R.menu.menu_context_brew, menu)
+//
+//    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -59,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("SHIRO", "HOME / onActivityResult" )
 
 
-Toast.makeText(applicationContext, "MainのonActivityResult", Toast.LENGTH_SHORT).show()
+//Toast.makeText(applicationContext, "MainのonActivityResult", Toast.LENGTH_SHORT).show()
 
         // ものすご～く気に入らないけど、これで我慢しよう・・・
         // 配下のfragmentのさらにRecylerViewのAdapterで呼び出した時は、

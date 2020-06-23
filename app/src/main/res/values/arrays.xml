@@ -1,5 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <array name="grind_labels">
+        <item>粗</item>
+        <item>中</item>
+        <item>並</item>
+        <item>細</item>
+        <item>極細</item>
+    </array>
+
+    <!-- 焙煎度合い。結局使ってないような・・・？ -->
+    <array name="roast_labels">
+        <item>ライト</item>
+        <item>シナモン</item>
+        <item>ミディアム</item>
+        <item>ハイ</item>
+        <item>シティ</item>
+        <item>フルシティ</item>
+        <item>仏</item>
+        <item>伊</item>
+    </array>
+
+    <!-- 抽出方法の名称（ポップアップメニューやリストで使用） -->
+    <string-array name="method_names">
+        <item>ペーパードリップ</item>
+        <item>布ドリップ</item>
+        <item>コーヒーメーカー</item>
+        <item>エスプレッソマシン</item>
+        <item>マキネッタ</item>
+        <item>フレンチプレス</item>
+        <item>サイフォン</item>
+        <item>水出し</item>
+        <item>ドリップパック</item>
+        <item>インスタント</item>
+    </string-array>
+
+    <!-- 抽出方法のアイコン集 -->
+    <string-array name="method_images">
+        <item>@drawable/drip300_2</item>
+        <item>@drawable/drip300_2</item>
+        <item>@drawable/machine4_160</item>
+        <item>@drawable/machine2_160</item>
+        <item>@drawable/makinet160</item>
+        <item>@drawable/press300_2</item>
+        <item>@drawable/cyphone160</item>
+        <item>@drawable/pot160</item>
+        <item>@drawable/pack300</item>
+        <item>@drawable/instant399</item>
+    </string-array>
+
+    <array name="beans_kind">
+        <item>スペシャリティ</item>
+        <item>ブレンド</item>
+        <item>ドリップパック</item>
+    </array>
+
     <array name="beans_special">
         <item>ブルーマウンテン</item>
         <item>キリマンジャロ</item>
@@ -14,6 +69,7 @@
         <item>ケニア</item>
         <item>コスタリカ</item>
         <item>ゲイシャ</item>
+        <item>エンドウ豆</item>
     </array>
 
     <array name="beans_blend">
@@ -35,58 +91,17 @@
     </array>
 
     <array name="beans_pack">
-        <item>UCC職人のコーヒー</item>
-        <item>Blendyドリップパック</item>
+        <item>Blendy スペシャル・ブレンド</item>
+        <item>Blendy モカ・ブレンド</item>
+        <item>Blendy リッチ・ブレンド</item>
+        <item>Blendy やすらぎのカフェインレス</item>
+        <item>ucc 職人の珈琲 スペシャルブレンド</item>
+        <item>ucc 職人の珈琲 マイルドブレンド</item>
+        <item>ucc 職人の珈琲 モカブレンド</item>
+        <item>AGF ちょっと贅沢なコーヒー店　スペシャルブレンド</item>
+        <item>AGF ちょっと贅沢なコーヒー店　キリマンジャロブレンド</item>
+        <item>AGF ちょっと贅沢なコーヒー店　モカブレンド</item>
     </array>
 
-    <array name="beans_kind">
-        <item>スペシャリティ</item>
-        <item>ブレンド</item>
-        <item>ドリップパック</item>
-    </array>
 
-    <array name="grind_labels">
-        <item>粗</item>
-        <item>中</item>
-        <item>並</item>
-        <item>細</item>
-        <item>極細</item>
-    </array>
-
-    <array name="roast_labels">
-        <item>ライト</item>
-        <item>シナモン</item>
-        <item>ミディアム</item>
-        <item>ハイ</item>
-        <item>シティ</item>
-        <item>フルシティ</item>
-        <item>仏</item>
-        <item>伊</item>
-    </array>
-
-    <string-array name="method_names">
-        <item>ペーパードリップ</item>
-        <item>布ドリップ</item>
-        <item>コーヒーメーカー</item>
-        <item>エスプレッソマシン</item>
-        <item>マキネッタ</item>
-        <item>フレンチプレス</item>
-        <item>サイフォン</item>
-        <item>水出し</item>
-        <item>ドリップパック</item>
-        <item>インスタント</item>
-    </string-array>
-
-    <string-array name="method_images">
-        <item>@drawable/drip300_2</item>
-        <item>@drawable/drip300_2</item>
-        <item>@drawable/machine4_160</item>
-        <item>@drawable/machine2_160</item>
-        <item>@drawable/makinet160</item>
-        <item>@drawable/press300_2</item>
-        <item>@drawable/cyphone160</item>
-        <item>@drawable/pot160</item>
-        <item>@drawable/pack300</item>
-        <item>@drawable/instant399</item>
-    </string-array>
 </resources>

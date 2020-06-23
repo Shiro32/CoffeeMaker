@@ -82,7 +82,7 @@ class StartApplication : Application() {
             val beansList = listOf<BeansDataInit>(
                 BeansDataInit("マイルドKALDI", 3F, "2019/12/31", 200F, 1F, "KALDI", 399, "特売"),
                 BeansDataInit("ブルーマウンテンブレンド", 2F, "2020/03/01", 100F, 3F, "神戸屋珈琲", 2000, "超奮発"),
-                BeansDataInit("万で李", 5F, "2018/03/01", 300F, 7F, "オードバックス", 20, "まずい")
+                BeansDataInit("ちょっと贅沢な鉱物油", 5F, "2018/03/01", 300F, 7F, "オードバックス", 20, "まずい")
             )
 
             // DB書き込み

@@ -16,6 +16,9 @@
         android:title="@string/optMenu3ItemEdit"
         app:showAsAction="never" />
     <item
+        android:id="@+id/optMenu3ItemCopy"
+        android:title="@string/optMenu3ItemCopy" />
+    <item
         android:id="@+id/optMenu3ItemDelete"
         android:title="@string/optMenu3ItemDelete"
         app:showAsAction="never" />

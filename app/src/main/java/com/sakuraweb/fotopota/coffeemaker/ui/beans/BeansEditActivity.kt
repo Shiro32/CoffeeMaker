@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.activity_beans_edit.*
 import kotlinx.android.synthetic.main.activity_brew_edit.*
 import java.util.*
 
+// TODO: BREW-EDITと同様、３モードを持たせる
+// TODO: それに合わせたタイトル設定もする
 
 // TODO: 粗挽きなどのスライダのポップアップを直す　        m2.setIndicatorTextFormat("\${TICK_TEXT}")
 // TODO: どうせなら全部やる？（↑）
@@ -29,6 +31,7 @@ import java.util.*
 // TODO: 円やグラムの単位
 // TODO: 日付ポップアップボタン見えにくくない？
 // TODO: イラストの唐突感を何とかする
+// TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 
 const val REQUEST_CODE_BEANS_NAME_SELECT = 1
 

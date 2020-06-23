@@ -1,6 +1,5 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -10,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.sakuraweb.fotopota.coffeemaker.*
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.REQUEST_EDIT_BEANS
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.Realm
 import io.realm.kotlin.where
@@ -69,6 +69,7 @@ class BrewDetailsActivity : AppCompatActivity() {
         brewDetailsEditBtn.setOnClickListener {
             val intent = Intent(it.context, BrewEditActivity::class.java)
             intent.putExtra("id", intentID)
+            intent.putExtra("mode", BREW_EDIT_MODE_EDIT)
 
             // 編集画面に移行して戻ってきたら、この画面を飛ばしてリスト画面に行かせたい
             // キャッチできるよう、result付きで呼び出す
@@ -84,7 +85,9 @@ class BrewDetailsActivity : AppCompatActivity() {
 
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(brewDetailsToolbar)
-        supportActionBar?.title = dateStr+"のコーヒーの詳細"
+        // TODO: これでdateStr不要では？
+//        supportActionBar?.title = dateStr+"のコーヒーの詳細"
+        supportActionBar?.title = getString(R.string.titleBrewDetails)
 
         // 戻るボタン。表示だけで、実走はonSupportNavigateUp()で。超面倒くせえ！
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -109,16 +112,24 @@ class BrewDetailsActivity : AppCompatActivity() {
     // メニュー選択の対応
     // TODO: ボタンでの処理と同じなので共通化したいな
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intentID = this.intent.getLongExtra("id", 0L)
+        val brewID = this.intent.getLongExtra("id", 0L)
 
         when( item.itemId ) {
             R.id.optMenu3ItemEdit -> {
                 val intent = Intent(applicationContext, BrewEditActivity::class.java)
-                intent.putExtra("id", intentID)
+                intent.putExtra("mode", BREW_EDIT_MODE_EDIT)
+                intent.putExtra("id", brewID)
 
                 // 編集画面に移行して戻ってきたら、この画面を飛ばしてリスト画面に行かせたい
                 // キャッチできるよう、result付きで呼び出す
                 startActivityForResult(intent, REQUEST_EDIT_BREW)
+            }
+
+            R.id.optMenu3ItemCopy -> {
+                val intent = Intent(applicationContext, BrewEditActivity::class.java)
+                intent.putExtra("mode", BREW_EDIT_MODE_COPY)
+                intent.putExtra("id", brewID)
+                startActivityForResult(intent, REQUEST_EDIT_BEANS)
             }
 
             R.id.optMenu3ItemDelete -> {
@@ -129,7 +140,7 @@ class BrewDetailsActivity : AppCompatActivity() {
                 builder.setNegativeButton(R.string.deleteConfirmDialogCancelBtn, null)
                 builder.setPositiveButton("OK", object: DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
-                        realm.executeTransaction { realm.where<BrewData>().equalTo("id", intentID)?.findFirst()?.deleteFromRealm() }
+                        realm.executeTransaction { realm.where<BrewData>().equalTo("id", brewID)?.findFirst()?.deleteFromRealm() }
                         blackToast(applicationContext, "削除しました")
                         finish()
                     }

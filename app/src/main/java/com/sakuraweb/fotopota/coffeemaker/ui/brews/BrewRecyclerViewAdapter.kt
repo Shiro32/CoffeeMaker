@@ -2,10 +2,11 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.Gravity.*
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -68,6 +69,9 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             // 行そのもの（Card）のリスナ
             // 行タップすることで編集画面(BrewEdit）に移行
             // 戻り値によって、TO_LISTやTO_HOMEもあり得るのでforResultで呼ぶ
+            holder.itemView.setOnClickListener(ItemClickListener(holder.itemView.context, bp))
+
+/*
             holder.itemView.setOnClickListener {
                 val intent = Intent(it.context, BrewDetailsActivity::class.java)
                 intent.putExtra("id", bp.id)
@@ -80,8 +84,60 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                 it2.startActivityForResult(intent, REQUEST_CODE_SHOW_DETAILS)
 
             }
+*/
+        }
+
+    } // onCreateViewHolder
+
+    private inner class ItemClickListener(c: Context, b: BrewData) : View.OnClickListener {
+        // こうやって独自の変数を渡せばいいんだ！
+        // 独自クラスのコンストラクタに設定しておいて、クラス内ローカル変数に保存しておく
+        // こうすれば、クラス内のメソッドから参照できる
+        val ctx = c
+        val ctx2 = ctx as Activity
+        val bp = b
+
+        override fun onClick(v: View?) {
+            // ここで使えるのはタップされたView（１行レイアウト、one_brew_card）
+
+            // ★ポップアップ版
+//            val popup = PopupMenu(ctx, v)
+//            popup.menuInflater.inflate(R.menu.menu_context_brew, popup.menu)
+//            popup.gravity = Gravity.RIGHT
+//            popup.setOnMenuItemClickListener(MenuClickListener(ctx, bp))
+//            popup.show()
+
+//            ★とりあえずDetailsへ
+            val intent = Intent(ctx, BrewDetailsActivity::class.java)
+            intent.putExtra("id", bp.id)
+            ctx2.startActivityForResult(intent, REQUEST_CODE_SHOW_DETAILS)
+        }
+    }
 
 
+    // ポップアップメニューの選択結果に基づいて各種処理
+    // 直接ボタンを置くのとどちらがイイか悩ましいけど、とりあえずポップアップ式で
+    private inner class MenuClickListener(c: Context, b: BrewData) : PopupMenu.OnMenuItemClickListener {
+        val ctx = c
+        val bp = b
+
+        override fun onMenuItemClick(item: MenuItem?): Boolean {
+            when( item?.itemId ) {
+                R.id.ctxMenuBrewDetails -> {
+                    val it2 = ctx as Activity
+                    val intent = Intent(ctx, BrewDetailsActivity::class.java)
+                    intent.putExtra("id", bp.id)
+                    it2.startActivityForResult(intent, REQUEST_CODE_SHOW_DETAILS)
+                }
+                R.id.ctxMenuBrewEdit -> {
+                    val ctx2 = ctx as Activity
+                    val intent = Intent(ctx, BrewEditActivity::class.java)
+                    intent.putExtra("id", bp.id)
+                    ctx2.startActivityForResult(intent, REQUEST_CODE_SHOW_DETAILS)
+                }
+            }
+
+            return false
         }
     }
 

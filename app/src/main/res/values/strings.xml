@@ -1,14 +1,22 @@
 <resources>
-    <string name="app_name">Coffee Recorder</string>
-    <string name="brewListTitle">最近のコーヒー記録</string>
-    <string name="beansListTitle">最近のコーヒー豆一覧</string>
-    <string name="beansListFromBrewEditTitle">最近の豆一覧</string>
-    <string name="beansListFromBtnvTitle">使用した豆を選択してください</string>
 
+    <string name="app_name">Coffee Recorder</string>
     <string name="title_home">ホーム</string>
     <string name="title_brews">コーヒー記録</string>
     <string name="title_beans">豆一覧</string>
     <string name="title_settings">設定など</string>
+
+    <string name="titleBrewList">最近のコーヒー記録</string>
+    <string name="titleBrewDetails">レシピ詳細</string>
+    <string name="titleBrewEdit">レシピ編集</string>
+
+    <string name="titleBeansListFromBtnv">最近買ったコーヒー豆</string>
+    <!-- なぜかfromEditはfragmentから設定できないのでデフォで設定してある -->
+    <string name="titleBeansListFromBrewEdit">豆を選択してね</string>
+    <!-- BEANS-LISTは２パターンあるので、↓は使ってない？ -->
+    <string name="titleBeansList">最近買ったコーヒー豆</string>
+
+
     <string name="oneBrewMethodLabel">方法</string>
     <string name="oneBrewBeanLabel">豆</string>
     <string name="oneBrewResultLabel">評価</string>
@@ -22,7 +30,6 @@
     <string name="oneBrewSteam">蒸し</string>
     <string name="oneBrewMemoLabel">メモ</string>
     <string name="brewEditHeaderText">スライダを多用したら、かえって入力しにくくなってゴメンナサイ・・・m(_ _)m</string>
-    <string name="brewEditTitle">コーヒー作成記録編集</string>
     <string name="brewEditMethodLabel">抽出方法</string>
     <string name="brewEditDateLabel">作った日</string>
     <string name="brewEditCupLabel">作った量\n(カップ)</string>
@@ -63,7 +70,6 @@
     <string name="beansEditShopHintLabel">例：KALDI銀座店</string>
     <string name="beansEditPriceHintLabel">例：800</string>
     <string name="beansEditNameBtnLabel">参照</string>
-    <string name="brewDetailsTitle">詳細画面</string>
     <string name="brewDetailsHeaderText">詳細画面です（要らないか？）</string>
     <string name="editBtnLabel">編集</string>
     <string name="returnBtnLabel">← リストに戻る</string>
@@ -97,5 +103,9 @@
     <string name="optMenu4ItemDelete">削除</string>
     <string name="beansEditMemoHint">例：特売でした（＾＾）</string>
     <string name="brewEditMemoHint">例：温度測り忘れた</string>
+    <string name="ctxMenuBrewDetails">詳細</string>
+    <string name="ctxMenuBrewEdit">編集</string>
+    <string name="ctxMenuBrewCopy">コピーして新規作成</string>
+    <string name="optMenu3ItemCopy">コピーして新規作成</string>
 </resources>
 

@@ -56,7 +56,7 @@ class BeansFragment : Fragment(), SetBeansListener {
         // なのでデフォでEdit経由をセットしておき、Navi経由はここで書き換える
         if( !isCalledFromBrewEdit ) {
 //            ac.supportActionBar?.title =ac.getString(R.string.beansListFromBtnvTitle)
-            ac.supportActionBar?.title ="最近の豆一覧"
+            ac.supportActionBar?.title = getString(R.string.titleBeansListFromBtnv)
         }
 
         // メニュー構築（実装はonCreateOptionsMenu内で）
