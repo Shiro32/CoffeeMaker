@@ -1,6 +1,5 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.beans
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -10,13 +9,15 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.sakuraweb.fotopota.coffeemaker.*
-import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
-import com.sakuraweb.fotopota.coffeemaker.ui.brews.REQUEST_CODE_BEANS_SELECT
-import com.sakuraweb.fotopota.coffeemaker.ui.brews.REQUEST_EDIT_BREW
 import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_beans_datails.*
 import java.util.*
+
+// BeansEditの動作モード（新規、編集、コピーして新規作成）
+const val BEANS_EDIT_MODE_NEW = 1
+const val BEANS_EDIT_MODE_EDIT = 2
+const val BEANS_EDIT_MODE_COPY = 3
 
 const val REQUEST_EDIT_BEANS = 1
 
@@ -52,38 +53,30 @@ class BeansDetailsActivity : AppCompatActivity() {
             beansDetailsRoastBar.   setProgress(beans.roast)
             beansDetailsGramBar.    setProgress(beans.gram)
             beansDetailsShopText.   setText(beans.shop)
-            beansDetailsPriceText.  setText(beans.price.toString())
+            beansDetailsPriceText.  setText(beans.price.toString()) // nullをやると死ぬので注意
             beansDetailsMemoText.   setText(beans.memo)
 
-            // 日付Text（ちょい面倒）
+            // 豆の経過日数を計算する（面倒くせぇ・・・）
+            var days = "（"+((Date().time - beans.date.time)/(1000*60*60*24)).toString()+"日経過）"
+
             calendar.time = beans.date
             val year    = calendar.get(Calendar.YEAR)
             val month   = calendar.get(Calendar.MONTH)
             val day     = calendar.get(Calendar.DAY_OF_MONTH)
-            beansDetailsDateText.text = getString(R.string.dateFormat).format(year,month+1,day)
+            beansDetailsDateText.text = getString(R.string.dateFormat).format(year,month+1,day)+days
         }
 
         // ーーーーーーーーーー　ここから各種のリスナ設定　ーーーーーーーーーー
-
         // 編集ボタン
         beansDetailsEditBtn.setOnClickListener {
             val intent = Intent(it.context, BeansEditActivity::class.java)
             intent.putExtra("id", intentID)
+            intent.putExtra("mode", BEANS_EDIT_MODE_EDIT)
 
             // 編集画面に移行して戻ってきたら、この画面を飛ばしてリスト画面に行かせたい
             // キャッチできるよう、result付きで呼び出す
             startActivityForResult(intent, REQUEST_EDIT_BEANS)
         }
-
-//        削除ボタンはメニューに移動！
-//        // 削除ボタン
-//        beansDetailsDeleteBtn.setOnClickListener {
-//            realm.executeTransaction {
-//                realm.where<BeansData>().equalTo("id", intentID)?.findFirst()?.deleteFromRealm()
-//            }
-//            blackToast(applicationContext, "削除しました")
-//            finish()
-//        }
 
         // 一覧へ戻るボタン
         beansDetailsReturnBtn.setOnClickListener {
@@ -92,12 +85,11 @@ class BeansDetailsActivity : AppCompatActivity() {
 
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(beansDetailsToolbar)
-        supportActionBar?.title = "豆の詳細データ"
+        supportActionBar?.title = getString(R.string.titleBeansDetails)
 
         // 戻るボタン。表示だけで、実走はonSupportNavigateUp()で。超面倒くせえ！
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
 
     } // 詳細画面のonCreate
 
@@ -117,16 +109,24 @@ class BeansDetailsActivity : AppCompatActivity() {
     // メニュー選択の対応
     // TODO: ボタンでの処理と同じなので共通化したいな
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intentID = this.intent.getLongExtra("id", 0L)
+        val beansID = this.intent.getLongExtra("id", 0L)
 
         when( item.itemId ) {
             R.id.optMenu3ItemEdit -> {
                 val intent = Intent(applicationContext, BeansEditActivity::class.java)
-                intent.putExtra("id", intentID)
+                intent.putExtra("id", beansID)
+                intent.putExtra("mode", BEANS_EDIT_MODE_EDIT)
 
                 // 編集画面に移行して戻ってきたら、この画面を飛ばしてリスト画面に行かせたい
                 // キャッチできるよう、result付きで呼び出す
-                startActivityForResult(intent, REQUEST_EDIT_BREW)
+                startActivityForResult(intent, REQUEST_EDIT_BEANS)
+            }
+
+            R.id.optMenu3ItemCopy -> {
+                val intent = Intent(applicationContext, BeansEditActivity::class.java)
+                intent.putExtra("mode", BEANS_EDIT_MODE_COPY)
+                intent.putExtra("id", beansID)
+                startActivityForResult(intent, REQUEST_EDIT_BEANS)
             }
 
             R.id.optMenu3ItemDelete -> {
@@ -137,7 +137,7 @@ class BeansDetailsActivity : AppCompatActivity() {
                 builder.setNegativeButton(R.string.deleteConfirmDialogCancelBtn, null)
                 builder.setPositiveButton("OK", object: DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
-                        realm.executeTransaction { realm.where<BeansData>().equalTo("id", intentID)?.findFirst()?.deleteFromRealm() }
+                        realm.executeTransaction { realm.where<BeansData>().equalTo("id", beansID)?.findFirst()?.deleteFromRealm() }
                         blackToast(applicationContext, "削除しました")
                         finish()
                     }
@@ -180,8 +180,6 @@ class BeansDetailsActivity : AppCompatActivity() {
                     finish()
                 }
             }
-
-
         }
     } // onActivityResult
 

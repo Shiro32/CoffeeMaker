@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
@@ -19,22 +20,18 @@ import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_beans_edit.*
 import kotlinx.android.synthetic.main.activity_brew_edit.*
 import java.util.*
 
-// BrewEditの動作モード（新規、編集、コピーして新規作成）
+// BrewEditの動作モード（新規、編集、コピー新規、FABから）
 const val BREW_EDIT_MODE_NEW = 1
 const val BREW_EDIT_MODE_EDIT = 2
 const val BREW_EDIT_MODE_COPY = 3
 
 const val REQUEST_CODE_BEANS_SELECT = 1
 
-// TODO: 新規作成と既存編集時でタイトルを正しく合わせる（３モードで合わせる！！）
-
-// TODO: スライダのポップアップを合わせる（シティ、シナモン・・・）
-// TODO: 銘柄のポップアップボタンを立体化、かつ邪魔なのでどかす
-// TODO: 日付ポップアップもボタン化
-// TODO: Beansに合わせてイラスト挿入（淹れている瞬間の緩い絵が良い）
+// TODO: LISTへ戻るメニューっている？ さすがにくどくない？
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 
 // Brewの各カードの編集画面
@@ -44,19 +41,27 @@ const val REQUEST_CODE_BEANS_SELECT = 1
 // FAB  - もちろん何もない
 
 class BrewEditActivity : AppCompatActivity() {
-    private lateinit var realm: Realm
-    private lateinit var inputMethodManager: InputMethodManager
-
     // 使用マメのIDを保持する
     // 他のBarやMethodのように、Viewに持たせることができないので、ローカル変数に保持する
+    // そのほか、インナークラスやonCreate以外でも使いたい変数を定義
     private var beansID: Long = 0L
+    private var brewID: Long = 0L
+    private var editMode: Int = 0
+    private lateinit var realm: Realm
+    private lateinit var inputMethodManager: InputMethodManager
 
     // 編集画面開始
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_brew_edit)
 
-        // いつもの背景クリック・確定用
+        // ツールバータイトル用（４モード対応）
+        val titles:Map<Int,Int> = mapOf(
+            BREW_EDIT_MODE_NEW to R.string.titleBrewEditNew,
+            BREW_EDIT_MODE_EDIT to R.string.titleBrewEditEdit,
+            BREW_EDIT_MODE_COPY to R.string.titleBrewEditCopy
+        )
+
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         // Realmのインスタンスを生成
@@ -65,26 +70,24 @@ class BrewEditActivity : AppCompatActivity() {
         realm = Realm.getInstance(brewRealmConfig)
 
         // 呼び出し元から、どのような動作を求められているか（新規、編集、コピー）
-        val mode = intent.getIntExtra("mode", BREW_EDIT_MODE_NEW)
+        editMode = intent.getIntExtra("mode", BREW_EDIT_MODE_NEW)
 
         // 呼び出しのBREW-LISTの、どこから呼ばれたのか（Realm上のID）
-        val brewID = this.intent.getLongExtra("id", 0L)
+        brewID = intent.getLongExtra("id", 0L)
 
         // 入力ダイアログ用に現在日時を取得しておく（インスタンス化と現在日時同時）
         val calender = Calendar.getInstance()
-        var dateStr:String = ""
 
         // 既存データをRealmDBからダイアログのViewに読み込む
-        when( mode ) {
+        when( editMode ) {
             BREW_EDIT_MODE_NEW -> {
-                // 特段やることなし（日付セットだったけど、上の行でやっちゃってる）
                 // brewEditDeleteBtn.visibility = View.INVISIBLE
+                brewEditCancelBtn.text = getString(R.string.returnBtnLabel)
             }
 
-            BREW_EDIT_MODE_EDIT -> {
+            BREW_EDIT_MODE_EDIT, BREW_EDIT_MODE_COPY -> {
                 val brew = realm.where<BrewData>().equalTo("id", brewID).findFirst()
                 if (brew != null) {
-                    calender.time = brew.date   // 日付は面倒なので後でまとめてやる
                     brewEditRatingBar.rating = brew.rating
                     brewEditMethodSpin.setSelection(brew.methodID)
                     brewEditBeansText.text = findBeansNameByID(brew.beansID)
@@ -96,42 +99,27 @@ class BrewEditActivity : AppCompatActivity() {
                     brewEditTempBar.setProgress(brew.temp)
                     brewEditSteamBar.setProgress(brew.steam)
                     brewEditMemoText.setText(brew.memo)
-                }
-            }
-
-            BREW_EDIT_MODE_COPY -> {
-                val brew = realm.where<BrewData>().equalTo("id", brewID).findFirst()
-                if (brew != null) {
-                    // 日付設定はやらない（本日日付）
-                    // idをリセットする？
-                    brewEditRatingBar.rating = brew.rating
-                    brewEditMethodSpin.setSelection(brew.methodID)
-                    brewEditBeansText.text = findBeansNameByID(brew.beansID)
-                    // 豆データだけはViewに保存できないのでローカル変数に
-                    beansID = brew.beansID
-                    brewEditCupsBar.setProgress(brew.cups)
-                    brewEditGrindBar.setProgress(brew.beansGrind)
-                    brewEditBeansUseBar.setProgress(brew.beansUse)
-                    brewEditTempBar.setProgress(brew.temp)
-                    brewEditSteamBar.setProgress(brew.steam)
-                    brewEditMemoText.setText(brew.memo)
+                    // 編集の時だけは、時刻は既存データのまま（新規は現在時刻）
+                    if( editMode== BREW_EDIT_MODE_EDIT )  calender.time = brew.date
                 }
             }
         }
 
+        // 焙煎度合いのTickを文字列で
+        brewEditGrindBar.customTickTexts(grindLabels)
+        brewEditGrindBar.setIndicatorTextFormat("\${TICK_TEXT}")
+
+
         // ここまでで基本的に画面構成終了
-
-
         // ーーーーーーーーーー　ここから各種ボタンのリスナ群設定　－－－－－－－－－－
 
         // マメ選択ボタンリスナ
-        brewEditBeansText.paintFlags = brewEditBeansText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+//        brewEditBeansText.paintFlags = brewEditBeansText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         brewEditBeansText.setOnClickListener {
             val intent = Intent(this, BeansListActivity::class.java)
             intent.putExtra("from", "Edit")
             startActivityForResult(intent, REQUEST_CODE_BEANS_SELECT)
         }
-
 
         // 日付・時刻選択のダイアログボタン用
         // Date型は意外と使いにくいので、Calendar型で行こう
@@ -167,11 +155,34 @@ class BrewEditActivity : AppCompatActivity() {
             ttp.show()
         }
 
-// TODO: あちこちのフィールドで、空欄時に死亡してしまう事例が散見。nullチェックすべし
+        // SAVEボタンのリスナ。デカいので外だし
+        brewEditSaveBtn.setOnClickListener(OKButtonListener())
 
-        // SAVEボタンのリスナ
-        // RealmDBに１件分のBREWデータを修正・追加する （intentのidによって、編集と新規作成両方やる）
-        brewEditSaveBtn.setOnClickListener() {
+        // キャンセルボタン
+        brewEditCancelBtn.setOnClickListener {
+            val intent = Intent()
+            setResult(Activity.RESULT_CANCELED, intent)
+            finish()
+        }
+
+        // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
+        setSupportActionBar(brewEditToolbar) // これやらないと落ちるよ
+        supportActionBar?.title = getString(titles[editMode] as Int)
+
+        // 戻るボタン。表示だけで、実走はonSupportNavigateUp()で。超面倒くせえ！
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        Log.d("SHIRO", "brew-edit / onCreate")
+    } // 編集画面のonCreate
+
+
+
+    // OKButton（保存）のリスナがあまりに巨大化してきたので独立
+    // RealmDBに１件分のBREWデータを修正・追加する （intentのmodeによって、編集と新規作成両方やる）
+    private inner class OKButtonListener() : View.OnClickListener {
+
+        override fun onClick(v: View?) {
             Log.d("SHIRO", "brew-edit / Saveボタンリスナ。各Viewから値を取って選択中のRealmを修正してfinishする")
 
             // 各View（Barなどなど）からローカル変数に読み込んでおく
@@ -185,10 +196,10 @@ class BrewEditActivity : AppCompatActivity() {
             val brewSteam   = brewEditSteamBar.progress.toFloat()
             val brewMemo   = brewEditMemoText.text.toString()
 
-
-            when( mode ) {
+            when( editMode ) {
+                // 新規作成、コピーして新規作成どちらも同じ
+                // DB末尾に新規保存。１行でトランザクション完結
                 BREW_EDIT_MODE_COPY, BREW_EDIT_MODE_NEW -> {
-                    // DB末尾に新規保存。１行でトランザクション完結
                     realm.executeTransaction {
                         // whereで最後尾を探し、そこに追記
                         val maxID = realm.where<BrewData>().max("id")
@@ -210,8 +221,8 @@ class BrewEditActivity : AppCompatActivity() {
                     blackToast(applicationContext, "追加しましたぜ")
                 }
 
+                // 既存ＤＢの編集登録
                 BREW_EDIT_MODE_EDIT-> {
-                    // 既存ＤＢの修正作業。これも１行でトランザクション完結
                     realm.executeTransaction {
                         val brew = realm.where<BrewData>().equalTo("id", brewID).findFirst()
                         brew?.date      = brewDate
@@ -234,30 +245,8 @@ class BrewEditActivity : AppCompatActivity() {
             val intent = Intent()
             setResult(RESULT_TO_LIST, intent)
             finish()
-        } // saveBtn
-
-        // キャンセルボタン
-        brewEditCancelBtn.setOnClickListener {
-            val intent = Intent()
-            setResult(Activity.RESULT_CANCELED, intent)
-            finish()
         }
-
-
-        // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
-        dateStr   = getString(R.string.dateFormat).format(year,month+1,day)
-        setSupportActionBar(brewEditToolbar) // これやらないと落ちるよ
-//        supportActionBar?.title = dateStr+"の編集"
-        // TODO: これでdateStrは不要になるのでは？
-        supportActionBar?.title = getString(R.string.titleBrewEdit)
-
-        // 戻るボタン。表示だけで、実走はonSupportNavigateUp()で。超面倒くせえ！
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        Log.d("SHIRO", "brew-edit / onCreate")
-
-    } // 編集画面のonCreate
+    }
 
 
     // ツールバーの「戻る」ボタン
@@ -275,7 +264,7 @@ class BrewEditActivity : AppCompatActivity() {
     // メニュー選択の対応
     // TODO: ボタンでの処理と同じなので共通化したいな
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intentID = this.intent.getLongExtra("id", 0L)
+//        val intentID = this.intent.getLongExtra("id", 0L)
         when( item.itemId ) {
             // saveは面倒くさいので後回し・・・。
 
@@ -340,3 +329,70 @@ class BrewEditActivity : AppCompatActivity() {
 } // Class
 
 
+
+/*
+        brewEditSaveBtn.setOnClickListener() {
+            Log.d("SHIRO", "brew-edit / Saveボタンリスナ。各Viewから値を取って選択中のRealmを修正してfinishする")
+
+            // 各View（Barなどなど）からローカル変数に読み込んでおく
+            val brewDate = (brewEditDateText.text as String + " " + brewEditTimeText.text as String).toDate()
+            val brewRating = brewEditRatingBar.rating
+            val methodID      = brewEditMethodSpin.selectedItemPosition
+            val brewCups    = brewEditCupsBar.progress.toFloat()
+            val brewGrind   = brewEditGrindBar.progress.toFloat()
+            val brewBeansUse= brewEditBeansUseBar.progress.toFloat()
+            val brewTemp    = brewEditTempBar.progress.toFloat()
+            val brewSteam   = brewEditSteamBar.progress.toFloat()
+            val brewMemo   = brewEditMemoText.text.toString()
+
+
+            when( mode ) {
+                BREW_EDIT_MODE_COPY, BREW_EDIT_MODE_NEW -> {
+                    // DB末尾に新規保存。１行でトランザクション完結
+                    realm.executeTransaction {
+                        // whereで最後尾を探し、そこに追記
+                        val maxID = realm.where<BrewData>().max("id")
+                        val nextID = (maxID?.toLong() ?: 0L) + 1L
+
+                        // ここから書き込み
+                        val brew = realm.createObject<BrewData>(nextID)
+                        brew.date = brewDate
+                        brew.rating = brewRating
+                        brew.beansID = beansID
+                        brew.methodID = methodID
+                        brew.cups = brewCups
+                        brew.beansGrind = brewGrind
+                        brew.beansUse = brewBeansUse
+                        brew.temp = brewTemp
+                        brew.steam = brewSteam
+                        brew.memo = brewMemo
+                    }
+                    blackToast(applicationContext, "追加しましたぜ")
+                }
+
+                BREW_EDIT_MODE_EDIT-> {
+                    // 既存ＤＢの修正作業。これも１行でトランザクション完結
+                    realm.executeTransaction {
+                        val brew = realm.where<BrewData>().equalTo("id", brewID).findFirst()
+                        brew?.date      = brewDate
+                        brew?.rating    = brewRating
+                        brew?.beansID   = beansID
+                        brew?.methodID  = methodID
+                        brew?.cups      = brewCups
+                        brew?.beansGrind= brewGrind
+                        brew?.beansUse  = brewBeansUse
+                        brew?.temp      = brewTemp
+                        brew?.steam     = brewSteam
+                        brew?.memo      = brewMemo
+                    }
+                    blackToast(applicationContext, "修正完了！")
+                }
+            }
+
+            // 編集画面クローズ
+            // EDIT→DETAILS→LISTへ戻れるよう、setResult
+            val intent = Intent()
+            setResult(RESULT_TO_LIST, intent)
+            finish()
+        } // saveBtn
+*/

@@ -34,6 +34,8 @@ lateinit var beansKind: Array<String>
 lateinit var beansSpecial: Array<String>
 lateinit var beansBlend: Array<String>
 lateinit var beansPack: Array<String>
+lateinit var roastLabels: Array<String>
+lateinit var grindLabels: Array<String>
 
 // 一番最初に実行されるApplicationクラス
 // いつもの、AppCompatActivity（MainActivity）は、manifest.xmlで最初の画面（Acitivity）として実行される
@@ -62,7 +64,8 @@ class StartApplication : Application() {
         beansBlend          = resources.getStringArray(R.array.beans_blend)
         beansPack           = resources.getStringArray(R.array.beans_pack)
 
-
+        roastLabels         = resources.getStringArray(R.array.roast_labels)
+        grindLabels         = resources.getStringArray(R.array.grind_labels)
     }
 
     private fun createBeansData() {
@@ -80,9 +83,7 @@ class StartApplication : Application() {
         // データ数ゼロならサンプルを作る
         if( beans.size == 0) {
             val beansList = listOf<BeansDataInit>(
-                BeansDataInit("マイルドKALDI", 3F, "2019/12/31", 200F, 1F, "KALDI", 399, "特売"),
-                BeansDataInit("ブルーマウンテンブレンド", 2F, "2020/03/01", 100F, 3F, "神戸屋珈琲", 2000, "超奮発"),
-                BeansDataInit("ちょっと贅沢な鉱物油", 5F, "2018/03/01", 300F, 7F, "オードバックス", 20, "まずい")
+                BeansDataInit("キリマンジャロ", 3F, "2020/6/1", 200F, 1F, "KALDI", 399, "特売")
             )
 
             // DB書き込み
@@ -117,14 +118,7 @@ class StartApplication : Application() {
         // データゼロなら作る
         if( brews.size == 0 ) {
             val brewList = listOf<BrewDataInit>(
-                BrewDataInit("2020/01/19 12:34", 2F, 0, 0, 1, 1F, 1F, 1F, 1F, 1F, "http", "サンプルです"),
-                BrewDataInit("2020/01/18 00:00", 5F, 1, 1, 100, 4F, 5F, 1F, 1F, 4F, "http", "2杯目"),
-                BrewDataInit("2020/01/17 00:00", 3F, 2, 2, 50, 2F, 5F, 1F, 1F, 4F, "http", "最高の出来です"),
-                BrewDataInit("2020/01/16 00:00", 2F, 3, 0, 10, 3F, 5F, 1F, 1F, 1F, "http", "最悪です"),
-                BrewDataInit("2020/01/15 12:34", 2F, 4, 1, 5, 1F, 1F, 1F, 1F, 1F, "http", "サンプルです"),
-                BrewDataInit("2020/01/14 00:00", 5F, 5, 2, 5, 4F, 5F, 1F, 1F, 4F, "http", "2杯目"),
-                BrewDataInit("2020/01/13 00:00", 3F, 6, 0, 1, 2F, 5F, 1F, 1F, 4F, "http", "最高の出来です"),
-                BrewDataInit("2020/01/12 00:00", 2F, 7, 1, 1, 3F, 5F, 1F, 1F, 1F, "http", "最悪です")
+                BrewDataInit("2020/01/19 12:34", 2F, 1, 1, 1, 3F, 10F, 1F, 90F, 30F, "http", "サンプルです")
             )
             // DBに書き込む
             realm.beginTransaction()

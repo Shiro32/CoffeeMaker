@@ -10,17 +10,17 @@ import android.view.Menu
 import android.view.MenuItem
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.REQUEST_EDIT_BEANS
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_brew_details.*
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 import java.util.*
 
 const val REQUEST_EDIT_BREW = 1
-
-// TODO: 抽出方法のアイコンを出す（メインと同じ）
-// TODO: Beansに合わせてイラスト挿入（淹れている瞬間の緩い絵が良い）
 
 // Brewの１カードごとの詳細画面
 // 当初は編集画面と一体化していたけど、List→Details→Editと３段階に変更
@@ -42,13 +42,23 @@ class BrewDetailsActivity : AppCompatActivity() {
         val intentID = this.intent.getLongExtra("id", 0L)
 
         val calendar = Calendar.getInstance()
-        var dateStr:String = ""
 
         // Realmからデータの読み込み
         val brew = realm.where<BrewData>().equalTo("id", intentID).findFirst()
         if (brew != null) {
+            // 豆の経過日数を計算する（面倒くせぇ・・・）
+            var days = ""
+            if(brew.beansID>0L) {
+                val d1 = findBeansDateByID(brew.beansID)?.time
+                val d2 = brew.date.time
+                if (d1!=null) {
+                    days = "（"+((d2-d1)/(1000*60*60*24)).toString()+"日経過）"
+                }
+            }
+
+            val dd: LocalDateTime = LocalDateTime.now()
             brewDetailsRatingBar.rating = brew.rating
-            brewDetailsMethodText.text = brewMethods[brew.methodID]
+            brewDetailsMethodText.text = brewMethods[brew.methodID] + days
             brewDetailsBeansText.text = findBeansNameByID(brew.beansID)
             brewDetailsCupsBar.setProgress(brew.cups)
             brewDetailsGrindBar.setProgress(brew.beansGrind)
@@ -57,14 +67,19 @@ class BrewDetailsActivity : AppCompatActivity() {
             brewDetailsSteamBar.setProgress(brew.steam)
             brewDetailsMemoText.setText(brew.memo)
 
+            // 抽出方法にあったイラスト（アイコン）
+            brewDetailsMethodImage.setImageDrawable(brewMethodsImages.getDrawable(brew.methodID))
+
             calendar.time = brew.date
             val year    = calendar.get(Calendar.YEAR)
             val month   = calendar.get(Calendar.MONTH)
             val day     = calendar.get(Calendar.DAY_OF_MONTH)
-            dateStr   = getString(R.string.dateFormat).format(year,month+1,day)
-            brewDetailsDateText.text = dateStr
+            brewDetailsDateText.text = getString(R.string.dateFormat).format(year,month+1,day)
         }
 
+
+
+        // ーーーーーーーーーー　ここから各種のリスナ設定　ーーーーーーーーーー
         // 編集ボタン
         brewDetailsEditBtn.setOnClickListener {
             val intent = Intent(it.context, BrewEditActivity::class.java)
@@ -76,8 +91,6 @@ class BrewDetailsActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_EDIT_BREW)
         }
 
-
-
         // 一覧へ戻るボタン
         brewDetailsReturnBtn.setOnClickListener {
             finish()
@@ -85,14 +98,11 @@ class BrewDetailsActivity : AppCompatActivity() {
 
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(brewDetailsToolbar)
-        // TODO: これでdateStr不要では？
-//        supportActionBar?.title = dateStr+"のコーヒーの詳細"
         supportActionBar?.title = getString(R.string.titleBrewDetails)
 
         // 戻るボタン。表示だけで、実走はonSupportNavigateUp()で。超面倒くせえ！
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
 
     } // 詳細画面のonCreate
 
@@ -117,8 +127,8 @@ class BrewDetailsActivity : AppCompatActivity() {
         when( item.itemId ) {
             R.id.optMenu3ItemEdit -> {
                 val intent = Intent(applicationContext, BrewEditActivity::class.java)
-                intent.putExtra("mode", BREW_EDIT_MODE_EDIT)
                 intent.putExtra("id", brewID)
+                intent.putExtra("mode", BREW_EDIT_MODE_EDIT)
 
                 // 編集画面に移行して戻ってきたら、この画面を飛ばしてリスト画面に行かせたい
                 // キャッチできるよう、result付きで呼び出す

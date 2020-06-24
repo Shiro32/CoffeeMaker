@@ -33,6 +33,7 @@
         <item>水出し</item>
         <item>ドリップパック</item>
         <item>インスタント</item>
+        <item>カフェ</item>
     </string-array>
 
     <!-- 抽出方法のアイコン集 -->
@@ -42,11 +43,12 @@
         <item>@drawable/machine4_160</item>
         <item>@drawable/machine2_160</item>
         <item>@drawable/makinet160</item>
-        <item>@drawable/press300_2</item>
+        <item>@drawable/press160</item>
         <item>@drawable/cyphone160</item>
         <item>@drawable/pot160</item>
         <item>@drawable/pack300</item>
         <item>@drawable/instant399</item>
+        <item>@drawable/dotour</item>
     </string-array>
 
     <array name="beans_kind">
@@ -101,6 +103,15 @@
         <item>AGF ちょっと贅沢なコーヒー店　スペシャルブレンド</item>
         <item>AGF ちょっと贅沢なコーヒー店　キリマンジャロブレンド</item>
         <item>AGF ちょっと贅沢なコーヒー店　モカブレンド</item>
+        <item>DOUTOR まろやかブレンド</item>
+        <item>DOUTOR 深煎りブレンド</item>
+        <item>DOUTOR キリマンジャロブレンド</item>
+        <item>COOPスペシャルブレンド</item>
+        <item>COOPキリマンジャロブレンド</item>
+        <item>COOPモカロブレンド</item>
+        <item>KEYコク深いリッチブレンド</item>
+        <item>KEY濃く不快立地ブレンド</item>
+
     </array>
 
 

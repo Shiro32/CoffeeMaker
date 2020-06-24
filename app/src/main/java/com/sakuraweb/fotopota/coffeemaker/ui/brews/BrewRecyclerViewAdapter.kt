@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.brewMethods
 import com.sakuraweb.fotopota.coffeemaker.brewMethodsImages
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
@@ -46,13 +47,25 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         val bp = brews[position]
 
         if( bp!=null ) {
+            // 豆の経過日数を計算する（面倒くせぇ・・・）
+            var days = ""
+            if(bp.beansID>0L) {
+                val d = findBeansDateByID(bp.beansID)
+                if( d!=null ) {
+                    val d1 = d.time
+                    val d2 = bp.date.time
+                    val diff = (d2-d1)/(1000*60*60*24)
+                    days = "（"+diff.toString()+"日経過）"
+                }
+
+            }
 
             val df = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
             holder.dateText?.text       = df.format(bp.date)
             holder.ratingBar?.rating    = bp.rating
             holder.methodText?.text     = brewMethods[bp.methodID]
-            holder.beansKindText?.text  = findBeansNameByID(bp.beansID)
+            holder.beansKindText?.text  = findBeansNameByID(bp.beansID) + days
             holder.memoText?.text       = bp.memo
             holder.beansPassText?.text  = bp.beansPast.toString()
 
@@ -62,35 +75,18 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             holder.tempBar?.setProgress(bp.temp.toFloat())
             holder.steamBar?.setProgress(bp.steam.toFloat())
 
+            // 抽出方法にあったイラスト（アイコン）
             holder.image?.setImageDrawable(brewMethodsImages.getDrawable(bp.methodID))
-
-            // 各カードに配置するボタンなどのリスナ
 
             // 行そのもの（Card）のリスナ
             // 行タップすることで編集画面(BrewEdit）に移行
             // 戻り値によって、TO_LISTやTO_HOMEもあり得るのでforResultで呼ぶ
             holder.itemView.setOnClickListener(ItemClickListener(holder.itemView.context, bp))
-
-/*
-            holder.itemView.setOnClickListener {
-                val intent = Intent(it.context, BrewDetailsActivity::class.java)
-                intent.putExtra("id", bp.id)
-//                it.context.startActivity(intent)
-
-                // ２時間かけて思いつきました！！！！×無限
-                // contextを無理矢理変えて、forResultを呼ぶ
-                // ここの結果を、メインのFragmentでキャッチして、DetailsやEditの結果を知る
-                val it2 = it.context as Activity // 無茶苦茶だけど
-                it2.startActivityForResult(intent, REQUEST_CODE_SHOW_DETAILS)
-
-            }
-*/
         }
-
     } // onCreateViewHolder
 
     private inner class ItemClickListener(c: Context, b: BrewData) : View.OnClickListener {
-        // こうやって独自の変数を渡せばいいんだ！
+        // こうやって独自の変数を渡せばいいんだ！　←　いや親クラス内でローカルにしておけば継承されますが・・・
         // 独自クラスのコンストラクタに設定しておいて、クラス内ローカル変数に保存しておく
         // こうすれば、クラス内のメソッドから参照できる
         val ctx = c

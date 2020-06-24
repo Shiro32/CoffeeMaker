@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.R
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
+import java.time.Instant.now
+import java.util.*
 
 const val REQUEST_CODE_SHOW_BEANS_DETAILS = 100
 
@@ -42,15 +44,17 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
         val bean = beansList[position]
 
         if (bean != null) {
+
             val df = SimpleDateFormat("yyyy/MM/dd")
 
             holder.name?.text = bean.name
             holder.ratingBar?.rating = bean.rating
             holder.dateText?.text = df.format(bean.date)
-            holder.pastText?.text = "(１００日経過）"    // TODO:経過日数を作らねば
+            // 豆の経過日数を計算する（面倒くせぇ・・・）
+            holder.pastText?.text = "（"+((Date().time - bean.date.time)/(1000*60*60*24)).toString()+"日経過）"
             holder.gramBar?.setProgress(bean.gram)
             holder.roastBar?.setProgress(bean.roast)
-            holder.shop?.text = bean.shop
+            holder.shop?.text = "＠"+bean.shop
             holder.price?.text = bean.price.toString()
             holder.memo?.text = bean.memo
 

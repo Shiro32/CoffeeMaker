@@ -17,6 +17,7 @@ import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_beans_list.*
 import kotlinx.android.synthetic.main.fragment_beans_list.view.*
+import java.util.*
 
 var isCalledFromBrewEdit: Boolean = false
 
@@ -51,6 +52,7 @@ class BeansFragment : Fragment(), SetBeansListener {
 
         // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
         val ac = activity as AppCompatActivity
+        ac.supportActionBar?.show()
 
         // Edit経由のTitleはうまくできない・・・。
         // なのでデフォでEdit経由をセットしておき、Navi経由はここで書き換える
@@ -131,6 +133,16 @@ fun findBeansNameByID( id: Long ): String {
     var name = bean?.name.toString()
     realm.close()
 
-    if( name=="null" ) name="none"
+    if( name=="null" ) name="データなし"
     return name
+}
+
+fun findBeansDateByID( id:Long): Date? {
+    val realm = Realm.getInstance(beansRealmConfig)
+    val bean = realm.where<BeansData>().equalTo("id",id).findFirst()
+    var d1 = bean?.date
+
+    realm.close()
+
+    return d1
 }

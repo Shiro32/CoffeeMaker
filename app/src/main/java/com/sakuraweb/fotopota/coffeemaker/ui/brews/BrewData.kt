@@ -26,6 +26,12 @@ open class BrewData : RealmObject() {
     var imageURI: String = ""
     var memo: String=""
 
+    var option1: Float = 0.0F
+    var option2: Float = 0.0F
+    var option3: String = ""
+    var option4: String = ""
+    var option5: Long = 0
+    var option6: Long = 0
 //    var dummy: Int = 0
 }
 

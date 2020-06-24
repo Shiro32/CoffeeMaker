@@ -45,6 +45,7 @@ class BrewFragment : Fragment() {
         // 「戻る」ボタン
         val ac = activity as AppCompatActivity
         ac.supportActionBar?.title = getString(R.string.titleBrewList)
+        ac.supportActionBar?.show()
 
         // メニュー構築（実装はonCreateOptionsMenu内で）
         // これを呼び出すことでfragmentがメニューを持つことを明示（https://developer.android.com/guide/components/fragments?hl=ja）
@@ -57,7 +58,7 @@ class BrewFragment : Fragment() {
         return root
     }
 
-
+/*
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -67,6 +68,7 @@ class BrewFragment : Fragment() {
 //        registerForContextMenu(sampleButton2)
     }
 
+
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
 
@@ -74,6 +76,7 @@ class BrewFragment : Fragment() {
         activity?.menuInflater?.inflate(R.menu.menu_context_brew, menu)
 
     }
+*/
 
 
     // オプションメニュー設置
@@ -159,20 +162,3 @@ class BrewFragment : Fragment() {
 
 }
 
-fun calcCupsOfLife() {
-    val realm = Realm.getInstance(brewRealmConfig)
-    val brews = realm.where<BrewData>().findAll().sort("date", Sort.ASCENDING)
-
-    val firstBrew = brews[0]?.date
-    theFirstBrew = firstBrew?.toString("yyyy/MM/dd") as String
-
-    cupsFromTheFirstDay = 0
-    for(b in brews) {
-        cupsFromTheFirstDay += b.cups.toInt()
-    }
-
-    realm.close()
-}
-
-var theFirstBrew: String = ""
-var cupsFromTheFirstDay: Int = 0

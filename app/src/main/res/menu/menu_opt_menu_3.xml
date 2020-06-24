@@ -17,9 +17,12 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/optMenu3ItemCopy"
-        android:title="@string/optMenu3ItemCopy" />
+        android:icon="?attr/actionModeCopyDrawable"
+        android:title="@string/optMenu3ItemCopy"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/optMenu3ItemDelete"
+        android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/optMenu3ItemDelete"
         app:showAsAction="never" />
 </menu>
