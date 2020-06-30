@@ -375,19 +375,6 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="65dp" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:adjustViewBounds="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beansEditMemoEdit"
-                app:srcCompat="@drawable/back1" />
-
             <Button
                 android:id="@+id/beansEditSelectBtn"
                 android:layout_width="wrap_content"

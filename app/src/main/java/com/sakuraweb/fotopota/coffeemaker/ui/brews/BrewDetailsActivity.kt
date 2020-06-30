@@ -14,9 +14,8 @@ import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.Realm
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.activity_brew_details.*
+import kotlinx.android.synthetic.main.activity_brew_details_home.*
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 
 import java.util.*
 
@@ -31,7 +30,6 @@ class BrewDetailsActivity : AppCompatActivity() {
     // 詳細画面開始
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_brew_details)
 
         // Realmのインスタンスを生成
         // Edit画面終了まで維持（onDestroy）でclose
@@ -45,26 +43,34 @@ class BrewDetailsActivity : AppCompatActivity() {
 
         // Realmからデータの読み込み
         val brew = realm.where<BrewData>().equalTo("id", intentID).findFirst()
+
+
         if (brew != null) {
-            // 豆の経過日数を計算する（面倒くせぇ・・・）
             var days = ""
-            if(brew.beansID>0L) {
-                val d1 = findBeansDateByID(brew.beansID)?.time
-                val d2 = brew.date.time
-                if (d1!=null) {
-                    days = "（"+((d2-d1)/(1000*60*60*24)).toString()+"日経過）"
+            // 家飲みの場合は抽出情報（店飲みの場合は不要）
+            if( brew.methodID != BREW_METHOD_SHOP ) {
+                // ここでようやくレイアウトをインフレート
+                setContentView(R.layout.activity_brew_details_home)
+
+                brewDetailsGrindBar.setProgress(brew.beansGrind)
+                brewDetailsBeansUseBar.setProgress(brew.beansUse)
+                brewDetailsCupsBar.setProgress(brew.cups)
+                brewDetailsTempBar.setProgress(brew.temp)
+                brewDetailsSteamBar.setProgress(brew.steam)
+                // 豆の経過日数を計算する
+                if(brew.beansID>0L) {
+                    val d1 = findBeansDateByID(brew.beansID)?.time
+                    if (d1!=null)  days = "（"+((brew.date.time-d1)/(1000*60*60*24)).toString()+"日経過）"
                 }
+            } else {
+                setContentView(R.layout.activity_brew_details_shop)
             }
 
-            val dd: LocalDateTime = LocalDateTime.now()
+            // 家飲み・店飲み共通項目
+//            val dd: LocalDateTime = LocalDateTime.now()
             brewDetailsRatingBar.rating = brew.rating
-            brewDetailsMethodText.text = brewMethods[brew.methodID] + days
-            brewDetailsBeansText.text = findBeansNameByID(brew.beansID)
-            brewDetailsCupsBar.setProgress(brew.cups)
-            brewDetailsGrindBar.setProgress(brew.beansGrind)
-            brewDetailsBeansUseBar.setProgress(brew.beansUse)
-            brewDetailsTempBar.setProgress(brew.temp)
-            brewDetailsSteamBar.setProgress(brew.steam)
+            brewDetailsMethodText.text = brewMethods[brew.methodID]
+            brewDetailsBeansText.text = findBeansNameByID(brew.beansID) + days
             brewDetailsMemoText.setText(brew.memo)
 
             // 抽出方法にあったイラスト（アイコン）

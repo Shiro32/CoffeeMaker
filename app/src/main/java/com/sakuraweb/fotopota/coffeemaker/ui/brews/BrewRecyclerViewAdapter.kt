@@ -1,18 +1,12 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.view.*
-import android.view.Gravity.*
 import android.widget.PopupMenu
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.brewMethods
-import com.sakuraweb.fotopota.coffeemaker.brewMethodsImages
+import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.RealmResults
@@ -27,15 +21,35 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
 
     private val brews: RealmResults<BrewData> = brewsRealm
 
+    override fun getItemViewType(position: Int): Int {
+        if( brews[position]?.methodID == BREW_METHOD_SHOP ) {
+            return BREW_IN_SHOP
+        } else {
+            return BREW_IN_HOME
+        }
+
+//        return(if( brews[position]?.methodID == BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME)
+
+//        return super.getItemViewType(position)
+    }
+
     // 新しく1行分のViewをXMLから生成し、1行分のViewHolderを生成してViewをセットする
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrewViewHolder {
+        val view:View
 
-        // 新しいView（1行）を生成する　レイアウト画面で作った、one_brew_card（1行）
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.one_brew_card, parent, false)
+        // 新しいView（1行）を生成する
+        // 家飲みと店飲みを分けて作る
+        if( viewType == BREW_IN_HOME ) {
+            view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.one_brew_card_home, parent, false)
+        }  else {
+            view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.one_brew_card_shop, parent, false)
+        }
 
         // 1行ビューをもとに、ViewHolder（←自分で作ったヤツ）インスタンスを生成
         // 今作ったView（LinearLayout）を渡す
-        // ビューホルダは、内部のローカル変数に1行分のデータを保持（日付、血圧、脈拍）
+        // ビューホルダは、内部のローカル変数に1行分のデータを保持
         val holder = BrewViewHolder(view)
         return holder
     }
@@ -47,34 +61,33 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         val bp = brews[position]
 
         if( bp!=null ) {
-            // 豆の経過日数を計算する（面倒くせぇ・・・）
             var days = ""
-            if(bp.beansID>0L) {
-                val d = findBeansDateByID(bp.beansID)
-                if( d!=null ) {
-                    val d1 = d.time
-                    val d2 = bp.date.time
-                    val diff = (d2-d1)/(1000*60*60*24)
-                    days = "（"+diff.toString()+"日経過）"
-                }
 
+            // 家飲みの場合は抽出情報（店飲みの場合は不要）
+            if( bp.methodID != BREW_METHOD_SHOP ) {
+                holder.beansPassText?.text = bp.beansPast.toString()
+                holder.beansGrindBar?.setProgress(bp.beansGrind.toFloat())
+                holder.beansUseBar?.setProgress(bp.beansUse.toFloat())
+                holder.cupsBar?.setProgress(bp.cups.toFloat())
+                holder.tempBar?.setProgress(bp.temp.toFloat())
+                holder.steamBar?.setProgress(bp.steam.toFloat())
+                // 豆の経過日数を計算する
+                if(bp.beansID>0L) {
+                    val d = findBeansDateByID(bp.beansID)
+                    if( d!=null ) {
+                        val diff = (bp.date.time-d.time)/(1000*60*60*24)
+                        days = "（"+diff.toString()+"日経過）"
+                    }
+                }
             }
 
+            // 家飲み・店飲み共通項目
             val df = SimpleDateFormat("yyyy/MM/dd HH:mm")
-
             holder.dateText?.text       = df.format(bp.date)
             holder.ratingBar?.rating    = bp.rating
             holder.methodText?.text     = brewMethods[bp.methodID]
-            holder.beansKindText?.text  = findBeansNameByID(bp.beansID) + days
             holder.memoText?.text       = bp.memo
-            holder.beansPassText?.text  = bp.beansPast.toString()
-
-            holder.beansGrindBar?.setProgress(bp.beansGrind.toFloat())
-            holder.beansUseBar?.setProgress(bp.beansUse.toFloat())
-            holder.cupsBar?.setProgress(bp.cups.toFloat())
-            holder.tempBar?.setProgress(bp.temp.toFloat())
-            holder.steamBar?.setProgress(bp.steam.toFloat())
-
+            holder.beansKindText?.text = findBeansNameByID(bp.beansID) + days
             // 抽出方法にあったイラスト（アイコン）
             holder.image?.setImageDrawable(brewMethodsImages.getDrawable(bp.methodID))
 
@@ -94,7 +107,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         val bp = b
 
         override fun onClick(v: View?) {
-            // ここで使えるのはタップされたView（１行レイアウト、one_brew_card）
+            // ここで使えるのはタップされたView（１行レイアウト、one_brew_card_home）
 
             // ★ポップアップ版
 //            val popup = PopupMenu(ctx, v)

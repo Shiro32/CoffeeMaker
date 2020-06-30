@@ -6,7 +6,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.warkiz.widget.IndicatorSeekBar
-import kotlinx.android.synthetic.main.one_beans_card.view.*
+import kotlinx.android.synthetic.main.one_beans_card_home.view.*
 
 class BeansViewHolder(iv: View) : RecyclerView.ViewHolder (iv){
     var name:   TextView? = null

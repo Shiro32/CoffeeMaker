@@ -58,7 +58,7 @@
     <string name="timeFormat">%02d:%02d</string>
     <string name="oneBeansBuyDateLabel">購入日</string>
     <string name="oneBeansShop">＠</string>
-    <string name="oneBeansGrindLabel">挽目</string>
+    <string name="oneBeansGrindLabel">挽き</string>
     <string name="oneBeansGramLabel">グラム</string>
     <string name="oneBeansPriceLabel">円</string>
     <string name="oneBeansMemo">メモ</string>

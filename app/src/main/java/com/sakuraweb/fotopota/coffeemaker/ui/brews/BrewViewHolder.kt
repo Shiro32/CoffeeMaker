@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.warkiz.widget.IndicatorSeekBar
-import kotlinx.android.synthetic.main.one_brew_card.view.*
+import kotlinx.android.synthetic.main.one_brew_card_home.view.*
 
 // ViewHolderを作る
 // 要するに1行分のViewを保持する（データではない）、描画用のインスタンス。

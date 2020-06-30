@@ -20,8 +20,7 @@ import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.activity_beans_edit.*
-import kotlinx.android.synthetic.main.activity_brew_edit.*
+import kotlinx.android.synthetic.main.activity_brew_edit_home.*
 import java.util.*
 
 // BrewEditの動作モード（新規、編集、コピー新規、FABから）
@@ -53,7 +52,7 @@ class BrewEditActivity : AppCompatActivity() {
     // 編集画面開始
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_brew_edit)
+        setContentView(R.layout.activity_brew_edit_home)
 
         // ツールバータイトル用（４モード対応）
         val titles:Map<Int,Int> = mapOf(

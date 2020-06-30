@@ -262,10 +262,11 @@
 
         <TextView
             android:id="@+id/oneBrewMemoText"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/oneBrewMemoLabel"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewMemoLabel"
+            app:layout_constraintEnd_toStartOf="@+id/oneBrewMethodText"
             app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
 
         <RatingBar
@@ -285,7 +286,7 @@
 
         <TextView
             android:id="@+id/oneBrewMethodText"
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:text="抽出方法"

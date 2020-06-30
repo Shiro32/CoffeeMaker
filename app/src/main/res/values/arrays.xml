@@ -33,7 +33,7 @@
         <item>水出し</item>
         <item>ドリップパック</item>
         <item>インスタント</item>
-        <item>テイクアウト</item>
+        <item>店飲み/テイクアウト</item>    // これだけ特殊。コード10、家飲みとして区別
     </string-array>
 
     <!-- 抽出方法のアイコン集 -->

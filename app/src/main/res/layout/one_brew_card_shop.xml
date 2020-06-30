@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/cardColor"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/oneBrewImage"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toTopOf="@+id/oneBrewMethodText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/machine2_160" />
+
+        <TextView
+            android:id="@+id/oneBrewDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:text="2020年4月1日 10時00分"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/oneBrewBeansLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/oneBrewBeanLabel"
+            android:textAlignment="textEnd"
+            app:layout_constraintEnd_toEndOf="@+id/oneBrewMemoLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewDateText" />
+
+        <TextView
+            android:id="@+id/oneBrewBeansKindText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="5dp"
+            android:text="豆のなまえ"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewBeansLabel"
+            app:layout_constraintEnd_toEndOf="@+id/oneBrewRatingBar"
+            app:layout_constraintStart_toEndOf="@+id/oneBrewBeansLabel" />
+
+        <TextView
+            android:id="@+id/oneBrewMemoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="4dp"
+            android:text="@string/oneBrewMemoLabel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansKindText" />
+
+        <TextView
+            android:id="@+id/oneBrewMemoText"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/oneBrewMemoLabel"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewMemoLabel"
+            app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
+
+        <RatingBar
+            android:id="@+id/oneBrewRatingBar"
+            style="@android:style/Widget.Material.Light.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/ratingBackColor"
+            android:progressTint="@color/ratingColor"
+            android:rating="3"
+            android:stepSize="0.5"
+            app:layout_constraintBottom_toBottomOf="@+id/oneBrewDateText"
+            app:layout_constraintStart_toEndOf="@+id/oneBrewDateText"
+            app:layout_constraintTop_toTopOf="@+id/oneBrewDateText" />
+
+        <TextView
+            android:id="@+id/oneBrewMethodText"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="抽出方法"
+            android:textAlignment="textEnd"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewMemoText"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

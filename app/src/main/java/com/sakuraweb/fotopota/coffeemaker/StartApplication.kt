@@ -23,6 +23,10 @@ import io.realm.kotlin.createObject
 import java.text.SimpleDateFormat
 import java.util.*
 
+// 各種定数
+const val BREW_IN_HOME = 1
+const val BREW_IN_SHOP = 2
+const val BREW_METHOD_SHOP = 10
 
 // グローバル変数たち
 lateinit var brewRealmConfig: RealmConfiguration

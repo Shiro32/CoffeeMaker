@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.R
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
-import java.time.Instant.now
 import java.util.*
 
 const val REQUEST_CODE_SHOW_BEANS_DETAILS = 100
@@ -27,8 +26,8 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
 
     // 新しく1行分のViewをXMLから生成し、1行分のViewHolderを生成してViewをセットする
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeansViewHolder {
-        // 新しいView（1行）を生成する　レイアウト画面で作った、one_beans_card（1行）
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.one_beans_card, parent, false)
+        // 新しいView（1行）を生成する　レイアウト画面で作った、one_beans_card_home（1行）
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.one_beans_card_home, parent, false)
 
         // 1行ビューをもとに、ViewHolder（←自分で作ったヤツ）インスタンスを生成
         // 今作ったView（LinearLayout）を渡す
