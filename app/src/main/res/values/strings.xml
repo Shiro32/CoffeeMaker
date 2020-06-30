@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">Coffee Recorder</string>
+    <string name="app_name">コーヒー日記</string>
     <string name="title_home">ホーム</string>
     <string name="title_brews">コーヒー記録</string>
     <string name="title_beans">豆一覧</string>
@@ -79,6 +79,7 @@
     <string name="brewDetailsHeaderText">詳細画面です（要らないか？）</string>
     <string name="editBtnLabel">編集</string>
     <string name="returnBtnLabel">← リストに戻る</string>
+
     <string name="beansKindSpecial">ストレート</string>
     <string name="beansKindBlend">ブレンド</string>
     <string name="beansKindPack">ドリップパック</string>
@@ -114,4 +115,3 @@
     <string name="ctxMenuBrewCopy">コピーして新規作成</string>
     <string name="optMenu3ItemCopy">コピーして新規作成</string>
 </resources>
-

@@ -141,7 +141,5 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
     override fun getItemCount(): Int {
         return brews.size
     }
-
-
 }
 

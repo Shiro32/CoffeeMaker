@@ -34,7 +34,3 @@ open class BrewData : RealmObject() {
     var option6: Long = 0
 //    var dummy: Int = 0
 }
-
-
-
-

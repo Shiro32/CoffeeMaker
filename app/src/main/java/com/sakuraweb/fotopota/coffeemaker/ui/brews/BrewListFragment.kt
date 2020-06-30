@@ -161,4 +161,3 @@ class BrewFragment : Fragment() {
     }
 
 }
-

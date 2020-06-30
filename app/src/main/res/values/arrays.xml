@@ -33,7 +33,7 @@
         <item>水出し</item>
         <item>ドリップパック</item>
         <item>インスタント</item>
-        <item>カフェ</item>
+        <item>テイクアウト</item>
     </string-array>
 
     <!-- 抽出方法のアイコン集 -->
@@ -52,7 +52,7 @@
     </string-array>
 
     <array name="beans_kind">
-        <item>スペシャリティ</item>
+        <item>ストレート</item>
         <item>ブレンド</item>
         <item>ドリップパック</item>
     </array>
@@ -75,12 +75,12 @@
     </array>
 
     <array name="beans_blend">
-        <item>マイルドKALDI</item>
         <item>スペシャルブレンド</item>
         <item>バードフレンドリー</item>
         <item>アイスブレンド</item>
         <item>リッチブレンド</item>
         <item>ブルーマウンテンブレンド</item>
+        <item>キリマンジャロブレンド</item>
         <item>モカブレンド</item>
         <item>モーニングブレンド</item>
         <item>エスプレッソブレンド</item>
@@ -89,6 +89,7 @@
         <item>カフェオレブレンド</item>
         <item>モカマタリ</item>
         <item>イタリアンロースト</item>
+        <item>マイルドKALDI</item>
         <item>ノエル</item>
     </array>
 
@@ -110,9 +111,5 @@
         <item>COOPキリマンジャロブレンド</item>
         <item>COOPモカロブレンド</item>
         <item>KEYコク深いリッチブレンド</item>
-        <item>KEY濃く不快立地ブレンド</item>
-
     </array>
-
-
 </resources>

@@ -52,4 +52,3 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         image           = iv.oneBrewImage
     }
 }
-

@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
         root.copyRightText.movementMethod = LinkMovementMethod.getInstance()
 
         // privacy policyにURLを埋め込む
-        root.ppText.setText(Html.fromHtml("<a href=\"http://fotopota.sakuraweb.com/privacy-hhc.html\">プライバシーポリシー</a>"))
+        root.ppText.setText(Html.fromHtml("<a href=\"http://fotopota.sakuraweb.com/privacy-coffee.html\">プライバシーポリシー</a>"))
         root.ppText.movementMethod = LinkMovementMethod.getInstance()
 
 

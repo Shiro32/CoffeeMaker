@@ -20,4 +20,3 @@ class BrewDataInit (
     var memo: String) {
 
 }
-

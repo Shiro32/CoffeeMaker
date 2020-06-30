@@ -24,8 +24,8 @@ class BeansSelectAvtivity : AppCompatActivity() {
         tabLayout.setupWithViewPager(beansPager)
 
         // アイコンをセットしてみたいんだが
-        tabLayout.getTabAt(0)?.setIcon(R.drawable.beans150)
-        tabLayout.getTabAt(1)?.setIcon(R.drawable.ic_beans)
+        tabLayout.getTabAt(0)?.setIcon(R.drawable.beans40)
+        tabLayout.getTabAt(1)?.setIcon(R.drawable.beans150)
         tabLayout.getTabAt(2)?.setIcon(R.drawable.pack300)
 
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
