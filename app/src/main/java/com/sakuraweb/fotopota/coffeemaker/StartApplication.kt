@@ -11,10 +11,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
-import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansDataInit
-import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
-import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewDataInit
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.*
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.*
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
@@ -52,7 +50,7 @@ class StartApplication : Application() {
         super.onCreate()
 
         // Realm全体の初期化処理
-        Realm.init(this)
+        Realm.init(applicationContext)
 
         // ブリューデータを作る（最初はサンプル込み）
         createBrewData()
@@ -75,9 +73,17 @@ class StartApplication : Application() {
     private fun createBeansData() {
         // configを設定
         beansRealmConfig = RealmConfiguration.Builder()
-            .deleteRealmIfMigrationNeeded()
             .name("beans.realm")
+            .modules(BeansDataModule())
+            .schemaVersion(BEANS_DATA_VERSION)
+            .migration(BeansDataMigration())
             .build()
+
+//        beansRealmConfig = RealmConfiguration.Builder()
+//            .name("beans.realm")
+//            .modules(BeansDataModule())
+//            .deleteRealmIfMigrationNeeded()
+//            .build()
 
         // インスタンス化
         val realm = Realm.getInstance(beansRealmConfig)
@@ -111,15 +117,24 @@ class StartApplication : Application() {
 
     private fun createBrewData() {
         brewRealmConfig = RealmConfiguration.Builder()
-            .deleteRealmIfMigrationNeeded()
             .name("brews.realm")
+            .modules(BrewDataModule())
+            .schemaVersion(BREW_DATA_VERSION)
+            .migration(BrewDataMigration())
             .build()
+
+//        brewRealmConfig = RealmConfiguration.Builder()
+//            .name("brews.realm")
+//            .modules(BrewDataModule())
+//            .deleteRealmIfMigrationNeeded()
+//            .build()
 
         val realm = Realm.getInstance(brewRealmConfig)
         val brews: RealmResults<BrewData> = realm.where(
             BrewData::class.java).findAll().sort("id", Sort.DESCENDING)
 
-        // データゼロなら作る
+
+       // データゼロなら作る
         if( brews.size == 0 ) {
             val brewList = listOf<BrewDataInit>(
                 BrewDataInit("2020/01/19 12:34", 2F, 1, 1, 1, 3F, 10F, 1F, 90F, 30F, "http", "サンプルです")
@@ -145,12 +160,11 @@ class StartApplication : Application() {
             realm.commitTransaction()
             blackToast(this,"BREWデータベース完了！")
         }
+
         realm.close()
     }
 
 }
-
-
 
 
 // 黒いToast画面を出すだけ

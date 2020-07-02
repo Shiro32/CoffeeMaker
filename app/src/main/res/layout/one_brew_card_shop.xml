@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/cardColor"
+    app:cardBackgroundColor="@color/cardColor2"
     app:cardCornerRadius="8dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true">
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:text="2020年4月1日 10時00分"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold"
@@ -53,7 +53,6 @@
             android:id="@+id/oneBrewBeansKindText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginEnd="5dp"
             android:text="豆のなまえ"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewBeansLabel"
@@ -73,10 +72,12 @@
 
         <TextView
             android:id="@+id/oneBrewMemoText"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
             android:text="@string/oneBrewMemoLabel"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewMemoLabel"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
 
         <RatingBar
@@ -102,7 +103,7 @@
             android:text="抽出方法"
             android:textAlignment="textEnd"
             android:textSize="10sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewMemoText"
+            app:layout_constraintBottom_toTopOf="@+id/oneBrewMemoText"
             app:layout_constraintEnd_toEndOf="parent" />
 
 

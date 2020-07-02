@@ -6,6 +6,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
@@ -164,6 +166,8 @@ class BrewEditActivity : AppCompatActivity() {
             finish()
         }
 
+        brewEditMethodSpin.onItemSelectedListener = hoge()
+
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(brewEditToolbar) // これやらないと落ちるよ
         supportActionBar?.title = getString(titles[editMode] as Int)
@@ -175,6 +179,22 @@ class BrewEditActivity : AppCompatActivity() {
         Log.d("SHIRO", "brew-edit / onCreate")
     } // 編集画面のonCreate
 
+
+    private inner class hoge() : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            if( brewEditMethodSpin.selectedItemPosition == BREW_METHOD_SHOP ) {
+                brewEditHomeBrewItems.visibility = View.GONE
+            } else {
+                brewEditHomeBrewItems.visibility = View.VISIBLE
+            }
+//            brewEditGrindBar.visibility = View.GONE
+//            brewEditGrindLabel.visibility = View.GONE
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            TODO("Not yet implemented")
+        }
+    }
 
 
     // OKButton（保存）のリスナがあまりに巨大化してきたので独立

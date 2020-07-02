@@ -151,6 +151,7 @@ class BrewFragment : Fragment() {
     // 終了処理
     // 特にきめがあって書いたわけではなく、HHCのコースセレクトダイアログに従って書いただけ見たい
     // そう考えると、書く位置を間違っているのかも
+    // TODO: onStopの方がいいそうです（onDestroyは呼ばれないことがある）
     override fun onDestroy() {
         Log.d("SHIRO", "brew / onDestroy - DB CLOSE")
 

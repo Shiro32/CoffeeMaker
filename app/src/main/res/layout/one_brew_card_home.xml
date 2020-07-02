@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:text="2020年4月1日 10時00分"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold"
@@ -53,11 +53,11 @@
             android:id="@+id/oneBrewBeansKindText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginEnd="5dp"
             android:text="豆のなまえ"
+            android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewBeansLabel"
-            app:layout_constraintEnd_toEndOf="@+id/oneBrewRatingBar"
+            app:layout_constraintEnd_toStartOf="@+id/oneBrewMethodText"
             app:layout_constraintStart_toEndOf="@+id/oneBrewBeansLabel" />
 
         <TextView
@@ -65,15 +65,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:text="@string/oneBrewGrind"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewMemoLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansLabel" />
 
         <com.warkiz.widget.IndicatorSeekBar
             android:id="@+id/oneBrewGrindBar"
-            android:layout_width="141dp"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:paddingLeft="6sp"
             android:paddingEnd="10sp"
             app:isb_clear_default_padding="true"
@@ -119,7 +119,6 @@
             android:id="@+id/oneBrewSteamBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:paddingLeft="6sp"
             android:paddingEnd="10sp"
@@ -160,17 +159,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="8dp"
             android:text="@string/oneBrewTemp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansGrindLabel" />
 
         <com.warkiz.widget.IndicatorSeekBar
             android:id="@+id/oneBrewTempBar"
-            android:layout_width="141dp"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:paddingLeft="6sp"
             android:paddingEnd="10sp"
             app:isb_clear_default_padding="true"
@@ -216,7 +212,6 @@
             android:id="@+id/oneBrewBeansUseBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:paddingLeft="6sp"
             android:paddingEnd="10sp"
@@ -256,17 +251,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:text="@string/oneBrewMemoLabel"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansKindText" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewTempBar" />
 
         <TextView
             android:id="@+id/oneBrewMemoText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
             android:text="@string/oneBrewMemoLabel"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewMemoLabel"
-            app:layout_constraintEnd_toStartOf="@+id/oneBrewMethodText"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
 
         <RatingBar
@@ -292,7 +291,7 @@
             android:text="抽出方法"
             android:textAlignment="textEnd"
             android:textSize="10sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewMemoText"
+            app:layout_constraintBottom_toTopOf="@+id/oneBrewBeansUseBar"
             app:layout_constraintEnd_toEndOf="parent" />
 
 
