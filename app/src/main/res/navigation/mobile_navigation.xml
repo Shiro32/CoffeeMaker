@@ -22,6 +22,12 @@
         android:name="com.sakuraweb.fotopota.coffeemaker.ui.settings.AnaFragment"
         android:label="@string/title_analyze"
         tools:layout="@layout/fragment_ana" />
+
+    <fragment
+        android:id="@+id/navigation_takeouts"
+        android:name="com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutFragment"
+        android:label="店飲み" />
+
     <fragment
         android:id="@+id/navigation_brews"
         android:name="com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewFragment"

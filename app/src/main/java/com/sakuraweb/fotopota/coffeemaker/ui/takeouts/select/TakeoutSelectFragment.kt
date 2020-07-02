@@ -1,4 +1,4 @@
-package com.sakuraweb.fotopota.coffeemaker.ui.beans.select
+package com.sakuraweb.fotopota.coffeemaker.ui.takeouts.select
 
 import android.app.Activity
 import android.content.Intent
@@ -11,10 +11,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 
 import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.beansBlend
-import com.sakuraweb.fotopota.coffeemaker.beansPack
-import com.sakuraweb.fotopota.coffeemaker.beansSpecial
-import kotlinx.android.synthetic.main.fragment_beans_select.view.*
+import com.sakuraweb.fotopota.coffeemaker.takeoutCafe
+import com.sakuraweb.fotopota.coffeemaker.takeoutConvini
+import com.sakuraweb.fotopota.coffeemaker.takeoutRestaurant
+import kotlinx.android.synthetic.main.fragment_takeout_select.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,10 +23,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [BeansSelectFragment.newInstance] factory method to
+ * Use the [TakeoutSelectFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BeansSelectFragment : Fragment() {
+class TakeoutSelectFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = "hoge1"
     private var param2: String? = "hoge2"
@@ -38,7 +38,6 @@ class BeansSelectFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
     }
 
 
@@ -47,23 +46,20 @@ class BeansSelectFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val root = inflater.inflate(R.layout.fragment_beans_select, container, false)
+        val root = inflater.inflate(R.layout.fragment_takeout_select, container, false)
 
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
-//            root.testText.setText(param1)
+//            root.takeoutText.setText(param1)
         }
 
         when(param1) {
-            "SPECIAL" -> root.beansListView.adapter = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, beansSpecial)
-            "BLEND" ->   root.beansListView.adapter = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, beansBlend)
-            "PACK" -> {
-                root.beansListView.adapter = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, beansPack)
-
-            }
+            "SPECIAL" -> root.takeoutListView.adapter = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, takeoutConvini)
+            "BLEND" ->   root.takeoutListView.adapter = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, takeoutCafe)
+            "PACK" -> root.takeoutListView.adapter = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, takeoutRestaurant)
         }
-        root.beansListView.onItemClickListener = ListItemClickListener()
+        root.takeoutListView.onItemClickListener = ListItemClickListener()
         return root
     }
 
@@ -77,7 +73,6 @@ class BeansSelectFragment : Fragment() {
         }
     }
 
-
     override fun onStart() {
         super.onStart()
     }
@@ -89,12 +84,12 @@ class BeansSelectFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment BeansSelectFragment.
+         * @return A new instance of fragment TakeoutSelectFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            BeansSelectFragment().apply {
+            TakeoutSelectFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

@@ -8,19 +8,18 @@ import android.view.MenuItem
 import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.RESULT_TO_HOME
 import kotlinx.android.synthetic.main.activity_beans_select_avtivity.*
-import kotlinx.android.synthetic.main.activity_brew_edit_home.*
 
 // TODO: 最下部にこっそりあるTextViewどうする？　→　キャンセルボタン化？
 // TODO: 全データぶち込み
 
-class BeansSelectAvtivity : AppCompatActivity() {
+class BeansSelectActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_beans_select_avtivity)
 
         // まずはタブの処理。adapterから行こう
-        beansPager.adapter = TabAdapter(supportFragmentManager, this)
+        beansPager.adapter = BeansSelectTabAdapter(supportFragmentManager, this)
         tabLayout.setupWithViewPager(beansPager)
 
         // アイコンをセットしてみたいんだが

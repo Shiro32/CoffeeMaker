@@ -14,6 +14,8 @@ import java.util.*
 // ★★データ項目（名前も）を変えた場合は、migrateメソッドに追記し、VERSIONも+1すること
 const val BREW_DATA_VERSION = 0L
 
+// この記載と、Configuration時のModules指定をしないと、すべての関連ClassがDB化される
+// 個別のClassのバージョンアップができないので、こうやって単独化させてあげる
 @RealmModule(classes = [BrewData::class])
 class BrewDataModule
 
@@ -25,6 +27,7 @@ open class BrewData : RealmObject() {
     lateinit  var date: Date
     var rating: Float = 0.0F
     var methodID: Int = 0
+    var place: Int = 0
     var beansID: Long = 0
     var beansPast: Int = 0
     var beansGrind: Float = 0.0F

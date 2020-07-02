@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.beansKind
 
-class TabAdapter (fm:FragmentManager, private val ctx: Context) : FragmentPagerAdapter(fm) {
+class BeansSelectTabAdapter (fm:FragmentManager, private val ctx: Context) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
        lateinit var fm: Fragment

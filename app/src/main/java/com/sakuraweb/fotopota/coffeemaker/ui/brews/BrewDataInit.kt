@@ -9,6 +9,7 @@ class BrewDataInit (
     var date: String,
     var rating: Float,
     var methodID: Int,
+    var place: Int,
     var beansID: Long,
     var beansPast: Int,
     var beansGrind: Float,

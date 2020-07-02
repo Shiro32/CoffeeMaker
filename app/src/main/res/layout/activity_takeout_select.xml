@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/beansSelectLayout"
+    android:id="@+id/takeoutSelectLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.beans.select.ActivityBeansSelectAvtivity">
+    tools:context=".ui.takeouts.select.TakeoutSelectActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/beansSelectToolbar"
+        android:id="@+id/takeoutSelectToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -17,53 +17,53 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="著名な？豆リストから選択" />
+        app:title="お店のメニューで入力" />
 
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/beansPager"
+        android:id="@+id/takeoutPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/beansSelectToolbar">
+        app:layout_constraintTop_toBottomOf="@+id/takeoutSelectToolbar">
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
+            android:id="@+id/takeoutTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/beansSelectToolbar"
+            app:layout_constraintTop_toBottomOf="@+id/takeoutSelectToolbar"
             app:tabBackground="@drawable/tab_color_selector">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/beansKindSpecial" />
+                android:text="@string/takeoutKindConvini" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/beansKindBlend" />
+                android:text="@string/takeoutKindCafe" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/beansKindPack" />
+                android:text="@string/takeoutaKindRestaurant" />
         </com.google.android.material.tabs.TabLayout>
 
         <fragment
-            android:id="@+id/fragment2"
-            android:name="com.sakuraweb.fotopota.coffeemaker.ui.beans.select.BeansSelectFragment"
+            android:id="@+id/fragment3"
+            android:name="com.sakuraweb.fotopota.coffeemaker.ui.takeouts.select.TakeoutSelectFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/takeoutTabLayout" />
 
     </androidx.viewpager.widget.ViewPager>
 

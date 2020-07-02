@@ -33,7 +33,7 @@
         <item>水出し</item>
         <item>ドリップパック</item>
         <item>インスタント</item>
-        <item>店飲み/テイクアウト</item>    // これだけ特殊。コード10、家飲みとして区別
+        <item>外飲み</item>    // これだけ特殊。コード10、家飲みとして区別
     </string-array>
 
     <!-- 抽出方法のアイコン集 -->
@@ -50,6 +50,116 @@
         <item>@drawable/instant399</item>
         <item>@drawable/dotour</item>
     </string-array>
+
+    <!-- 店飲みのセレクト関係 -->
+    <array name="takeout_kind">
+        <item>コンビニ</item>
+        <item>カフェ</item>
+        <item>レストラン</item>
+    </array>
+
+    <array name="takeout_convini">
+        <item>【ファミマ】食べる牧場ミルクフラッペ</item>
+        <item>【ファミマ】キャラメルラテ</item>
+        <item>【ファミマ】アイスコーヒーＳ</item>
+        <item>【ファミマ】アイスコーヒーＭ</item>
+        <item>【ファミマ】アイスカフェラテＭ</item>
+        <item>【ファミマ】アイスキャラメルラテ</item>
+        <item>【ファミマ】ブレンドＳ</item>
+        <item>【ファミマ】ブレンドＭ</item>
+        <item>【ファミマ】カフェラテＭ</item>
+        <item>【ファミマ】レモネードフラッペ</item>
+        <item>【ファミマ】カフェフラッペ</item>
+        <item>【ファミマ】チョコフラッペ</item>
+        <item>【セブン】ホットコーヒーＲ</item>
+        <item>【セブン】ホットコーヒーＬ</item>
+        <item>【セブン】アイスコーヒーＲ</item>
+        <item>【セブン】アイスコーヒーＬ</item>
+        <item>【セブン】高級キリマンジャロブレンドＲ</item>
+        <item>【セブン】高級キリマンジャロブレンドＬ</item>
+        <item>【セブン】ホットカフェラテＲ</item>
+        <item>【セブン】ホットカフェラテＬ</item>
+        <item>【セブン】アイスカフェラテＲ</item>
+        <item>【セブン】アイスカフェラテL</item>
+        <item>【ローソン】コーヒーＳ</item>
+        <item>【ローソン】コーヒーＭ</item>
+        <item>【ローソン】コーヒーＬ</item>
+        <item>【ローソン】アイスコーヒーＳ</item>
+        <item>【ローソン】アイスコーヒーＭ</item>
+        <item>【ローソン】メガアイスコーヒー</item>
+        <item>【ローソン】カフェラテＭ</item>
+        <item>【ローソン】カフェラテＬ</item>
+        <item>【ローソン】アイスカフェラテＭ</item>
+        <item>【ローソン】メガアイスカフェラテ</item>
+        <item>【ローソン】カフェモカ</item>
+    </array>
+
+    <array name="takeout_cafe">
+        <item>【スタバ】ドリップ</item>
+        <item>【スタバ】コーヒープレス</item>
+        <item>【スタバ】コールドブリューコーヒー</item>
+        <item>【スタバ】スターバックスラテ</item>
+        <item>【スタバ】ソイラテ</item>
+        <item>【スタバ】カプチーノ</item>
+        <item>【スタバ】カフェモカ</item>
+        <item>【スタバ】ホワイトモカ</item>
+        <item>【スタバ】キャラメルマキアート</item>
+        <item>【スタバ】カフェアメリカーノ</item>
+        <item>【スタバ】エスプレッソ</item>
+        <item>【スタバ】エスプレッソコンパナ</item>
+        <item>【スタバ】エスプレッソマキアート</item>
+        <item>【スタバ】ディカフェスターバックスラテ</item>
+        <item>【スタバ】ムースフォームラテ</item>
+        <item>【スタバ】アイスムースフォームラテ</item>
+        <item>【スタバ】ムースフォームキャラメルマキアート</item>
+        <item>【スタバ】バタースコッチラテ</item>
+        <item>【スタバ】アーモンドミルクラテ</item>
+        <item>【スタバ】コーヒーフラペチーノ</item>
+        <item>【スタバ】マンゴーパッションティーフラペチーノ</item>
+        <item>【スタバ】キャラメルフラペチーノ</item>
+        <item>【スタバ】ダークモカチップフラペチーノ</item>
+        <item>【スタバ】ダークモカチップクリームフラペチーノ</item>
+        <item>【スタバ】抹茶クリームフラペチーノ</item>
+        <item>【スタバ】バニラクリームフラペチーノ</item>
+        <item>【スタバ】エスプレッソアフォガートフラペチーノ</item>
+        <item>【ドトール】ブレンドコーヒー</item>
+        <item>【ドトール】アメリカンコーヒー</item>
+        <item>【ドトール】カフェラテ</item>
+        <item>【ドトール】沖縄黒糖ラテ</item>
+        <item>【ドトール】カフェモカ</item>
+        <item>【ドトール】ハニーカフェオレ</item>
+        <item>【ドトール】豆乳ラテ</item>
+        <item>【ドトール】カプチーノ</item>
+        <item>【ドトール】エスプレッソコーヒー</item>
+        <item>【ドトール】倍増タピオカ宇治抹茶ミルク</item>
+        <item>【ドトール】アイスコーヒー</item>
+        <item>【ドトール】アイスカフェラテ</item>
+        <item>【ドトール】アイスハニーカフェオレ</item>
+        <item>【ドトール】アイスカフェモカ</item>
+        <item>【ドトール】アイス豆乳ラテ</item>
+        <item>【上島珈琲】ネルドリップブレンドコーヒー</item>
+        <item>【上島珈琲】アイスコーヒー</item>
+        <item>【上島珈琲】ウィンナーコーヒー</item>
+        <item>【上島珈琲】アイスウィンナーコーヒー</item>
+        <item>【上島珈琲】オレンジミルク珈琲</item>
+        <item>【上島珈琲】金胡麻ミルク珈琲</item>
+        <item>【上島珈琲】アイス金胡麻ミルク珈琲</item>
+        <item>【上島珈琲】ミルク珈琲（黒糖）</item>
+        <item>【上島珈琲】ミルク珈琲（無糖）</item>
+        <item>【上島珈琲】アイスミルク珈琲（黒糖）</item>
+        <item>【上島珈琲】アイスミルク珈琲（無糖）</item>
+        <item>【上島珈琲】アイスブルボンヴァニラの無糖ミルク珈琲</item>
+    </array>
+
+    <array name="takeout_restaurant">
+        <item>【サンマルク】ブレンドコーヒー</item>
+        <item>【サンマルク】アメリカンコーヒー</item>
+        <item>【サンマルク】カフェラテ</item>
+        <item>【サンマルク】チョコクロワッサン</item>
+        <item>【サンマルク】アイスコーヒー</item>
+        <item>【サンマルク】アイスカフェラテ</item>
+        <item>【王将】餃子</item>
+    </array>
 
     <array name="beans_kind">
         <item>ストレート</item>

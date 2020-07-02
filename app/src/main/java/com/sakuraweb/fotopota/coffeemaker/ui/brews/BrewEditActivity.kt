@@ -19,6 +19,7 @@ import android.widget.AdapterView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
+import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutListActivity
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
@@ -31,6 +32,7 @@ const val BREW_EDIT_MODE_EDIT = 2
 const val BREW_EDIT_MODE_COPY = 3
 
 const val REQUEST_CODE_BEANS_SELECT = 1
+const val REQUEST_CODE_TAKEOUT_SELECT = 2
 
 // TODO: LISTへ戻るメニューっている？ さすがにくどくない？
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
@@ -91,7 +93,7 @@ class BrewEditActivity : AppCompatActivity() {
                 if (brew != null) {
                     brewEditRatingBar.rating = brew.rating
                     brewEditMethodSpin.setSelection(brew.methodID)
-                    brewEditBeansText.text = findBeansNameByID(brew.beansID)
+                    brewEditBeansText.text = findBeansNameByID(brew.place, brew.beansID)
                     // 豆データだけはViewに保存できないのでローカル変数に
                     beansID = brew.beansID
                     brewEditCupsBar.setProgress(brew.cups)
@@ -115,11 +117,18 @@ class BrewEditActivity : AppCompatActivity() {
         // ーーーーーーーーーー　ここから各種ボタンのリスナ群設定　－－－－－－－－－－
 
         // マメ選択ボタンリスナ
-//        brewEditBeansText.paintFlags = brewEditBeansText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        // 抽出方法が店飲みの場合は、店飲みDBを選択する
         brewEditBeansText.setOnClickListener {
-            val intent = Intent(this, BeansListActivity::class.java)
-            intent.putExtra("from", "Edit")
-            startActivityForResult(intent, REQUEST_CODE_BEANS_SELECT)
+            // 店飲みDBを呼び出す
+            if( brewEditMethodSpin.selectedItemPosition == BREW_METHOD_SHOP ) {
+                val intent = Intent(this, TakeoutListActivity::class.java)
+                intent.putExtra("from", "Edit")
+                startActivityForResult(intent, REQUEST_CODE_TAKEOUT_SELECT) // これで見分ける
+            } else {
+                val intent = Intent(this, BeansListActivity::class.java)
+                intent.putExtra("from", "Edit")
+                startActivityForResult(intent, REQUEST_CODE_BEANS_SELECT)
+            }
         }
 
         // 日付・時刻選択のダイアログボタン用
@@ -166,7 +175,8 @@ class BrewEditActivity : AppCompatActivity() {
             finish()
         }
 
-        brewEditMethodSpin.onItemSelectedListener = hoge()
+        // 抽出方法のSpinnerを動かしたときのリスナ（店飲みの時、選択肢を減らすため
+        brewEditMethodSpin.onItemSelectedListener = MethodSpinnerChangeListener()
 
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(brewEditToolbar) // これやらないと落ちるよ
@@ -180,15 +190,18 @@ class BrewEditActivity : AppCompatActivity() {
     } // 編集画面のonCreate
 
 
-    private inner class hoge() : AdapterView.OnItemSelectedListener {
+
+    // 飲み方（家の内外）によって表示を変えるための処理
+    // method Spinnerの値変更によって起動される。幸い、最初に初期値を設定するときも呼ばれるみたい。
+    private inner class MethodSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+            // 店飲みの場合、お湯の温度や豆挽状態を隠す
             if( brewEditMethodSpin.selectedItemPosition == BREW_METHOD_SHOP ) {
                 brewEditHomeBrewItems.visibility = View.GONE
             } else {
                 brewEditHomeBrewItems.visibility = View.VISIBLE
             }
-//            brewEditGrindBar.visibility = View.GONE
-//            brewEditGrindLabel.visibility = View.GONE
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -230,6 +243,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.rating = brewRating
                         brew.beansID = beansID
                         brew.methodID = methodID
+                        brew.place = if( methodID==BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew.cups = brewCups
                         brew.beansGrind = brewGrind
                         brew.beansUse = brewBeansUse
@@ -248,6 +262,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.rating    = brewRating
                         brew?.beansID   = beansID
                         brew?.methodID  = methodID
+                        brew?.place     = if( methodID==BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew?.cups      = brewCups
                         brew?.beansGrind= brewGrind
                         brew?.beansUse  = brewBeansUse
@@ -311,12 +326,33 @@ class BrewEditActivity : AppCompatActivity() {
         Log.d("SHIRO", "brew-edit / onDestroy")
     }
 
+    // マメ選択画面から戻ってきたときの処理
+    // 豆選択DBと、テイクアウトDBで使い分ける
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
             // マメ選択画面
             REQUEST_CODE_BEANS_SELECT -> {
+                when( resultCode ) {
+                    RESULT_OK -> {
+                        val id = data?.getLongExtra("id", 0L)
+                        val name = data?.getStringExtra("name")
+
+                        brewEditBeansText.text = name
+                        beansID = id as Long
+                        blackToast(applicationContext, "${name}を選択")
+                    }
+                    RESULT_TO_HOME -> {
+                        val intent = Intent()
+                        setResult(RESULT_TO_HOME, intent)
+                        finish()
+                    }
+                }
+            }
+
+            // テイクアウト選択画面
+            REQUEST_CODE_TAKEOUT_SELECT -> {
                 when( resultCode ) {
                     RESULT_OK -> {
                         val id = data?.getLongExtra("id", 0L)

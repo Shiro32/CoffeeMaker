@@ -15,4 +15,9 @@
     <dimen name="beansDetailsBarThumbSize">15sp</dimen>
     <dimen name="beansDetailsTickMarkSize">10sp</dimen>
     <dimen name="beansDetailsTickTextSize">15sp</dimen>
+
+    <!-- takeoutにバーいるかな？ -->
+    <dimen name="takeoutDetailsBarThumbSize">15sp</dimen>
+    <dimen name="takeoutDetailsTickMarkSize">10sp</dimen>
+    <dimen name="takeoutDetailsTickTextSize">15sp</dimen>
 </resources>

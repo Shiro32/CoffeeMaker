@@ -10,11 +10,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.beans.select.BeansSelectAvtivity"></activity>
+
+        <activity android:name=".ui.takeouts.select.TakeoutSelectActivity"></activity>
+        <activity android:name=".ui.takeouts.TakeoutDetailsActivity" />
+        <activity android:name=".ui.takeouts.TakeoutEditActivity" />
+        <activity android:name=".ui.takeouts.TakeoutListActivity" />
+
+        <activity android:name=".ui.beans.select.BeansSelectActivity"></activity>
         <activity android:name=".ui.beans.BeansDetailsActivity" />
-        <activity android:name=".ui.brews.BrewDetailsActivity" />
         <activity android:name=".ui.beans.BeansEditActivity" />
         <activity android:name=".ui.beans.BeansListActivity" />
+
+        <activity android:name=".ui.brews.BrewDetailsActivity" />
         <activity android:name=".ui.brews.BrewEditActivity" />
         <activity
             android:name=".MainActivity"

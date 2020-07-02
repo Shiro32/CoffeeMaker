@@ -22,15 +22,14 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
     private val brews: RealmResults<BrewData> = brewsRealm
 
     override fun getItemViewType(position: Int): Int {
-        if( brews[position]?.methodID == BREW_METHOD_SHOP ) {
-            return BREW_IN_SHOP
-        } else {
-            return BREW_IN_HOME
-        }
 
-//        return(if( brews[position]?.methodID == BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME)
+        return brews[position]?.place as Int
 
-//        return super.getItemViewType(position)
+//        if( brews[position]?.methodID == BREW_METHOD_SHOP ) {
+//            return BREW_IN_SHOP
+//        } else {
+//            return BREW_IN_HOME
+//        }
     }
 
     // 新しく1行分のViewをXMLから生成し、1行分のViewHolderを生成してViewをセットする
@@ -87,7 +86,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             holder.ratingBar?.rating    = bp.rating
             holder.methodText?.text     = brewMethods[bp.methodID]
             holder.memoText?.text       = bp.memo
-            holder.beansKindText?.text = findBeansNameByID(bp.beansID) + days
+            holder.beansKindText?.text = findBeansNameByID(bp.place, bp.beansID) + days
             // 抽出方法にあったイラスト（アイコン）
             holder.image?.setImageDrawable(brewMethodsImages.getDrawable(bp.methodID))
 

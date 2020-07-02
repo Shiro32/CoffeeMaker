@@ -5,10 +5,10 @@
     android:id="@+id/Constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.beans.select.BeansSelectFragment" >
+    tools:context=".ui.takeouts.select.TakeoutSelectFragment">
 
     <ListView
-        android:id="@+id/beansListView"
+        android:id="@+id/takeoutListView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

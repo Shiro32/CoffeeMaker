@@ -17,6 +17,10 @@
         android:title="@string/title_beans" />
 
     <item
+        android:id="@+id/navigation_takeouts"
+        android:icon="@drawable/takeout100"
+        android:title="@string/title_takeout" />
+    <item
         android:id="@+id/navigation_settings"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/title_analyze" />
