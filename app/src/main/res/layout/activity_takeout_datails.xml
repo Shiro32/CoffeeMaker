@@ -75,25 +75,6 @@
                 app:layout_constraintTop_toTopOf="@+id/takeoutDetailsRatingLabel" />
 
             <TextView
-                android:id="@+id/takeoutDetailsShopLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/takeoutEditShopLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/takeoutDetailsChainLabel" />
-
-            <TextView
-                android:id="@+id/takeoutDetailsShopText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                app:layout_constraintBaseline_toBaselineOf="@+id/takeoutDetailsShopLabel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline" />
-
-            <TextView
                 android:id="@+id/takeoutDetailsPriceLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,7 +82,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/takeoutEditPriceLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/takeoutDetailsShopLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/takeoutDetailsChainLabel" />
 
             <TextView
                 android:id="@+id/takeoutDetailsPriceText"

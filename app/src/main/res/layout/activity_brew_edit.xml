@@ -175,7 +175,7 @@
                 app:layout_constraintTop_toTopOf="@+id/brewEditCupLabel" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/brewEditHomeBrewItems"
+                android:id="@+id/brewEditHomeItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -395,15 +395,37 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <TextView
-                android:id="@+id/brewEditMemoLabel"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/brewEditTakeoutItems"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:text="@string/brewEditMemoLabel"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brewEditHomeBrewItems" />
+                app:layout_constraintTop_toBottomOf="@+id/brewEditHomeItems">
+
+                <TextView
+                    android:id="@+id/brewEditShopLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/brewEditShopLabel"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/brewEditShopText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:ems="10"
+                    android:hint="@string/brewEditShopHint"
+                    android:inputType="text"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/brewEditShopLabel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/brewEditShopLabel" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
                 android:id="@+id/brewEditMemoText"
@@ -416,6 +438,16 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/brewEditMemoLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+            <TextView
+                android:id="@+id/brewEditMemoLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/brewEditMemoLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/brewEditTakeoutItems" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline2"

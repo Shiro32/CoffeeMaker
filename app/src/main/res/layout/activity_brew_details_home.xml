@@ -413,14 +413,12 @@
             <ImageView
                 android:id="@+id/brewDetailsMethodImage"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
                 android:adjustViewBounds="true"
                 app:layout_constraintBottom_toBottomOf="@+id/brewDetailsMethodText"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/brewDetailsRatingBar"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/machine2_160" />

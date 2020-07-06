@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.activity_beans_edit.*
 import java.util.*
 
 // TODO: LISTへ戻るメニューっている？ さすがにくどくない？
-// TODO: 日付ポップアップボタン見えにくくない？
 // TODO: イラストの唐突感を何とかする
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 

@@ -43,13 +43,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/oneTakeoutShopLabel"
+            android:id="@+id/oneTakeoutCountLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_marginTop="2dp"
-            android:text="@string/oneTakeoutShopLabel"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/oneTakeoutCountLabel"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toBottomOf="@+id/oneTakeoutChainLabel" />
 
         <TextView
@@ -63,19 +62,19 @@
             app:layout_constraintTop_toBottomOf="@+id/oneTakeoutNameText" />
 
         <TextView
-            android:id="@+id/oneTakeoutShopText"
+            android:id="@+id/oneTakeoutCountText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutShopLabel"
-            app:layout_constraintStart_toEndOf="@+id/oneTakeoutShopLabel"
-            tools:text="ＮＹ支店" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutCountLabel"
+            app:layout_constraintStart_toEndOf="@+id/oneTakeoutCountLabel"
+            tools:text="１００" />
 
         <TextView
             android:id="@+id/oneTakeoutChainText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutChainLabel"
-            app:layout_constraintStart_toEndOf="@+id/oneTakeoutShopLabel"
+            app:layout_constraintStart_toEndOf="@+id/oneTakeoutChainLabel"
             tools:text="ファミリマート" />
 
         <TextView
@@ -83,8 +82,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/oneTakeoutPriceLabel"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutShopText"
-            app:layout_constraintStart_toStartOf="@+id/guideline4" />
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutNameText" />
 
         <TextView
             android:id="@+id/oneTakeoutPriceText"
@@ -100,11 +99,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:text="@string/oneTakeoutMemoLabel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutShopLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutSizeLabel" />
 
         <TextView
             android:id="@+id/oneTakeoutMemoText"
@@ -120,9 +119,11 @@
             android:id="@+id/oneTakeoutSizeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
             android:text="@string/oneTakeoutSizeLabel"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutChainText"
-            app:layout_constraintStart_toStartOf="@+id/guideline4" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutChainLabel" />
 
         <TextView
             android:id="@+id/oneTakeoutSizeText"
@@ -137,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="250dp" />
+            app:layout_constraintGuide_begin="267dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,7 +12,7 @@ import java.util.*
 // Realmで使うためには、openにしないといけないので注意！
 
 // ★★データ項目（名前も）を変えた場合は、migrateメソッドに追記し、VERSIONも+1すること
-const val BREW_DATA_VERSION = 0L
+const val BREW_DATA_VERSION = 1L
 
 // この記載と、Configuration時のModules指定をしないと、すべての関連ClassがDB化される
 // 個別のClassのバージョンアップができないので、こうやって単独化させてあげる
@@ -28,6 +28,7 @@ open class BrewData : RealmObject() {
     var rating: Float = 0.0F
     var methodID: Int = 0
     var place: Int = 0
+    var shop: String = ""   // 外飲みの時だけ、購入店舗
     var beansID: Long = 0
     var beansPast: Int = 0
     var beansGrind: Float = 0.0F
@@ -37,6 +38,9 @@ open class BrewData : RealmObject() {
     var steam: Float = 0.0F
     var imageURI: String = ""
     var memo: String=""
+    var takeoutID: Long = 0
+
+    var price: Int = 0 // 予備
 }
 
 // データベース構造（名称だけでも）に変更があった場合のMigration処理
@@ -48,15 +52,9 @@ class BrewDataMigration : RealmMigration {
         var oldVersion = oldVersion
 
         if( oldVersion==0L ) {
-//            realmSchema.get("BrewData")!!
-//                .addField("price", Long::class.java)
-//                .removeField("option1")
-//                .removeField("option2")
-//                .removeField("option3")
-//                .removeField("option4")
-//                .removeField("option5")
-//                .removeField("option6")
-//            oldVersion++
+            realmSchema.get("BrewData")!!
+                .addField("takeoutID", Long::class.java)
+            oldVersion++
         }
     }
 }

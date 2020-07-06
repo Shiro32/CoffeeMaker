@@ -10,7 +10,6 @@ import com.sakuraweb.fotopota.coffeemaker.RESULT_TO_HOME
 import kotlinx.android.synthetic.main.activity_beans_select_avtivity.*
 
 // TODO: 最下部にこっそりあるTextViewどうする？　→　キャンセルボタン化？
-// TODO: 全データぶち込み
 
 class BeansSelectActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

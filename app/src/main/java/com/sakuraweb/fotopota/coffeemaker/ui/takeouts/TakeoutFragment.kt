@@ -10,7 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.R
+import com.sakuraweb.fotopota.coffeemaker.blackToast
+import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
 import com.sakuraweb.fotopota.coffeemaker.takeoutRealmConfig
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.SetTakeoutListener
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutEditActivity
@@ -97,7 +100,8 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
     override fun onStart() {
         super.onStart()
 
-        // 全部の豆データをrealmResults配列に読み込む
+        // 全部の外飲みデータをrealmResults配列に読み込む
+        // TODO: 最近飲んだものを上に出てこられるようにしてやりたいが、どうやって・・・？　最近の参照日みたいなフィールドを残すか？
         val realmResults = realm.where(TakeoutData::class.java).findAll().sort("id", Sort.DESCENDING)
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
@@ -128,15 +132,74 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
 
 }
 
+// 個別のテイクアウト商品ごとに、何回飲んだかをカウントする
+// BREWデータベースを開いて、そこで、何度自分をリンクしているか数える
+fun findTakeoutUseCount( takeout: TakeoutData ) : Int {
+    val takeID = takeout.id
+
+    // 摂取DBを開いて、外飲みIDの数を数える
+    val brewRealm = Realm.getInstance(brewRealmConfig)
+    val brews = brewRealm.where<BrewData>().equalTo("takeoutID", takeID).findAll()
+    val counts = brews.size
+    brewRealm.close()
+
+    return counts
+}
 
 
-fun findTakeoutNameByID( id: Long ): String {
+// テイクアウトの系列店名（TakeoutData.chain）を返す
+fun findTakeoutChainNameByID( id: Long ): String {
     val realm = Realm.getInstance(takeoutRealmConfig)
     val bean = realm.where<TakeoutData>().equalTo("id",id).findFirst()
-    var name = bean?.name.toString()
+    var name = bean?.chain.toString()
     realm.close()
 
-    if( name=="null" ) name="データなし"
+    if( name=="null" ) name=""
     return name
 }
+
+// テイクアウトの利用日をセットする（無茶苦茶やな・・・）
+fun setTakeoutTakeDay() {
+    val takeRealm = Realm.getInstance(takeoutRealmConfig)
+    val brewRealm = Realm.getInstance(brewRealmConfig)
+
+    // 全店飲みを読み込む
+    val takeouts = takeRealm.where(TakeoutData::class.java).findAll()
+
+    // 全店飲みについて処理する
+    for( take in takeouts) {
+        // BREWの中で自分を参照しているデータを日付ソートで全部拾う
+        val brews = brewRealm.where<BrewData>().equalTo("id", take.id).findAll().sort("date", Sort.DESCENDING)
+        val recent = brews[0]?.date
+
+        if( recent!=null ) {
+
+        }
+        val a = 1L
+    }
+
+    takeRealm.close()
+    brewRealm.close()
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

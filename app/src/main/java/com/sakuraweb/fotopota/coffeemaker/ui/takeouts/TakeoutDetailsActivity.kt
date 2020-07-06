@@ -48,7 +48,7 @@ class TakeoutDetailsActivity : AppCompatActivity() {
             takeoutDetailsRatingBar.  rating = takeout.rating
             takeoutDetailsNameText.   setText(takeout.name)
             takeoutDetailsChainText.  setText(takeout.chain)
-            takeoutDetailsShopText.   setText(takeout.shop)
+//            takeoutDetailsShopText.   setText(takeout.shop)
             takeoutDetailsPriceText.  setText(takeout.price.toString()) // nullをやると死ぬので注意
             takeoutDetailsSizeText.   setText(takeout.size)
             takeoutDetailsMemoText.   setText(takeout.memo)

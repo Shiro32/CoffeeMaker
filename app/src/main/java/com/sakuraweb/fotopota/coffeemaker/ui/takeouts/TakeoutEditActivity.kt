@@ -20,7 +20,6 @@ import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_takeout_edit.*
 
 // TODO: LISTへ戻るメニューっている？ さすがにくどくない？
-// TODO: 日付ポップアップボタン見えにくくない？
 // TODO: イラストの唐突感を何とかする
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 
@@ -72,7 +71,7 @@ class TakeoutEditActivity : AppCompatActivity() {
                 if( takeout != null ) {
                     takeoutEditRatingBar.rating = takeout.rating
                     takeoutEditNameEdit.setText(takeout.name)
-                    takeoutEditShopEdit.setText(takeout.shop)
+//                    takeoutEditShopEdit.setText(takeout.shop)
                     takeoutEditChainEdit.setText(takeout.chain)
                     takeoutEditPriceEdit.setText(takeout.price.toString())
                     takeoutEditSizeEdit.setText(takeout.size)
@@ -124,7 +123,7 @@ class TakeoutEditActivity : AppCompatActivity() {
             val takeoutName = takeoutEditNameEdit.text.toString()
             val takeoutRating= takeoutEditRatingBar.progress.toFloat()
             val takeoutChain= takeoutEditChainEdit.text.toString()
-            val takeoutShop = takeoutEditShopEdit.text.toString()
+//            val takeoutShop = takeoutEditShopEdit.text.toString()
             val takeoutMemo = takeoutEditMemoEdit.text.toString()
             val takeoutSize = takeoutEditSizeEdit.text.toString()
             val takeoutPrice = if (takeoutEditPriceEdit.text.isNullOrEmpty()) {
@@ -147,7 +146,7 @@ class TakeoutEditActivity : AppCompatActivity() {
                         takeout.rating = takeoutRating
                         takeout.name = takeoutName
                         takeout.chain = takeoutChain
-                        takeout.shop = takeoutShop
+//                        takeout.shop = takeoutShop
                         takeout.price = takeoutPrice
                         takeout.size = takeoutSize
                         takeout.memo = takeoutMemo
@@ -162,7 +161,7 @@ class TakeoutEditActivity : AppCompatActivity() {
                         takeout?.rating = takeoutRating
                         takeout?.name = takeoutName
                         takeout?.chain = takeoutChain
-                        takeout?.shop = takeoutShop
+//                        takeout?.shop = takeoutShop
                         takeout?.price = takeoutPrice
                         takeout?.size = takeoutSize
                         takeout?.memo = takeoutMemo

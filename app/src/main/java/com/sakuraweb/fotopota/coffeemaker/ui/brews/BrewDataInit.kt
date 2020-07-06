@@ -18,6 +18,7 @@ class BrewDataInit (
     var temp: Float,
     var steam: Float,
     var imageURI: String,
-    var memo: String) {
+    var memo: String,
+    var takeoutID: Long) {
 
 }

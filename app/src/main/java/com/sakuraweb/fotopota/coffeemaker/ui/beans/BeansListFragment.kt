@@ -130,16 +130,16 @@ class BeansFragment : Fragment(), SetBeansListener {
 
 
 
-fun findBeansNameByID( place:Int, id: Long ): String {
+fun findBeansNameByID( place:Int, beansID: Long, takeoutID: Long ): String {
     if (place == BREW_IN_HOME) {
         val realm = Realm.getInstance(beansRealmConfig)
-        val bean = realm.where<BeansData>().equalTo("id", id).findFirst()
+        val bean = realm.where<BeansData>().equalTo("id", beansID).findFirst()
         var name = bean?.name.toString()
         realm.close()
         if (name != "null") return name else return "データなし"
     } else {
         val realm = Realm.getInstance(takeoutRealmConfig)
-        val bean = realm.where<TakeoutData>().equalTo("id", id).findFirst()
+        val bean = realm.where<TakeoutData>().equalTo("id", takeoutID).findFirst()
         var name = bean?.name.toString()
         realm.close()
         if (name != "null") return name else return "データなし"

@@ -29,6 +29,7 @@ open class BeansData : RealmObject() {
     var roast: Float = 0F      // 焙煎（深煎り～浅煎りまで）
     var shop: String = ""   // 購入店
     var price: Int = 0      // 購入価格
+    var count: Int = 0
     var memo: String = ""   // メモ
 
 }

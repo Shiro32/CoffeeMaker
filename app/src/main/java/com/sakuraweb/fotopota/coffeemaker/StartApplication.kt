@@ -13,10 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.*
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.*
-import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TAKEOUT_DATA_VERSION
-import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
-import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutDataInit
-import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutDataModule
+import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.*
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
@@ -47,7 +44,6 @@ lateinit var takeoutKind: Array<String> // 以下３種のタイトル配列
 lateinit var takeoutConvini: Array<String>
 lateinit var takeoutCafe: Array<String>
 lateinit var takeoutRestaurant: Array<String>
-// TODO: それぞれ初期化してあげないと
 
 lateinit var roastLabels: Array<String>
 lateinit var grindLabels: Array<String>
@@ -94,6 +90,8 @@ class StartApplication : Application() {
         roastLabels = resources.getStringArray(R.array.roast_labels)
         grindLabels = resources.getStringArray(R.array.grind_labels)
 
+        setTakeoutTakeDay()
+
     }
 
     private fun createBeansData() {
@@ -120,7 +118,7 @@ class StartApplication : Application() {
         // データ数ゼロならサンプルを作る
         if (beans.size == 0) {
             val beansList = listOf<BeansDataInit>(
-                BeansDataInit("キリマンジャロ", 3F, "2020/6/1", 200F, 1F, "KALDI", 399, "特売")
+                BeansDataInit("キリマンジャロ", 3F, "2020/6/1", 200F, 1F, "KALDI", 399, 1,"最近のお気に入り")
             )
 
             // DB書き込み
@@ -166,7 +164,7 @@ class StartApplication : Application() {
         // データゼロなら作る
         if (brews.size == 0) {
             val brewList = listOf<BrewDataInit>(
-                BrewDataInit("2020/01/19 12:34", 2F, 1, 1,1, 1, 3F, 10F, 1F, 90F, 30F, "http", "サンプルです")
+                BrewDataInit("2020/01/19 12:34", 2F, 1, 1,1, 1, 3F, 10F, 1F, 90F, 30F, "http", "サンプルです", 0)
             )
             // DBに書き込む
             realm.beginTransaction()
@@ -200,7 +198,7 @@ class StartApplication : Application() {
             .name("takeout.realm")
             .modules(TakeoutDataModule())
             .schemaVersion(TAKEOUT_DATA_VERSION)
-            .migration(BeansDataMigration())
+            .migration(TakeoutDataMigration())
             .build()
 
         //        beansRealmConfig = RealmConfiguration.Builder()
@@ -218,7 +216,7 @@ class StartApplication : Application() {
         // データ数ゼロならサンプルを作る
         if (takeouts.size == 0) {
             val takeoutList = listOf<TakeoutDataInit>(
-                TakeoutDataInit("キリマンジャロ", 3F, "ファミリーマート", "ＮＹ支店",300, "Regular", "ふつう")
+                TakeoutDataInit("キリマンジャロ", 3F, "ファミリーマート", "ＮＹ支店",300, 100, "Regular", "ふつう")
             )
 
             // DB書き込み

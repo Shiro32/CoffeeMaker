@@ -6,7 +6,6 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -23,7 +22,7 @@ import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutListActivity
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.activity_brew_edit_home.*
+import kotlinx.android.synthetic.main.activity_brew_edit.*
 import java.util.*
 
 // BrewEditの動作モード（新規、編集、コピー新規、FABから）
@@ -49,6 +48,7 @@ class BrewEditActivity : AppCompatActivity() {
     // そのほか、インナークラスやonCreate以外でも使いたい変数を定義
     private var beansID: Long = 0L
     private var brewID: Long = 0L
+    private var takeoutID: Long = 0L
     private var editMode: Int = 0
     private lateinit var realm: Realm
     private lateinit var inputMethodManager: InputMethodManager
@@ -56,7 +56,7 @@ class BrewEditActivity : AppCompatActivity() {
     // 編集画面開始
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_brew_edit_home)
+        setContentView(R.layout.activity_brew_edit)
 
         // ツールバータイトル用（４モード対応）
         val titles:Map<Int,Int> = mapOf(
@@ -93,14 +93,16 @@ class BrewEditActivity : AppCompatActivity() {
                 if (brew != null) {
                     brewEditRatingBar.rating = brew.rating
                     brewEditMethodSpin.setSelection(brew.methodID)
-                    brewEditBeansText.text = findBeansNameByID(brew.place, brew.beansID)
+                    brewEditBeansText.text = findBeansNameByID(brew.place, brew.beansID, brew.takeoutID)
                     // 豆データだけはViewに保存できないのでローカル変数に
                     beansID = brew.beansID
+                    takeoutID = brew.takeoutID
                     brewEditCupsBar.setProgress(brew.cups)
                     brewEditGrindBar.setProgress(brew.beansGrind)
                     brewEditBeansUseBar.setProgress(brew.beansUse)
                     brewEditTempBar.setProgress(brew.temp)
                     brewEditSteamBar.setProgress(brew.steam)
+                    brewEditShopText.setText(brew.shop)
                     brewEditMemoText.setText(brew.memo)
                     // 編集の時だけは、時刻は既存データのまま（新規は現在時刻）
                     if( editMode== BREW_EDIT_MODE_EDIT )  calender.time = brew.date
@@ -198,9 +200,11 @@ class BrewEditActivity : AppCompatActivity() {
 
             // 店飲みの場合、お湯の温度や豆挽状態を隠す
             if( brewEditMethodSpin.selectedItemPosition == BREW_METHOD_SHOP ) {
-                brewEditHomeBrewItems.visibility = View.GONE
+                brewEditHomeItems.visibility = View.GONE
+                brewEditTakeoutItems.visibility = View.VISIBLE
             } else {
-                brewEditHomeBrewItems.visibility = View.VISIBLE
+                brewEditHomeItems.visibility = View.VISIBLE
+                brewEditTakeoutItems.visibility = View.GONE
             }
         }
 
@@ -226,6 +230,7 @@ class BrewEditActivity : AppCompatActivity() {
             val brewBeansUse= brewEditBeansUseBar.progress.toFloat()
             val brewTemp    = brewEditTempBar.progress.toFloat()
             val brewSteam   = brewEditSteamBar.progress.toFloat()
+            val brewShop   = brewEditShopText.text.toString()
             val brewMemo   = brewEditMemoText.text.toString()
 
             when( editMode ) {
@@ -243,12 +248,14 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.rating = brewRating
                         brew.beansID = beansID
                         brew.methodID = methodID
+                        brew.takeoutID = takeoutID
                         brew.place = if( methodID==BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew.cups = brewCups
                         brew.beansGrind = brewGrind
                         brew.beansUse = brewBeansUse
                         brew.temp = brewTemp
                         brew.steam = brewSteam
+                        brew.shop = brewShop
                         brew.memo = brewMemo
                     }
                     blackToast(applicationContext, "追加しましたぜ")
@@ -261,6 +268,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.date      = brewDate
                         brew?.rating    = brewRating
                         brew?.beansID   = beansID
+                        brew?.takeoutID = takeoutID
                         brew?.methodID  = methodID
                         brew?.place     = if( methodID==BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew?.cups      = brewCups
@@ -268,6 +276,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.beansUse  = brewBeansUse
                         brew?.temp      = brewTemp
                         brew?.steam     = brewSteam
+                        brew?.shop      = brewShop
                         brew?.memo      = brewMemo
                     }
                     blackToast(applicationContext, "修正完了！")
@@ -359,7 +368,7 @@ class BrewEditActivity : AppCompatActivity() {
                         val name = data?.getStringExtra("name")
 
                         brewEditBeansText.text = name
-                        beansID = id as Long
+                        takeoutID = id as Long
                         blackToast(applicationContext, "${name}を選択")
                     }
                     RESULT_TO_HOME -> {

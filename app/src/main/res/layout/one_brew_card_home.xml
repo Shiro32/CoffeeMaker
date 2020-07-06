@@ -19,11 +19,10 @@
         <ImageView
             android:id="@+id/oneBrewImage"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="4dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="4dp"
             android:adjustViewBounds="true"
-            app:layout_constraintBottom_toTopOf="@+id/oneBrewMethodText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/machine2_160" />
@@ -102,7 +101,7 @@
             app:isb_track_background_color="#dddddd"
             app:isb_track_background_size="2dp"
             app:isb_track_progress_color="#dddddd"
-            app:isb_track_progress_size="4dp"
+            app:isb_track_progress_size="2dp"
             app:isb_track_rounded_corners="false"
             app:isb_user_seekable="false"
             app:layout_constraintStart_toEndOf="@+id/oneBrewBeansGrindLabel"
@@ -147,7 +146,7 @@
             app:isb_track_background_color="#dddddd"
             app:isb_track_background_size="2dp"
             app:isb_track_progress_color="#dddddd"
-            app:isb_track_progress_size="4dp"
+            app:isb_track_progress_size="2dp"
             app:isb_track_rounded_corners="false"
             app:isb_user_seekable="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -194,7 +193,7 @@
             app:isb_track_background_color="#dddddd"
             app:isb_track_background_size="2dp"
             app:isb_track_progress_color="#dddddd"
-            app:isb_track_progress_size="4dp"
+            app:isb_track_progress_size="2dp"
             app:isb_track_rounded_corners="false"
             app:isb_user_seekable="false"
             app:layout_constraintStart_toEndOf="@+id/oneBrewTempLabel"
@@ -240,7 +239,7 @@
             app:isb_track_background_color="#dddddd"
             app:isb_track_background_size="2dp"
             app:isb_track_progress_color="#dddddd"
-            app:isb_track_progress_size="4dp"
+            app:isb_track_progress_size="2dp"
             app:isb_track_rounded_corners="false"
             app:isb_user_seekable="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -286,14 +285,14 @@
 
         <TextView
             android:id="@+id/oneBrewMethodText"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:text="抽出方法"
             android:textAlignment="textEnd"
             android:textSize="10sp"
-            app:layout_constraintBottom_toTopOf="@+id/oneBrewBeansUseBar"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewImage" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

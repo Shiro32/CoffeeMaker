@@ -19,11 +19,10 @@
         <ImageView
             android:id="@+id/oneBrewImage"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="4dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="4dp"
             android:adjustViewBounds="true"
-            app:layout_constraintBottom_toTopOf="@+id/oneBrewMethodText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/machine2_160" />
@@ -53,10 +52,11 @@
             android:id="@+id/oneBrewBeansKindText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="8dp"
             android:text="豆のなまえ"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewBeansLabel"
             app:layout_constraintEnd_toEndOf="@+id/oneBrewRatingBar"
+            app:layout_constraintEnd_toStartOf="@+id/oneBrewImage"
             app:layout_constraintStart_toEndOf="@+id/oneBrewBeansLabel" />
 
         <TextView
@@ -64,11 +64,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
             android:layout_marginBottom="4dp"
             android:text="@string/oneBrewMemoLabel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewShopLabel" />
+
+        <TextView
+            android:id="@+id/oneBrewShopLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/oneBrewShopLabel"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansKindText" />
+
+        <TextView
+            android:id="@+id/oneBrewShopText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="店の名前"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewShopLabel"
+            app:layout_constraintEnd_toEndOf="@+id/oneBrewBeansKindText"
+            app:layout_constraintStart_toEndOf="@+id/oneBrewBeansLabel" />
 
         <TextView
             android:id="@+id/oneBrewMemoText"
@@ -97,14 +117,14 @@
 
         <TextView
             android:id="@+id/oneBrewMethodText"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:text="抽出方法"
             android:textAlignment="textEnd"
             android:textSize="10sp"
-            app:layout_constraintBottom_toTopOf="@+id/oneBrewMemoText"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewImage" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

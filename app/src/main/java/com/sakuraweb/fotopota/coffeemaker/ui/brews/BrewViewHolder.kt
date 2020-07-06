@@ -5,6 +5,13 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.warkiz.widget.IndicatorSeekBar
 import kotlinx.android.synthetic.main.one_brew_card_home.view.*
+import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewBeansKindText
+import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewDateText
+import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewImage
+import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewMemoText
+import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewMethodText
+import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewRatingBar
+import kotlinx.android.synthetic.main.one_brew_card_shop.view.*
 
 // ViewHolderを作る
 // 要するに1行分のViewを保持する（データではない）、描画用のインスタンス。
@@ -24,6 +31,7 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
     var cupsBar:        IndicatorSeekBar? = null
     var tempBar:        IndicatorSeekBar? = null
     var steamBar:       IndicatorSeekBar? =null
+    var shopText:           TextView? = null
     var memoText:       TextView? = null
     var image:          ImageView? = null
     var editBtn:        Button? = null
@@ -48,6 +56,7 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         tempBar         = iv.oneBrewTempBar
         steamBar        = iv.oneBrewSteamBar
 
+        shopText        = iv.oneBrewShopText
         memoText        = iv.oneBrewMemoText
         image           = iv.oneBrewImage
     }

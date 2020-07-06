@@ -25,8 +25,9 @@ open class TakeoutData : RealmObject() {
     var name: String = ""   // 銘柄
     var rating: Float = 0F
     var chain: String =""   // チェーン店
-    var shop: String = ""   // 購入店
+    var shop: String = ""   // 購入店　(でも廃止予定）
     var price: Int = 0      // 購入価格
+    var count: Int = 0      // 購入回数
     var size: String =""    // サイズ
     var memo: String = ""   // メモ
 

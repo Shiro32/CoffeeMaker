@@ -7,8 +7,9 @@ class TakeoutDataInit (
     var name: String,
     var rating: Float,
     var chain: String,
-    var shop: String,
+    var shop: String, // 廃止予定
     var price: Int,
+    var count: Int,
     var size: String,
     var memo: String
 )

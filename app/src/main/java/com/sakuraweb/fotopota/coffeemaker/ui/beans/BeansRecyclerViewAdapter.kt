@@ -53,7 +53,7 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
             holder.pastText?.text = "（"+((Date().time - bean.date.time)/(1000*60*60*24)).toString()+"日経過）"
             holder.gramBar?.setProgress(bean.gram)
             holder.roastBar?.setProgress(bean.roast)
-            holder.shop?.text = "＠"+bean.shop
+            holder.shop?.text = bean.shop
             holder.price?.text = bean.price.toString()
             holder.memo?.text = bean.memo
 

@@ -46,10 +46,11 @@ class TakeoutRecyclerViewAdapter(takeoutRealm: RealmResults<TakeoutData>, privat
             holder.name?.text = bean.name
             holder.ratingBar?.rating = bean.rating
             holder.chain?.text = bean.chain
-            holder.shop?.text = bean.shop
+//            holder.shop?.text = bean.shop
             holder.price?.text = bean.price.toString()+"円"
-            holder.size?.text = bean.size+"サイズ"
+            holder.size?.text = bean.size
             holder.memo?.text = bean.memo
+            holder.count?.text = findTakeoutUseCount( bean ).toString()
 
 /*
             holder.copyBtn?.setOnClickListener {

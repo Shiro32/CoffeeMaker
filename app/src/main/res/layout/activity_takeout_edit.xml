@@ -77,16 +77,6 @@
                 app:layout_constraintTop_toTopOf="@+id/takeoutEditRatingLabel" />
 
             <TextView
-                android:id="@+id/takeoutEditShopLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:text="@string/takeoutEditShopLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/takeoutEditChainLabel" />
-
-            <TextView
                 android:id="@+id/takeoutEditChainLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -108,18 +98,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
-            <EditText
-                android:id="@+id/takeoutEditShopEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:ems="10"
-                android:hint="@string/takeoutEditChainHintLabel"
-                android:inputType="text"
-                app:layout_constraintBaseline_toBaselineOf="@+id/takeoutEditShopLabel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline" />
-
             <TextView
                 android:id="@+id/takeoutEditPriceLabel"
                 android:layout_width="wrap_content"
@@ -128,7 +106,7 @@
                 android:layout_marginTop="32dp"
                 android:text="@string/takeoutEditPriceLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/takeoutEditShopLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/takeoutEditChainLabel" />
 
             <EditText
                 android:id="@+id/takeoutEditPriceEdit"

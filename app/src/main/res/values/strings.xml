@@ -12,9 +12,9 @@
 
 
 
-    <string name="titleTakeoutListFromBtnv">外飲みメニュー</string>
+    <string name="titleTakeoutListFromBtnv">外飲み一覧</string>
     <!-- なぜかfromEditはfragmentから設定できないのでデフォで設定してある -->
-    <string name="titleTakeoutListFromBrewEdit">メニュー選択してね</string>
+    <string name="titleTakeoutListFromBrewEdit">コーヒーを選択</string>
     <string name="titleTakeoutDetails">外飲みの詳細情報</string>
     <string name="titleTakeoutEditEdit">外飲み情報の編集</string>
     <string name="titleTakeoutEditNew">外飲み情報の作成</string>
@@ -27,7 +27,7 @@
     <string name="titleBrewEditNew">レシピ作成</string>
     <string name="titleBrewEditCopy">コピーして作成</string>
 
-    <string name="titleBeansListFromBtnv">最近買ったコーヒー豆</string>
+    <string name="titleBeansListFromBtnv">最近のコーヒー豆一覧</string>
     <!-- なぜかfromEditはfragmentから設定できないのでデフォで設定してある -->
     <string name="titleBeansListFromBrewEdit">使用豆を選択してね</string>
     <string name="titleBeansDetails">豆の詳細情報</string>
@@ -45,26 +45,21 @@
     <string name="oneBrewSteam">蒸し：</string>
     <string name="oneBrewMemoLabel">メモ：</string>
 
-    <string name="oneTakeoutShopLabel">店　名：</string>
-    <string name="oneTakeoutSizeLabel">サイズ：</string>
-    <string name="oneTakeoutPriceLabel">値　段：</string>
-    <string name="oneTakeoutMemoLabel">メ　モ：</string>
-    <string name="oneTakeoutChainLabel">系　列：</string>
 
     <string name="editText">編集</string>
     <string name="copyText">コピー</string>
     <string name="deleteText">削除</string>
     <string name="brewEditHeaderText">スライダを多用したら、かえって入力しにくくなってゴメンナサイ・・・m(_ _)m</string>
-    <string name="brewEditMethodLabel">抽出方法</string>
-    <string name="brewEditDateLabel">作った日</string>
-    <string name="brewEditCupLabel">作った量\n(カップ)</string>
-    <string name="brewEditBeansLabel">使用豆</string>
-    <string name="brewEditGrindLabel">挽き目</string>
-    <string name="brewEditBeansUseLabel">豆の量\n(g)</string>
-    <string name="brewEditTempLabel">湯の温度\n(℃)</string>
-    <string name="brewEditSteamLabel">蒸らし\n(秒)</string>
-    <string name="brewEditMemoLabel">メモ</string>
-    <string name="brewEditRatingLabel">できばえ</string>
+    <string name="brewEditMethodLabel">抽出方法：</string>
+    <string name="brewEditDateLabel">作った日：</string>
+    <string name="brewEditCupLabel">作った量：\n(カップ)</string>
+    <string name="brewEditBeansLabel">使用豆：</string>
+    <string name="brewEditGrindLabel">挽き目：</string>
+    <string name="brewEditBeansUseLabel">豆の量：\n(g)</string>
+    <string name="brewEditTempLabel">湯の温度：\n(℃)</string>
+    <string name="brewEditSteamLabel">蒸らし：\n(秒)</string>
+    <string name="brewEditMemoLabel">メモ：</string>
+    <string name="brewEditRatingLabel">できばえ：</string>
     <string name="brewEditBeansHint">例：ブルーマウンテン</string>
     <string name="brewDateFormat">yyyy/MM/dd HH:mm</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -75,23 +70,23 @@
 
     <string name="dateFormat">%d/%02d/%02d</string>
     <string name="timeFormat">%02d:%02d</string>
-    <string name="oneBeansBuyDateLabel">購入日</string>
+    <string name="oneBeansBuyDateLabel">購入日：</string>
     <string name="oneBeansShop">＠</string>
-    <string name="oneBeansGrindLabel">挽き</string>
-    <string name="oneBeansGramLabel">グラム</string>
+    <string name="oneBeansGrindLabel">挽き：</string>
+    <string name="oneBeansGramLabel">グラム：</string>
     <string name="oneBeansPriceLabel">円</string>
-    <string name="oneBeansMemo">メモ</string>
-    <string name="oneBeansRoastLabel">焙煎度</string>
+    <string name="oneBeansMemo">メモ：</string>
+    <string name="oneBeansRoastLabel">焙煎度：</string>
 
     <string name="beansEditHeader">豆の購入記録です。代表的な豆銘柄はボタンから選択できるかもしれませぬ。</string>
-    <string name="beansEditDateLabel">購入日</string>
-    <string name="beansEditNameLabel">銘柄</string>
-    <string name="beansEditRatingLabel">評価</string>
-    <string name="beansEditShopLabel">購入店</string>
-    <string name="beansEditRoastLabel">焙煎</string>
-    <string name="beansEditGramLabel">グラム</string>
-    <string name="beansEditPriceLabel">お値段\n（円）</string>
-    <string name="beansEditMemoLabel">メモ</string>
+    <string name="beansEditDateLabel">購入日：</string>
+    <string name="beansEditNameLabel">銘柄：</string>
+    <string name="beansEditRatingLabel">評価：</string>
+    <string name="beansEditShopLabel">購入店：</string>
+    <string name="beansEditRoastLabel">焙煎：</string>
+    <string name="beansEditGramLabel">グラム：</string>
+    <string name="beansEditPriceLabel">お値段：\n（円）</string>
+    <string name="beansEditMemoLabel">メモ：</string>
     <string name="beansEditNameHint">例：マンデリン</string>
     <string name="beansEditShopHintLabel">例：KALDI銀座店</string>
     <string name="beansEditPriceHintLabel">例：800</string>
@@ -112,7 +107,7 @@
     <string name="takeoutEditRatingLabel">評　価：</string>
     <string name="takeoutEditShopLabel">購入店：</string>
     <string name="takeoutEditChainLabel">系　列：</string>
-    <string name="takeoutEditPriceLabel">お値段：\n（円）</string>
+    <string name="takeoutEditPriceLabel">お値段：</string>
     <string name="takeoutEditMemoLabel">メ　モ：</string>
     <string name="takeoutEditNameHint">例：マンデリン</string>
     <string name="takeoutEditShopHintLabel">例：ＮＹ駅前店</string>
@@ -128,6 +123,12 @@
     <string name="beansEditMemoHint">例：特売でした（＾＾）</string>
     <string name="brewEditMemoHint">例：温度測り忘れた</string>
 
+    <string name="oneTakeoutShopLabel">店　名：</string>
+    <string name="oneTakeoutSizeLabel">サイズ：</string>
+    <string name="oneTakeoutPriceLabel">値段：</string>
+    <string name="oneTakeoutMemoLabel">メ　モ：</string>
+    <string name="oneTakeoutChainLabel">系　列：</string>
+    <string name="oneTakeoutCountLabel">回数：</string>
 
     <!-- ダイアログ -->
     <string name="deleteConfirmDialogTitle">削除確認</string>
@@ -159,4 +160,9 @@
     <string name="takeoutDetailsSizeLabel">サイズ：</string>
     <string name="takeoutEditSizeLabel">サイズ：</string>
     <string name="takeoutEditSizeHint">例：ラージ</string>
+    <string name="brewEditPriceLabel">値段：</string>
+    <string name="brewEditPriceHint">例：500</string>
+    <string name="brewEditShopLabel">購入店：</string>
+    <string name="brewEditShopHint">例：ファミマ駅前店</string>
+    <string name="oneBrewShopLabel">購入：</string>
 </resources>

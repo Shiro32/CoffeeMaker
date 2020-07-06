@@ -15,6 +15,18 @@ import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_brew_details_home.*
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsBeansText
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsCupsBar
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsDateText
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsTimeText
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsEditBtn
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsMemoText
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsMethodImage
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsMethodText
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsRatingBar
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsReturnBtn
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsToolbar
+import kotlinx.android.synthetic.main.activity_brew_details_shop.*
 import java.time.LocalDateTime
 
 import java.util.*
@@ -64,13 +76,14 @@ class BrewDetailsActivity : AppCompatActivity() {
                 }
             } else {
                 setContentView(R.layout.activity_brew_details_shop)
+                brewDetailsShopText.setText(brew.shop)
             }
 
             // 家飲み・店飲み共通項目
 //            val dd: LocalDateTime = LocalDateTime.now()
             brewDetailsRatingBar.rating = brew.rating
             brewDetailsMethodText.text = brewMethods[brew.methodID]
-            brewDetailsBeansText.text = findBeansNameByID(brew.place, brew.beansID) + days
+            brewDetailsBeansText.text = findBeansNameByID(brew.place, brew.beansID, brew.takeoutID) + days
             brewDetailsMemoText.setText(brew.memo)
 
             // 抽出方法にあったイラスト（アイコン）
@@ -80,7 +93,11 @@ class BrewDetailsActivity : AppCompatActivity() {
             val year    = calendar.get(Calendar.YEAR)
             val month   = calendar.get(Calendar.MONTH)
             val day     = calendar.get(Calendar.DAY_OF_MONTH)
+            val hour    = calendar.get(Calendar.HOUR_OF_DAY)
+            val min     = calendar.get(Calendar.MINUTE)
+
             brewDetailsDateText.text = getString(R.string.dateFormat).format(year,month+1,day)
+            brewDetailsTimeText.text = getString(R.string.timeFormat).format(hour,min)
         }
 
 

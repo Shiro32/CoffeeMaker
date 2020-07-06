@@ -11,6 +11,7 @@ class BeansDataInit (
     var roast: Float,
     var shop: String,
     var price: Int,
+    var count: Int,
     var memo: String
 )
 {}

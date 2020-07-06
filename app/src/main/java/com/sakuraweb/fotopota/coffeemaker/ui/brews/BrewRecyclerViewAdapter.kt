@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
+import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.findTakeoutChainNameByID
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
 
@@ -70,6 +71,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                 holder.cupsBar?.setProgress(bp.cups.toFloat())
                 holder.tempBar?.setProgress(bp.temp.toFloat())
                 holder.steamBar?.setProgress(bp.steam.toFloat())
+
                 // 豆の経過日数を計算する
                 if(bp.beansID>0L) {
                     val d = findBeansDateByID(bp.beansID)
@@ -78,6 +80,10 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                         days = "（"+diff.toString()+"日経過）"
                     }
                 }
+            } else {
+                // 店飲みの場合は、系列店＋実店舗名称を作る
+                val chain = findTakeoutChainNameByID(bp.takeoutID)
+                holder.shopText?.text = chain + "（" + bp.shop + "）"
             }
 
             // 家飲み・店飲み共通項目
@@ -86,7 +92,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             holder.ratingBar?.rating    = bp.rating
             holder.methodText?.text     = brewMethods[bp.methodID]
             holder.memoText?.text       = bp.memo
-            holder.beansKindText?.text = findBeansNameByID(bp.place, bp.beansID) + days
+            holder.beansKindText?.text = findBeansNameByID(bp.place, bp.beansID, bp.takeoutID ) + days
             // 抽出方法にあったイラスト（アイコン）
             holder.image?.setImageDrawable(brewMethodsImages.getDrawable(bp.methodID))
 
