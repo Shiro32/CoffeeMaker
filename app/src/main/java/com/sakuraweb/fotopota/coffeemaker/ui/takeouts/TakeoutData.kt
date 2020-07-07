@@ -12,7 +12,7 @@ import java.util.*
 // Realmで使うためには、絶対にopenにしないといけないので注意！
 
 // ★★データ項目（名前も）を変えた場合は、migrateメソッドに追記し、VERSIONも+1すること
-const val TAKEOUT_DATA_VERSION = 1L
+const val TAKEOUT_DATA_VERSION = 2L
 
 @RealmModule(classes = [TakeoutData::class])
 class TakeoutDataModule
@@ -29,6 +29,7 @@ open class TakeoutData : RealmObject() {
     var price: Int = 0      // 購入価格
     var count: Int = 0      // 購入回数
     var recent: Date? = null  // 最新の利用日
+    var first: Date? = null // 最初に購入した日
     var size: String =""    // サイズ
     var memo: String = ""   // メモ
 
@@ -46,6 +47,12 @@ class TakeoutDataMigration : RealmMigration {
         if( oldVersion==0L ) {
             realmSchema.get("TakeoutData")!!
                 .addField("recent", Date::class.java)
+            oldVersion++
+        }
+
+        if( oldVersion==1L ) {
+            realmSchema.get("TakeoutData")!!
+                .addField("first", Date::class.java)
             oldVersion++
         }
     }

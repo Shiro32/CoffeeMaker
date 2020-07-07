@@ -114,8 +114,9 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
         super.onStart()
 
         // 全部の外飲みデータをrealmResults配列に読み込む
-        // TODO: 最近飲んだものを上に出てこられるようにしてやりたいが、どうやって・・・？　最近の参照日みたいなフィールドを残すか？
-        val realmResults = realm.where(TakeoutData::class.java).findAll().sort("recent", Sort.DESCENDING)
+        // 並び順ルールは、１：購入日（ＤＢ登録日）、２：最近の利用日（BREWからの参照）の順で行う
+        // こうすることで、最近利用する商品や最近登録した商品が上にくるようになる（気が付くねぇ・・・）
+        val realmResults = realm.where(TakeoutData::class.java).findAll().sort("recent", Sort.DESCENDING).sort("first", Sort.DESCENDING)
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする

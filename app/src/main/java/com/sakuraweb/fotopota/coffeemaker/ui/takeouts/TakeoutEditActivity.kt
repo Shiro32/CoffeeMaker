@@ -18,6 +18,7 @@ import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_takeout_edit.*
+import java.util.*
 
 // TODO: LISTへ戻るメニューっている？ さすがにくどくない？
 // TODO: イラストの唐突感を何とかする
@@ -120,6 +121,7 @@ class TakeoutEditActivity : AppCompatActivity() {
 
         override fun onClick(v: View?) {
             // 各View（Barなどなど）からローカル変数に読み込んでおく
+            val takeoutDate = Date()
             val takeoutName = takeoutEditNameEdit.text.toString()
             val takeoutRating= takeoutEditRatingBar.progress.toFloat()
             val takeoutChain= takeoutEditChainEdit.text.toString()
@@ -143,6 +145,7 @@ class TakeoutEditActivity : AppCompatActivity() {
                         val nextID = (maxID?.toLong() ?: 0L) + 1L
 
                         val takeout = realm.createObject<TakeoutData>(nextID)
+                        takeout.first = takeoutDate
                         takeout.rating = takeoutRating
                         takeout.name = takeoutName
                         takeout.chain = takeoutChain
