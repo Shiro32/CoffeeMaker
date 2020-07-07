@@ -24,6 +24,7 @@ import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_takeout_list.*
 import kotlinx.android.synthetic.main.fragment_takeout_list.view.*
+import java.text.SimpleDateFormat
 
 var isCalledFromBrewEditToTakeout: Boolean = false
 
@@ -32,23 +33,35 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
     private lateinit var adapter: TakeoutRecyclerViewAdapter           // アダプタのインスタンス
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
 
+
+    // リスト表示の準備
+    // データを読み込んだり、メニューを作ったり、Viewをインフレートしたり
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
         val root = inflater.inflate(R.layout.fragment_takeout_list, container, false)
-
-//      呼び出し元の検知方法。どこかで出番があるかも
-//        if( activity?.intent?.getStringExtra("from") == "Edit" ) {
-//            root.callFromText.text = "Edit画面から呼ばれました"
-//        } else {
-//            root.callFromText.text = "ナビゲーションからだと思います・・・。"
-//        }
 
         // Brewの編集画面から呼ばれたかどうかを覚えておく
         isCalledFromBrewEditToTakeout = activity?.intent?.getStringExtra("from") == "Edit"
 
+        // 外飲みの採集利用日をセットする（よく使う外飲みが、上にくるようにする）
+        val takeRealm = Realm.getInstance(takeoutRealmConfig)
+        val brewRealm = Realm.getInstance(brewRealmConfig)
+        val takeouts = takeRealm.where(TakeoutData::class.java).findAll()
+        for( take in takeouts) {
+            // BREWの中で自分を参照しているデータを日付ソートで全部拾う
+            val brews = brewRealm.where<BrewData>().equalTo("takeoutID", take.id).findAll().sort("date", Sort.DESCENDING)
+            if( brews.size>0 ) {
+                val recent = brews[0]?.date
+                takeRealm.executeTransaction { take.recent = recent }
+            } else {
+                takeRealm.executeTransaction { take.recent = null }
+            }
+        }
+        takeRealm.close()
+        brewRealm.close()
+
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
         // realmのインスタンスを作る。ConfigはStartupで設定済み
         realm = Realm.getInstance(takeoutRealmConfig)
-
 
         // 追加ボタン（fab）のリスナを設定する（EditActivity画面を呼び出す）
         root.takeoutFAB.setOnClickListener {
@@ -102,7 +115,7 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
 
         // 全部の外飲みデータをrealmResults配列に読み込む
         // TODO: 最近飲んだものを上に出てこられるようにしてやりたいが、どうやって・・・？　最近の参照日みたいなフィールドを残すか？
-        val realmResults = realm.where(TakeoutData::class.java).findAll().sort("id", Sort.DESCENDING)
+        val realmResults = realm.where(TakeoutData::class.java).findAll().sort("recent", Sort.DESCENDING)
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
@@ -163,19 +176,23 @@ fun setTakeoutTakeDay() {
     val takeRealm = Realm.getInstance(takeoutRealmConfig)
     val brewRealm = Realm.getInstance(brewRealmConfig)
 
+    val past = SimpleDateFormat("yyyy/MM/dd HH:mm:ss" ).parse("2000/01/01 00:00:00")
+
     // 全店飲みを読み込む
     val takeouts = takeRealm.where(TakeoutData::class.java).findAll()
 
     // 全店飲みについて処理する
     for( take in takeouts) {
+
         // BREWの中で自分を参照しているデータを日付ソートで全部拾う
-        val brews = brewRealm.where<BrewData>().equalTo("id", take.id).findAll().sort("date", Sort.DESCENDING)
-        val recent = brews[0]?.date
+        val brews = brewRealm.where<BrewData>().equalTo("takeoutID", take.id).findAll().sort("date", Sort.DESCENDING)
 
-        if( recent!=null ) {
-
+        if( brews.size>0 ) {
+            val recent = brews[0]?.date
+            takeRealm.executeTransaction { take.recent = recent }
+        } else {
+            takeRealm.executeTransaction { take.recent = null }
         }
-        val a = 1L
     }
 
     takeRealm.close()

@@ -90,7 +90,7 @@ class StartApplication : Application() {
         roastLabels = resources.getStringArray(R.array.roast_labels)
         grindLabels = resources.getStringArray(R.array.grind_labels)
 
-        setTakeoutTakeDay()
+//        setTakeoutTakeDay()
 
     }
 
@@ -201,11 +201,11 @@ class StartApplication : Application() {
             .migration(TakeoutDataMigration())
             .build()
 
-        //        beansRealmConfig = RealmConfiguration.Builder()
-        //            .name("takeout.realm")
-        //            .modules(TakeoutDataModule())
-        //            .deleteRealmIfMigrationNeeded()
-        //            .build()
+//                beansRealmConfig = RealmConfiguration.Builder()
+//                    .name("takeout.realm")
+//                    .modules(TakeoutDataModule())
+//                    .deleteRealmIfMigrationNeeded()
+//                    .build()
 
         // インスタンス化
         val realm = Realm.getInstance(takeoutRealmConfig)

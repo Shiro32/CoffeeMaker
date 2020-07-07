@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">コーヒー日記</string>
-    <string name="mainLabel">日々、大量に飲む（個人差があります）コーヒーのレシピ、豆の購入記録を付けられるアプリです。\n\nレシピは、抽出方法やお湯の温度などのほか、使った豆を登録済みリストから選ぶことができます。なので、先に豆データを登録してから、レシピを登録していった方が楽かな？と思います（逆順でも大丈夫ですが）\n将来的には、「分析」画面で毎日の摂取量や、美味しかった飲み方やコーヒー豆を表示できるようにする予定です。</string>
+    <string name="mainLabel">日々、大量に飲む（個人差あり？）コーヒーのレシピ、豆やテイクアウトの購入記録を付けられるアプリです。\n\nレシピは、抽出方法やお湯の温度などのほか、登録済み豆リストから選ぶこともできます。なので、先に豆データを登録してから、レシピを登録していった方が楽かな？と思います（逆順でも大丈夫ですが）</string>
 
 
     <string name="title_home">ホーム</string>
@@ -120,8 +120,8 @@
     <string name="takeoutKindCafe">カフェ</string>
     <string name="takeoutaKindRestaurant">レストラン</string>
 
-    <string name="beansEditMemoHint">例：特売でした（＾＾）</string>
-    <string name="brewEditMemoHint">例：温度測り忘れた</string>
+    <string name="beansEditMemoHint">例：３回目のリピート購入</string>
+    <string name="brewEditMemoHint">例：今までで一番おいしい</string>
 
     <string name="oneTakeoutShopLabel">店　名：</string>
     <string name="oneTakeoutSizeLabel">サイズ：</string>
@@ -153,6 +153,8 @@
     <string name="optMenu4ItemCancel">詳細へ戻る</string>
     <string name="optMenu4ItemSave">保存</string>
     <string name="optMenu4ItemDelete">削除</string>
+
+
     <string name="ctxMenuBrewDetails">詳細</string>
     <string name="ctxMenuBrewEdit">編集</string>
     <string name="ctxMenuBrewCopy">コピーして新規作成</string>
@@ -163,6 +165,6 @@
     <string name="brewEditPriceLabel">値段：</string>
     <string name="brewEditPriceHint">例：500</string>
     <string name="brewEditShopLabel">購入店：</string>
-    <string name="brewEditShopHint">例：ファミマ駅前店</string>
+    <string name="brewEditShopHint">例：銀座店</string>
     <string name="oneBrewShopLabel">購入：</string>
 </resources>
