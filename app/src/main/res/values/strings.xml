@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">コーヒー日記</string>
-    <string name="mainLabel">日々、大量に飲む（個人差あり？）コーヒーのレシピ、豆やテイクアウトの購入記録を付けられるアプリです。\n\nレシピは、抽出方法やお湯の温度などのほか、登録済み豆リストから選ぶこともできます。なので、先に豆データを登録してから、レシピを登録していった方が楽かな？と思います（逆順でも大丈夫ですが）</string>
+    <string name="mainLabel">日々、大量に飲む（個人差あり？）コーヒーのレシピ、豆やテイクアウトの購入記録を付けられるアプリです。\n\nレシピは、抽出方法やお湯の温度などのほか、登録済み豆リストから選ぶこともできます。</string>
 
 
     <string name="title_home">ホーム</string>
@@ -12,7 +12,7 @@
 
 
 
-    <string name="titleTakeoutListFromBtnv">外飲み一覧</string>
+    <string name="titleTakeoutListFromBtnv">外飲みリスト</string>
     <!-- なぜかfromEditはfragmentから設定できないのでデフォで設定してある -->
     <string name="titleTakeoutListFromBrewEdit">コーヒーを選択</string>
     <string name="titleTakeoutDetails">外飲みの詳細情報</string>
@@ -27,7 +27,7 @@
     <string name="titleBrewEditNew">レシピ作成</string>
     <string name="titleBrewEditCopy">コピーして作成</string>
 
-    <string name="titleBeansListFromBtnv">最近のコーヒー豆一覧</string>
+    <string name="titleBeansListFromBtnv">コーヒー豆リスト</string>
     <!-- なぜかfromEditはfragmentから設定できないのでデフォで設定してある -->
     <string name="titleBeansListFromBrewEdit">使用豆を選択してね</string>
     <string name="titleBeansDetails">豆の詳細情報</string>
@@ -167,4 +167,6 @@
     <string name="brewEditShopLabel">購入店：</string>
     <string name="brewEditShopHint">例：銀座店</string>
     <string name="oneBrewShopLabel">購入：</string>
+    <string name="takeoutEditRatingHint">※飲んだ時の評価の平均で自動計算です</string>
+    <string name="beansEditRatingHint">※飲んだ時の評価の平均値が自動計算されます</string>
 </resources>

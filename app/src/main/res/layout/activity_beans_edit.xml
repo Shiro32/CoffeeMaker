@@ -65,6 +65,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/beansEditNameLabel" />
 
             <TextView
+                android:id="@+id/beansEditRatingHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/beansEditRatingHint"
+                app:layout_constraintStart_toStartOf="@+id/beansEditRatingBar"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditRatingBar" />
+
+            <TextView
                 android:id="@+id/beansEditDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,7 +80,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditDateLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beansEditRatingLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/beansEditRatingHint" />
 
             <TextView
                 android:id="@+id/beansEditDateText"
@@ -88,7 +96,7 @@
                 style="@style/Widget.AppCompat.RatingBar.Indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:isIndicator="false"
+                android:isIndicator="true"
                 android:progressBackgroundTint="@color/ratingBackColor"
                 android:progressTint="@color/ratingColor"
                 app:layout_constraintBottom_toBottomOf="@+id/beansEditRatingLabel"

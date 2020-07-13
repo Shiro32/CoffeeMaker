@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <array name="sort_mode_brew">
+        <item>日付順</item>
+        <item>評価順</item>
+        <item>抽出法順</item>
+        <item>使用豆順</item>
+        <item>挽き目順</item>
+        <item>蒸らし順</item>
+        <item>外飲み除外</item>
+    </array>
+
     <array name="grind_labels">
         <item>粗</item>
         <item>中</item>
@@ -33,20 +43,20 @@
         <item>水出し</item>
         <item>ドリップパック</item>
         <item>インスタント</item>
-        <item>店/テイクアウト</item>    // これだけ特殊。コード10、家飲みとして区別
+        <item>外で飲み</item>    // これだけ特殊。コード10、家飲みとして区別
     </string-array>
 
     <!-- 抽出方法のアイコン集 -->
     <string-array name="method_images">
-        <item>@drawable/drip300_2</item>
-        <item>@drawable/drip300_2</item>
+        <item>@drawable/dripper100</item>
+        <item>@drawable/dripper100</item>
         <item>@drawable/machine4_160</item>
         <item>@drawable/machine2_160</item>
         <item>@drawable/makinet160</item>
         <item>@drawable/press160</item>
         <item>@drawable/cyphone160</item>
         <item>@drawable/pot160</item>
-        <item>@drawable/pack300</item>
+        <item>@drawable/pack150</item>
         <item>@drawable/instant399</item>
         <item>@drawable/dotour</item>
     </string-array>

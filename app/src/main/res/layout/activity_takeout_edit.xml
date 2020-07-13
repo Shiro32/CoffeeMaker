@@ -64,12 +64,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/takeoutEditNameLabel" />
 
+            <TextView
+                android:id="@+id/takeoutEditRatingHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/takeoutEditRatingHint"
+                app:layout_constraintStart_toStartOf="@+id/takeoutEditRatingBar"
+                app:layout_constraintTop_toBottomOf="@+id/takeoutEditRatingBar" />
+
             <RatingBar
                 android:id="@+id/takeoutEditRatingBar"
                 style="@style/Widget.AppCompat.RatingBar.Indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:isIndicator="false"
+                android:isIndicator="true"
                 android:progressBackgroundTint="@color/ratingBackColor"
                 android:progressTint="@color/ratingColor"
                 app:layout_constraintBottom_toBottomOf="@+id/takeoutEditRatingLabel"
@@ -159,10 +167,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/takeoutEditSizeLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/takeoutEditRatingLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/takeoutEditRatingHint" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"

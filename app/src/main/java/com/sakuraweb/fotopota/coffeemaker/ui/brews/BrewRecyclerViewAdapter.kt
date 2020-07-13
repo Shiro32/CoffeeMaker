@@ -3,6 +3,7 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.opengl.Visibility
 import android.view.*
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
@@ -91,8 +92,16 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             holder.dateText?.text       = df.format(bp.date)
             holder.ratingBar?.rating    = bp.rating
             holder.methodText?.text     = brewMethods[bp.methodID]
-            holder.memoText?.text       = bp.memo
             holder.beansKindText?.text = findBeansNameByID(bp.place, bp.beansID, bp.takeoutID ) + days
+
+            // TODO: 「メモ」というラベルも消さないと。結局、レイアウトで包んだ方がイイかな？
+            if( bp.memo!="" ) {
+                holder.memoText?.text = bp.memo
+                holder.memoText?.visibility = View.VISIBLE
+            } else {
+                holder.memoText?.visibility = View.GONE
+            }
+
             // 抽出方法にあったイラスト（アイコン）
             holder.image?.setImageDrawable(brewMethodsImages.getDrawable(bp.methodID))
 

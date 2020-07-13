@@ -9,10 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sakuraweb.fotopota.coffeemaker.BREW_IN_HOME
-import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.beansRealmConfig
-import com.sakuraweb.fotopota.coffeemaker.takeoutRealmConfig
+import com.sakuraweb.fotopota.coffeemaker.*
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
 import io.realm.Realm
 import io.realm.Sort
@@ -42,6 +40,39 @@ class BeansFragment : Fragment(), SetBeansListener {
         // Brewの編集画面から呼ばれたかどうかを覚えておく
         isCalledFromBrewEditToBeans = activity?.intent?.getStringExtra("from") == "Edit"
 
+        // 各豆の評価（Rating）を、利用データ（BREW）から平均値採取する
+        val beansRealm = Realm.getInstance(beansRealmConfig)
+        val brewRealm = Realm.getInstance(brewRealmConfig)
+        val beans = beansRealm.where(BeansData::class.java).findAll()
+        for( bean in beans) {
+            // BREWの中で自分を参照しているデータを日付ソートで全部拾う
+            val brews = brewRealm.where<BrewData>().equalTo("beansID", bean.id).findAll().sort("date", Sort.DESCENDING)
+            if( brews.size>0 ) {
+                // １回でも利用があった場合
+                // 最新利用日のセット
+                // val recent = brews[0]?.date
+                // 利用側（BREW）での評価の算出
+                var rate:Float = 0.0F
+                for( b in brews)  rate += b.rating
+
+                beansRealm.executeTransaction {
+                    // bean.recent = recent
+                    bean.rating = rate / brews.size
+                }
+            } else {
+                // beansRealm.executeTransaction { bean.recent = null }
+            }
+        }
+        beansRealm.close()
+        brewRealm.close()
+
+
+
+
+
+
+
+
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
         // realmのインスタンスを作る。ConfigはStartupで設定済み
         realm = Realm.getInstance(beansRealmConfig)
@@ -65,7 +96,7 @@ class BeansFragment : Fragment(), SetBeansListener {
         }
 
         // メニュー構築（実装はonCreateOptionsMenu内で）
-        setHasOptionsMenu(true)
+//        setHasOptionsMenu(true)
 
         Log.d("SHIRO", "beans / onCreateView")
         return root
@@ -77,7 +108,7 @@ class BeansFragment : Fragment(), SetBeansListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        if (!isCalledFromBrewEditToBeans) inflater?.inflate(R.menu.menu_opt_menu_1, menu)
+//        if (!isCalledFromBrewEditToBeans) inflater?.inflate(R.menu.menu_opt_menu_1, menu)
     }
 
     // オプションメニュー対応

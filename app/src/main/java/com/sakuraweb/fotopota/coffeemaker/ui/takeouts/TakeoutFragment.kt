@@ -50,8 +50,17 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
             // BREWの中で自分を参照しているデータを日付ソートで全部拾う
             val brews = brewRealm.where<BrewData>().equalTo("takeoutID", take.id).findAll().sort("date", Sort.DESCENDING)
             if( brews.size>0 ) {
+                // １回でも利用があった場合
+                // 最新利用日のセット
                 val recent = brews[0]?.date
-                takeRealm.executeTransaction { take.recent = recent }
+                // 利用側（BREW）での評価の算出
+                var rate:Float = 0.0F
+                for( b in brews)  rate += b.rating
+
+                takeRealm.executeTransaction {
+                    take.recent = recent
+                    take.rating = rate / brews.size
+                }
             } else {
                 takeRealm.executeTransaction { take.recent = null }
             }
@@ -81,7 +90,7 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
         }
 
         // メニュー構築（実装はonCreateOptionsMenu内で）
-        setHasOptionsMenu(true)
+//        setHasOptionsMenu(true)
 
         Log.d("SHIRO", "takeout / onCreateView")
         return root
@@ -93,7 +102,7 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        if (!isCalledFromBrewEditToTakeout) inflater?.inflate(R.menu.menu_opt_menu_1, menu)
+//        if (!isCalledFromBrewEditToTakeout) inflater?.inflate(R.menu.menu_opt_menu_1, menu)
     }
 
     // オプションメニュー対応
@@ -173,6 +182,8 @@ fun findTakeoutChainNameByID( id: Long ): String {
 }
 
 // テイクアウトの利用日をセットする（無茶苦茶やな・・・）
+// テイクアウト（外飲み）ＤＢの全部のアイテムについて、実際に飲んだ日をBREWから探し出して最新の利用日をセットする
+// ★★この関数、使ってないんだって・・・（onStartの中に書いちゃってる）
 fun setTakeoutTakeDay() {
     val takeRealm = Realm.getInstance(takeoutRealmConfig)
     val brewRealm = Realm.getInstance(brewRealmConfig)
@@ -189,9 +200,19 @@ fun setTakeoutTakeDay() {
         val brews = brewRealm.where<BrewData>().equalTo("takeoutID", take.id).findAll().sort("date", Sort.DESCENDING)
 
         if( brews.size>0 ) {
+            // １回でも利用があった場合
+            // 最新利用日のセット
             val recent = brews[0]?.date
-            takeRealm.executeTransaction { take.recent = recent }
+
+            var rate:Float = 0.0F
+            for( b in brews)  rate += b.rating
+
+            takeRealm.executeTransaction {
+                take.recent = recent
+                take.rating = rate / brews.size
+            }
         } else {
+            // １回も利用していない場合（なんで登録してあるんだ？）
             takeRealm.executeTransaction { take.recent = null }
         }
     }

@@ -49,9 +49,10 @@ class BrewFragment : Fragment() {
 
         // メニュー構築（実装はonCreateOptionsMenu内で）
         // これを呼び出すことでfragmentがメニューを持つことを明示（https://developer.android.com/guide/components/fragments?hl=ja）
-        setHasOptionsMenu(true)
+        // setHasOptionsMenu(true)
 
         // コンテキストメニューをセット
+        // 長押しで編集メニューとか出せるけど、その操作方法はやめて、無難に編集画面からやるようにしているのでコメントアウト
 //        registerForContextMenu(root)
 
         Log.d("SHIRO", "brew / onCreateView - DB OPEN")
@@ -85,7 +86,7 @@ class BrewFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        inflater?.inflate(R.menu.menu_opt_menu_1, menu)
+        //  inflater?.inflate(R.menu.menu_opt_menu_1, menu)
 
     }
 
