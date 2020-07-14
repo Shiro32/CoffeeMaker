@@ -6,8 +6,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/cardHorizontalMargin"
+    android:layout_marginRight="@dimen/cardHorizontalMargin"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/cardColor"
+    app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="8dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true">
@@ -21,8 +23,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
             android:text="マイルドKALDI"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/oneBeansRatingBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,15 +36,17 @@
             style="@android:style/Widget.Material.Light.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="4dp"
+            android:layout_marginBottom="1dp"
             android:numStars="5"
             android:progressBackgroundTint="@color/ratingBackColor"
             android:progressTint="@color/ratingColor"
             android:rating="3"
             android:stepSize="0.5"
+            app:layout_constraintBottom_toBottomOf="@+id/oneBeansNameText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/oneBeansNameText" />
 
         <TextView
             android:id="@+id/oneBeansDateLabel"
@@ -48,6 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/oneBeansBuyDateLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansDateText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/oneBeansNameText" />
 
@@ -57,8 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/oneBeansBuyDateLabel"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansDateLabel"
             app:layout_constraintStart_toEndOf="@+id/oneBeansDateLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneBeansNameText"
             tools:text="2020年6月1日" />
 
         <TextView
@@ -74,28 +82,19 @@
             android:id="@+id/oneBeansShopText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
+            android:layout_marginStart="8dp"
             android:text="@string/oneBeansShop"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansDateLabel"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/oneBeansShopLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneBeansDateText"
             tools:text="KALDI銀座店" />
-
-        <TextView
-            android:id="@+id/oneBeansPriceLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:text="@string/oneBeansPriceLabel"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansPriceText"
-            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/oneBeansPriceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/oneBeansShop"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansMemoLabel"
-            app:layout_constraintEnd_toStartOf="@+id/oneBeansPriceLabel"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansShopText"
+            app:layout_constraintStart_toEndOf="@+id/oneBeansShopText"
             tools:text="499" />
 
         <TextView
@@ -103,28 +102,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="4dp"
             android:text="@string/oneBeansRoastLabel"
+            android:textSize="10sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBeansMemoLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBeansShopLabel" />
+
+        <TextView
+            android:id="@+id/oneBeansShopLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/oneBeansShop"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansShopText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oneBeansDateLabel" />
 
         <TextView
             android:id="@+id/oneBeansMemoLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="1dp"
             android:text="@string/oneBeansMemo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBeansDateLabel" />
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansMemoText"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/oneBeansMemoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/oneBeansShop"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansMemoLabel"
             app:layout_constraintStart_toStartOf="@+id/oneBeansDateText"
+            app:layout_constraintTop_toBottomOf="@+id/roastL2"
             tools:text="最高です" />
 
         <com.warkiz.widget.IndicatorSeekBar
@@ -170,13 +182,13 @@
 
         <TextView
             android:id="@+id/roastL1"
-            android:layout_width="40sp"
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.8"
             android:orientation="vertical"
             android:text="ライト"
-            android:textAlignment="viewStart"
-            android:textSize="12sp"
+            android:textAlignment="center"
+            android:textSize="8sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL2"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -185,15 +197,13 @@
 
         <TextView
             android:id="@+id/roastL2"
-            android:layout_width="40sp"
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:lineSpacingMultiplier="0.8"
             android:orientation="vertical"
             android:text="シナ\nモン"
-            android:textAlignment="viewStart"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAlignment="center"
+            android:textSize="8sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL3"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/roastL1"
@@ -201,13 +211,13 @@
 
         <TextView
             android:id="@+id/roastL3"
-            android:layout_width="40sp"
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.8"
             android:orientation="vertical"
             android:text="ミディ\nアム"
-            android:textAlignment="viewStart"
-            android:textSize="12sp"
+            android:textAlignment="center"
+            android:textSize="8sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL4"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/roastL2"
@@ -215,13 +225,13 @@
 
         <TextView
             android:id="@+id/roastL4"
-            android:layout_width="40sp"
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.8"
             android:orientation="vertical"
             android:text="ハイ"
             android:textAlignment="center"
-            android:textSize="12sp"
+            android:textSize="8sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL5"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/roastL3"
@@ -229,13 +239,13 @@
 
         <TextView
             android:id="@+id/roastL5"
-            android:layout_width="40sp"
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.8"
             android:orientation="vertical"
             android:text="シティ"
             android:textAlignment="center"
-            android:textSize="12sp"
+            android:textSize="8sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL6"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/roastL4"
@@ -243,13 +253,13 @@
 
         <TextView
             android:id="@+id/roastL6"
-            android:layout_width="40sp"
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.8"
             android:orientation="vertical"
             android:text="フル\nシティ"
-            android:textAlignment="textEnd"
-            android:textSize="12sp"
+            android:textAlignment="center"
+            android:textSize="8sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL7"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/roastL5"
@@ -257,13 +267,13 @@
 
         <TextView
             android:id="@+id/roastL7"
-            android:layout_width="40sp"
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.8"
             android:orientation="vertical"
             android:text="フレ\nンチ"
-            android:textAlignment="textEnd"
-            android:textSize="12sp"
+            android:textAlignment="center"
+            android:textSize="8sp"
             app:layout_constraintEnd_toStartOf="@+id/roastL8"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/roastL6"
@@ -271,13 +281,13 @@
 
         <TextView
             android:id="@+id/roastL8"
-            android:layout_width="40sp"
+            android:layout_width="30sp"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.8"
             android:orientation="vertical"
             android:text="イタリ\nアン"
-            android:textAlignment="viewEnd"
-            android:textSize="12sp"
+            android:textAlignment="center"
+            android:textSize="8sp"
             app:layout_constraintEnd_toEndOf="@+id/oneBeansRoastBar"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/roastL7"

@@ -18,6 +18,7 @@ class BeansViewHolder(iv: View) : RecyclerView.ViewHolder (iv){
     var shop:       TextView? = null
     var price:      TextView? = null
     var memo:       TextView? = null
+    var memoLabel:  TextView? = null
 
 
     init {
@@ -29,6 +30,7 @@ class BeansViewHolder(iv: View) : RecyclerView.ViewHolder (iv){
         shop        = iv.oneBeansShopText
         price       = iv.oneBeansPriceText
         memo        = iv.oneBeansMemoText
+        memoLabel   = iv.oneBeansMemoLabel
 
     }
 }

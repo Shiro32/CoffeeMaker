@@ -6,10 +6,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/cardHorizontalMargin"
+    android:layout_marginRight="@dimen/cardHorizontalMargin"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/cardColor"
+    app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="8dp"
-    app:cardElevation="2dp"
+    app:cardElevation="@dimen/cardElevation"
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,8 +23,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
             android:text="ダークモカチップフラペチーノ"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/oneTakeoutRatingBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,16 +35,16 @@
             android:id="@+id/oneTakeoutRatingBar"
             style="@android:style/Widget.Material.Light.RatingBar.Small"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:numStars="5"
             android:progressBackgroundTint="@color/ratingBackColor"
             android:progressTint="@color/ratingColor"
             android:rating="3"
             android:stepSize="0.5"
+            app:layout_constraintBottom_toBottomOf="@+id/oneTakeoutNameText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/oneTakeoutNameText" />
 
         <TextView
             android:id="@+id/oneTakeoutCountLabel"
@@ -58,6 +62,8 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="1dp"
             android:text="@string/oneTakeoutChainLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutChainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/oneTakeoutNameText" />
 
@@ -73,8 +79,8 @@
             android:id="@+id/oneTakeoutChainText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutChainLabel"
             app:layout_constraintStart_toEndOf="@+id/oneTakeoutChainLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutNameText"
             tools:text="ファミリマート" />
 
         <TextView
@@ -98,22 +104,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="4dp"
             android:text="@string/oneTakeoutMemoLabel"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutSizeLabel" />
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutMemoText"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/oneTakeoutMemoText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="2dp"
             android:text="最高です"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutMemoLabel"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/oneTakeoutMemoLabel" />
+            app:layout_constraintStart_toEndOf="@+id/oneTakeoutMemoLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutSizeText" />
 
         <TextView
             android:id="@+id/oneTakeoutSizeLabel"
@@ -122,6 +128,8 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="2dp"
             android:text="@string/oneTakeoutSizeLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutSizeText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/oneTakeoutChainLabel" />
 
@@ -129,8 +137,8 @@
             android:id="@+id/oneTakeoutSizeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutSizeLabel"
             app:layout_constraintStart_toEndOf="@+id/oneTakeoutSizeLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutChainText"
             tools:text="グランデ" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -138,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="267dp" />
+            app:layout_constraintGuide_end="131dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

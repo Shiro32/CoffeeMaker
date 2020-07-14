@@ -20,4 +20,8 @@
     <dimen name="takeoutDetailsBarThumbSize">15sp</dimen>
     <dimen name="takeoutDetailsTickMarkSize">10sp</dimen>
     <dimen name="takeoutDetailsTickTextSize">15sp</dimen>
+
+    <!-- card全般のマージン -->
+    <dimen name="cardHorizontalMargin">4dp</dimen>
+    <dimen name="cardElevation">2dp</dimen>
 </resources>

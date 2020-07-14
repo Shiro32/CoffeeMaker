@@ -79,6 +79,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                     if( d!=null ) {
                         val diff = (bp.date.time-d.time)/(1000*60*60*24)
                         days = "（"+diff.toString()+"日経過）"
+                        holder.pastText?.text = days
                     }
                 }
             } else {
@@ -92,14 +93,16 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             holder.dateText?.text       = df.format(bp.date)
             holder.ratingBar?.rating    = bp.rating
             holder.methodText?.text     = brewMethods[bp.methodID]
-            holder.beansKindText?.text = findBeansNameByID(bp.place, bp.beansID, bp.takeoutID ) + days
+            holder.beansKindText?.text = findBeansNameByID(bp.place, bp.beansID, bp.takeoutID )
 
             // TODO: 「メモ」というラベルも消さないと。結局、レイアウトで包んだ方がイイかな？
             if( bp.memo!="" ) {
                 holder.memoText?.text = bp.memo
                 holder.memoText?.visibility = View.VISIBLE
+                holder.memoLabel?.visibility = View.VISIBLE
             } else {
                 holder.memoText?.visibility = View.GONE
+                holder.memoLabel?.visibility = View.GONE
             }
 
             // 抽出方法にあったイラスト（アイコン）

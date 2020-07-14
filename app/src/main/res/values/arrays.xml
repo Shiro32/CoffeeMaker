@@ -8,7 +8,7 @@
         <item>使用豆順</item>
         <item>挽き目順</item>
         <item>蒸らし順</item>
-        <item>外飲み除外</item>
+        <item>外飲除外</item>
     </array>
 
     <array name="grind_labels">
@@ -33,15 +33,15 @@
 
     <!-- 抽出方法の名称（ポップアップメニューやリストで使用） -->
     <string-array name="method_names">
-        <item>ペーパードリップ</item>
+        <item>ペーパー\nドリップ</item>
         <item>布ドリップ</item>
-        <item>コーヒーメーカー</item>
-        <item>エスプレッソマシン</item>
+        <item>コーヒー\nメーカー</item>
+        <item>エスプレッソ\nマシン</item>
         <item>マキネッタ</item>
-        <item>フレンチプレス</item>
+        <item>フレンチ\nプレス</item>
         <item>サイフォン</item>
         <item>水出し</item>
-        <item>ドリップパック</item>
+        <item>ドリップ\nパック</item>
         <item>インスタント</item>
         <item>外で飲み</item>    // これだけ特殊。コード10、家飲みとして区別
     </string-array>

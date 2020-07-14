@@ -15,6 +15,7 @@ class TakeoutViewHolder(iv: View) : RecyclerView.ViewHolder (iv){
     var count:      TextView? = null
     var size:       TextView? = null
     var memo:       TextView? = null
+    var memoLabel:  TextView? = null
 
 
     init {
@@ -26,6 +27,7 @@ class TakeoutViewHolder(iv: View) : RecyclerView.ViewHolder (iv){
         price       = iv.oneTakeoutPriceText
         size        = iv.oneTakeoutSizeText
         memo        = iv.oneTakeoutMemoText
+        memoLabel   = iv.oneTakeoutMemoLabel
 
     }
 }

@@ -3,6 +3,7 @@ package com.sakuraweb.fotopota.coffeemaker.ui.beans
 import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.R
@@ -54,8 +55,16 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
             holder.gramBar?.setProgress(bean.gram)
             holder.roastBar?.setProgress(bean.roast)
             holder.shop?.text = bean.shop
-            holder.price?.text = bean.price.toString()
-            holder.memo?.text = bean.memo
+            holder.price?.text = "（"+bean.price.toString()+"円)"
+
+            if( bean.memo!="" ) {
+                holder.memo?.text = bean.memo
+                holder.memo?.visibility = View.VISIBLE
+                holder.memoLabel?.visibility = View.VISIBLE
+            } else {
+                holder.memo?.visibility = View.GONE
+                holder.memoLabel?.visibility = View.GONE
+            }
 
 /*
             holder.copyBtn?.setOnClickListener {

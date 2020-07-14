@@ -35,15 +35,16 @@
     <string name="titleBeansEditNew">豆情報の作成</string>
     <string name="titleBeansEditCopy">コピーして作成</string>
 
-    <string name="oneBrewMethodLabel">方法：</string>
-    <string name="oneBrewBeanLabel">豆：</string>
-    <string name="oneBrewResultLabel">評価：</string>
-    <string name="oneBrewGrind">挽目：</string>
-    <string name="oneBrewBeanUse">豆量：</string>
-    <string name="oneBrewCupsLabel">杯数：</string>
-    <string name="oneBrewTemp">湯温：</string>
-    <string name="oneBrewSteam">蒸し：</string>
-    <string name="oneBrewMemoLabel">メモ：</string>
+    <string name="oneBrewMethodLabel">法:</string>
+    <string name="oneBrewBeanLabel">豆:</string>
+    <string name="oneBrewResultLabel">評:</string>
+    <string name="oneBrewGrind">挽:</string>
+    <string name="oneBrewBeanUse">豆:</string>
+    <string name="oneBrewCupsLabel">杯:</string>
+    <string name="oneBrewTemp">温:</string>
+    <string name="oneBrewSteam">蒸:</string>
+    <string name="oneBrewMemoLabel">メモ:</string>
+    <string name="oneBrewShopLabel">購入:</string>
 
 
     <string name="editText">編集</string>
@@ -71,11 +72,11 @@
     <string name="dateFormat">%d/%02d/%02d</string>
     <string name="timeFormat">%02d:%02d</string>
     <string name="oneBeansBuyDateLabel">購入日：</string>
-    <string name="oneBeansShop">＠</string>
+    <string name="oneBeansShop">購入店：</string>
     <string name="oneBeansGrindLabel">挽き：</string>
     <string name="oneBeansGramLabel">グラム：</string>
     <string name="oneBeansPriceLabel">円</string>
-    <string name="oneBeansMemo">メモ：</string>
+    <string name="oneBeansMemo">メ　モ：</string>
     <string name="oneBeansRoastLabel">焙煎度：</string>
 
     <string name="beansEditHeader">豆の購入記録です。代表的な豆銘柄はボタンから選択できるかもしれませぬ。</string>
@@ -118,7 +119,7 @@
 
     <string name="takeoutKindConvini">コンビニ</string>
     <string name="takeoutKindCafe">カフェ</string>
-    <string name="takeoutaKindRestaurant">レストラン</string>
+    <string name="takeoutKindRestaurant">レストラン</string>
 
     <string name="beansEditMemoHint">例：３回目のリピート購入</string>
     <string name="brewEditMemoHint">例：今までで一番おいしい</string>
@@ -166,7 +167,6 @@
     <string name="brewEditPriceHint">例：500</string>
     <string name="brewEditShopLabel">購入店：</string>
     <string name="brewEditShopHint">例：銀座店</string>
-    <string name="oneBrewShopLabel">購入：</string>
     <string name="takeoutEditRatingHint">※飲んだ時の評価の平均で自動計算です</string>
     <string name="beansEditRatingHint">※飲んだ時の評価の平均値が自動計算されます</string>
 </resources>

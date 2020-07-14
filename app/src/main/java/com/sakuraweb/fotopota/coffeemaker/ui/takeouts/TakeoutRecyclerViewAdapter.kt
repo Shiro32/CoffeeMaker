@@ -3,6 +3,7 @@ package com.sakuraweb.fotopota.coffeemaker.ui.takeouts
 import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.R
@@ -52,6 +53,14 @@ class TakeoutRecyclerViewAdapter(takeoutRealm: RealmResults<TakeoutData>, privat
             holder.memo?.text = bean.memo
             holder.count?.text = findTakeoutUseCount( bean ).toString()
 
+            if( bean.memo!="" ) {
+                holder.memo?.text = bean.memo
+                holder.memo?.visibility = View.VISIBLE
+                holder.memoLabel?.visibility = View.VISIBLE
+            } else {
+                holder.memo?.visibility = View.GONE
+                holder.memoLabel?.visibility = View.GONE
+            }
 /*
             holder.copyBtn?.setOnClickListener {
                 val intent = Intent(it.context, TakeoutEditActivity::class.java)
