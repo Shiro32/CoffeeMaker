@@ -19,7 +19,7 @@
         app:title="Default Title">
 
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/sortSpn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

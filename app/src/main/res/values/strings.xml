@@ -1,14 +1,14 @@
 <resources>
 
     <string name="app_name">コーヒー日記</string>
-    <string name="mainLabel">日々、大量に飲む（個人差あり？）コーヒーのレシピ、豆やテイクアウトの購入記録を付けられるアプリです。\n\nレシピは、抽出方法やお湯の温度などのほか、登録済み豆リストから選ぶこともできます。</string>
+    <string name="mainLabel">日々、大量に飲む（個人差あり？）コーヒーのレシピ、豆やテイクアウトの購入記録を付けられるアプリです。\n\n抽出方法やお湯の温度などのほか、登録済み豆リストから選ぶこともできます。</string>
 
 
     <string name="title_home">ホーム</string>
     <string name="title_brews">コーヒー記録</string>
     <string name="title_beans">使用豆DB</string>
     <string name="title_takeout">外飲みDB</string>
-    <string name="title_analyze">分析？</string>
+    <string name="title_analyze">コーヒー分析</string>
 
 
 
@@ -169,4 +169,7 @@
     <string name="brewEditShopHint">例：銀座店</string>
     <string name="takeoutEditRatingHint">※飲んだ時の評価の平均で自動計算です</string>
     <string name="beansEditRatingHint">※飲んだ時の評価の平均値が自動計算されます</string>
+
+    <!-- 分析画面 -->
+    <string name="anaAllPeriod">全期間</string>
 </resources>

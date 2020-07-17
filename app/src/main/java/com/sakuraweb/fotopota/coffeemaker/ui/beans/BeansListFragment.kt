@@ -40,27 +40,32 @@ class BeansFragment : Fragment(), SetBeansListener {
         // Brewの編集画面から呼ばれたかどうかを覚えておく
         isCalledFromBrewEditToBeans = activity?.intent?.getStringExtra("from") == "Edit"
 
-        // 各豆の評価（Rating）を、利用データ（BREW）から平均値採取する
+        // BREWからの参照を全部調べ上げて、TAKEOUTの各種参照情報を更新する
+        // 評価、最終利用日、利用回数
         val beansRealm = Realm.getInstance(beansRealmConfig)
         val brewRealm = Realm.getInstance(brewRealmConfig)
         val beans = beansRealm.where(BeansData::class.java).findAll()
+
         for( bean in beans) {
             // BREWの中で自分を参照しているデータを日付ソートで全部拾う
             val brews = brewRealm.where<BrewData>().equalTo("beansID", bean.id).findAll().sort("date", Sort.DESCENDING)
             if( brews.size>0 ) {
-                // １回でも利用があった場合
                 // 最新利用日のセット
-                // val recent = brews[0]?.date
+                val recent = brews[0]?.date
                 // 利用側（BREW）での評価の算出
                 var rate:Float = 0.0F
                 for( b in brews)  rate += b.rating
 
                 beansRealm.executeTransaction {
-                    // bean.recent = recent
+                    if( recent!=null ) bean.recent = recent
                     bean.rating = rate / brews.size
+                    bean.count = brews.size
                 }
             } else {
-                // beansRealm.executeTransaction { bean.recent = null }
+                // １回も利用が無かった場合・・・（涙）
+                beansRealm.executeTransaction {
+                    // 利用無し、をどう表現したらいいやら・・・。Non-nullだし。
+                }
             }
         }
         beansRealm.close()

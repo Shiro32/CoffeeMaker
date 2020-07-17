@@ -26,11 +26,13 @@ const val RESULT_TO_HOME = 1    // ホーム画面へ戻るコード
 const val RESULT_TO_LIST = 2    // BREWやBEANSのリスト画面目へ戻るコード
 
 
-// メイン画面（Home, Brew, Bean, Setting）をViewHolderで横スクロール？
+// メインアクティビティの中に、BREW/BEANS/TAKEOUT/ANALYZEの4Fragmentを切り替える
+// メイン画面内のViewやToolbarを変更したいなら、ここにパブリックなメソッドを作り、それを呼び出す
+// TODO:メイン画面（Home, Brew, Bean, Setting）をViewHolderで横スクロール？
 
 // メインアクティビティー
 // リスト表示画面そのもの
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,5 +86,10 @@ class MainActivity : AppCompatActivity() {
         if( resultCode == RESULT_TO_HOME ) {
             nav_view?.selectedItemId = R.id.navigation_home
         }
+    }
+
+    open fun setSpinnerContent() {
+        mainToolbar.title = "やっぱり、MainActivityから書き換えよう"
+        sortSpn.visibility = View.GONE
     }
 }

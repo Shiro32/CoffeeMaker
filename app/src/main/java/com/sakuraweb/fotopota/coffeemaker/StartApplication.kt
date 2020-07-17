@@ -33,6 +33,7 @@ lateinit var beansRealmConfig: RealmConfiguration
 lateinit var takeoutRealmConfig: RealmConfiguration
 
 lateinit var brewMethods: Array<String>
+lateinit var brewMethodsCR: Array<String>
 lateinit var brewMethodsImages: TypedArray
 
 lateinit var beansKind: Array<String>   // 以下３種のタイトル配列
@@ -72,8 +73,13 @@ class StartApplication : Application() {
         createTakeoutData()
 
         // そのほか、グローバル変数セット
-        brewMethods = resources.getStringArray(R.array.method_names)
         brewMethodsImages = resources.obtainTypedArray(R.array.method_images)
+
+        // brewMethodsは、改行アリ（Recycler用）、改行無し（Edit用）の２つを作る
+        brewMethodsCR = resources.getStringArray(R.array.method_names)
+        // 含まれる\nを削除
+        brewMethods=arrayOf<String>()
+        for( b in brewMethodsCR ) brewMethods += b.replace("\n","")
 
         // 代表豆銘柄セレクト関係
         beansKind = resources.getStringArray(R.array.beans_kind)

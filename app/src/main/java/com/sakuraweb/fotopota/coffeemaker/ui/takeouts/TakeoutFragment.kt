@@ -42,15 +42,16 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
         // Brewの編集画面から呼ばれたかどうかを覚えておく
         isCalledFromBrewEditToTakeout = activity?.intent?.getStringExtra("from") == "Edit"
 
-        // 外飲みの採集利用日をセットする（よく使う外飲みが、上にくるようにする）
+        // BREWからの参照を全部調べ上げて、TAKEOUTの各種参照情報を更新する
+        // 評価、最終利用日、利用回数
         val takeRealm = Realm.getInstance(takeoutRealmConfig)
         val brewRealm = Realm.getInstance(brewRealmConfig)
-        val takeouts = takeRealm.where(TakeoutData::class.java).findAll()
+        val takeouts = takeRealm.where<TakeoutData>().findAll()
+
         for( take in takeouts) {
-            // BREWの中で自分を参照しているデータを日付ソートで全部拾う
+            // 自分を参照しているBREWを全部拾う
             val brews = brewRealm.where<BrewData>().equalTo("takeoutID", take.id).findAll().sort("date", Sort.DESCENDING)
             if( brews.size>0 ) {
-                // １回でも利用があった場合
                 // 最新利用日のセット
                 val recent = brews[0]?.date
                 // 利用側（BREW）での評価の算出
@@ -60,8 +61,10 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
                 takeRealm.executeTransaction {
                     take.recent = recent
                     take.rating = rate / brews.size
+                    take.count = brews.size
                 }
             } else {
+                // １回も利用が無かった場合・・・（涙）
                 takeRealm.executeTransaction { take.recent = null }
             }
         }
@@ -125,7 +128,7 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
         // 全部の外飲みデータをrealmResults配列に読み込む
         // 並び順ルールは、１：購入日（ＤＢ登録日）、２：最近の利用日（BREWからの参照）の順で行う
         // こうすることで、最近利用する商品や最近登録した商品が上にくるようになる（気が付くねぇ・・・）
-        val realmResults = realm.where(TakeoutData::class.java).findAll().sort("recent", Sort.DESCENDING).sort("first", Sort.DESCENDING)
+        val realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)//.sort("first", Sort.DESCENDING)
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする

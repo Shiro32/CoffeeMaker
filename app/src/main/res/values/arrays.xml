@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <array name="month_select">
+        <item>2020年06月</item>
+        <item>2020年06月</item>
+        <item>2020年06月</item>
+        <item>2020年06月</item>
+        <item>2020年06月</item>
+        <item>2020年06月</item>
+    </array>
+
     <array name="sort_mode_brew">
         <item>日付順</item>
         <item>評価順</item>
@@ -46,19 +55,20 @@
         <item>外で飲み</item>    // これだけ特殊。コード10、家飲みとして区別
     </string-array>
 
+
     <!-- 抽出方法のアイコン集 -->
     <string-array name="method_images">
-        <item>@drawable/dripper100</item>
-        <item>@drawable/dripper100</item>
-        <item>@drawable/machine4_160</item>
-        <item>@drawable/machine2_160</item>
-        <item>@drawable/makinet160</item>
-        <item>@drawable/press160</item>
-        <item>@drawable/cyphone160</item>
-        <item>@drawable/pot160</item>
-        <item>@drawable/pack150</item>
-        <item>@drawable/instant399</item>
-        <item>@drawable/dotour</item>
+        <item>@drawable/dripper</item>
+        <item>@drawable/dripper</item>
+        <item>@drawable/espresso</item>
+        <item>@drawable/machine</item>
+        <item>@drawable/makinet</item>
+        <item>@drawable/press</item>
+        <item>@drawable/cyphone</item>
+        <item>@drawable/pot</item>
+        <item>@drawable/pack</item>
+        <item>@drawable/instant</item>
+        <item>@drawable/takeout</item>
     </string-array>
 
     <!-- 店飲みのセレクト関係 -->

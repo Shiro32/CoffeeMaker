@@ -51,7 +51,7 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
             holder.ratingBar?.rating = bean.rating
             holder.dateText?.text = df.format(bean.date)
             // 豆の経過日数を計算する（面倒くせぇ・・・）
-            holder.pastText?.text = "（"+((Date().time - bean.date.time)/(1000*60*60*24)).toString()+"日経過）"
+            holder.pastText?.text = "（"+((Date().time - bean.date?.time as Long)/(1000*60*60*24)).toString()+"日経過）"
             holder.gramBar?.setProgress(bean.gram)
             holder.roastBar?.setProgress(bean.roast)
             holder.shop?.text = bean.shop

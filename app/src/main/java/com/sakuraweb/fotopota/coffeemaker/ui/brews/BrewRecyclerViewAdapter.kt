@@ -92,7 +92,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             val df = SimpleDateFormat("yyyy/MM/dd HH:mm")
             holder.dateText?.text       = df.format(bp.date)
             holder.ratingBar?.rating    = bp.rating
-            holder.methodText?.text     = brewMethods[bp.methodID]
+            holder.methodText?.text     = brewMethodsCR[bp.methodID]
             holder.beansKindText?.text = findBeansNameByID(bp.place, bp.beansID, bp.takeoutID )
 
             // TODO: 「メモ」というラベルも消さないと。結局、レイアウトで包んだ方がイイかな？

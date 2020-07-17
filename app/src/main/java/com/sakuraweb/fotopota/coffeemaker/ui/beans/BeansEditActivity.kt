@@ -23,6 +23,7 @@ import java.util.*
 // TODO: LISTへ戻るメニューっている？ さすがにくどくない？
 // TODO: イラストの唐突感を何とかする
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
+// TODO: 起動時に、一回、全データをBREWSからの参照チェックやるべき。いつやる？ Takeoutも同じだけど。
 
 const val REQUEST_CODE_BEANS_NAME_SELECT = 1
 

@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.copyRightText
 import kotlinx.android.synthetic.main.fragment_home.view.ppText
+import java.util.*
 
 
 // Home画面で表示する、カップ数、使い始めの日を算出する
@@ -50,6 +51,41 @@ fun calcCupsOfLife() {
 
     realm.close()
 }
+
+fun calcCupsOfPeriod( begin: Calendar, end:Calendar) : Int {
+
+    // 本当は時刻までギリギリやったほうがいいか？
+    begin.set( begin.get(Calendar.YEAR), begin.get(Calendar.MONTH), 1, 0, 0, 0)
+    end.set( end.get(Calendar.YEAR), end.get(Calendar.MONTH), end.getActualMaximum(Calendar.DATE), 23, 59, 59)
+
+    val realm = Realm.getInstance(brewRealmConfig)
+    val brews = realm.where<BrewData>().between("date", begin.time, end.time).findAll()
+    val cups = brews.size
+    realm.close()
+
+    return cups
+}
+
+fun calcCupsOfMonth(y:Int, m:Int): Int {
+    var begin: Date
+    var end: Date
+
+    var c = Calendar.getInstance()
+    c.set(y,m,1)
+    begin = c.time
+
+    c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE))
+    end = c.time
+
+    val realm = Realm.getInstance(brewRealmConfig)
+    val brews = realm.where<BrewData>().between("date", begin, end).findAll()
+    val cups = brews.size
+
+    realm.close()
+
+    return cups
+}
+
 
 
 class HomeFragment : Fragment() {

@@ -56,7 +56,7 @@ class BeansDetailsActivity : AppCompatActivity() {
             beansDetailsMemoText.   setText(beans.memo)
 
             // 豆の経過日数を計算する（面倒くせぇ・・・）
-            var days = "（"+((Date().time - beans.date.time)/(1000*60*60*24)).toString()+"日経過）"
+            var days = "（"+((Date().time - beans.date?.time as Long)/(1000*60*60*24)).toString()+"日経過）"
 
             calendar.time = beans.date
             val year    = calendar.get(Calendar.YEAR)

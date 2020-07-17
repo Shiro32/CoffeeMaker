@@ -16,4 +16,84 @@
         <item name="android:textColorSecondary">#FFFFFF</item>
     </style>
 
+
+
+
+    <style name="AnaHeaderLabelStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AnaCardStyle">
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">10dp</item>
+    </style>
+
+    <style name="AnaCardLabelStyle">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@android:color/holo_green_light</item>
+    </style>
+
+    <style name="AnaCardLabelStyle2">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@android:color/holo_blue_light</item>
+    </style>
+
+    <style name="AnaCardHeaderStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingMultiplier">0.8</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- ランキングカード内の各行スタイル -->
+    <style name="AnaRankCountLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AnaRankNameStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">5sp</item>
+    </style>
+
+    <style name="AnaRankCountStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textAlignment">textEnd</item>
+        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AnaRankUnitStyle">
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AnaRankStarStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:src">@android:drawable/btn_star_big_on</item>
+    </style>
+
 </resources>
