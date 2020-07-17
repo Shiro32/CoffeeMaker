@@ -64,7 +64,9 @@ class AnaFragment : Fragment() {
         beginPeriod = getFirstBrewDate()
         endPeriod = Date()
 
-        // 日付スピナーを作る（面倒臭い・・・）
+        // ＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃
+        // ツールバー上の日付スピナーを作る
+        // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
         var mList = mutableListOf<String>()
 
         var month = Calendar.getInstance()
@@ -80,18 +82,20 @@ class AnaFragment : Fragment() {
             mList.add(0, "%d年%02d月".format(month.get(Calendar.YEAR), month.get(Calendar.MONTH) + 1))
             month.add(Calendar.MONTH, 1)
         } while(month <= last)
-
         mList.add(0, getString(R.string.anaAllPeriod))
 
+        // やっとこアダプタ・リスナをセットして終わり
         val adapter = ArrayAdapter<String>(ma, android.R.layout.simple_spinner_dropdown_item, mList)
         ma.sortSpn.adapter = adapter
-        ma.sortSpn.onItemSelectedListener = MonthSpinnerChangeListner()
+        ma.sortSpn.onItemSelectedListener = MonthSpinnerChangeListener()
 
         return root
     }
 
+
+
     // 分析期間Spinnerを変更した時のリスナ
-    private inner class MonthSpinnerChangeListner() : AdapterView.OnItemSelectedListener {
+    private inner class MonthSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
             val ma: MainActivity = activity as MainActivity

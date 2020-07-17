@@ -4,15 +4,19 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 //        root.button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.navigation_settings, null))
 // これよりも、onClickイベントを発生させた方が良いみたい（＾＾）
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.*
 import io.realm.Realm
+import io.realm.RealmResults
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
@@ -55,9 +59,42 @@ class BrewFragment : Fragment() {
         // 長押しで編集メニューとか出せるけど、その操作方法はやめて、無難に編集画面からやるようにしているのでコメントアウト
 //        registerForContextMenu(root)
 
+        // ＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃
+        // ツールバー上のソートスピナーを作る
+        // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
+        val sortList = resources.getStringArray(R.array.sort_mode_brew)
+        val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+        ac.sortSpn.adapter = adapter
+        ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
+
         Log.d("SHIRO", "brew / onCreateView - DB OPEN")
         return root
     }
+
+    // 分析期間Spinnerを変更した時のリスナ
+    private inner class SortSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+            val ma: MainActivity = activity as MainActivity
+
+            // ここで何かしないと、Fragmentが更新できない
+            // 何をしたらええねん？
+            // まさか、強制的にonStartを呼ぶとか？（んなアホナ）
+            brewListLayout.invalidate()
+            brewRecycleView.invalidate()
+            brewFAB.invalidate()
+            brewDummyText.text = ma.sortSpn.selectedItem.toString()
+
+//            fragmentManager?.beginTransaction()?.detach(this)?.attach(this)?.commit()
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            TODO("Not yet implemented")
+        }
+    }
+
+
+
 
 /*
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -130,8 +167,27 @@ class BrewFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        // 全部のコースデータをrealmResults配列に読み込む
-        val realmResults = realm.where(BrewData::class.java).findAll().sort("date", Sort.DESCENDING)
+        val ma = activity as MainActivity
+        val realmResults: RealmResults<BrewData>
+
+        when( ma.sortSpn.selectedItem.toString() ) {
+            "日付順" -> {
+                realmResults = realm.where<BrewData>()
+                    .findAll().sort("date", Sort.DESCENDING)
+            }
+            "評価順" -> {
+                realmResults = realm.where<BrewData>()
+                    .findAll().sort("rating", Sort.DESCENDING)
+            }
+            else -> {
+                realmResults = realm.where<BrewData>()
+                    .findAll().sort("date", Sort.DESCENDING)
+            }
+        }
+
+//        // 全部のコースデータをrealmResults配列に読み込む
+//        val realmResults = realm.where<BrewData>()
+//            .findAll().sort("date", Sort.DESCENDING)
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
