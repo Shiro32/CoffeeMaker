@@ -24,6 +24,8 @@ import kotlinx.android.synthetic.main.fragment_brew_list.*
 import kotlinx.android.synthetic.main.fragment_brew_list.view.*
 import android.content.Intent as Intent
 
+private lateinit var sortList: Array<String>
+
 class BrewFragment : Fragment() {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
     private lateinit var adapter: BrewRecyclerViewAdapter           // アダプタのインスタンス
@@ -59,10 +61,9 @@ class BrewFragment : Fragment() {
         // 長押しで編集メニューとか出せるけど、その操作方法はやめて、無難に編集画面からやるようにしているのでコメントアウト
 //        registerForContextMenu(root)
 
-        // ＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃
-        // ツールバー上のソートスピナーを作る
+        // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
         // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
-        val sortList = resources.getStringArray(R.array.sort_mode_brew)
+        sortList = resources.getStringArray(R.array.sort_mode_brew)
         val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
         ac.sortSpn.adapter = adapter
         ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
@@ -71,30 +72,19 @@ class BrewFragment : Fragment() {
         return root
     }
 
-    // 分析期間Spinnerを変更した時のリスナ
+    // ソートSpinnerを変更した時のリスナ
     private inner class SortSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-            val ma: MainActivity = activity as MainActivity
-
             // ここで何かしないと、Fragmentが更新できない
             // 何をしたらええねん？
-            // まさか、強制的にonStartを呼ぶとか？（んなアホナ）
-            brewListLayout.invalidate()
-            brewRecycleView.invalidate()
-            brewFAB.invalidate()
-            brewDummyText.text = ma.sortSpn.selectedItem.toString()
-
-//            fragmentManager?.beginTransaction()?.detach(this)?.attach(this)?.commit()
+            // TODO: とりあえずonStartを呼び出してるけど、多重で呼び出しているような・・・。
+            onStart()
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
             TODO("Not yet implemented")
         }
     }
-
-
-
 
 /*
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -171,13 +161,43 @@ class BrewFragment : Fragment() {
         val realmResults: RealmResults<BrewData>
 
         when( ma.sortSpn.selectedItem.toString() ) {
-            "日付順" -> {
+            sortList[0] -> {    // 日付順
                 realmResults = realm.where<BrewData>()
-                    .findAll().sort("date", Sort.DESCENDING)
+                    .findAll()
+                    .sort("date", Sort.DESCENDING)
             }
-            "評価順" -> {
+            sortList[1] -> {    // 評価順
                 realmResults = realm.where<BrewData>()
-                    .findAll().sort("rating", Sort.DESCENDING)
+                    .findAll()
+                    .sort("date", Sort.DESCENDING)
+                    .sort("rating", Sort.DESCENDING)
+            }
+            sortList[2] -> {    // 使用豆
+                realmResults = realm.where<BrewData>()
+                    .notEqualTo("methodID", BREW_METHOD_SHOP)
+                    .findAll()
+                    .sort("date", Sort.DESCENDING)
+                    .sort("beansID", Sort.DESCENDING)
+            }
+            sortList[3] -> {    // メソッド順
+                realmResults = realm.where<BrewData>()
+                    .notEqualTo("methodID", BREW_METHOD_SHOP)
+                    .findAll()
+                    .sort("date", Sort.DESCENDING)
+                    .sort("methodID", Sort.DESCENDING)
+            }
+            sortList[4] -> {    // 外飲み除外
+                realmResults = realm.where<BrewData>()
+                    .notEqualTo("methodID", BREW_METHOD_SHOP)
+                    .findAll()
+                    .sort("date", Sort.DESCENDING)
+            }
+            sortList[5] -> {    // 外飲みのみ
+                realmResults = realm.where<BrewData>()
+                    .equalTo("methodID", BREW_METHOD_SHOP)
+                    .findAll()
+                    .sort("date", Sort.DESCENDING)
+                    .sort("beansID", Sort.DESCENDING)
             }
             else -> {
                 realmResults = realm.where<BrewData>()
@@ -203,6 +223,7 @@ class BrewFragment : Fragment() {
 
         Log.d("SHIRO", "brew / onStart - READ & Re-draw")
 //        Toast.makeText(activity, "homeのonStart", Toast.LENGTH_SHORT).show()
+
     }
 
     // 終了処理

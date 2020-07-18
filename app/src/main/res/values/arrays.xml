@@ -13,12 +13,28 @@
     <array name="sort_mode_brew">
         <item>日付順</item>
         <item>評価順</item>
-        <item>抽出法順</item>
         <item>使用豆順</item>
-        <item>挽き目順</item>
-        <item>蒸らし順</item>
+        <item>抽出法順</item>
         <item>外飲除外</item>
+        <item>外飲だけ</item>
     </array>
+
+    <array name="sort_mode_beans">
+        <item>使用日順</item>
+        <item>購入日順</item>
+        <item>評価順</item>
+        <item>使用回数</item>
+        <item>購入店</item>
+        <item>金額順</item>
+    </array>
+
+    <array name="sort_mode_takeout">
+        <item>購入日順</item>
+        <item>評価順</item>
+        <item>使用回数</item>
+        <item>購入店</item>
+    </array>
+
 
     <array name="grind_labels">
         <item>粗</item>

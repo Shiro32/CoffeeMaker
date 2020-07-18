@@ -5,20 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.blackToast
-import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
-import com.sakuraweb.fotopota.coffeemaker.takeoutRealmConfig
+import com.sakuraweb.fotopota.coffeemaker.*
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.SetTakeoutListener
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutEditActivity
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutRecyclerViewAdapter
 import io.realm.Realm
+import io.realm.RealmResults
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,7 +33,7 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
     private lateinit var adapter: TakeoutRecyclerViewAdapter           // アダプタのインスタンス
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
-
+    private lateinit var sortList: Array<String>
 
     // リスト表示の準備
     // データを読み込んだり、メニューを作ったり、Viewをインフレートしたり
@@ -95,8 +96,32 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
         // メニュー構築（実装はonCreateOptionsMenu内で）
 //        setHasOptionsMenu(true)
 
+        // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
+        // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
+        if( !isCalledFromBrewEditToTakeout ) {
+            sortList = resources.getStringArray(R.array.sort_mode_takeout)
+            val adapter =
+                ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+            ac.sortSpn.adapter = adapter
+            ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
+        }
+
         Log.d("SHIRO", "takeout / onCreateView")
         return root
+    }
+
+    // ソートSpinnerを変更した時のリスナ
+    private inner class SortSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            // ここで何かしないと、Fragmentが更新できない
+            // 何をしたらええねん？
+            // TODO: とりあえずonStartを呼び出してるけど、多重で呼び出しているような・・・。
+            onStart()
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            TODO("Not yet implemented")
+        }
     }
 
     // オプションメニュー設置
@@ -128,7 +153,41 @@ class TakeoutFragment : Fragment(), SetTakeoutListener {
         // 全部の外飲みデータをrealmResults配列に読み込む
         // 並び順ルールは、１：購入日（ＤＢ登録日）、２：最近の利用日（BREWからの参照）の順で行う
         // こうすることで、最近利用する商品や最近登録した商品が上にくるようになる（気が付くねぇ・・・）
-        val realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)//.sort("first", Sort.DESCENDING)
+        val realmResults: RealmResults<TakeoutData>
+
+//        val realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)//.sort("first", Sort.DESCENDING)
+
+        if( isCalledFromBrewEditToTakeout ) {
+            realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)
+        } else {
+            val ma = activity as MainActivity
+            when (ma.sortSpn.selectedItem.toString()) {
+                sortList[0] -> {    // 使用日順（イマイチ悩ましい）
+                    realmResults =
+                        realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)
+                }
+                sortList[1] -> {    // 評価順
+                    realmResults = realm.where<TakeoutData>().findAll()
+                        .sort("recent", Sort.DESCENDING)
+                        .sort("rating", Sort.DESCENDING)
+                }
+                sortList[2] -> {     // 使用回数
+                    realmResults = realm.where<TakeoutData>().findAll()
+                        .sort("recent", Sort.DESCENDING)
+                        .sort("count", Sort.DESCENDING)
+                }
+                sortList[3] -> {    // 購入店
+                    realmResults = realm.where<TakeoutData>().findAll()
+                        .sort("recent", Sort.DESCENDING)
+                        .sort("chain", Sort.ASCENDING)
+                }
+                // TODO: 回数×金額でソートもしたいけど、ものすごく面倒？ いや簡単？
+                else -> {
+                    realmResults =
+                        realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)
+                }
+            }
+        }
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする

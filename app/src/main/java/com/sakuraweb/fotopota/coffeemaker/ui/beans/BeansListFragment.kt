@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +15,7 @@ import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
 import io.realm.Realm
+import io.realm.RealmResults
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,10 +25,12 @@ import java.util.*
 
 var isCalledFromBrewEditToBeans: Boolean = false
 
+
 class BeansFragment : Fragment(), SetBeansListener {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
     private lateinit var adapter: BeansRecyclerViewAdapter           // アダプタのインスタンス
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
+    private lateinit var sortList: Array<String>
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
         val root = inflater.inflate(R.layout.fragment_beans_list, container, false)
@@ -71,13 +76,6 @@ class BeansFragment : Fragment(), SetBeansListener {
         beansRealm.close()
         brewRealm.close()
 
-
-
-
-
-
-
-
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
         // realmのインスタンスを作る。ConfigはStartupで設定済み
         realm = Realm.getInstance(beansRealmConfig)
@@ -103,8 +101,32 @@ class BeansFragment : Fragment(), SetBeansListener {
         // メニュー構築（実装はonCreateOptionsMenu内で）
 //        setHasOptionsMenu(true)
 
+        // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
+        // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
+        if( !isCalledFromBrewEditToBeans ) {
+            sortList = resources.getStringArray(R.array.sort_mode_beans)
+            val adapter =
+                ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+            ac.sortSpn.adapter = adapter
+            ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
+        }
+
         Log.d("SHIRO", "beans / onCreateView")
         return root
+    }
+
+    // ソートSpinnerを変更した時のリスナ
+    private inner class SortSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            // ここで何かしないと、Fragmentが更新できない
+            // 何をしたらええねん？
+            // TODO: とりあえずonStartを呼び出してるけど、多重で呼び出しているような・・・。
+            onStart()
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            TODO("Not yet implemented")
+        }
     }
 
     // オプションメニュー設置
@@ -134,7 +156,46 @@ class BeansFragment : Fragment(), SetBeansListener {
         super.onStart()
 
         // 全部の豆データをrealmResults配列に読み込む
-        val realmResults = realm.where(BeansData::class.java).findAll().sort("date", Sort.DESCENDING)
+        val realmResults: RealmResults<BeansData>
+
+        if( isCalledFromBrewEditToBeans ) {
+            realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
+        } else {
+            val ma = activity as MainActivity
+            when (ma.sortSpn.selectedItem.toString()) {
+                sortList[0] -> {    // 使用日順
+                    realmResults =
+                        realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
+                }
+                sortList[1] -> {    // 購入日順
+                    realmResults = realm.where<BeansData>().findAll().sort("date", Sort.DESCENDING)
+                }
+                sortList[2] -> {     // 評価順
+                    realmResults = realm.where<BeansData>().findAll()
+                        .sort("recent", Sort.DESCENDING)
+                        .sort("rating", Sort.DESCENDING)
+                }
+                sortList[3] -> {    // 回数順
+                    realmResults = realm.where<BeansData>().findAll()
+                        .sort("recent", Sort.DESCENDING)
+                        .sort("count", Sort.DESCENDING)
+                }
+                sortList[4] -> {    // 購入店
+                    realmResults = realm.where<BeansData>().findAll()
+                        .sort("recent", Sort.DESCENDING)
+                        .sort("shop", Sort.DESCENDING)
+                }
+                sortList[5] -> {    // 金額
+                    realmResults = realm.where<BeansData>().findAll()
+                        .sort("recent", Sort.DESCENDING)
+                        .sort("price", Sort.DESCENDING)
+                }
+                else -> {
+                    realmResults =
+                        realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
+                }
+            }
+        }
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする

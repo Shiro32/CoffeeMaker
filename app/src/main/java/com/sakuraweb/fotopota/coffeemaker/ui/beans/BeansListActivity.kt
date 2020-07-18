@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_beans_list.*
 class BeansListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_beans_list)
 
         // beansListToolbar.title = "使った豆を選んでください"
