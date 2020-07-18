@@ -42,7 +42,7 @@ fun calcCupsOfLife() {
 
         cupsFromTheFirstDay = 0
         for (b in brews) {
-            cupsFromTheFirstDay += b.cups.toInt()
+            cupsFromTheFirstDay += b.cupsDrunk.toInt()
         }
     } else {
         theFirstBrew = ""
@@ -52,15 +52,17 @@ fun calcCupsOfLife() {
     realm.close()
 }
 
-fun calcCupsOfPeriod( begin: Calendar, end:Calendar) : Int {
+fun calcCupsDrunkOfPeriod(begin: Calendar, end:Calendar) : Int {
 
-    // 本当は時刻までギリギリやったほうがいいか？
+    // 期間の0時から23時まで全部カウント
     begin.set( begin.get(Calendar.YEAR), begin.get(Calendar.MONTH), 1, 0, 0, 0)
     end.set( end.get(Calendar.YEAR), end.get(Calendar.MONTH), end.getActualMaximum(Calendar.DATE), 23, 59, 59)
 
     val realm = Realm.getInstance(brewRealmConfig)
     val brews = realm.where<BrewData>().between("date", begin.time, end.time).findAll()
-    val cups = brews.size
+
+    var cups:Int = 0
+    for( b in brews ) cups += b.cupsDrunk.toInt()
     realm.close()
 
     return cups
@@ -79,8 +81,8 @@ fun calcCupsOfMonth(y:Int, m:Int): Int {
 
     val realm = Realm.getInstance(brewRealmConfig)
     val brews = realm.where<BrewData>().between("date", begin, end).findAll()
-    val cups = brews.size
-
+    var cups = 0
+    for( b in brews ) cups += b.cupsDrunk.toInt()
     realm.close()
 
     return cups
@@ -107,7 +109,7 @@ class HomeFragment : Fragment() {
         root.sinceText.text = theFirstBrew
 
         // copyrightメッセージにURLを埋め込む
-        root.copyRightText.setText(Html.fromHtml("v1.1 Copyright ©2020 Shiro, <a href=\"http://fotopota.sakuraweb.com\">フォトポタ日記2.0</a>"))
+        root.copyRightText.setText(Html.fromHtml("v2.5 Copyright ©2020 Shiro, <a href=\"http://fotopota.sakuraweb.com\">フォトポタ日記2.0</a>"))
         root.copyRightText.movementMethod = LinkMovementMethod.getInstance()
 
         // privacy policyにURLを埋め込む

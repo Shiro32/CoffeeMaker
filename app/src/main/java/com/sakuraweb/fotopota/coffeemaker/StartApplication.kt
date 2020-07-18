@@ -124,7 +124,7 @@ class StartApplication : Application() {
         // データ数ゼロならサンプルを作る
         if (beans.size == 0) {
             val beansList = listOf<BeansDataInit>(
-                BeansDataInit("キリマンジャロ", 3F, "2020/6/1", 200F, 1F, "KALDI", 399, 1,"最近のお気に入り")
+                BeansDataInit("キリマンジャロ", 3F, "2020/1/1", 200F, 1F, "KALDI", 399, 1,"サンプルデータです。使用時には削除してください。")
             )
 
             // DB書き込み
@@ -170,25 +170,27 @@ class StartApplication : Application() {
         // データゼロなら作る
         if (brews.size == 0) {
             val brewList = listOf<BrewDataInit>(
-                BrewDataInit("2020/01/19 12:34", 2F, 1, 1,1, 1, 3F, 10F, 1F, 90F, 30F, "http", "サンプルです", 0)
+                BrewDataInit("2020/01/2 12:34", 2F, 1, 1,1, 1, 3F, 10F, 2F, 1F,90F, 30F, "http", "サンプルデータです。使用時には削除してください。", 0)
             )
             // DBに書き込む
             realm.beginTransaction()
             var id = 1
             for (i in brewList.reversed()) {
                 val c = realm.createObject<BrewData>(id++)
-                c.date = i.date.toDate()
-                c.rating = i.rating
-                c.methodID = i.methodID
-                c.beansID = i.beansID
-                c.beansPast = i.beansPast
-                c.beansGrind = i.beansGrind
-                c.beansUse = i.beansUse
-                c.cups = i.cups
-                c.temp = i.temp
-                c.steam = i.steam
-                c.imageURI = i.imageURI
-                c.memo = i.memo
+                c.date          = i.date.toDate()
+                c.place         = i.place
+                c.rating        = i.rating
+                c.methodID      = i.methodID
+                c.beansID       = i.beansID
+                c.beansPast     = i.beansPast
+                c.beansGrind    = i.beansGrind
+                c.beansUse  = i.beansUse
+                c.cups      = i.cups
+                c.cupsDrunk = i.cupsDrunk
+                c.temp      = i.temp
+                c.steam     = i.steam
+                c.imageURI  = i.imageURI
+                c.memo      = i.memo
             }
             realm.commitTransaction()
             blackToast(this, "BREWデータベース完了！")
@@ -222,7 +224,7 @@ class StartApplication : Application() {
         // データ数ゼロならサンプルを作る
         if (takeouts.size == 0) {
             val takeoutList = listOf<TakeoutDataInit>(
-                TakeoutDataInit("キリマンジャロ", 3F, "ファミリーマート", "ＮＹ支店",300, 100, "Regular", "ふつう")
+                TakeoutDataInit("ホットブレンドＳ", 3F, "ファミリーマート", "ＮＹ支店",300, 100, "Regular", "サンプルデータです。使用時には削除してください。")
             )
 
             // DB書き込み

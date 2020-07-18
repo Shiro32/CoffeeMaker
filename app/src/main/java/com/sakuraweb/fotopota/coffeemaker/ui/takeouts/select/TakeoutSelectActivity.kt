@@ -9,7 +9,6 @@ import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.RESULT_TO_HOME
 import kotlinx.android.synthetic.main.activity_takeout_select.*
 
-// TODO: 最下部にこっそりあるTextViewどうする？　→　キャンセルボタン化？
 class TakeoutSelectActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +22,9 @@ class TakeoutSelectActivity : AppCompatActivity() {
 
         // アイコンをセットしてみたいんだが
         // TODO: 店などのアイコンを設定する
-//        takeoutTabLayout.getTabAt(0)?.setIcon(R.drawable.beans40)
-//        takeoutTabLayout.getTabAt(1)?.setIcon(R.drawable.beans150)
-//        takeoutTabLayout.getTabAt(2)?.setIcon(R.drawable.pack300)
+        takeoutTabLayout.getTabAt(0)?.setIcon(R.drawable.takeout100)
+        takeoutTabLayout.getTabAt(1)?.setIcon(R.drawable.cup300)
+        takeoutTabLayout.getTabAt(2)?.setIcon(R.drawable.rest150)
 
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(takeoutSelectToolbar) // これやらないと落ちるよ

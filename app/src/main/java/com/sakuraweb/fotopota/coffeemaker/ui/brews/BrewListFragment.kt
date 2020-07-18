@@ -174,27 +174,27 @@ class BrewFragment : Fragment() {
             }
             sortList[2] -> {    // 使用豆
                 realmResults = realm.where<BrewData>()
-                    .notEqualTo("methodID", BREW_METHOD_SHOP)
+                    .equalTo("place", BREW_IN_HOME)
                     .findAll()
                     .sort("date", Sort.DESCENDING)
                     .sort("beansID", Sort.DESCENDING)
             }
             sortList[3] -> {    // メソッド順
                 realmResults = realm.where<BrewData>()
-                    .notEqualTo("methodID", BREW_METHOD_SHOP)
+                    .equalTo("place", BREW_IN_HOME)
                     .findAll()
                     .sort("date", Sort.DESCENDING)
                     .sort("methodID", Sort.DESCENDING)
             }
             sortList[4] -> {    // 外飲み除外
                 realmResults = realm.where<BrewData>()
-                    .notEqualTo("methodID", BREW_METHOD_SHOP)
+                    .equalTo("place", BREW_IN_HOME)
                     .findAll()
                     .sort("date", Sort.DESCENDING)
             }
             sortList[5] -> {    // 外飲みのみ
                 realmResults = realm.where<BrewData>()
-                    .equalTo("methodID", BREW_METHOD_SHOP)
+                    .equalTo("place", BREW_IN_SHOP)
                     .findAll()
                     .sort("date", Sort.DESCENDING)
                     .sort("beansID", Sort.DESCENDING)

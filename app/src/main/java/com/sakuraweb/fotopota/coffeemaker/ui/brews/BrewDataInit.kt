@@ -15,6 +15,7 @@ class BrewDataInit (
     var beansGrind: Float,
     var beansUse: Float,
     var cups: Float,
+    var cupsDrunk: Float,
     var temp: Float,
     var steam: Float,
     var imageURI: String,

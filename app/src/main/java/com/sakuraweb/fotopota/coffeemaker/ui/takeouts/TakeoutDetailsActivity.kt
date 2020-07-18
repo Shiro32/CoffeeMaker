@@ -21,9 +21,6 @@ const val TAKEOUT_EDIT_MODE_COPY = 3
 
 const val REQUEST_EDIT_TAKEOUT = 1
 
-// TODO: イラストの唐突感を何とかする
-// TODO: 円やグラムの単位
-
 // Takeoutの１カードごとの詳細画面
 // 当初は編集画面と一体化していたけど、List→Details→Editと３段階に変更
 

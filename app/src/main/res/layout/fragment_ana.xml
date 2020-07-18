@@ -104,6 +104,7 @@
             android:orientation="vertical">
 
             <!--高い評価豆ランキング -->
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/favBeanCard"
                 style="@style/AnaCardStyle"
@@ -572,7 +573,23 @@
                         </TableRow>
                     </TableLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:src="@drawable/under_construction" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="★工事中★　最低限の機能しか実装できていません。そのうち、グラフでの分析など機能追加予定・・・" />
 
         </LinearLayout>
     </ScrollView>

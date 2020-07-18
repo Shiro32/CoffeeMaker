@@ -65,7 +65,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             var days = ""
 
             // 家飲みの場合は抽出情報（店飲みの場合は不要）
-            if( bp.methodID != BREW_METHOD_SHOP ) {
+            if( bp.place == BREW_IN_HOME ) {
                 holder.beansPassText?.text = bp.beansPast.toString()
                 holder.beansGrindBar?.setProgress(bp.beansGrind.toFloat())
                 holder.beansUseBar?.setProgress(bp.beansUse.toFloat())
@@ -92,17 +92,17 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             val df = SimpleDateFormat("yyyy/MM/dd HH:mm")
             holder.dateText?.text       = df.format(bp.date)
             holder.ratingBar?.rating    = bp.rating
-            holder.methodText?.text     = brewMethodsCR[bp.methodID]
+//            holder.methodText?.text     = brewMethodsCR[bp.methodID]
             holder.beansKindText?.text = findBeansNameByID(bp.place, bp.beansID, bp.takeoutID )
 
-            // TODO: 「メモ」というラベルも消さないと。結局、レイアウトで包んだ方がイイかな？
+            // メモ欄が入ってないときは欄自体消す
             if( bp.memo!="" ) {
                 holder.memoText?.text = bp.memo
                 holder.memoText?.visibility = View.VISIBLE
-                holder.memoLabel?.visibility = View.VISIBLE
+//                holder.memoLabel?.visibility = View.VISIBLE
             } else {
                 holder.memoText?.visibility = View.GONE
-                holder.memoLabel?.visibility = View.GONE
+//                holder.memoLabel?.visibility = View.GONE
             }
 
             // 抽出方法にあったイラスト（アイコン）

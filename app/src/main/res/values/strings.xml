@@ -1,7 +1,8 @@
 <resources>
 
     <string name="app_name">コーヒー日記</string>
-    <string name="mainLabel">日々、大量に飲む（個人差あり？）コーヒーのレシピ、豆やテイクアウトの購入記録を付けられるアプリです。\n\n抽出方法やお湯の温度などのほか、登録済み豆リストから選ぶこともできます。</string>
+    <string name="mainLabel">日々、大量に飲む（個人差あり？）コーヒーのレシピ、豆やテイクアウトの購入記録を付けられるアプリです。\n抽出方法やお湯の温度などのほか、登録済み豆リストから選ぶこともできます。
+        \n記録したコーヒーデータは、超高度な統計手法で分析する・・・予定なんですが、まだ工事中です m(_ _)m</string>
 
 
     <string name="title_home">ホーム</string>
@@ -172,4 +173,5 @@
 
     <!-- 分析画面 -->
     <string name="anaAllPeriod">全期間</string>
+    <string name="brewEditCupDrunkLabel">飲んだ量：\n(カップ)</string>
 </resources>

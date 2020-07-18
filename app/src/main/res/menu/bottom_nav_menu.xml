@@ -22,7 +22,7 @@
         android:title="@string/title_takeout" />
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/graph"
         android:title="@string/title_analyze" />
 
 </menu>

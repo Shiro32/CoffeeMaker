@@ -21,8 +21,6 @@ const val BEANS_EDIT_MODE_COPY = 3
 
 const val REQUEST_EDIT_BEANS = 1
 
-// TODO: イラストの唐突感を何とかする
-
 // Beansの１カードごとの詳細画面
 // 当初は編集画面と一体化していたけど、List→Details→Editと３段階に変更
 

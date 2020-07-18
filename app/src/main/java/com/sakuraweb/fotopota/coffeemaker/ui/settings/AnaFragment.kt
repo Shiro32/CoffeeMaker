@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
-import com.sakuraweb.fotopota.coffeemaker.ui.home.calcCupsOfPeriod
+import com.sakuraweb.fotopota.coffeemaker.ui.home.calcCupsDrunkOfPeriod
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -120,7 +120,7 @@ class AnaFragment : Fragment() {
                 begin.set(a[0].toInt(), a[1].toInt()-1, 1, 0, 0, 0)
                 last.set(a[0].toInt(), a[1].toInt()-1, 1, 23,59,59)
                 last.set(Calendar.DATE, last.getActualMaximum(Calendar.DATE))
-                headerMsg = "%d年%d月の１か月に飲んだコーヒー".format(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH)+1, last.get(Calendar.YEAR), last.get(Calendar.MONTH)+1)
+                headerMsg = "%d年%d月に飲んだコーヒー".format(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH)+1, last.get(Calendar.YEAR), last.get(Calendar.MONTH)+1)
             }
 
             beginPeriod = begin.time
@@ -137,7 +137,7 @@ class AnaFragment : Fragment() {
             var takeoutList = arrayOf<Long>()
 
             for( brew in brews) {
-                if( brew.methodID != BREW_METHOD_SHOP ) {
+                if( brew.place == BREW_IN_HOME ) {
                     // 家飲みの場合はBEANSのリスト追加
                     beansList += brew.beansID
                 } else {
@@ -151,7 +151,7 @@ class AnaFragment : Fragment() {
             anaHeaderText.text = headerMsg
 
             // 全体のカップ数
-            anaCupsText.text = calcCupsOfPeriod(begin, last).toString()
+            anaCupsText.text = calcCupsDrunkOfPeriod(begin, last).toString()
 
 
 // ------------------------------- 猛烈に長いけど、豆ランキング　-------------------------------

@@ -20,8 +20,6 @@ import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_takeout_edit.*
 import java.util.*
 
-// TODO: LISTへ戻るメニューっている？ さすがにくどくない？
-// TODO: イラストの唐突感を何とかする
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 
 const val REQUEST_CODE_TAKEOUT_NAME_SELECT = 100
@@ -76,7 +74,14 @@ class TakeoutEditActivity : AppCompatActivity() {
                     takeoutEditChainEdit.setText(takeout.chain)
                     takeoutEditPriceEdit.setText(takeout.price.toString())
                     takeoutEditSizeEdit.setText(takeout.size)
-                    takeoutEditMemoEdit.setText(takeout.memo)
+
+                    if( editMode== TAKEOUT_EDIT_MODE_EDIT) {
+                        // 編集モードではメモ欄をコピー
+                        takeoutEditMemoEdit.setText(takeout.memo)
+                    } else {
+                        // 新規モードの時は空欄で
+                        takeoutEditMemoEdit.setText("")
+                    }
                 }
             }
         }

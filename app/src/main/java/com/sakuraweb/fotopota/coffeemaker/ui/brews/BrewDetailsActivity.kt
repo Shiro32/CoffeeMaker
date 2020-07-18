@@ -60,13 +60,14 @@ class BrewDetailsActivity : AppCompatActivity() {
         if (brew != null) {
             var days = ""
             // 家飲みの場合は抽出情報（店飲みの場合は不要）
-            if( brew.methodID != BREW_METHOD_SHOP ) {
+            if( brew.place == BREW_IN_HOME ) {
                 // ここでようやくレイアウトをインフレート
                 setContentView(R.layout.activity_brew_details_home)
 
                 brewDetailsGrindBar.setProgress(brew.beansGrind)
                 brewDetailsBeansUseBar.setProgress(brew.beansUse)
                 brewDetailsCupsBar.setProgress(brew.cups)
+                brewDetailsCupsDrunkBar.setProgress(brew.cupsDrunk)
                 brewDetailsTempBar.setProgress(brew.temp)
                 brewDetailsSteamBar.setProgress(brew.steam)
                 // 豆の経過日数を計算する

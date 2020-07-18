@@ -145,7 +145,8 @@
                 android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:hint="@string/takeoutEditMemoHint"
-                android:inputType="text"
+                android:inputType="textMultiLine|text"
+                android:minLines="2"
                 app:layout_constraintBaseline_toBaselineOf="@+id/takeoutEditMemoLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />

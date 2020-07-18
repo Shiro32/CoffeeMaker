@@ -13,15 +13,15 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.select.BeansSelectActivity
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.BREW_EDIT_MODE_EDIT
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.select.TakeoutSelectActivity
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_beans_edit.*
+import kotlinx.android.synthetic.main.activity_brew_edit.*
 import java.util.*
 
-// TODO: LISTへ戻るメニューっている？ さすがにくどくない？
-// TODO: イラストの唐突感を何とかする
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 // TODO: 起動時に、一回、全データをBREWSからの参照チェックやるべき。いつやる？ Takeoutも同じだけど。
 
@@ -74,14 +74,22 @@ class BeansEditActivity : AppCompatActivity() {
                 val beans = realm.where<BeansData>().equalTo("id", beansID).findFirst()
 
                 if( beans != null ) {
-                    calender.time = beans.date  // 日付は面倒なので後でまとめて・・・
                     beansEditRatingBar.rating = beans.rating
                     beansEditNameEdit.setText(beans.name)
                     beansEditRoastBar.setProgress(beans.roast)
                     beansEditGramBar.setProgress(beans.gram)
                     beansEditShopEdit.setText(beans.shop)
                     beansEditPriceEdit.setText(beans.price.toString())
-                    beansEditMemoEdit.setText(beans.memo)
+
+                    if( editMode== BEANS_EDIT_MODE_EDIT )  {
+                        // 編集モードの時の処理
+                        // 時刻は既存データのものを再利用
+                        calender.time = beans.date  // 日付は面倒なので後でまとめて・・・
+                        beansEditMemoEdit.setText(beans.memo)
+                    } else {
+                        // 新規モードの時は、メモ欄を削除
+                        beansEditMemoEdit.setText("")
+                    }
                 }
             }
         }

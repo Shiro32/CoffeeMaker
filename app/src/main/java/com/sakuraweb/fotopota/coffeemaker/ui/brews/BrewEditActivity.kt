@@ -33,7 +33,6 @@ const val BREW_EDIT_MODE_COPY = 3
 const val REQUEST_CODE_BEANS_SELECT = 1
 const val REQUEST_CODE_TAKEOUT_SELECT = 2
 
-// TODO: LISTへ戻るメニューっている？ さすがにくどくない？
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 
 // Brewの各カードの編集画面
@@ -98,14 +97,22 @@ class BrewEditActivity : AppCompatActivity() {
                     beansID = brew.beansID
                     takeoutID = brew.takeoutID
                     brewEditCupsBar.setProgress(brew.cups)
+                    brewEditCupsDrunkBar.setProgress(brew.cupsDrunk)
                     brewEditGrindBar.setProgress(brew.beansGrind)
                     brewEditBeansUseBar.setProgress(brew.beansUse)
                     brewEditTempBar.setProgress(brew.temp)
                     brewEditSteamBar.setProgress(brew.steam)
                     brewEditShopText.setText(brew.shop)
-                    brewEditMemoText.setText(brew.memo)
-                    // 編集の時だけは、時刻は既存データのまま（新規は現在時刻）
-                    if( editMode== BREW_EDIT_MODE_EDIT )  calender.time = brew.date
+
+                    if( editMode==BREW_EDIT_MODE_EDIT )  {
+                        // 編集モードの時の処理
+                        // 時刻は既存データのものを再利用
+                        calender.time = brew.date
+                        brewEditMemoText.setText(brew.memo)
+                    } else {
+                        // 新規モードの時は、メモ欄を削除
+                        brewEditMemoText.setText("")
+                    }
                 }
             }
         }
@@ -226,6 +233,7 @@ class BrewEditActivity : AppCompatActivity() {
             val brewRating = brewEditRatingBar.rating
             val methodID      = brewEditMethodSpin.selectedItemPosition
             val brewCups    = brewEditCupsBar.progress.toFloat()
+            val brewCupsDrunk= brewEditCupsDrunkBar.progress.toFloat()
             val brewGrind   = brewEditGrindBar.progress.toFloat()
             val brewBeansUse= brewEditBeansUseBar.progress.toFloat()
             val brewTemp    = brewEditTempBar.progress.toFloat()
@@ -251,6 +259,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.takeoutID = takeoutID
                         brew.place = if( methodID==BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew.cups = brewCups
+                        brew.cupsDrunk = brewCupsDrunk
                         brew.beansGrind = brewGrind
                         brew.beansUse = brewBeansUse
                         brew.temp = brewTemp
@@ -272,6 +281,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.methodID  = methodID
                         brew?.place     = if( methodID==BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew?.cups      = brewCups
+                        brew?.cupsDrunk = brewCupsDrunk
                         brew?.beansGrind= brewGrind
                         brew?.beansUse  = brewBeansUse
                         brew?.temp      = brewTemp
