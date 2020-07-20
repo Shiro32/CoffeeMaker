@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardListBackground"
-    tools:context=".ui.settings.AnaFragment">
+    tools:context=".ui.stats.StatsFragment">
 
     <!-- 飲んだコーヒー豆評価ランキング -->
 
@@ -51,7 +51,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
-            android:text="142"
+            android:text="999"
             android:textColor="@android:color/white"
             android:textSize="40sp"
             android:textStyle="bold"
@@ -277,7 +277,7 @@
                             <TextView
                                 android:id="@+id/countBeanRank1Count"
                                 style="@style/AnaRankCountStyle"
-                                android:text="6" />
+                                android:text="999" />
 
                             <TextView
                                 android:id="@+id/beanRank1Unit"
@@ -302,7 +302,7 @@
                             <TextView
                                 android:id="@+id/countBeanRank2Count"
                                 style="@style/AnaRankCountStyle"
-                                android:text="100" />
+                                android:text="999" />
 
                             <TextView
                                 android:id="@+id/beanRank2Unit"
@@ -327,7 +327,7 @@
                             <TextView
                                 android:id="@+id/countBeanRank3Count"
                                 style="@style/AnaRankCountStyle"
-                                android:text="100" />
+                                android:text="999" />
 
                             <TextView
                                 android:id="@+id/beanRank3Unit"
@@ -399,7 +399,7 @@
                             <TextView
                                 android:id="@+id/favTakeoutRank1Count"
                                 style="@style/AnaRankCountStyle"
-                                android:text="2.5" />
+                                android:text="9.9" />
 
                         </TableRow>
 
@@ -424,7 +424,7 @@
                             <TextView
                                 android:id="@+id/favTakeoutRank2Count"
                                 style="@style/AnaRankCountStyle"
-                                android:text="4.0" />
+                                android:text="9.9" />
 
                         </TableRow>
 
@@ -449,7 +449,7 @@
                             <TextView
                                 android:id="@+id/favTakeoutRank3Count"
                                 style="@style/AnaRankCountStyle"
-                                android:text="1.0" />
+                                android:text="9.9" />
 
                         </TableRow>
                     </TableLayout>
@@ -514,7 +514,7 @@
                             <TextView
                                 android:id="@+id/countTakeoutRank1Count"
                                 style="@style/AnaRankCountStyle"
-                                android:text="6" />
+                                android:text="999" />
 
                             <TextView
                                 android:id="@+id/takeoutRank1Unit"
@@ -539,7 +539,7 @@
                             <TextView
                                 android:id="@+id/countTakeoutRank2Count"
                                 style="@style/AnaRankCountStyle"
-                                android:text="100" />
+                                android:text="999" />
 
                             <TextView
                                 android:id="@+id/takeoutRank2Unit"
@@ -564,7 +564,7 @@
                             <TextView
                                 android:id="@+id/countTakeoutRank3Count"
                                 style="@style/AnaRankCountStyle"
-                                android:text="100" />
+                                android:text="999" />
 
                             <TextView
                                 android:id="@+id/takeoutRank3Unit"

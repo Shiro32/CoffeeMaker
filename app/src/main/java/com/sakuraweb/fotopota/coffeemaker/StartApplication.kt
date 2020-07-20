@@ -19,6 +19,7 @@ import io.realm.RealmConfiguration
 import io.realm.RealmResults
 import io.realm.Sort
 import io.realm.kotlin.createObject
+import io.realm.kotlin.where
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -273,4 +274,22 @@ fun Date.toString(pattern: String = "yyyy/MM/dd"): String {
     val df = SimpleDateFormat(pattern)
     val ds = df.format(this)
     return  ds
+}
+
+// 最初のBREWの日付をゲット
+// なんでここに？ という気もしないではないけど・・・
+fun getFirstBrewDate() : Date {
+    var begin: Date
+
+    val realm = Realm.getInstance(brewRealmConfig)
+    val brews = realm.where<BrewData>().findAll().sort("date",Sort.ASCENDING)
+
+    if( brews.size>0 ) {
+        begin = brews[0]?.date as Date
+    } else {
+        begin = Date()
+    }
+    realm.close()
+
+    return begin
 }

@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.sakuraweb.fotopota.coffeemaker.ui.settings.AnaFragment"
+        android:name="com.sakuraweb.fotopota.coffeemaker.ui.stats.StatsFragment"
         android:label="@string/title_analyze"
-        tools:layout="@layout/fragment_ana" />
+        tools:layout="@layout/fragment_stats" />
 
     <fragment
         android:id="@+id/navigation_takeouts"

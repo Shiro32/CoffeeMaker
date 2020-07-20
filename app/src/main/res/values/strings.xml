@@ -12,7 +12,6 @@
     <string name="title_analyze">コーヒー統計</string>
 
 
-
     <string name="titleTakeoutListFromBtnv">外飲みリスト</string>
     <!-- なぜかfromEditはfragmentから設定できないのでデフォで設定してある -->
     <string name="titleTakeoutListFromBrewEdit">コーヒーを選択</string>
