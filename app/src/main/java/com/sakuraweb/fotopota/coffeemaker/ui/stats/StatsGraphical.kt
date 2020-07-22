@@ -86,12 +86,12 @@ class StatsGraphical : Fragment() {
 
         // Y軸（左）
         val ly = chart.axisLeft
-        ly.setAxisMinValue(0F)
+//        ly.setAxisMinValue(0F)
 
         // Y軸（右）
         val ry = chart.axisRight
         ry.setDrawLabels(false)
-        ry.setAxisMinValue(0F)
+//        ry.setAxisMinValue(0F)
 
         // グラフ全体
         chart.isClickable = false

@@ -1,0 +1,285 @@
+<html>
+<head>
+<title>StatsHome.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #000080; font-weight: bold;}
+.s1 { color: #000000;}
+.s2 { color: #808080;}
+.s3 { color: #008000; font-weight: bold;}
+.s4 { color: #808080; font-style: italic;}
+.s5 { color: #0000ff;}
+.ls0 { height: 1px; border-width: 0; color: #c0c0c0; background-color:#c0c0c0}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+StatsHome.kt</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">package </span>com.sakuraweb.fotopota.coffeemaker.ui.stats
+<a name="l2"><span class="ln">2    </span></a>
+<a name="l3"><span class="ln">3    </span></a>import android.os.Bundle
+<a name="l4"><span class="ln">4    </span></a>import androidx.fragment.app.Fragment
+<a name="l5"><span class="ln">5    </span></a>import android.view.LayoutInflater
+<a name="l6"><span class="ln">6    </span></a>import android.view.View
+<a name="l7"><span class="ln">7    </span></a>import android.view.ViewGroup
+<a name="l8"><span class="ln">8    </span></a>import com.sakuraweb.fotopota.coffeemaker.*
+<a name="l9"><span class="ln">9    </span></a>import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
+<a name="l10"><span class="ln">10   </span></a>import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
+<a name="l11"><span class="ln">11   </span></a>import com.sakuraweb.fotopota.coffeemaker.ui.home.calcCupsDrunkOfPeriod
+<a name="l12"><span class="ln">12   </span></a>import io.realm.Realm
+<a name="l13"><span class="ln">13   </span></a>import io.realm.RealmConfiguration
+<a name="l14"><span class="ln">14   </span></a>import io.realm.Sort
+<a name="l15"><span class="ln">15   </span></a>import io.realm.kotlin.createObject
+<a name="l16"><span class="ln">16   </span></a>import io.realm.kotlin.where
+<a name="l17"><span class="ln">17   </span></a>import kotlinx.android.synthetic.main.fragment_stats_home.*
+<a name="l18"><span class="ln">18   </span></a>import java.util.*
+<a name="l19"><span class="ln">19   </span></a>
+<a name="l20"><span class="ln">20   </span></a><span class="s2">// TODO: Rename parameter arguments, choose names that match</span>
+<a name="l21"><span class="ln">21   </span></a><span class="s2">// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER</span>
+<a name="l22"><span class="ln">22   </span></a>private const <span class="s0">val </span>ARG_PARAM1 = <span class="s3">&quot;param1&quot;</span><hr class="ls0"><a name="l23"><span class="ln">23   </span></a>private const <span class="s0">val </span>ARG_PARAM2 = <span class="s3">&quot;param2&quot;</span>
+<a name="l24"><span class="ln">24   </span></a>
+<a name="l25"><span class="ln">25   </span></a><span class="s4">/**</span>
+<a name="l26"><span class="ln">26   </span></a> <span class="s4">* A simple [Fragment] subclass.</span>
+<a name="l27"><span class="ln">27   </span></a> <span class="s4">* Use the [StatsHome.newInstance] factory method to</span>
+<a name="l28"><span class="ln">28   </span></a> <span class="s4">* create an instance of this fragment.</span>
+<a name="l29"><span class="ln">29   </span></a> <span class="s4">*/</span>
+<a name="l30"><span class="ln">30   </span></a><span class="s0">class </span>StatsHome : Fragment() {
+<a name="l31"><span class="ln">31   </span></a>    <span class="s2">// TODO: Rename and change types of parameters</span>
+<a name="l32"><span class="ln">32   </span></a>    private <span class="s0">var </span>param1: String? = <span class="s0">null</span><hr class="ls0"><a name="l33"><span class="ln">33   </span></a>    private <span class="s0">var </span>param2: String? = <span class="s0">null</span>
+<a name="l34"><span class="ln">34   </span></a><hr class="ls0"><a name="l35"><span class="ln">35   </span></a>    override <span class="s0">fun </span>onCreate(savedInstanceState: Bundle?) {
+<a name="l36"><span class="ln">36   </span></a>        <span class="s0">super</span>.onCreate(savedInstanceState)
+<a name="l37"><span class="ln">37   </span></a>        arguments?.let {
+<a name="l38"><span class="ln">38   </span></a>            param1 = it.getString(ARG_PARAM1)
+<a name="l39"><span class="ln">39   </span></a>            param2 = it.getString(ARG_PARAM2)
+<a name="l40"><span class="ln">40   </span></a>        }
+<a name="l41"><span class="ln">41   </span></a>    }
+<a name="l42"><span class="ln">42   </span></a><hr class="ls0"><a name="l43"><span class="ln">43   </span></a>    override <span class="s0">fun </span>onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+<a name="l44"><span class="ln">44   </span></a>        <span class="s2">// Inflate the layout for this fragment</span>
+<a name="l45"><span class="ln">45   </span></a>        <span class="s0">return </span>inflater.inflate(R.layout.fragment_stats_home, container, <span class="s0">false</span>)
+<a name="l46"><span class="ln">46   </span></a>    }
+<a name="l47"><span class="ln">47   </span></a>
+<a name="l48"><span class="ln">48   </span></a>    companion <span class="s0">object </span>{
+<a name="l49"><span class="ln">49   </span></a><span class="s2">//         * Use this factory method to create a new instance of</span>
+<a name="l50"><span class="ln">50   </span></a><span class="s2">//         * this fragment using the provided parameters.</span>
+<a name="l51"><span class="ln">51   </span></a><span class="s2">//         * @param param1 Parameter 1.</span>
+<a name="l52"><span class="ln">52   </span></a><span class="s2">//         * @param param2 Parameter 2.</span>
+<a name="l53"><span class="ln">53   </span></a><span class="s2">//         * @return A new instance of fragment NumericalAnalyze.</span>
+<a name="l54"><span class="ln">54   </span></a>        <span class="s2">// TODO: Rename and change types and number of parameters</span>
+<a name="l55"><span class="ln">55   </span></a>        @JvmStatic
+<a name="l56"><span class="ln">56   </span></a>        <span class="s0">fun </span>newInstance(param1: String, param2: String) =
+<a name="l57"><span class="ln">57   </span></a>            StatsHome().apply {
+<a name="l58"><span class="ln">58   </span></a>                arguments = Bundle().apply {
+<a name="l59"><span class="ln">59   </span></a>                    putString(ARG_PARAM1, param1)
+<a name="l60"><span class="ln">60   </span></a>                    putString(ARG_PARAM2, param2)
+<a name="l61"><span class="ln">61   </span></a>                }
+<a name="l62"><span class="ln">62   </span></a>            }
+<a name="l63"><span class="ln">63   </span></a>
+<a name="l64"><span class="ln">64   </span></a>    }
+<a name="l65"><span class="ln">65   </span></a>
+<a name="l66"><span class="ln">66   </span></a>
+<a name="l67"><span class="ln">67   </span></a>    <span class="s2">// 分析期間Spinnerを変更した時のリスナ</span>
+<a name="l68"><span class="ln">68   </span></a>    open <span class="s0">fun </span>reload(spnPosition:Int, spnItem:String ) {
+<a name="l69"><span class="ln">69   </span></a>        <span class="s0">val </span>ma: MainActivity = activity <span class="s0">as </span>MainActivity
+<a name="l70"><span class="ln">70   </span></a>
+<a name="l71"><span class="ln">71   </span></a>        <span class="s2">// 選択肢から期間を求める</span>
+<a name="l72"><span class="ln">72   </span></a>        <span class="s0">var </span>begin = Calendar.getInstance()
+<a name="l73"><span class="ln">73   </span></a>        <span class="s0">var </span>last = Calendar.getInstance()
+<a name="l74"><span class="ln">74   </span></a>
+<a name="l75"><span class="ln">75   </span></a>        <span class="s2">// 「全期間」を選んだときは全範囲を設定しよう</span>
+<a name="l76"><span class="ln">76   </span></a>        <span class="s0">var </span>headerMsg: String
+<a name="l77"><span class="ln">77   </span></a>        <span class="s0">if</span>( spnPosition == <span class="s5">0 </span>) {
+<a name="l78"><span class="ln">78   </span></a>            <span class="s0">val </span>realm = Realm.getInstance(brewRealmConfig)
+<a name="l79"><span class="ln">79   </span></a>            <span class="s0">val </span>brews = realm.where&lt;BrewData&gt;().findAll().sort(<span class="s3">&quot;date&quot;</span>, Sort.ASCENDING)
+<a name="l80"><span class="ln">80   </span></a>            <span class="s0">if</span>( brews.size&gt;<span class="s5">0 </span>) begin.time = brews[<span class="s5">0</span>]?.date
+<a name="l81"><span class="ln">81   </span></a>            realm.close()
+<a name="l82"><span class="ln">82   </span></a>            last.time = Date()
+<a name="l83"><span class="ln">83   </span></a>            headerMsg = <span class="s3">&quot;アプリの使用開始（%d年%d月）から今日までに飲んだコーヒー&quot;</span>.format(begin.get(Calendar.YEAR), begin.get(
+<a name="l84"><span class="ln">84   </span></a>                Calendar.MONTH)+<span class="s5">1</span>)
+<a name="l85"><span class="ln">85   </span></a>        } <span class="s0">else </span>{
+<a name="l86"><span class="ln">86   </span></a>            <span class="s2">// 特定の月の時はその月をセット</span>
+<a name="l87"><span class="ln">87   </span></a>            <span class="s0">val </span>m = spnItem
+<a name="l88"><span class="ln">88   </span></a>            <span class="s0">val </span>a = m.split(<span class="s3">&quot;年&quot;</span>,<span class="s3">&quot;月&quot;</span>)
+<a name="l89"><span class="ln">89   </span></a>            begin.set(a[<span class="s5">0</span>].toInt(), a[<span class="s5">1</span>].toInt()-<span class="s5">1</span>, <span class="s5">1</span>, <span class="s5">0</span>, <span class="s5">0</span>, <span class="s5">0</span>)
+<a name="l90"><span class="ln">90   </span></a>            last.set(a[<span class="s5">0</span>].toInt(), a[<span class="s5">1</span>].toInt()-<span class="s5">1</span>, <span class="s5">1</span>, <span class="s5">23</span>,<span class="s5">59</span>,<span class="s5">59</span>)
+<a name="l91"><span class="ln">91   </span></a>            last.set(Calendar.DATE, last.getActualMaximum(Calendar.DATE))
+<a name="l92"><span class="ln">92   </span></a>            headerMsg = <span class="s3">&quot;%d年%d月に飲んだコーヒー&quot;</span>.format(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH)+<span class="s5">1</span>, last.get(
+<a name="l93"><span class="ln">93   </span></a>                Calendar.YEAR), last.get(Calendar.MONTH)+<span class="s5">1</span>)
+<a name="l94"><span class="ln">94   </span></a>        }
+<a name="l95"><span class="ln">95   </span></a>
+<a name="l96"><span class="ln">96   </span></a>        beginPeriod = begin.time
+<a name="l97"><span class="ln">97   </span></a>        endPeriod = last.time
+<a name="l98"><span class="ln">98   </span></a>
+<a name="l99"><span class="ln">99   </span></a>        <span class="s2">// ここまででBREWの範囲が決まったことになる</span>
+<a name="l100"><span class="ln">100  </span></a>        <span class="s2">// 範囲内のBREWが参照しているBEANSとTAKEOUTをリスト化する</span>
+<a name="l101"><span class="ln">101  </span></a>        <span class="s0">var </span>brewRealm = Realm.getInstance(brewRealmConfig)
+<a name="l102"><span class="ln">102  </span></a>        <span class="s0">var </span>brews = brewRealm.where&lt;BrewData&gt;()
+<a name="l103"><span class="ln">103  </span></a>            .between(<span class="s3">&quot;date&quot;</span>, beginPeriod, endPeriod)
+<a name="l104"><span class="ln">104  </span></a>            .findAll()
+<a name="l105"><span class="ln">105  </span></a>
+<a name="l106"><span class="ln">106  </span></a>        <span class="s0">var </span>beansList = arrayOf&lt;Long&gt;()
+<a name="l107"><span class="ln">107  </span></a>        <span class="s0">var </span>takeoutList = arrayOf&lt;Long&gt;()
+<a name="l108"><span class="ln">108  </span></a>
+<a name="l109"><span class="ln">109  </span></a>        <span class="s0">for</span>( brew <span class="s0">in </span>brews) {
+<a name="l110"><span class="ln">110  </span></a>            <span class="s0">if</span>( brew.place == BREW_IN_HOME) {
+<a name="l111"><span class="ln">111  </span></a>                <span class="s2">// 家飲みの場合はBEANSのリスト追加</span>
+<a name="l112"><span class="ln">112  </span></a>                beansList += brew.beansID
+<a name="l113"><span class="ln">113  </span></a>            } <span class="s0">else </span>{
+<a name="l114"><span class="ln">114  </span></a>                takeoutList += brew.takeoutID
+<a name="l115"><span class="ln">115  </span></a>            }
+<a name="l116"><span class="ln">116  </span></a>        }
+<a name="l117"><span class="ln">117  </span></a>        brewRealm.close()
+<a name="l118"><span class="ln">118  </span></a>
+<a name="l119"><span class="ln">119  </span></a>
+<a name="l120"><span class="ln">120  </span></a>        <span class="s2">// 期間のラベル</span>
+<a name="l121"><span class="ln">121  </span></a>        statsHomeTotalHint.text = headerMsg
+<a name="l122"><span class="ln">122  </span></a>
+<a name="l123"><span class="ln">123  </span></a>        <span class="s2">// 全体のカップ数</span>
+<a name="l124"><span class="ln">124  </span></a>        statsHomeTotalCupsText.text = calcCupsDrunkOfPeriod(BREW_IN_HOME, begin, last).toString()
+<a name="l125"><span class="ln">125  </span></a>
+<a name="l126"><span class="ln">126  </span></a>
+<a name="l127"><span class="ln">127  </span></a><span class="s2">// ------------------------------- 猛烈に長いけど、豆ランキング　-------------------------------</span>
+<a name="l128"><span class="ln">128  </span></a>
+<a name="l129"><span class="ln">129  </span></a>        <span class="s2">// 豆関係ランキングの前処理（とても長いけど）</span>
+<a name="l130"><span class="ln">130  </span></a>        <span class="s2">// 範囲限定版のBEANS</span>
+<a name="l131"><span class="ln">131  </span></a>        <span class="s0">var </span>realm = Realm.getInstance(beansRealmConfig)
+<a name="l132"><span class="ln">132  </span></a>        <span class="s0">var </span>beans = realm.where&lt;BeansData&gt;()
+<a name="l133"><span class="ln">133  </span></a>            .`in`(<span class="s3">&quot;id&quot;</span>, beansList)
+<a name="l134"><span class="ln">134  </span></a>            .findAll()
+<a name="l135"><span class="ln">135  </span></a>
+<a name="l136"><span class="ln">136  </span></a>
+<a name="l137"><span class="ln">137  </span></a>        <span class="s2">// 面倒くさいので、BEANSの範囲限定版をコピーして作っちゃう</span>
+<a name="l138"><span class="ln">138  </span></a>        <span class="s2">// たかがDBを複製するだけなんだから、１行でできないかね・・・？</span>
+<a name="l139"><span class="ln">139  </span></a>        <span class="s0">val </span>tempRealmConfig = RealmConfiguration.Builder()
+<a name="l140"><span class="ln">140  </span></a>            .name(<span class="s3">&quot;temp&quot;</span>)
+<a name="l141"><span class="ln">141  </span></a>            .deleteRealmIfMigrationNeeded()
+<a name="l142"><span class="ln">142  </span></a>            .build()
+<a name="l143"><span class="ln">143  </span></a>        <span class="s0">val </span>tempBeansRealm = Realm.getInstance(tempRealmConfig)
+<a name="l144"><span class="ln">144  </span></a>
+<a name="l145"><span class="ln">145  </span></a>        <span class="s0">var </span>temps = tempBeansRealm.where&lt;BeansData&gt;().findAll()
+<a name="l146"><span class="ln">146  </span></a>        tempBeansRealm.executeTransaction { temps.deleteAllFromRealm() }
+<a name="l147"><span class="ln">147  </span></a>
+<a name="l148"><span class="ln">148  </span></a>        tempBeansRealm.beginTransaction()
+<a name="l149"><span class="ln">149  </span></a>        <span class="s0">for</span>( org <span class="s0">in </span>beans) {
+<a name="l150"><span class="ln">150  </span></a>            <span class="s0">var </span>dst = tempBeansRealm.createObject&lt;BeansData&gt;(org.id)
+<a name="l151"><span class="ln">151  </span></a>            dst.date    = org.date
+<a name="l152"><span class="ln">152  </span></a>            dst.name    = org.name
+<a name="l153"><span class="ln">153  </span></a>            dst.gram    = org.gram
+<a name="l154"><span class="ln">154  </span></a>            dst.roast   = org.roast
+<a name="l155"><span class="ln">155  </span></a>            dst.shop    = org.shop
+<a name="l156"><span class="ln">156  </span></a>            dst.price   = org.price
+<a name="l157"><span class="ln">157  </span></a>            dst.memo    = org.memo
+<a name="l158"><span class="ln">158  </span></a>
+<a name="l159"><span class="ln">159  </span></a>            <span class="s2">// ここから下のプロパティは範囲限定の際は意味なし</span>
+<a name="l160"><span class="ln">160  </span></a>            dst.recent  = org.recent
+<a name="l161"><span class="ln">161  </span></a>            dst.rating  = org.rating
+<a name="l162"><span class="ln">162  </span></a>            dst.count   = org.count
+<a name="l163"><span class="ln">163  </span></a>        }
+<a name="l164"><span class="ln">164  </span></a>        tempBeansRealm.commitTransaction()
+<a name="l165"><span class="ln">165  </span></a>
+<a name="l166"><span class="ln">166  </span></a>        <span class="s2">// これでオリジナルは用無しなので閉める</span>
+<a name="l167"><span class="ln">167  </span></a>        realm.close()
+<a name="l168"><span class="ln">168  </span></a>
+<a name="l169"><span class="ln">169  </span></a>
+<a name="l170"><span class="ln">170  </span></a>        <span class="s2">// BREWからの参照を全部調べ上げて、BEANSの各種参照情報を更新する</span>
+<a name="l171"><span class="ln">171  </span></a>        <span class="s2">// 評価、最終利用日、利用回数</span>
+<a name="l172"><span class="ln">172  </span></a>        brewRealm = Realm.getInstance(brewRealmConfig)
+<a name="l173"><span class="ln">173  </span></a>        beans = tempBeansRealm.where&lt;BeansData&gt;().findAll()
+<a name="l174"><span class="ln">174  </span></a>
+<a name="l175"><span class="ln">175  </span></a>        <span class="s0">for</span>( bean <span class="s0">in </span>beans) {
+<a name="l176"><span class="ln">176  </span></a>            <span class="s2">// BREWの中で自分を参照しているデータを日付ソートで全部拾う</span>
+<a name="l177"><span class="ln">177  </span></a>            <span class="s0">val </span>brews= brewRealm
+<a name="l178"><span class="ln">178  </span></a>                .where&lt;BrewData&gt;()
+<a name="l179"><span class="ln">179  </span></a>                .equalTo(<span class="s3">&quot;beansID&quot;</span>, bean.id)
+<a name="l180"><span class="ln">180  </span></a>                .between( <span class="s3">&quot;date&quot;</span>, beginPeriod, endPeriod)
+<a name="l181"><span class="ln">181  </span></a>                .findAll()
+<a name="l182"><span class="ln">182  </span></a>                .sort(<span class="s3">&quot;date&quot;</span>, Sort.DESCENDING)
+<a name="l183"><span class="ln">183  </span></a>            <span class="s0">if </span>(brews.size &gt; <span class="s5">0</span>) {
+<a name="l184"><span class="ln">184  </span></a>                <span class="s2">// 最新利用日のセット</span>
+<a name="l185"><span class="ln">185  </span></a>                <span class="s0">val </span>recent = brews[<span class="s5">0</span>]?.date
+<a name="l186"><span class="ln">186  </span></a>                <span class="s2">// 利用側（BREW）での評価の算出</span>
+<a name="l187"><span class="ln">187  </span></a>                <span class="s0">var </span>rate: Float = <span class="s5">0.0F</span>
+<a name="l188"><span class="ln">188  </span></a>                <span class="s0">for </span>(b <span class="s0">in </span>brews) rate += b.rating
+<a name="l189"><span class="ln">189  </span></a>
+<a name="l190"><span class="ln">190  </span></a>                tempBeansRealm.executeTransaction {
+<a name="l191"><span class="ln">191  </span></a>                    <span class="s0">if </span>(recent != <span class="s0">null</span>) bean.recent = recent
+<a name="l192"><span class="ln">192  </span></a>                    bean.rating = rate / brews.size
+<a name="l193"><span class="ln">193  </span></a>                    bean.count = brews.size
+<a name="l194"><span class="ln">194  </span></a>                }
+<a name="l195"><span class="ln">195  </span></a>            } <span class="s0">else </span>{
+<a name="l196"><span class="ln">196  </span></a>                <span class="s2">// １回も利用が無かった場合・・・（涙）</span>
+<a name="l197"><span class="ln">197  </span></a>                tempBeansRealm.executeTransaction {
+<a name="l198"><span class="ln">198  </span></a>                    <span class="s2">// 利用無し、をどう表現したらいいやら・・・。Non-nullだし。</span>
+<a name="l199"><span class="ln">199  </span></a>                }
+<a name="l200"><span class="ln">200  </span></a>            }
+<a name="l201"><span class="ln">201  </span></a>        }
+<a name="l202"><span class="ln">202  </span></a>        brewRealm.close()
+<a name="l203"><span class="ln">203  </span></a>
+<a name="l204"><span class="ln">204  </span></a>        <span class="s2">// ここまでの前処理で、BREWの日付範囲で限定されたBEANSの各要素で、</span>
+<a name="l205"><span class="ln">205  </span></a>        <span class="s2">// 再度、カウント、評価、最新利用日を設定したtempデータベースが完成</span>
+<a name="l206"><span class="ln">206  </span></a>
+<a name="l207"><span class="ln">207  </span></a>        <span class="s2">// 好評価ランキング</span>
+<a name="l208"><span class="ln">208  </span></a>        <span class="s2">// もちろん、範囲限定できているので簡単</span>
+<a name="l209"><span class="ln">209  </span></a>        beans = tempBeansRealm.where&lt;BeansData&gt;().findAll()
+<a name="l210"><span class="ln">210  </span></a>            .sort(<span class="s3">&quot;rating&quot;</span>, Sort.DESCENDING)
+<a name="l211"><span class="ln">211  </span></a>
+<a name="l212"><span class="ln">212  </span></a>        <span class="s0">if</span>( beans.size&gt;<span class="s5">0 </span>) {
+<a name="l213"><span class="ln">213  </span></a>            statsHomeFavRank1Name.text = beans[<span class="s5">0</span>]?.name
+<a name="l214"><span class="ln">214  </span></a>            statsHomeFavRank1Count.text = <span class="s3">&quot;%1.1f&quot;</span>.format(beans[<span class="s5">0</span>]?.rating)
+<a name="l215"><span class="ln">215  </span></a>        } <span class="s0">else </span>{
+<a name="l216"><span class="ln">216  </span></a>            statsHomeFavRank1Name.text = <span class="s3">&quot;&quot;</span>
+<a name="l217"><span class="ln">217  </span></a>            statsHomeFavRank1Count.text = <span class="s3">&quot;&quot;</span>
+<a name="l218"><span class="ln">218  </span></a>        }
+<a name="l219"><span class="ln">219  </span></a>        <span class="s0">if</span>( beans.size&gt;<span class="s5">1 </span>) {
+<a name="l220"><span class="ln">220  </span></a>            statsHomeFavRank2Name.text = beans[<span class="s5">1</span>]?.name
+<a name="l221"><span class="ln">221  </span></a>            statsHomeFavRank2Count.text = <span class="s3">&quot;%1.1f&quot;</span>.format(beans[<span class="s5">1</span>]?.rating)
+<a name="l222"><span class="ln">222  </span></a>        } <span class="s0">else </span>{
+<a name="l223"><span class="ln">223  </span></a>            statsHomeFavRank2Name.text = <span class="s3">&quot;&quot;</span>
+<a name="l224"><span class="ln">224  </span></a>            statsHomeFavRank2Count.text = <span class="s3">&quot;&quot;</span>
+<a name="l225"><span class="ln">225  </span></a>        }
+<a name="l226"><span class="ln">226  </span></a>        <span class="s0">if</span>( beans.size&gt;<span class="s5">2 </span>) {
+<a name="l227"><span class="ln">227  </span></a>            statsHomeFavRank3Name.text = beans[<span class="s5">2</span>]?.name
+<a name="l228"><span class="ln">228  </span></a>            statsHomeFavRank3Count.text = <span class="s3">&quot;%1.1f&quot;</span>.format(beans[<span class="s5">2</span>]?.rating)
+<a name="l229"><span class="ln">229  </span></a>        } <span class="s0">else </span>{
+<a name="l230"><span class="ln">230  </span></a>            statsHomeFavRank3Name.text = <span class="s3">&quot;&quot;</span>
+<a name="l231"><span class="ln">231  </span></a>            statsHomeFavRank3Count.text = <span class="s3">&quot;&quot;</span>
+<a name="l232"><span class="ln">232  </span></a>        }
+<a name="l233"><span class="ln">233  </span></a>
+<a name="l234"><span class="ln">234  </span></a>        <span class="s2">// 多頻度豆ランキング</span>
+<a name="l235"><span class="ln">235  </span></a>        beans = tempBeansRealm.where&lt;BeansData&gt;().findAll()
+<a name="l236"><span class="ln">236  </span></a>            .sort(<span class="s3">&quot;count&quot;</span>, Sort.DESCENDING)
+<a name="l237"><span class="ln">237  </span></a>
+<a name="l238"><span class="ln">238  </span></a>        <span class="s0">if</span>( beans.size&gt;<span class="s5">0 </span>) {
+<a name="l239"><span class="ln">239  </span></a>            statsHomeCountRank1Name.text = beans[<span class="s5">0</span>]?.name
+<a name="l240"><span class="ln">240  </span></a>            statsHomeCountRank1Count.text = <span class="s3">&quot;%d&quot;</span>.format(beans[<span class="s5">0</span>]?.count)
+<a name="l241"><span class="ln">241  </span></a>        } <span class="s0">else </span>{
+<a name="l242"><span class="ln">242  </span></a>            statsHomeCountRank1Name.text = <span class="s3">&quot;&quot;</span>
+<a name="l243"><span class="ln">243  </span></a>            statsHomeCountRank1Count.text = <span class="s3">&quot;&quot;</span>
+<a name="l244"><span class="ln">244  </span></a>        }
+<a name="l245"><span class="ln">245  </span></a>        <span class="s0">if</span>( beans.size&gt;<span class="s5">1 </span>) {
+<a name="l246"><span class="ln">246  </span></a>            statsHomeCountRank2Name.text = beans[<span class="s5">1</span>]?.name
+<a name="l247"><span class="ln">247  </span></a>            statsHomeCountRank2Count.text = <span class="s3">&quot;%d&quot;</span>.format(beans[<span class="s5">1</span>]?.count)
+<a name="l248"><span class="ln">248  </span></a>        } <span class="s0">else </span>{
+<a name="l249"><span class="ln">249  </span></a>            statsHomeCountRank2Name.text = <span class="s3">&quot;&quot;</span>
+<a name="l250"><span class="ln">250  </span></a>            statsHomeCountRank2Count.text = <span class="s3">&quot;&quot;</span>
+<a name="l251"><span class="ln">251  </span></a>        }
+<a name="l252"><span class="ln">252  </span></a>        <span class="s0">if</span>( beans.size&gt;<span class="s5">2 </span>) {
+<a name="l253"><span class="ln">253  </span></a>            statsHomeCountRank3Name.text = beans[<span class="s5">2</span>]?.name
+<a name="l254"><span class="ln">254  </span></a>            statsHomeCountRank3Count.text = <span class="s3">&quot;%d&quot;</span>.format(beans[<span class="s5">2</span>]?.count)
+<a name="l255"><span class="ln">255  </span></a>        } <span class="s0">else </span>{
+<a name="l256"><span class="ln">256  </span></a>            statsHomeCountRank3Name.text = <span class="s3">&quot;&quot;</span>
+<a name="l257"><span class="ln">257  </span></a>            statsHomeCountRank3Count.text = <span class="s3">&quot;&quot;</span>
+<a name="l258"><span class="ln">258  </span></a>        }
+<a name="l259"><span class="ln">259  </span></a>        tempBeansRealm.close()
+<a name="l260"><span class="ln">260  </span></a>
+<a name="l261"><span class="ln">261  </span></a>
+<a name="l262"><span class="ln">262  </span></a>
+<a name="l263"><span class="ln">263  </span></a>        <span class="s2">// TODO: １日で一番飲んだ日も見たい？</span>
+<a name="l264"><span class="ln">264  </span></a>
+<a name="l265"><span class="ln">265  </span></a>    }
+<a name="l266"><span class="ln">266  </span></a>}</pre>
+</body>
+</html>

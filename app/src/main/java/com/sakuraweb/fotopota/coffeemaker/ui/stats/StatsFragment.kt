@@ -23,9 +23,9 @@ lateinit var beginPeriod: Date
 lateinit var endPeriod: Date
 
 
-// 統計画面全体を構成する（といっても、自分自身もFragment）
+// 統計画面全体を構成する
+// 統計期間選択用のSpinnerが意外と大変で、その作業が多い
 // この配下に、３つのFragment（HOME/TAKEOUT/GRAPH）を持ち、TabLayoutで制御する
-// この画面でメニューバーのSpinnerも制御する
 class StatsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
@@ -38,12 +38,13 @@ class StatsFragment : Fragment() {
         ma.supportActionBar?.show()
 
         // 計測期間のデフォルト（＝全期間） →　Spinnerのリスナでやってもらえるので不要っぽい
+        // TODO: これ全然使っていない気がする
         beginPeriod = getFirstBrewDate()
         endPeriod = Date()
 
-        // ツールバー上の日付スピナーを作る
+        // ツールバー上の日付スピナーを作る（特定の月、または全期間）
         // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
-        // TODO: これ、3Fragmentの内容に合わせるべきでは？
+        // TODO: これ、3Fragmentの内容に合わせるべきでは？　→　と思ったけど、みんな同じで大丈夫そう
         var mList = mutableListOf<String>()
 
         var month = Calendar.getInstance()
@@ -66,13 +67,15 @@ class StatsFragment : Fragment() {
         ma.sortSpn.adapter = adapter
         ma.sortSpn.onItemSelectedListener = MonthSpinnerChangeListener()
 
-        // 3Fragmentのタブビューワなどの設定
+        // 3FragmentのViewer, TabLayoutの設定
         root.statsPager.adapter = StatsTabAdapter(childFragmentManager)
         root.statsPager.addOnPageChangeListener(PageChangeListener())
         root.statsTab.setupWithViewPager(root.statsPager)
 
+        // TODO: ん？ これ意味あったっけ？
         root.statsPager.offscreenPageLimit = 2
 
+        // 3Fragmentのタイトルアイコン（だいぶ狭くなるけど）
         root.statsTab.getTabAt(0)?.setIcon(R.drawable.cup300)
         root.statsTab.getTabAt(1)?.setIcon(R.drawable.takeout100)
         root.statsTab.getTabAt(2)?.setIcon(R.drawable.graph)
@@ -80,15 +83,18 @@ class StatsFragment : Fragment() {
         return root
     }
 
+
+    // STATSのページ（３種類）が切り替わったときのリスナ
+    // 切り替わった先のFragmentにはなんのLifeCycleイベントも発生しないみたい（onResumeすら）
+    // しょうがないので、ページ切り替え完了時に当該ページのFragmentを再描画させる
+    // 最初は、各ページのonResumeとか呼び出したけど失敗したので、普通のメソッド（reload）にしてみた
     private inner class PageChangeListener() : ViewPager.SimpleOnPageChangeListener () {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
 
             val ma = activity as MainActivity
 
-            // ページ変更アクション
-            // ページ前面に来たときに、Spinnerの中身を変更する必要があるならココかな・・・？
-//            blackToast(activity as MainActivity, position.toString())
+            // 切り替わったページ（Fragment）のリロードを行う
             when( position ) {
                 0 -> statsHomeFragment?.reload(ma.sortSpn.selectedItemPosition, ma.sortSpn.selectedItem.toString())
                 1 -> statsTakeoutFragment?.reload(ma.sortSpn.selectedItemPosition, ma.sortSpn.selectedItem.toString())
@@ -98,12 +104,12 @@ class StatsFragment : Fragment() {
     }
 
     // スピナの選択処理は、結局はメイン画面でしかできないと思われるので、ここでやろう
-    // ほんで、結果をなんとかして子fragmentに伝えて強引に処理させる
-    // とにかくリスナはここで固定！！！！！
+    // 最初は子供（Fragment）側で処理させてたけど、１個のスピナを３画面のonClickで共有すること自体が不自然
+    // もともと親側にあるスピナなので、ここでキャッチして、結果を子fragmentに伝える方式に変更
+    // と言っても、ページ切り替え時の処理と同様、reloadするだけ
     private inner class MonthSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            // 本当は「現在のFragment」だけに発行すべきだけど、面倒くさいので両方call
-            //　やるとしたら、Pagerからcurrentを拾うか、グローバル変数で管理する
+
             val ma = activity as MainActivity
 
             when( ma.statsPager.currentItem ) {
@@ -113,14 +119,19 @@ class StatsFragment : Fragment() {
             }
         }
 
+        // OnItemSelecctedListenerの実装にはこれを入れないといけない（インターフェースなので）
+        // だけど無選択時にやることは無いので、何も書かずさようなら
         override fun onNothingSelected(parent: AdapterView<*>?) {
             TODO("Not yet implemented")
         }
     }
 
-    // ここから各種描画開始
+/*
+    // もちろん不要だけど、なんとなく覚えておくために記載が残っている
     override fun onStart() {
         super.onStart()
     }
+*/
+
 }
 

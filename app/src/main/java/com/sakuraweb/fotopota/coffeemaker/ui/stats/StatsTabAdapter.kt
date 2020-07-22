@@ -20,7 +20,7 @@ class StatsTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         when( position ) {
             0 -> return( "家飲み統計" )
             1 -> return( "外飲み統計")
-            2 -> return( "グラフで分析")
+            2 -> return( "グラフで見る")
             else -> return( "なし")
         }
     }

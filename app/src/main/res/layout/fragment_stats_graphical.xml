@@ -43,7 +43,7 @@
                         style="@style/AnaCardLabelStyle2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="家飲み合計回数"
+                        android:text="日々のコーヒー摂取回数"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
