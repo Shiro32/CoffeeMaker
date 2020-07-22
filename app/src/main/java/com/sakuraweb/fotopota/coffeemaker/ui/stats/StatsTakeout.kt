@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.sakuraweb.fotopota.coffeemaker.*
-import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.home.calcCupsDrunkOfPeriod
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
@@ -15,7 +14,7 @@ import io.realm.RealmConfiguration
 import io.realm.Sort
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.fragment_stats_home.*
+import kotlinx.android.synthetic.main.fragment_stats_takeout.*
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -124,10 +123,10 @@ class StatsTakeout : Fragment() {
 
 
         // 期間のラベル
-        anaHeaderText.text = headerMsg
+        statsTakeoutTotalHint.text = headerMsg
 
         // 全体のカップ数
-        anaCupsText.text = calcCupsDrunkOfPeriod(begin, last).toString()
+        statsTakeoutTotalCupsText.text = calcCupsDrunkOfPeriod(BREW_IN_SHOP, begin, last).toString()
 
 
 // ------------------------------- 猛烈に長いけど、豆ランキング　-------------------------------
@@ -222,10 +221,10 @@ class StatsTakeout : Fragment() {
             .sort("rating", Sort.DESCENDING)
 
         if( takeouts.size>0 ) {
-            favTakeoutRank1Name.text = takeouts[0]?.name
+            statsTakeoutFavRank1Name.text = takeouts[0]?.name
             favTakeoutRank1Count.text = "%1.1f".format(takeouts[0]?.rating)
         } else {
-            favTakeoutRank1Name.text = ""
+            statsTakeoutFavRank1Name.text = ""
             favTakeoutRank1Count.text = ""
         }
         if( takeouts.size>1 ) {

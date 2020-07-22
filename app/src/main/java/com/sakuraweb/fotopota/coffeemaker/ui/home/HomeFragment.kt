@@ -12,11 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
-import com.sakuraweb.fotopota.coffeemaker.toString
+import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.*
 import io.realm.Realm
+import io.realm.RealmResults
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
@@ -52,14 +51,30 @@ fun calcCupsOfLife() {
     realm.close()
 }
 
-fun calcCupsDrunkOfPeriod(begin: Calendar, end:Calendar) : Int {
+fun calcCupsDrunkOfPeriod(place: Int, begin: Calendar, end:Calendar) : Int {
 
     // 期間の0時から23時まで全部カウント
     begin.set( begin.get(Calendar.YEAR), begin.get(Calendar.MONTH), 1, 0, 0, 0)
     end.set( end.get(Calendar.YEAR), end.get(Calendar.MONTH), end.getActualMaximum(Calendar.DATE), 23, 59, 59)
 
+    lateinit var brews: RealmResults<BrewData>
+
     val realm = Realm.getInstance(brewRealmConfig)
-    val brews = realm.where<BrewData>().between("date", begin.time, end.time).findAll()
+
+    when( place ) {
+        BREW_IN_HOME -> {
+            brews = realm.where<BrewData>()
+                .between("date", begin.time, end.time)
+                .equalTo("place", BREW_IN_HOME)
+                .findAll()
+        }
+        BREW_IN_SHOP -> {
+            brews = realm.where<BrewData>()
+                .between("date", begin.time, end.time)
+                .equalTo("place", BREW_IN_SHOP)
+                .findAll()
+        }
+    }
 
     var cups:Int = 0
     for( b in brews ) cups += b.cupsDrunk.toInt()

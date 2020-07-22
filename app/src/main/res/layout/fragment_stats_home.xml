@@ -9,59 +9,6 @@
 
     <!-- 飲んだコーヒー豆評価ランキング -->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/anaHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/beansColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/anaHeaderText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:lineSpacingMultiplier="0.7"
-            android:text="アプリの使用開始（2020/5/1）から今日までに飲んだコーヒー"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/anaCupsText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="杯"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/anaCupsText"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/anaCupsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:text="999"
-            android:textColor="@android:color/white"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView8"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <!--
     <TextView
         android:id="@+id/anaSelectMonthLabel"
@@ -88,14 +35,12 @@
         android:id="@+id/AnaScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:focusableInTouchMode="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/anaHeader"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -103,10 +48,9 @@
             android:focusableInTouchMode="false"
             android:orientation="vertical">
 
-            <!--高い評価豆ランキング -->
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/favBeanCard"
+                android:id="@+id/statsHomeToltalCard"
                 style="@style/AnaCardStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,7 +64,76 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/favBeanRankLabel"
+                        android:id="@+id/statsHomeTotalTitle"
+                        style="@style/AnaCardLabelStyle2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="家飲み合計回数"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/statsHomeTotalHint"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:lineSpacingMultiplier="0.7"
+                        android:text="アプリの使用開始（2020/5/1）から今日までに飲んだコーヒー"
+                        app:layout_constraintBottom_toBottomOf="@+id/statsHomeTotalCupsText"
+                        app:layout_constraintEnd_toStartOf="@+id/statsHomeTotalCupsText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/statsHomeTotalCupsText" />
+
+                    <TextView
+                        android:id="@+id/statsHomeTotalCupsUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="杯"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/statsHomeTotalCupsText"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/statsHomeTotalCupsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="999"
+                        android:textColor="@android:color/black"
+                        android:textSize="50sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/statsHomeTotalCupsUnit"
+                        app:layout_constraintTop_toBottomOf="@+id/statsHomeTotalTitle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <!--高い評価豆ランキング -->
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/statsHomeFavRankCard"
+                style="@style/AnaCardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/anaSelectMonthSpinner">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/statsHomeFavRankTitle"
                         style="@style/AnaCardLabelStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -140,28 +153,28 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/favBeanRankLabel">
+                        app:layout_constraintTop_toBottomOf="@+id/statsHomeFavRankTitle">
 
                         <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/favBeanRank1Label"
+                                android:id="@+id/statsHomeFavRank1Label"
                                 style="@style/AnaRankCountLabel"
                                 android:text="1." />
 
                             <TextView
-                                android:id="@+id/favBeanRank1Name"
+                                android:id="@+id/statsHomeFavRank1Name"
                                 style="@style/AnaRankNameStyle"
                                 android:text="エンドウ豆" />
 
                             <ImageView
-                                android:id="@+id/favBeanRank1Star"
+                                android:id="@+id/statsHomeFavRank1Star"
                                 style="@style/AnaRankStarStyle" />
 
                             <TextView
-                                android:id="@+id/favBeanRank1Count"
+                                android:id="@+id/statsHomeFavRank1Count"
                                 style="@style/AnaRankCountStyle"
                                 android:text="9.9" />
 
@@ -172,21 +185,21 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/favBeanRank2Label"
+                                android:id="@+id/statsHomeFavRank2Label"
                                 style="@style/AnaRankCountLabel"
                                 android:text="2." />
 
                             <TextView
-                                android:id="@+id/favBeanRank2Name"
+                                android:id="@+id/statsHomeFavRank2Name"
                                 style="@style/AnaRankNameStyle"
                                 android:text="トウモロコシ" />
 
                             <ImageView
-                                android:id="@+id/favBeanRank2Star"
+                                android:id="@+id/statsHomeFavRank2Star"
                                 style="@style/AnaRankStarStyle" />
 
                             <TextView
-                                android:id="@+id/favBeanRank2Count"
+                                android:id="@+id/statsHomeFavRank2Count"
                                 style="@style/AnaRankCountStyle"
                                 android:text="9.9" />
 
@@ -197,21 +210,21 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/favBeanRank3Label"
+                                android:id="@+id/statsHomeFavRank3Label"
                                 style="@style/AnaRankCountLabel"
                                 android:text="3." />
 
                             <TextView
-                                android:id="@+id/favBeanRank3Name"
+                                android:id="@+id/statsHomeFavRank3Name"
                                 style="@style/AnaRankNameStyle"
                                 android:text="ユンケル" />
 
                             <ImageView
-                                android:id="@+id/favBeanRank3Star"
+                                android:id="@+id/statsHomeFavRank3Star"
                                 style="@style/AnaRankStarStyle" />
 
                             <TextView
-                                android:id="@+id/favBeanRank3Count"
+                                android:id="@+id/statsHomeFavRank3Count"
                                 style="@style/AnaRankCountStyle"
                                 android:text="9.9" />
 
@@ -224,21 +237,21 @@
 
             <!-- コーヒー豆の飲んだ回数ランキング -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/beanRankCard"
+                android:id="@+id/statsHomeCountRankCard"
                 style="@style/AnaCardStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/favBeanCard">
+                app:layout_constraintTop_toBottomOf="@+id/statsHomeFavRankCard">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/statsHomeCountRankTitle"
                         style="@style/AnaCardLabelStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -258,29 +271,29 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView2">
+                        app:layout_constraintTop_toBottomOf="@+id/statsHomeCountRankTitle">
 
                         <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/beanRank1Label"
+                                android:id="@+id/statsHomeCountRank1Label"
                                 style="@style/AnaRankCountLabel"
                                 android:text="1." />
 
                             <TextView
-                                android:id="@+id/countBeanRank1Name"
+                                android:id="@+id/statsHomeCountRank1Name"
                                 style="@style/AnaRankNameStyle"
                                 android:text="エメラルドマウンテン" />
 
                             <TextView
-                                android:id="@+id/countBeanRank1Count"
+                                android:id="@+id/statsHomeCountRank1Count"
                                 style="@style/AnaRankCountStyle"
                                 android:text="999" />
 
                             <TextView
-                                android:id="@+id/beanRank1Unit"
+                                android:id="@+id/statsHomeCountRank1Unit"
                                 style="@style/AnaRankUnitStyle"
                                 android:text="回" />
                         </TableRow>
@@ -290,22 +303,22 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/beanRank2Label"
+                                android:id="@+id/statsHomeCountRank2Label"
                                 style="@style/AnaRankCountLabel"
                                 android:text="2." />
 
                             <TextView
-                                android:id="@+id/countBeanRank2Name"
+                                android:id="@+id/statsHomeCountRank2Name"
                                 style="@style/AnaRankNameStyle"
                                 android:text="エメラルドマウンテン" />
 
                             <TextView
-                                android:id="@+id/countBeanRank2Count"
+                                android:id="@+id/statsHomeCountRank2Count"
                                 style="@style/AnaRankCountStyle"
                                 android:text="999" />
 
                             <TextView
-                                android:id="@+id/beanRank2Unit"
+                                android:id="@+id/statsHomeCountRank2Unit"
                                 style="@style/AnaRankUnitStyle"
                                 android:text="回" />
                         </TableRow>
@@ -315,22 +328,22 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/beanRank3Label"
+                                android:id="@+id/statsHomeCountRank3Label"
                                 style="@style/AnaRankCountLabel"
                                 android:text="3." />
 
                             <TextView
-                                android:id="@+id/countBeanRank3Name"
+                                android:id="@+id/statsHomeCountRank3Name"
                                 style="@style/AnaRankNameStyle"
                                 android:text="エメラルドマウンテン" />
 
                             <TextView
-                                android:id="@+id/countBeanRank3Count"
+                                android:id="@+id/statsHomeCountRank3Count"
                                 style="@style/AnaRankCountStyle"
                                 android:text="999" />
 
                             <TextView
-                                android:id="@+id/beanRank3Unit"
+                                android:id="@+id/statsHomeCountRank3Unit"
                                 style="@style/AnaRankUnitStyle"
                                 android:text="回" />
                         </TableRow>
@@ -339,248 +352,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-
-            <!-- 外飲み評価ランキング -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/favTakeoutCard"
-                style="@style/AnaCardStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beanRankCard">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/favTakeoutRankLabel"
-                        style="@style/AnaCardLabelStyle2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="【外飲み】高評価 TOP 3"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TableLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingLeft="10sp"
-                        android:paddingRight="10sp"
-                        android:stretchColumns="1"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/favTakeoutRankLabel">
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <TextView
-                                android:id="@+id/favTakeoutRank1Label"
-                                style="@style/AnaRankCountLabel"
-                                android:text="1." />
-
-                            <TextView
-                                android:id="@+id/favTakeoutRank1Name"
-                                style="@style/AnaRankNameStyle"
-                                android:text="カフェフラッペ" />
-
-                            <ImageView
-                                android:id="@+id/favTakeoutRank1Star"
-                                style="@style/AnaRankStarStyle" />
-
-                            <TextView
-                                android:id="@+id/favTakeoutRank1Count"
-                                style="@style/AnaRankCountStyle"
-                                android:text="9.9" />
-
-                        </TableRow>
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <TextView
-                                android:id="@+id/favTakeoutRank2Label"
-                                style="@style/AnaRankCountLabel"
-                                android:text="2." />
-
-                            <TextView
-                                android:id="@+id/favTakeoutRank2Name"
-                                style="@style/AnaRankNameStyle"
-                                android:text="ダークモカチップフラペチーノ" />
-
-                            <ImageView
-                                android:id="@+id/favTakeoutRank2Star"
-                                style="@style/AnaRankStarStyle" />
-
-                            <TextView
-                                android:id="@+id/favTakeoutRank2Count"
-                                style="@style/AnaRankCountStyle"
-                                android:text="9.9" />
-
-                        </TableRow>
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <TextView
-                                android:id="@+id/favTakeoutRank3Label"
-                                style="@style/AnaRankCountLabel"
-                                android:text="3." />
-
-                            <TextView
-                                android:id="@+id/favTakeoutRank3Name"
-                                style="@style/AnaRankNameStyle"
-                                android:text="ユンケル" />
-
-                            <ImageView
-                                android:id="@+id/favTakeoutRank3Star"
-                                style="@style/AnaRankStarStyle" />
-
-                            <TextView
-                                android:id="@+id/favTakeoutRank3Count"
-                                style="@style/AnaRankCountStyle"
-                                android:text="9.9" />
-
-                        </TableRow>
-                    </TableLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
-
-            <!-- 飲んだ外飲みランキング -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/takeoutRankCard"
-                style="@style/AnaCardStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/favTakeoutCard">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/takeoutRankLabel"
-                        style="@style/AnaCardLabelStyle2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="【外飲み】飲んだ回数 TOP 3"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TableLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingLeft="10sp"
-                        android:paddingRight="10sp"
-                        android:stretchColumns="1"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/takeoutRankLabel">
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <TextView
-                                android:id="@+id/takeoutRank1Label"
-                                style="@style/AnaRankCountLabel"
-                                android:text="1." />
-
-                            <TextView
-                                android:id="@+id/countTakeoutRank1Name"
-                                style="@style/AnaRankNameStyle"
-                                android:text="カフェフラッペ" />
-
-                            <TextView
-                                android:id="@+id/countTakeoutRank1Count"
-                                style="@style/AnaRankCountStyle"
-                                android:text="999" />
-
-                            <TextView
-                                android:id="@+id/takeoutRank1Unit"
-                                style="@style/AnaRankUnitStyle"
-                                android:text="回" />
-                        </TableRow>
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <TextView
-                                android:id="@+id/takeoutRank2Label"
-                                style="@style/AnaRankCountLabel"
-                                android:text="2." />
-
-                            <TextView
-                                android:id="@+id/countTakeoutRank2Name"
-                                style="@style/AnaRankNameStyle"
-                                android:text="ダークモカチップフラペチーノ" />
-
-                            <TextView
-                                android:id="@+id/countTakeoutRank2Count"
-                                style="@style/AnaRankCountStyle"
-                                android:text="999" />
-
-                            <TextView
-                                android:id="@+id/takeoutRank2Unit"
-                                style="@style/AnaRankUnitStyle"
-                                android:text="回" />
-                        </TableRow>
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <TextView
-                                android:id="@+id/takeoutRank3Label"
-                                style="@style/AnaRankCountLabel"
-                                android:text="3." />
-
-                            <TextView
-                                android:id="@+id/countTakeoutRank3Name"
-                                style="@style/AnaRankNameStyle"
-                                android:text="ユンケル" />
-
-                            <TextView
-                                android:id="@+id/countTakeoutRank3Count"
-                                style="@style/AnaRankCountStyle"
-                                android:text="999" />
-
-                            <TextView
-                                android:id="@+id/takeoutRank3Unit"
-                                style="@style/AnaRankUnitStyle"
-                                android:text="回" />
-                        </TableRow>
-                    </TableLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/under_construction" />
 
