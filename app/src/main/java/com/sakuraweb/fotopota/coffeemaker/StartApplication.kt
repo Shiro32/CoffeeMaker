@@ -1,5 +1,7 @@
 package com.sakuraweb.fotopota.coffeemaker
 
+// お、遅い・・・
+
 import android.app.Application
 import android.content.Context
 import android.content.res.TypedArray

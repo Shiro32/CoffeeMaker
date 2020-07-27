@@ -35,6 +35,16 @@
     <string name="titleBeansEditNew">豆情報の作成</string>
     <string name="titleBeansEditCopy">コピーして作成</string>
 
+    <string name="editBtnLabel">編集</string>
+    <string name="returnBtnLabel">← リストに戻る</string>
+    <string name="editText">編集</string>
+    <string name="copyText">コピー</string>
+    <string name="deleteText">削除</string>
+    <string name="brewDateFormat">yyyy/MM/dd HH:mm</string>
+    <string name="dateFormat">%d/%02d/%02d</string>
+    <string name="timeFormat">%02d:%02d</string>
+
+    <!-- One BREW -->
     <string name="oneBrewMethodLabel">法:</string>
     <string name="oneBrewBeanLabel">豆:</string>
     <string name="oneBrewResultLabel">評:</string>
@@ -46,31 +56,38 @@
     <string name="oneBrewMemoLabel">メモ:</string>
     <string name="oneBrewShopLabel">購入:</string>
 
+    <!-- Brew Details -->
+    <string name="brewDetailsHeaderText">詳細画面です（要らないか？）</string>
 
-    <string name="editText">編集</string>
-    <string name="copyText">コピー</string>
-    <string name="deleteText">削除</string>
+    <!-- Brew Edit -->
     <string name="brewEditHeaderText">スライダを多用したら、かえって入力しにくくなってゴメンナサイ・・・m(_ _)m</string>
-    <string name="brewEditMethodLabel">抽出方法：</string>
-    <string name="brewEditDateLabel">作った日：</string>
-    <string name="brewEditCupLabel">作った量：\n(カップ)</string>
-    <string name="brewEditBeansLabel">使用豆：</string>
-    <string name="brewEditGrindLabel">挽き目：</string>
-    <string name="brewEditBeansUseLabel">豆の量：\n(g)</string>
-    <string name="brewEditTempLabel">湯の温度：\n(℃)</string>
-    <string name="brewEditSteamLabel">蒸らし：\n(秒)</string>
-    <string name="brewEditMemoLabel">メモ：</string>
-    <string name="brewEditRatingLabel">できばえ：</string>
+    <string name="brewEditMethodLabel">抽出方法</string>
+    <string name="brewEditDateLabel">作った日</string>
+    <string name="brewEditCupLabel">作った量\n(カップ)</string>
+    <string name="brewEditBeansLabel">使用豆</string>
+    <string name="brewEditGrindLabel">挽き目</string>
+    <string name="brewEditBeansUseLabel">豆の量\n(g)</string>
+    <string name="brewEditTempLabel">湯の温度\n(℃)</string>
+    <string name="brewEditSteamLabel">蒸らし\n(秒)</string>
+    <string name="brewEditMemoLabel">メモ</string>
+    <string name="brewEditRatingLabel">できばえ</string>
     <string name="brewEditBeansHint">例：ブルーマウンテン</string>
-    <string name="brewDateFormat">yyyy/MM/dd HH:mm</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="brewEditSaveBtnLabel">保存</string>
     <string name="brewEditDeleteBtnLabel">削除</string>
     <string name="brewEditCancelBtnLabel">← 詳細に戻る</string>
+    <string name="brewEditMemoHint">例：今までで一番おいしい</string>
+    <string name="brewEditPriceLabel">値段</string>
+    <string name="brewEditPriceHint">例：500</string>
+    <string name="brewEditShopLabel">購入店</string>
+    <string name="brewEditShopHint">例：銀座店</string>
+    <string name="brewEditCupDrunkLabel">飲んだ量\n(カップ)</string>
 
-    <string name="dateFormat">%d/%02d/%02d</string>
-    <string name="timeFormat">%02d:%02d</string>
+    <!-- Beans -->
+    <string name="beansKindSpecial">ストレート</string>
+    <string name="beansKindBlend">ブレンド</string>
+    <string name="beansKindPack">ドリップパック</string>
+
+    <!-- OneBeans -->
     <string name="oneBeansBuyDateLabel">購入日：</string>
     <string name="oneBeansShop">購入店：</string>
     <string name="oneBeansGrindLabel">挽き：</string>
@@ -79,57 +96,58 @@
     <string name="oneBeansMemo">メ　モ：</string>
     <string name="oneBeansRoastLabel">焙煎度：</string>
 
+    <!-- Beans Edit -->
     <string name="beansEditHeader">豆の購入記録です。代表的な豆銘柄はボタンから選択できるかもしれませぬ。</string>
-    <string name="beansEditDateLabel">購入日：</string>
-    <string name="beansEditNameLabel">銘柄：</string>
-    <string name="beansEditRatingLabel">評価：</string>
-    <string name="beansEditShopLabel">購入店：</string>
-    <string name="beansEditRoastLabel">焙煎：</string>
-    <string name="beansEditGramLabel">グラム：</string>
-    <string name="beansEditPriceLabel">お値段：\n（円）</string>
-    <string name="beansEditMemoLabel">メモ：</string>
+    <string name="beansEditDateLabel">購入日</string>
+    <string name="beansEditNameLabel">銘柄</string>
+    <string name="beansEditRatingLabel">評価</string>
+    <string name="beansEditShopLabel">購入店</string>
+    <string name="beansEditRoastLabel">焙煎</string>
+    <string name="beansEditGramLabel">グラム</string>
+    <string name="beansEditPriceLabel">お値段\n（円）</string>
+    <string name="beansEditMemoLabel">メモ</string>
     <string name="beansEditNameHint">例：マンデリン</string>
     <string name="beansEditShopHintLabel">例：KALDI銀座店</string>
     <string name="beansEditPriceHintLabel">例：800</string>
     <string name="beansEditNameBtnLabel">参照</string>
-    <string name="brewDetailsHeaderText">詳細画面です（要らないか？）</string>
-    <string name="editBtnLabel">編集</string>
-    <string name="returnBtnLabel">← リストに戻る</string>
-
-    <string name="beansKindSpecial">ストレート</string>
-    <string name="beansKindBlend">ブレンド</string>
-    <string name="beansKindPack">ドリップパック</string>
+    <string name="beansEditMemoHint">例：３回目のリピート購入</string>
 
 
-    <!-- 外飲み -->
-    <string name="takeoutEditHeader">豆の購入記録です。代表的な豆銘柄はボタンから選択できるかもしれませぬ。</string>
-    <string name="takeoutEditDateLabel">購入日：</string>
-    <string name="takeoutEditNameLabel">銘　柄：</string>
-    <string name="takeoutEditRatingLabel">評　価：</string>
-    <string name="takeoutEditShopLabel">購入店：</string>
-    <string name="takeoutEditChainLabel">系　列：</string>
-    <string name="takeoutEditPriceLabel">お値段：</string>
-    <string name="takeoutEditMemoLabel">メ　モ：</string>
-    <string name="takeoutEditNameHint">例：マンデリン</string>
-    <string name="takeoutEditShopHintLabel">例：ＮＹ駅前店</string>
-    <string name="takeoutEditChainHintLabel">例：スターバックス</string>
-    <string name="takeoutEditPriceHintLabel">例：800</string>
-    <string name="takeoutEditNameBtnLabel">参照</string>
-    <string name="takeoutEditMemoHint">例：特売でした（＾＾）</string>
-
+    <!-- Takeout -->
     <string name="takeoutKindConvini">コンビニ</string>
     <string name="takeoutKindCafe">カフェ</string>
     <string name="takeoutKindRestaurant">レストラン</string>
 
-    <string name="beansEditMemoHint">例：３回目のリピート購入</string>
-    <string name="brewEditMemoHint">例：今までで一番おいしい</string>
-
+    <!-- One Takeout -->
     <string name="oneTakeoutShopLabel">店　名：</string>
     <string name="oneTakeoutSizeLabel">サイズ：</string>
     <string name="oneTakeoutPriceLabel">値段：</string>
     <string name="oneTakeoutMemoLabel">メ　モ：</string>
     <string name="oneTakeoutChainLabel">系　列：</string>
     <string name="oneTakeoutCountLabel">回数：</string>
+
+    <!-- Takeout Details -->
+    <string name="takeoutDetailsSizeLabel">サイズ：</string>
+
+    <!-- Takeout Edit -->
+    <string name="takeoutEditHeader">豆の購入記録です。代表的な豆銘柄はボタンから選択できるかもしれませぬ。</string>
+    <string name="takeoutEditDateLabel">購入日</string>
+    <string name="takeoutEditNameLabel">銘　柄</string>
+    <string name="takeoutEditRatingLabel">評　価</string>
+    <string name="takeoutEditShopLabel">購入店</string>
+    <string name="takeoutEditChainLabel">系　列</string>
+    <string name="takeoutEditPriceLabel">お値段</string>
+    <string name="takeoutEditMemoLabel">メ　モ</string>
+    <string name="takeoutEditNameHint">例：マンデリン</string>
+    <string name="takeoutEditShopHintLabel">例：ＮＹ駅前店</string>
+    <string name="takeoutEditChainHintLabel">例：スターバックス</string>
+    <string name="takeoutEditPriceHintLabel">例：800</string>
+    <string name="takeoutEditNameBtnLabel">参照</string>
+    <string name="takeoutEditMemoHint">例：特売でした（＾＾）</string>
+    <string name="takeoutEditSizeLabel">サイズ</string>
+    <string name="takeoutEditSizeHint">例：ラージ</string>
+
+
 
     <!-- ダイアログ -->
     <string name="deleteConfirmDialogTitle">削除確認</string>
@@ -148,6 +166,7 @@
     <string name="optMenu3ItemDelete">削除</string>
     <string name="optMenu3ItemHome">ホーム</string>
     <string name="optMenu3ItemCancel">リストへ戻る</string>
+    <string name="optMenu3ItemCopy">コピーして新規作成</string>
 
     <!-- Type4 -->
     <string name="optMenu4ItemHome">ホーム</string>
@@ -155,22 +174,13 @@
     <string name="optMenu4ItemSave">保存</string>
     <string name="optMenu4ItemDelete">削除</string>
 
-
+    <!-- コンテキストメニュー -->
     <string name="ctxMenuBrewDetails">詳細</string>
     <string name="ctxMenuBrewEdit">編集</string>
     <string name="ctxMenuBrewCopy">コピーして新規作成</string>
-    <string name="optMenu3ItemCopy">コピーして新規作成</string>
-    <string name="takeoutDetailsSizeLabel">サイズ：</string>
-    <string name="takeoutEditSizeLabel">サイズ：</string>
-    <string name="takeoutEditSizeHint">例：ラージ</string>
-    <string name="brewEditPriceLabel">値段：</string>
-    <string name="brewEditPriceHint">例：500</string>
-    <string name="brewEditShopLabel">購入店：</string>
-    <string name="brewEditShopHint">例：銀座店</string>
     <string name="takeoutEditRatingHint">※飲んだ時の評価の平均で自動計算です</string>
     <string name="beansEditRatingHint">※飲んだ時の評価の平均値が自動計算されます</string>
 
     <!-- 分析画面 -->
     <string name="anaAllPeriod">全期間</string>
-    <string name="brewEditCupDrunkLabel">飲んだ量：\n(カップ)</string>
 </resources>
