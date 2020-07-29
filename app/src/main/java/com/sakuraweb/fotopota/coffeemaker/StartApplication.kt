@@ -30,6 +30,9 @@ const val BREW_IN_HOME = 1
 const val BREW_IN_SHOP = 2
 const val BREW_METHOD_SHOP = 10
 
+const val GRIND_SW_NAME = 0
+const val GRIND_SW_ROTATION = 1
+
 // グローバル変数たち
 lateinit var brewRealmConfig: RealmConfiguration
 lateinit var beansRealmConfig: RealmConfiguration
@@ -51,7 +54,7 @@ lateinit var takeoutRestaurant: Array<String>
 
 lateinit var roastLabels: Array<String>
 lateinit var grindLabels: Array<String>
-
+lateinit var grind2Labels: Array<String>
 
 // 一番最初に実行されるApplicationクラス
 // いつもの、AppCompatActivity（MainActivity）は、manifest.xmlで最初の画面（Acitivity）として実行される
@@ -98,6 +101,8 @@ class StartApplication : Application() {
 
         roastLabels = resources.getStringArray(R.array.roast_labels)
         grindLabels = resources.getStringArray(R.array.grind_labels)
+        grind2Labels = resources.getStringArray(R.array.grind2_labels)
+
 
 //        setTakeoutTakeDay()
 

@@ -44,6 +44,14 @@
         <item>極細</item>
     </array>
 
+    <array name="grind2_labels">
+        <item>"0"</item>
+        <item>"5"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+    </array>
+
     <!-- 焙煎度合い。結局使ってないような・・・？ -->
     <array name="roast_labels">
         <item>ライト</item>

@@ -67,7 +67,26 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             // 家飲みの場合は抽出情報（店飲みの場合は不要）
             if( bp.place == BREW_IN_HOME ) {
                 holder.beansPassText?.text = bp.beansPast.toString()
-                holder.beansGrindBar?.setProgress(bp.beansGrind.toFloat())
+
+                // Grindを数字入力できるようにする処理（アドホックだなぁ・・・）
+                // １個しかないスライダ（beansGrindBar）を、名前・回転数、どちらかで使うSWで分ける
+                if( bp.beansGrindSw == GRIND_SW_NAME ) {
+                    holder.beansGrindBar?.tickCount = 5
+                    holder.beansGrindBar?.min = 1F
+                    holder.beansGrindBar?.max = 5F
+                    holder.beansGrindBar?.hideThumbText(true)
+                    holder.beansGrindBar?.setProgress(bp.beansGrind.toFloat())
+                    holder.beansGrindBar?.customTickTexts(grindLabels)
+                } else {
+                    holder.beansGrindBar?.tickCount = 2
+                    holder.beansGrindBar?.min = 0F
+                    holder.beansGrindBar?.max = 5F
+                    holder.beansGrindBar?.hideThumbText(false)
+                    holder.beansGrindBar?.setDecimalScale(2)
+                    holder.beansGrindBar?.setProgress(bp.beansGrind2.toFloat())
+                    holder.beansGrindBar?.customTickTexts(grind2Labels)
+                }
+
                 holder.beansUseBar?.setProgress(bp.beansUse.toFloat())
                 holder.cupsBar?.setProgress(bp.cups.toFloat())
                 holder.tempBar?.setProgress(bp.temp.toFloat())

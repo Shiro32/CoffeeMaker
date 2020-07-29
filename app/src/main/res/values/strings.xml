@@ -65,7 +65,7 @@
     <string name="brewEditDateLabel">作った日</string>
     <string name="brewEditCupLabel">作った量\n(カップ)</string>
     <string name="brewEditBeansLabel">使用豆</string>
-    <string name="brewEditGrindLabel">挽き目</string>
+    <string name="brewEditGrindLabel">豆の\n挽き具合</string>
     <string name="brewEditBeansUseLabel">豆の量\n(g)</string>
     <string name="brewEditTempLabel">湯の温度\n(℃)</string>
     <string name="brewEditSteamLabel">蒸らし\n(秒)</string>
@@ -183,4 +183,8 @@
 
     <!-- 分析画面 -->
     <string name="anaAllPeriod">全期間</string>
+    <string name="brewEditGrindSwitchLabel">挽き目\n設定方法</string>
+    <string name="brewEditGrindSwitchRotationLabel">ミルのネジ等で設定</string>
+    <string name="brewEditGrindSwitchNameLabel">名前で設定</string>
+    <string name="brewEditGrind2Label">ミル設定\n(ネジ)</string>
 </resources>

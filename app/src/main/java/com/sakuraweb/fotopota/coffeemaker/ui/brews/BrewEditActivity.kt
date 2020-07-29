@@ -23,6 +23,7 @@ import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_brew_edit.*
+import kotlinx.android.synthetic.main.activity_brew_edit.view.*
 import java.util.*
 
 // BrewEditの動作モード（新規、編集、コピー新規、FABから）
@@ -98,7 +99,14 @@ class BrewEditActivity : AppCompatActivity() {
                     takeoutID = brew.takeoutID
                     brewEditCupsBar.setProgress(brew.cups)
                     brewEditCupsDrunkBar.setProgress(brew.cupsDrunk)
-                    brewEditGrindBar.setProgress(brew.beansGrind)
+
+                    // Grindを数字入力できるようにする処理（アドホックだなぁ・・・）
+                    // どちらのbarを表示するかは、別途用意するSWで決める
+                    brewEditGrindSw.isChecked = (brew.beansGrindSw == GRIND_SW_ROTATION)
+                    brewEditGrind1Bar.setProgress(brew.beansGrind)
+                    brewEditGrind2Bar.setDecimalScale(1)
+                    brewEditGrind2Bar.setProgress(brew.beansGrind2)
+
                     brewEditBeansUseBar.setProgress(brew.beansUse)
                     brewEditTempBar.setProgress(brew.temp)
                     brewEditSteamBar.setProgress(brew.steam)
@@ -117,9 +125,30 @@ class BrewEditActivity : AppCompatActivity() {
             }
         }
 
-        // 焙煎度合いのTickを文字列で
-        brewEditGrindBar.customTickTexts(grindLabels)
-        brewEditGrindBar.setIndicatorTextFormat("\${TICK_TEXT}")
+        brewEditGrindSw.setOnCheckedChangeListener { buttonView, isChecked ->
+            if( isChecked ) {
+                brewEditGrind2Bar.setIndicatorTextFormat("\${PROGRESS}")
+                brewEditGrind1Bar.visibility = View.GONE
+                brewEditGrind2Bar.visibility = View.VISIBLE
+            } else {
+                brewEditGrind1Bar.setIndicatorTextFormat("\${TICK_TEXT}")
+                brewEditGrind1Bar.visibility = View.VISIBLE
+                brewEditGrind2Bar.visibility = View.GONE
+            }
+        }
+
+        // 同じことを書くのよねぇ・・・。
+        if( brewEditGrindSw.isChecked ) {
+            // 回転数表示
+            brewEditGrind2Bar.setIndicatorTextFormat("\${PROGRESS}")
+            brewEditGrind1Bar.visibility = View.GONE
+            brewEditGrind2Bar.visibility = View.VISIBLE
+        } else {
+            // 名前表示
+            brewEditGrind1Bar.setIndicatorTextFormat("\${TICK_TEXT}")
+            brewEditGrind1Bar.visibility = View.VISIBLE
+            brewEditGrind2Bar.visibility = View.GONE
+        }
 
 
         // ここまでで基本的に画面構成終了
@@ -234,12 +263,15 @@ class BrewEditActivity : AppCompatActivity() {
             val methodID      = brewEditMethodSpin.selectedItemPosition
             val brewCups    = brewEditCupsBar.progress.toFloat()
             val brewCupsDrunk= brewEditCupsDrunkBar.progress.toFloat()
-            val brewGrind   = brewEditGrindBar.progress.toFloat()
+            val brewGrindSw = if( brewEditGrindSw.isChecked ) GRIND_SW_ROTATION else GRIND_SW_NAME
+            val brewGrind1   = brewEditGrind1Bar.progress.toFloat()
+            val brewGrind2 = brewEditGrind2Bar.progressFloat
             val brewBeansUse= brewEditBeansUseBar.progress.toFloat()
             val brewTemp    = brewEditTempBar.progress.toFloat()
             val brewSteam   = brewEditSteamBar.progress.toFloat()
             val brewShop   = brewEditShopText.text.toString()
             val brewMemo   = brewEditMemoText.text.toString()
+
 
             when( editMode ) {
                 // 新規作成、コピーして新規作成どちらも同じ
@@ -260,7 +292,9 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.place = if( methodID==BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew.cups = brewCups
                         brew.cupsDrunk = brewCupsDrunk
-                        brew.beansGrind = brewGrind
+                        brew.beansGrindSw = brewGrindSw
+                        brew.beansGrind = brewGrind1
+                        brew.beansGrind2 = brewGrind2
                         brew.beansUse = brewBeansUse
                         brew.temp = brewTemp
                         brew.steam = brewSteam
@@ -282,7 +316,9 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.place     = if( methodID==BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew?.cups      = brewCups
                         brew?.cupsDrunk = brewCupsDrunk
-                        brew?.beansGrind= brewGrind
+                        brew?.beansGrindSw = brewGrindSw
+                        brew?.beansGrind= brewGrind1
+                        brew?.beansGrind2=brewGrind2
                         brew?.beansUse  = brewBeansUse
                         brew?.temp      = brewTemp
                         brew?.steam     = brewSteam

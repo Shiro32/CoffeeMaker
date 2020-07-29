@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.REQUEST_EDIT_BEANS
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
@@ -27,7 +28,6 @@ import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsRati
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsReturnBtn
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsToolbar
 import kotlinx.android.synthetic.main.activity_brew_details_shop.*
-import java.time.LocalDateTime
 
 import java.util.*
 
@@ -64,7 +64,18 @@ class BrewDetailsActivity : AppCompatActivity() {
                 // ここでようやくレイアウトをインフレート
                 setContentView(R.layout.activity_brew_details_home)
 
-                brewDetailsGrindBar.setProgress(brew.beansGrind)
+                // Grindを数字入力できるようにする処理（アドホックだなぁ・・・）
+                // １個しかないスライダ（beansGrindBar）を、Swで名前・回転数、どちらかで使う
+                if( brew.beansGrindSw == GRIND_SW_NAME ) {
+                    brewDetailsGrind2Bar.visibility = View.GONE
+                    brewDetailsGrind2Label.visibility = View.GONE
+                    brewDetailsGrind1Bar.setProgress(brew.beansGrind)
+                } else {
+                    brewDetailsGrind1Bar.visibility = View.GONE
+                    brewDetailsGrind1Label.visibility = View.GONE
+                    brewDetailsGrind2Bar.setProgress(brew.beansGrind2)
+                }
+
                 brewDetailsBeansUseBar.setProgress(brew.beansUse)
                 brewDetailsCupsBar.setProgress(brew.cups)
                 brewDetailsCupsDrunkBar.setProgress(brew.cupsDrunk)

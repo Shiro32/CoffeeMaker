@@ -35,8 +35,8 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
 //    var memoLabel:      TextView? = null
     var memoText:       TextView? = null
     var image:          ImageView? = null
-    var editBtn:        Button? = null
-    var copyBtn:        Button? = null
+//    var editBtn:        Button? = null
+//    var copyBtn:        Button? = null
 
 
     // 初期化処理
@@ -53,7 +53,7 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         beansKindText   = iv.oneBrewBeansKindText
 
         // SeekBarだらけ
-        beansGrindBar   = iv.oneBrewGrindBar
+        beansGrindBar   = iv.oneBrewGrind1Bar
         beansUseBar     = iv.oneBrewBeansUseBar
         tempBar         = iv.oneBrewTempBar
         steamBar        = iv.oneBrewSteamBar

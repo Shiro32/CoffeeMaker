@@ -44,10 +44,10 @@
                 android:id="@+id/brewDetailsDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/brewEditDateLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -73,10 +73,10 @@
                 android:id="@+id/brewDetailsRatingLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/brewEditRatingLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsDateLabel" />
 
             <RatingBar
@@ -95,10 +95,10 @@
                 android:id="@+id/brewDetailsMethodLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/brewEditMethodLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsRatingLabel" />
 
             <TextView
@@ -115,11 +115,11 @@
                 android:id="@+id/brewDetailsBeansLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/brewEditBeansLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brewDetailsMethodLabel" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsMethodLabel"
+                android:textAlignment="textEnd" />
 
             <TextView
                 android:id="@+id/brewDetailsBeansText"
@@ -135,12 +135,13 @@
                 android:id="@+id/brewDetailsCupLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="@dimen/brewDetailsVerticalSkip"
+                android:layout_marginTop="18dp"
                 android:gravity="center"
+                android:lineSpacingMultiplier="0.9"
                 android:text="@string/brewEditCupLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brewDetailsBeansLabel" />
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsBeansText" />
 
             <com.warkiz.widget.IndicatorSeekBar
                 android:id="@+id/brewDetailsCupsBar"
@@ -185,11 +186,12 @@
                 android:id="@+id/brewDetailsCupDrunkLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="18dp"
                 android:gravity="center"
+                android:lineSpacingMultiplier="0.9"
                 android:text="@string/brewEditCupDrunkLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsCupLabel" />
 
             <com.warkiz.widget.IndicatorSeekBar
@@ -232,17 +234,29 @@
                 app:layout_constraintTop_toTopOf="@+id/brewDetailsCupDrunkLabel" />
 
             <TextView
-                android:id="@+id/brewDetailsGrindLabel"
+                android:id="@+id/brewDetailsGrind1Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="18dp"
+                android:lineSpacingMultiplier="0.9"
                 android:text="@string/brewEditGrindLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsCupDrunkLabel" />
 
+            <TextView
+                android:id="@+id/brewDetailsGrind2Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:lineSpacingMultiplier="0.9"
+                android:text="@string/brewEditGrind2Label"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsGrind1Label" />
+
             <com.warkiz.widget.IndicatorSeekBar
-                android:id="@+id/brewDetailsGrindBar"
+                android:id="@+id/brewDetailsGrind1Bar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -276,21 +290,64 @@
                 app:isb_track_progress_size="3dp"
                 app:isb_track_rounded_corners="false"
                 app:isb_user_seekable="false"
-                app:layout_constraintBottom_toBottomOf="@+id/brewDetailsGrindLabel"
+                app:layout_constraintBottom_toBottomOf="@+id/brewDetailsGrind1Label"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toTopOf="@+id/brewDetailsGrindLabel" />
+                app:layout_constraintTop_toTopOf="@+id/brewDetailsGrind1Label" />
+
+            <com.warkiz.widget.IndicatorSeekBar
+                android:id="@+id/brewDetailsGrind2Bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="14sp"
+                app:isb_clear_default_padding="true"
+                app:isb_indicator_color="@android:color/holo_red_light"
+                app:isb_indicator_text_color="@android:color/white"
+                app:isb_indicator_text_size="@dimen/brewEditBarIndicatorSize"
+                app:isb_max="5"
+                app:isb_min="0"
+                app:isb_only_thumb_draggable="false"
+                app:isb_progress="1"
+                app:isb_progress_value_float="true"
+                app:isb_seek_smoothly="true"
+                app:isb_show_indicator="circular_bubble"
+                app:isb_show_thumb_text="true"
+                app:isb_show_tick_marks_type="oval"
+                app:isb_show_tick_texts="true"
+                app:isb_thumb_color="@android:color/holo_red_light"
+                app:isb_thumb_size="@dimen/brewDetailsThumbSize"
+                app:isb_tick_marks_color="#dddddd"
+                app:isb_tick_marks_ends_hide="false"
+                app:isb_tick_marks_size="@dimen/brewDetailsTickMarkSize"
+                app:isb_tick_marks_swept_hide="false"
+                app:isb_tick_texts_array="@array/grind2_labels"
+                app:isb_tick_texts_color="@android:color/black"
+                app:isb_tick_texts_size="@dimen/brewEditTickTextSize"
+                app:isb_ticks_count="2"
+                app:isb_track_background_color="#dddddd"
+                app:isb_track_background_size="3sp"
+                app:isb_track_progress_color="#dddddd"
+                app:isb_track_progress_size="3dp"
+                app:isb_track_rounded_corners="false"
+                app:isb_user_seekable="false"
+                app:layout_constraintBottom_toBottomOf="@+id/brewDetailsGrind2Label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/brewDetailsGrind2Label" />
 
             <TextView
                 android:id="@+id/brewDetailsBeansUseLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="@dimen/brewDetailsVerticalSkip"
+                android:layout_marginTop="18dp"
                 android:gravity="center"
+                android:lineSpacingMultiplier="0.9"
                 android:text="@string/brewEditBeansUseLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brewDetailsGrindLabel" />
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsGrind2Label" />
 
             <com.warkiz.widget.IndicatorSeekBar
                 android:id="@+id/brewDetailsBeansUseBar"
@@ -336,11 +393,12 @@
                 android:id="@+id/brewDetailsTempLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/brewDetailsVerticalSkip"
                 android:gravity="center"
+                android:lineSpacingMultiplier="0.9"
                 android:text="@string/brewEditTempLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsBeansUseLabel" />
 
             <com.warkiz.widget.IndicatorSeekBar
@@ -387,11 +445,12 @@
                 android:id="@+id/brewDetailsSteamLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/brewDetailsVerticalSkip"
                 android:gravity="center"
+                android:lineSpacingMultiplier="0.9"
                 android:text="@string/brewEditSteamLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsTempLabel" />
 
             <com.warkiz.widget.IndicatorSeekBar
@@ -438,10 +497,10 @@
                 android:id="@+id/brewDetailsMemoLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/brewDetailsVerticalSkip"
                 android:text="@string/brewEditMemoLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsSteamLabel" />
 
             <TextView
@@ -458,7 +517,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="78dp" />
+                app:layout_constraintGuide_begin="80dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="70dp" />
 
             <ImageView
                 android:id="@+id/brewDetailsMethodImage"

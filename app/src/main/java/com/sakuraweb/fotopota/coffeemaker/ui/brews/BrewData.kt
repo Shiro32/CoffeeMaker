@@ -13,7 +13,7 @@ import java.util.*
 
 // なぜか、BREWのマイグレーション処理だけはうまく機能している（TakeoutやBeansは壊滅的なのに）
 // ★★データ項目（名前も）を変えた場合は、migrateメソッドに追記し、VERSIONも+1すること
-const val BREW_DATA_VERSION = 2L
+const val BREW_DATA_VERSION = 4L
 
 // この記載と、Configuration時のModules指定をしないと、すべての関連ClassがDB化される
 // 個別のClassのバージョンアップができないので、こうやって単独化させてあげる
@@ -32,7 +32,9 @@ open class BrewData : RealmObject() {
     var shop: String = ""   // 外飲みの時だけ、購入店舗
     var beansID: Long = 0
     var beansPast: Int = 0
+    var beansGrindSw: Int = 0       // v4から登場
     var beansGrind: Float = 0.0F
+    var beansGrind2: Float = 0.0F   // v3から登場
     var beansUse: Float = 0.0F
     var cups: Float = 0.0F
     var cupsDrunk: Float = 0.0F
@@ -58,10 +60,19 @@ class BrewDataMigration : RealmMigration {
                 .addField("takeoutID", Long::class.java)
             oldVersion++
         }
-
         if( oldVersion==1L ) {
             realmSchema.get("BrewData")!!
                 .addField("cupsDrunk", Float::class.java)
+            oldVersion++
+        }
+        if( oldVersion==2L ) {
+            realmSchema.get("BrewData")!!
+                .addField("beansGrind2", Float::class.java)
+            oldVersion++
+        }
+        if( oldVersion==3L ) {
+            realmSchema.get("BrewData")!!
+                .addField("beansGrindSw", Int::class.java)
             oldVersion++
         }
     }
