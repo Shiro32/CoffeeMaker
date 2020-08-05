@@ -5,33 +5,136 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.sakuraweb.fotopota.coffeemaker.MainActivity
+import com.sakuraweb.fotopota.coffeemaker.BREW_IN_BOTH
+import com.sakuraweb.fotopota.coffeemaker.BREW_IN_SHOP
 import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
+import com.sakuraweb.fotopota.coffeemaker.ui.home.calcCupsDrunkOfPeriod
 import io.realm.Realm
+import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.fragment_stats_graphical.*
+import kotlinx.android.synthetic.main.fragment_stats_takeout.*
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [StatsGraphical.newInstance] factory method to
- * create an instance of this fragment.
- */
 class StatsGraphical : Fragment() {
-    // TODO: Rename and change types of parameters
+
+    //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+    // ここから統計データ表示のメイン処理
+    // メイン画面から、統計基本情報を含んだStatsPackを受け取る
+    // 期間（begin～last）、そこに含まれるbeansID、takeoutID、表示用ヒントなどを含む
+    open fun onCreateStats( spin:StatsPack ) {
+
+        statsGraphCard1Hint.text = spin.msg
+        statsGraphCard1Hint2.text = "合計："+calcCupsDrunkOfPeriod(BREW_IN_BOTH, spin.begin, spin.last).toString()+"杯"
+
+        // 各種見栄え
+        // X軸
+        val xa = chartArea.xAxis
+        xa.position = XAxis.XAxisPosition.BOTTOM
+        xa.setDrawGridLines(false)
+        xa.setDrawAxisLine(true)
+
+        // Y軸（左）
+        val ly = chartArea.axisLeft
+        ly.setDrawLabels(true)
+        ly.spaceBottom = 0F
+        ly.granularity = 1F
+//        ly.setAxisMinValue(0F)
+//        ly.setLabelCount( 10, false)
+//        ly.mDecimals = 0
+
+        // Y軸（右）
+        val ry = chartArea.axisRight
+        ry.setDrawLabels(false)
+        ry.spaceBottom = 0F
+        ry.granularity = 1F
+//        ry.setAxisMinValue(0F)
+//        ry.setLabelCount( 10, false)
+
+        // グラフ全体
+        chartArea.isClickable = false
+        chartArea.setDescription("")
+        chartArea.setPinchZoom(false)
+        chartArea.isDoubleTapToZoomEnabled = false
+
+        //アニメーション
+        chartArea.animateY(1000, Easing.EasingOption.Linear);
+
+        // データ作成は別関数で
+        val data:BarData = createBarGraphData(spin.begin, spin.last)
+        chartArea.data = data
+        chartArea.invalidate()
+    }
+
+
+    private fun createBarGraphData(begin:Calendar, last:Calendar) : BarData {
+
+        // 飲んだ回数データを作る
+        val xLabels = mutableListOf<String>()
+        val yValues = mutableListOf<BarEntry>()
+
+        val ys = getPastMonthCups(begin, last)
+
+        for( i in 0..ys.size-1 ) {
+            xLabels.add( (i+1).toString() )
+            yValues.add( BarEntry( ys[ys.size-i-1], i) )
+        }
+        // 下準備完了
+
+        val barDataSet1 = BarDataSet(yValues, "家飲み＋外飲み")
+        barDataSet1.setDrawValues(false)
+        barDataSet1.setColor( ColorTemplate.COLORFUL_COLORS[4] )
+        barDataSet1.axisDependency=YAxis.AxisDependency.LEFT
+
+        // データセット全体（複数バーが描けるため）
+        val barData = BarData( xLabels, barDataSet1 )
+        return barData
+    }
+
+    // 指定期間中のカップ数をカウントする
+    private fun getPastMonthCups(begin: Calendar, last: Calendar) : MutableList<Float> {
+
+        var c1 = Calendar.getInstance()
+        var c2 = Calendar.getInstance()
+
+        c1.set(last.get(Calendar.YEAR), last.get(Calendar.MONTH), last.get(Calendar.DAY_OF_MONTH), 0, 0, 0)
+        c2.set(last.get(Calendar.YEAR), last.get(Calendar.MONTH), last.get(Calendar.DAY_OF_MONTH), 23, 59, 59)
+
+        val realm = Realm.getInstance(brewRealmConfig)
+        var ret = mutableListOf<Float>()
+
+        do {
+            // １日分のデータを抽出
+            val brews = realm.where<BrewData>()
+                .between("date", c1.time, c2.time)
+                .findAll()
+                .sort( "date", Sort.DESCENDING)
+
+            // １日分のdrunkを加算（面倒くさいねぇ・・・）
+            var cups = 0F
+            for( b in brews) cups += b.cupsDrunk
+            ret.add( cups )
+
+            c1.add(Calendar.DAY_OF_MONTH, -1)
+            c2.add(Calendar.DAY_OF_MONTH, -1)
+        } while( c1 >= begin )
+
+        realm.close()
+        return ret
+    }
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -47,20 +150,10 @@ class StatsGraphical : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_stats_graphical, container, false)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GraphicalAnalyze.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             StatsGraphical().apply {
@@ -71,92 +164,6 @@ class StatsGraphical : Fragment() {
             }
     }
 
-    open fun reload(spnPosition:Int, spnItem:String ) {
-        val ma: MainActivity = activity as MainActivity
-
-        val data = createBarGraphData()
-        chart.data = data
-
-        // 各種見栄え
-        // X軸
-        val xa = chart.xAxis
-        xa.position = XAxis.XAxisPosition.BOTTOM
-        xa.setDrawGridLines(false)
-        xa.setDrawAxisLine(true)
-
-        // Y軸（左）
-        val ly = chart.axisLeft
-//        ly.setAxisMinValue(0F)
-
-        // Y軸（右）
-        val ry = chart.axisRight
-        ry.setDrawLabels(false)
-//        ry.setAxisMinValue(0F)
-
-        // グラフ全体
-        chart.isClickable = false
-        chart.setDescription("")
-        chart.setPinchZoom(false)
-        chart.isDoubleTapToZoomEnabled = false
-
-        chart.invalidate()
-
-    }
-
-    private fun createBarGraphData() : BarData {
-        val r = Random()
-
-        // データセット全体（複数バーが描けるため）
-        val barDataSets = mutableListOf<BarDataSet>()
-
-        // X軸を作る
-        val xVals = mutableListOf<String>()
-        for(i in 0..30) xVals.add(0, i.toString())
-
-        // データセットＡを作る
-        val yVals = mutableListOf<BarEntry>()
-        val ys = getPast30DaysCups()
-
-        for( i in 0..30) yVals.add( BarEntry(ys[i], 30-i) )
-
-        val aDataSet = BarDataSet(yVals, "飲んだ回数")
-        aDataSet.setDrawValues(false)
-        aDataSet.setColor( ColorTemplate.COLORFUL_COLORS[4] )
-
-        // データセット全体にＡを追加する
-        barDataSets.add(aDataSet)
-
-        // X軸と合体させる
-        val barData = BarData( xVals, barDataSets as List<IBarDataSet>?)
-
-        return barData
-    }
-
-    private fun getPast30DaysCups() : MutableList<Float> {
-        val cal = Calendar.getInstance()
-
-        val realm = Realm.getInstance(brewRealmConfig)
-        var rets = mutableListOf<Float>()
-
-        var begin = Calendar.getInstance()
-        var last = Calendar.getInstance()
-        begin.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0)
-        last.set( cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 23, 59, 59)
-
-        for( i in 0..30) {
-            val brews = realm.where<BrewData>()
-                .between("date", begin.time, last.time)
-                .findAll()
-            rets.add( brews.size.toFloat() )
-
-            begin.add(Calendar.DAY_OF_MONTH, -1)
-            last.add(Calendar.DAY_OF_MONTH, -1)
-        }
-
-        realm.close()
-
-        return rets
-    }
 }
 
 

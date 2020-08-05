@@ -15,7 +15,6 @@ import io.realm.Sort
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.fragment_stats_home.*
-import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,75 +51,24 @@ class StatsHome : Fragment() {
 
     }
 
-    // ここからメイン処理
-    // Fragmentが最初に呼ばれたとき、分析期間のSpinnerを変更した時、に呼ばれて分析画面を作り上げる
-
-    open fun reload(spnPosition:Int, spnItem:String ) {
-        val ma: MainActivity = activity as MainActivity
-
-        // 選択肢から期間を求める
-        var begin = Calendar.getInstance()
-        var last = Calendar.getInstance()
-
-        // 「全期間」を選んだときは全範囲を設定しよう
-        var headerMsg: String
-        if( spnPosition == 0 ) {
-            val realm = Realm.getInstance(brewRealmConfig)
-            val brews = realm.where<BrewData>().findAll().sort("date", Sort.ASCENDING)
-            if( brews.size>0 ) begin.time = brews[0]?.date
-            realm.close()
-            last.time = Date()
-            headerMsg = "アプリの使用開始（%d年%d月）から今日までに飲んだコーヒー".format(begin.get(Calendar.YEAR), begin.get(
-                Calendar.MONTH)+1)
-        } else {
-            // 特定の月の時はその月をセット
-            val m = spnItem
-            val a = m.split("年","月")
-            begin.set(a[0].toInt(), a[1].toInt()-1, 1, 0, 0, 0)
-            last.set(a[0].toInt(), a[1].toInt()-1, 1, 23,59,59)
-            last.set(Calendar.DATE, last.getActualMaximum(Calendar.DATE))
-            headerMsg = "%d年%d月に飲んだコーヒー".format(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH)+1, last.get(
-                Calendar.YEAR), last.get(Calendar.MONTH)+1)
-        }
-
-        beginPeriod = begin.time
-        endPeriod = last.time
-
-        // ここまででBREWの範囲が決まったことになる
-        // 範囲内のBREWが参照しているBEANSとTAKEOUTをリスト化する
-        var brewRealm = Realm.getInstance(brewRealmConfig)
-        var brews = brewRealm.where<BrewData>()
-            .between("date", beginPeriod, endPeriod)
-            .findAll()
-
-        var beansList = arrayOf<Long>()
-        var takeoutList = arrayOf<Long>()
-
-        for( brew in brews) {
-            if( brew.place == BREW_IN_HOME) {
-                // 家飲みの場合はBEANSのリスト追加
-                beansList += brew.beansID
-            } else {
-                takeoutList += brew.takeoutID
-            }
-        }
-        brewRealm.close()
-
+    //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+    // ここから統計データ表示のメイン処理
+    // メイン画面から、統計基本情報を含んだStatsPackを受け取る
+    // 期間（begin～last）、そこに含まれるbeansID、takeoutID、表示用ヒントなどを含む
+    open fun onCreateStats(spin:StatsPack ) {
 
         // 期間のラベル
-        statsHomeTotalHint.text = headerMsg
+        statsHomeTotalHint.text = spin.msg
 
         // 全体のカップ数
-        statsHomeTotalCupsText.text = calcCupsDrunkOfPeriod(BREW_IN_HOME, begin, last).toString()
+        statsHomeTotalCupsText.text = calcCupsDrunkOfPeriod(BREW_IN_HOME, spin.begin, spin.last).toString()
 
-
-// ------------------------------- 猛烈に長いけど、豆ランキング　-------------------------------
 
         // 豆関係ランキングの前処理（とても長いけど）
         // 範囲限定版のBEANS
         var realm = Realm.getInstance(beansRealmConfig)
         var beans = realm.where<BeansData>()
-            .`in`("id", beansList)
+            .`in`("id", spin.beansIDList)
             .findAll()
 
 
@@ -159,7 +107,7 @@ class StatsHome : Fragment() {
 
         // BREWからの参照を全部調べ上げて、BEANSの各種参照情報を更新する
         // 評価、最終利用日、利用回数
-        brewRealm = Realm.getInstance(brewRealmConfig)
+        var brewRealm = Realm.getInstance(brewRealmConfig)
         beans = tempBeansRealm.where<BeansData>().findAll()
 
         for( bean in beans) {

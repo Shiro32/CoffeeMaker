@@ -74,6 +74,11 @@ fun calcCupsDrunkOfPeriod(place: Int, begin: Calendar, end:Calendar) : Int {
                 .equalTo("place", BREW_IN_SHOP)
                 .findAll()
         }
+        BREW_IN_BOTH -> {
+            brews = realm.where<BrewData>()
+                .between("date", begin.time, end.time)
+                .findAll()
+        }
     }
 
     var cups:Int = 0
@@ -124,7 +129,7 @@ class HomeFragment : Fragment() {
         root.sinceText.text = theFirstBrew
 
         // copyrightメッセージにURLを埋め込む
-        root.copyRightText.setText(Html.fromHtml("v2.5 Copyright ©2020 Shiro, <a href=\"http://fotopota.sakuraweb.com\">フォトポタ日記2.0</a>"))
+        root.copyRightText.setText(Html.fromHtml("v2.6 Copyright ©2020 Shiro, <a href=\"http://fotopota.sakuraweb.com\">フォトポタ日記2.0</a>"))
         root.copyRightText.movementMethod = LinkMovementMethod.getInstance()
 
         // privacy policyにURLを埋め込む

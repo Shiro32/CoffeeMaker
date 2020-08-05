@@ -28,6 +28,7 @@ import java.util.*
 // 各種定数
 const val BREW_IN_HOME = 1
 const val BREW_IN_SHOP = 2
+const val BREW_IN_BOTH = 3
 const val BREW_METHOD_SHOP = 10
 
 const val GRIND_SW_NAME = 0

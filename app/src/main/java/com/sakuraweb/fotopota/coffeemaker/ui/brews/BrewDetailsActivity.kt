@@ -174,6 +174,7 @@ class BrewDetailsActivity : AppCompatActivity() {
                 val intent = Intent(applicationContext, BrewEditActivity::class.java)
                 intent.putExtra("mode", BREW_EDIT_MODE_COPY)
                 intent.putExtra("id", brewID)
+                blackToast(applicationContext, "複製しました")
                 startActivityForResult(intent, REQUEST_EDIT_BEANS)
             }
 

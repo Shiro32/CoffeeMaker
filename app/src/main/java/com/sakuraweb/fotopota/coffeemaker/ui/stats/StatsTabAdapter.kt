@@ -17,11 +17,11 @@ class StatsTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getPageTitle(position: Int): CharSequence? {
 
-        when( position ) {
-            0 -> return( "家飲み統計" )
-            1 -> return( "外飲み統計")
-            2 -> return( "グラフで見る")
-            else -> return( "なし")
+        return when( position ) {
+            STATS_HOME      -> "家飲み統計"
+            STATS_TAKEOUT   -> "外飲み統計"
+            STATS_GRAPH     -> "グラフで見る"
+            else -> ( "なし")
         }
     }
 
@@ -29,15 +29,15 @@ class StatsTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         lateinit var fm: Fragment
 
         when( position ) {
-            0 -> {
+            STATS_HOME -> {
                 fm = StatsHome.newInstance("ほげ", "ほげほげ")
                 statsHomeFragment = fm
             }
-            1 -> {
+            STATS_TAKEOUT-> {
                 fm = StatsTakeout.newInstance("ほげ２","ほげほげ2")
                 statsTakeoutFragment = fm
             }
-            2 -> {
+            STATS_GRAPH -> {
                 fm = StatsGraphical.newInstance("ほい", "ほいほい")
                 statsGraphicFragment = fm
             }
