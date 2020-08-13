@@ -55,7 +55,9 @@ fun calcCupsDrunkOfPeriod(place: Int, begin: Calendar, end:Calendar) : Int {
 
     // 期間の0時から23時まで全部カウント
     begin.set( begin.get(Calendar.YEAR), begin.get(Calendar.MONTH), 1, 0, 0, 0)
-    end.set( end.get(Calendar.YEAR), end.get(Calendar.MONTH), end.getActualMaximum(Calendar.DATE), 23, 59, 59)
+    // 日を月末指定したことで、グラフ表示で不具合が出ていたので、いじらないことにした
+//    end.set( end.get(Calendar.YEAR), end.get(Calendar.MONTH), end.getActualMaximum(Calendar.DATE), 23, 59, 59)
+    end.set( end.get(Calendar.YEAR), end.get(Calendar.MONTH), end.get(Calendar.DATE), 23, 59, 59)
 
     lateinit var brews: RealmResults<BrewData>
 

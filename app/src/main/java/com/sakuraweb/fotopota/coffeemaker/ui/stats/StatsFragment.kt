@@ -159,9 +159,10 @@ class StatsFragment : Fragment() {
         if (spnPosition == 0) {
             val realm = Realm.getInstance(brewRealmConfig)
             val brews = realm.where<BrewData>().findAll().sort("date", Sort.ASCENDING)
+
             if (brews.size > 0) begin.time = brews[0]?.date
             realm.close()
-            last.time = Date()
+//            last.time = Date()
 
             headerMsg = when (page) {
                 STATS_HOME -> "アプリの使用開始（%d年%d月）から今日までに家で飲んだコーヒー"
