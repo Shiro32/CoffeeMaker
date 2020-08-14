@@ -178,7 +178,7 @@
     <string name="ctxMenuBrewDetails">詳細</string>
     <string name="ctxMenuBrewEdit">編集</string>
     <string name="ctxMenuBrewCopy">コピーして新規作成</string>
-    <string name="takeoutEditRatingHint">※飲んだ時の評価の平均で自動計算です</string>
+    <string name="takeoutEditRatingHint">※飲んだ時の評価の平均で自動計算されます</string>
     <string name="beansEditRatingHint">※飲んだ時の評価の平均値が自動計算されます</string>
 
     <!-- 分析画面 -->
