@@ -44,10 +44,9 @@
                 android:id="@+id/brewDetailsDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/brewEditDateLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -73,10 +72,9 @@
                 android:id="@+id/brewDetailsRatingLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/brewEditRatingLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsDateLabel" />
 
             <RatingBar
@@ -95,11 +93,54 @@
                 android:id="@+id/brewDetailsMethodLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/brewEditMethodLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsRatingLabel" />
+
+            <TextView
+                android:id="@+id/brewDetailsHotIceSwLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/brewEditHotIceSwLabel"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsMethodLabel" />
+
+            <TextView
+                android:id="@+id/brewDetailsHotIceSwLabel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ホット"
+                android:textAlignment="textEnd"
+                app:layout_constraintBaseline_toBaselineOf="@+id/brewDetailsHotIceSwLabel"
+                app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+            <TextView
+                android:id="@+id/brewDetailsHotIceSwLabel3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="アイス"
+                android:textAlignment="textEnd"
+                app:layout_constraintBaseline_toBaselineOf="@+id/brewDetailsHotIceSwLabel"
+                app:layout_constraintStart_toEndOf="@+id/brewDetailsHotIceSw" />
+
+            <Switch
+                android:id="@+id/brewDetailsHotIceSw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:switchMinWidth="60dp"
+                android:textOff="ホット"
+                android:textOn="アイス"
+                app:layout_constraintBaseline_toBaselineOf="@+id/brewDetailsHotIceSwLabel"
+                app:layout_constraintStart_toEndOf="@+id/brewDetailsHotIceSwLabel2" />
+
+
+
+
+
 
             <TextView
                 android:id="@+id/brewDetailsMethodText"
@@ -115,11 +156,10 @@
                 android:id="@+id/brewDetailsBeansLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/brewEditBeansLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brewDetailsMethodLabel" />
+                android:text="@string/brewEditItemName"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsHotIceSwLabel" />
 
             <TextView
                 android:id="@+id/brewDetailsBeansText"
@@ -145,11 +185,10 @@
                 android:id="@+id/brewDetailsCupLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/brewDetailsVerticalSkip"
                 android:gravity="center"
                 android:text="@string/brewEditCupLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsBeansLabel" />
 
             <com.warkiz.widget.IndicatorSeekBar
@@ -191,26 +230,132 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/brewDetailsCupLabel" />
 
+
+            <!-- -->
+
+            <TextView
+                android:id="@+id/brewDetailsSugarLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="0.9"
+                android:text="@string/brewEditSugarLabel"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsCupsBar" />
+
+            <com.warkiz.widget.IndicatorSeekBar
+                android:id="@+id/brewDetailsSugarBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="12sp"
+                app:isb_clear_default_padding="true"
+                app:isb_indicator_color="@android:color/holo_red_light"
+                app:isb_indicator_text_color="@android:color/white"
+                app:isb_indicator_text_size="@dimen/brewEditBarIndicatorSize"
+                app:isb_max="100"
+                app:isb_min="0"
+                app:isb_only_thumb_draggable="false"
+                app:isb_progress="0"
+                app:isb_seek_smoothly="true"
+                app:isb_show_indicator="circular_bubble"
+                app:isb_show_tick_marks_type="oval"
+                app:isb_show_tick_texts="true"
+                app:isb_thumb_adjust_auto="false"
+                app:isb_thumb_color="@android:color/holo_red_light"
+                app:isb_thumb_size="@dimen/brewDetailsThumbSize"
+                app:isb_tick_marks_color="#dddddd"
+                app:isb_tick_marks_ends_hide="false"
+                app:isb_tick_marks_size="@dimen/brewDetailsTickMarkSize"
+                app:isb_tick_marks_swept_hide="false"
+                app:isb_tick_texts_color="@android:color/black"
+                app:isb_tick_texts_size="@dimen/brewEditTickTextSize"
+                app:isb_ticks_count="5"
+                app:isb_track_background_color="#dddddd"
+                app:isb_track_background_size="3sp"
+                app:isb_track_progress_color="#dddddd"
+                app:isb_track_progress_size="3sp"
+                app:isb_track_rounded_corners="false"
+                app:isb_user_seekable="false"
+                app:layout_constraintBottom_toBottomOf="@+id/brewDetailsSugarLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/brewDetailsSugarLabel" />
+
+            <TextView
+                android:id="@+id/brewDetailsMilkLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="0.9"
+                android:text="@string/brewDetailsMilkLabel"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsSugarLabel" />
+
+            <com.warkiz.widget.IndicatorSeekBar
+                android:id="@+id/brewDetailsMilkBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="12sp"
+                app:isb_clear_default_padding="true"
+                app:isb_indicator_color="@android:color/holo_red_light"
+                app:isb_indicator_text_color="@android:color/white"
+                app:isb_indicator_text_size="@dimen/brewEditBarIndicatorSize"
+                app:isb_max="100"
+                app:isb_min="0"
+                app:isb_only_thumb_draggable="false"
+                app:isb_progress="0"
+                app:isb_seek_smoothly="true"
+                app:isb_show_indicator="circular_bubble"
+                app:isb_show_tick_marks_type="oval"
+                app:isb_show_tick_texts="true"
+                app:isb_thumb_adjust_auto="false"
+                app:isb_thumb_color="@android:color/holo_red_light"
+                app:isb_thumb_size="@dimen/brewDetailsThumbSize"
+                app:isb_tick_marks_color="#dddddd"
+                app:isb_tick_marks_ends_hide="false"
+                app:isb_tick_marks_size="@dimen/brewDetailsTickMarkSize"
+                app:isb_tick_marks_swept_hide="false"
+                app:isb_tick_texts_color="@android:color/black"
+                app:isb_tick_texts_size="@dimen/brewEditTickTextSize"
+                app:isb_ticks_count="5"
+                app:isb_track_background_color="#dddddd"
+                app:isb_track_background_size="3sp"
+                app:isb_track_progress_color="#dddddd"
+                app:isb_track_progress_size="3sp"
+                app:isb_track_rounded_corners="false"
+                app:isb_user_seekable="false"
+                app:layout_constraintBottom_toBottomOf="@+id/brewDetailsMilkLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/brewDetailsMilkLabel" />
+
+
             <TextView
                 android:id="@+id/brewDetailsShopLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/brewEditShopLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brewDetailsCupLabel" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsMilkLabel" />
 
             <TextView
                 android:id="@+id/brewDetailsMemoLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="5dp"
                 android:text="@string/brewEditMemoLabel"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsShopLabel" />
 
             <TextView
@@ -228,6 +373,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="78dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="69dp" />
 
             <ImageView
                 android:id="@+id/brewDetailsMethodImage"

@@ -79,6 +79,25 @@
         <item>外で飲み</item>    // これだけ特殊。コード10、家飲みとして区別
     </string-array>
 
+    <string-array name="hot_ice_names">
+        <item>ホットコーヒー</item>
+        <item>アイスコーヒー</item>
+    </string-array>
+
+    <string-array name="sugar_volume">
+        <item>無</item>
+        <item>少</item>
+        <item>普</item>
+        <item>多</item>
+    </string-array>
+
+    <string-array name="milk_volume">
+        <item>無</item>
+        <item>少</item>
+        <item>普</item>
+        <item>多</item>
+        <item>超</item>
+    </string-array>
 
     <!-- 抽出方法のアイコン集 -->
     <string-array name="method_images">

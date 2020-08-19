@@ -32,11 +32,8 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
     var tempBar:        IndicatorSeekBar? = null
     var steamBar:       IndicatorSeekBar? =null
     var shopText:       TextView? = null
-//    var memoLabel:      TextView? = null
     var memoText:       TextView? = null
     var image:          ImageView? = null
-//    var editBtn:        Button? = null
-//    var copyBtn:        Button? = null
 
 
     // 初期化処理

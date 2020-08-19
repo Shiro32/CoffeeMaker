@@ -187,4 +187,9 @@
     <string name="brewEditGrindSwitchRotationLabel">ミルのネジ等で設定</string>
     <string name="brewEditGrindSwitchNameLabel">名前で設定</string>
     <string name="brewEditGrind2Label">ミル設定\n(ネジ)</string>
+    <string name="brewEditHotIceSwLabel">Hot/Ice</string>
+    <string name="brewEditSugarLabel">砂糖</string>
+    <string name="brewDetailsMilkLabel">ミルク</string>
+    <string name="brewEditMilkLabel">ミルク</string>
+    <string name="brewEditItemName">コーヒー</string>
 </resources>

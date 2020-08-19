@@ -112,6 +112,14 @@ class BrewEditActivity : AppCompatActivity() {
                     brewEditSteamBar.setProgress(brew.steam)
                     brewEditShopText.setText(brew.shop)
 
+                    brewEditSugarBar.setProgress(brew.sugar)
+                    brewEditMilkBar.setProgress(brew.milk)
+                    if( brew.iceHotSw == HOT_COFFEE ) {
+                        brewEditHotIceSW.isChecked = false
+                    } else {
+                        brewEditHotIceSW.isChecked = true
+                    }
+
                     if( editMode==BREW_EDIT_MODE_EDIT )  {
                         // 編集モードの時の処理
                         // 時刻は既存データのものを再利用
@@ -124,6 +132,9 @@ class BrewEditActivity : AppCompatActivity() {
                 }
             }
         }
+
+        brewEditSugarBar.setIndicatorTextFormat("\${TICK_TEXT}")
+        brewEditMilkBar.setIndicatorTextFormat("\${TICK_TEXT}")
 
         brewEditGrindSw.setOnCheckedChangeListener { buttonView, isChecked ->
             if( isChecked ) {
@@ -272,6 +283,9 @@ class BrewEditActivity : AppCompatActivity() {
             val brewShop   = brewEditShopText.text.toString()
             val brewMemo   = brewEditMemoText.text.toString()
 
+            val brewSugar   = brewEditSugarBar.progress.toFloat()
+            val brewMilk    = brewEditMilkBar.progress.toFloat()
+            val brewIceHotSW = if( brewEditHotIceSW.isChecked ) ICE_COFFEE else HOT_COFFEE
 
             when( editMode ) {
                 // 新規作成、コピーして新規作成どちらも同じ
@@ -300,6 +314,9 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.steam = brewSteam
                         brew.shop = brewShop
                         brew.memo = brewMemo
+                        brew.sugar = brewSugar
+                        brew.milk = brewMilk
+                        brew.iceHotSw = brewIceHotSW
                     }
                     blackToast(applicationContext, "追加しましたぜ")
                 }
@@ -324,6 +341,9 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.steam     = brewSteam
                         brew?.shop      = brewShop
                         brew?.memo      = brewMemo
+                        brew?.sugar     = brewSugar
+                        brew?.milk      = brewMilk
+                        brew?.iceHotSw  = brewIceHotSW
                     }
                     blackToast(applicationContext, "修正完了！")
                 }

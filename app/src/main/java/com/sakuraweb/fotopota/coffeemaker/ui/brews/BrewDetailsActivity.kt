@@ -27,6 +27,9 @@ import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsMeth
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsRatingBar
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsReturnBtn
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsToolbar
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsMilkBar
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsSugarBar
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsHotIceSw
 import kotlinx.android.synthetic.main.activity_brew_details_shop.*
 
 import java.util.*
@@ -55,7 +58,6 @@ class BrewDetailsActivity : AppCompatActivity() {
 
         // Realmからデータの読み込み
         val brew = realm.where<BrewData>().equalTo("id", intentID).findFirst()
-
 
         if (brew != null) {
             var days = ""
@@ -97,6 +99,9 @@ class BrewDetailsActivity : AppCompatActivity() {
             brewDetailsMethodText.text = brewMethods[brew.methodID]
             brewDetailsBeansText.text = findBeansNameByID(brew.place, brew.beansID, brew.takeoutID) + days
             brewDetailsMemoText.setText(brew.memo)
+            brewDetailsSugarBar.setProgress(brew.sugar)
+            brewDetailsMilkBar.setProgress(brew.milk)
+            brewDetailsHotIceSw.isChecked = (brew.iceHotSw != HOT_COFFEE)
 
             // 抽出方法にあったイラスト（アイコン）
             brewDetailsMethodImage.setImageDrawable(brewMethodsImages.getDrawable(brew.methodID))

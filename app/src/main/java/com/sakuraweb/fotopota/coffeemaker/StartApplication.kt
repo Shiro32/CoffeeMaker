@@ -34,6 +34,9 @@ const val BREW_METHOD_SHOP = 10
 const val GRIND_SW_NAME = 0
 const val GRIND_SW_ROTATION = 1
 
+const val HOT_COFFEE = 0
+const val ICE_COFFEE = 1
+
 // グローバル変数たち
 lateinit var brewRealmConfig: RealmConfiguration
 lateinit var beansRealmConfig: RealmConfiguration
