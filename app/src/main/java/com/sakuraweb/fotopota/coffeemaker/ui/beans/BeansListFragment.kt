@@ -203,7 +203,10 @@ class BeansFragment : Fragment(), SetBeansListener {
         beansRecycleView.layoutManager = layoutManager
 
         // アダプターを設定する
-        adapter = BeansRecyclerViewAdapter(realmResults, this)
+        adapter = BeansRecyclerViewAdapter(
+            realmResults,
+            this
+        )
         beansRecycleView.adapter = this.adapter
 
         Log.d("SHIRO", "beans / onStart")

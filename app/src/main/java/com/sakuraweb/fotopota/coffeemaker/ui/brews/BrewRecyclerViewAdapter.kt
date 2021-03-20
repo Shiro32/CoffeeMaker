@@ -75,15 +75,15 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                     holder.beansGrindBar?.min = 1F
                     holder.beansGrindBar?.max = 5F
                     holder.beansGrindBar?.hideThumbText(true)
-                    holder.beansGrindBar?.setProgress(bp.beansGrind.toFloat())
+                    holder.beansGrindBar?.setProgress(bp.beansGrind)
                     holder.beansGrindBar?.customTickTexts(grindLabels)
                 } else {
                     holder.beansGrindBar?.tickCount = 2
                     holder.beansGrindBar?.min = 0F
-                    holder.beansGrindBar?.max = 5F
+                    holder.beansGrindBar?.max = 20F
                     holder.beansGrindBar?.hideThumbText(false)
-                    holder.beansGrindBar?.setDecimalScale(2)
-                    holder.beansGrindBar?.setProgress(bp.beansGrind2.toFloat())
+                    holder.beansGrindBar?.setDecimalScale(1)
+                    holder.beansGrindBar?.setProgress(bp.beansGrind2)
                     holder.beansGrindBar?.customTickTexts(grind2Labels)
                 }
 

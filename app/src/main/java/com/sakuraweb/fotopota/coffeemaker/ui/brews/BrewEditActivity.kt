@@ -114,11 +114,7 @@ class BrewEditActivity : AppCompatActivity() {
 
                     brewEditSugarBar.setProgress(brew.sugar)
                     brewEditMilkBar.setProgress(brew.milk)
-                    if( brew.iceHotSw == HOT_COFFEE ) {
-                        brewEditHotIceSW.isChecked = false
-                    } else {
-                        brewEditHotIceSW.isChecked = true
-                    }
+                    brewEditHotIceSW.isChecked = brew.iceHotSw != HOT_COFFEE
 
                     if( editMode==BREW_EDIT_MODE_EDIT )  {
                         // 編集モードの時の処理

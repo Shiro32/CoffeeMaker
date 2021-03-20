@@ -47,9 +47,9 @@
     <array name="grind2_labels">
         <item>"0"</item>
         <item>"5"</item>
-        <item>"2"</item>
-        <item>"3"</item>
-        <item>"4"</item>
+        <item>"10"</item>
+        <item>"15"</item>
+        <item>"20"</item>
     </array>
 
     <!-- 焙煎度合い。結局使ってないような・・・？ -->
