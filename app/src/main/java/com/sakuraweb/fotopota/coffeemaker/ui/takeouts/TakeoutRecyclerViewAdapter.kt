@@ -27,7 +27,7 @@ class TakeoutRecyclerViewAdapter(takeoutRealm: RealmResults<TakeoutData>, privat
     // 新しく1行分のViewをXMLから生成し、1行分のViewHolderを生成してViewをセットする
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TakeoutViewHolder {
         // 新しいView（1行）を生成する　レイアウト画面で作った、one_takeout_card_home（1行）
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.one_takeout_card, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(takeoutListLayout, parent, false)
 
         // 1行ビューをもとに、ViewHolder（←自分で作ったヤツ）インスタンスを生成
         // 今作ったView（LinearLayout）を渡す

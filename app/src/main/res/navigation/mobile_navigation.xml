@@ -18,9 +18,9 @@
         tools:layout="@layout/fragment_beans_list" />
 
     <fragment
-        android:id="@+id/navigation_settings"
+        android:id="@+id/navigation_stats"
         android:name="com.sakuraweb.fotopota.coffeemaker.ui.stats.StatsFragment"
-        android:label="@string/title_analyze"
+        android:label="@string/title_stats"
         tools:layout="@layout/fragment_stats" />
 
     <fragment
@@ -32,4 +32,10 @@
         android:id="@+id/navigation_brews"
         android:name="com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewFragment"
         android:label="fragment_navigation_brews" />
+
+    <fragment
+        android:id="@+id/navigation_config"
+        android:name="com.sakuraweb.fotopota.coffeemaker.ui.config.ConfigFragment"
+        android:label="fragment_navigation_congig" />
+
 </navigation>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardColor2">
+
+    <ImageView
+        android:id="@+id/oneBrewImage"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/machine2_160" />
+
+    <TextView
+        android:id="@+id/oneBrewDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="2dp"
+        android:text="2020年4月1日 10時00分"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/oneBrewBeansKindText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:text="豆のなまえ"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oneBrewDateText" />
+
+    <TextView
+        android:id="@+id/oneBrewShopText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="店の名前"
+        app:layout_constraintEnd_toEndOf="@+id/oneBrewBeansKindText"
+        app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText"
+        app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansKindText" />
+
+    <TextView
+        android:id="@+id/oneBrewMemoText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/oneBrewMemoLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/oneBrewShopText"
+        app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText"
+        app:layout_constraintTop_toBottomOf="@+id/oneBrewShopText" />
+
+    <RatingBar
+        android:id="@+id/oneBrewRatingBar"
+        style="@android:style/Widget.Material.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:numStars="5"
+        android:progressBackgroundTint="@color/ratingBackColor"
+        android:progressTint="@color/ratingColor"
+        android:rating="3"
+        android:stepSize="0.5"
+        app:layout_constraintBottom_toBottomOf="@+id/oneBrewDateText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/oneBrewDateText" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oneBrewMemoText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,12 +17,12 @@
         android:title="@string/title_beans" />
 
     <item
-        android:id="@+id/navigation_takeouts"
-        android:icon="@drawable/takeout100"
-        android:title="@string/title_takeout" />
-    <item
-        android:id="@+id/navigation_settings"
+        android:id="@+id/navigation_stats"
         android:icon="@drawable/graph"
-        android:title="@string/title_analyze" />
+        android:title="@string/title_stats" />
 
+    <item
+        android:id="@+id/navigation_config"
+        android:icon="@drawable/config"
+        android:title="@string/title_config" />
 </menu>

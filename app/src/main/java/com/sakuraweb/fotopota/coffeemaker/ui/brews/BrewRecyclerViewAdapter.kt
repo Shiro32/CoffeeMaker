@@ -26,12 +26,6 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
     override fun getItemViewType(position: Int): Int {
 
         return brews[position]?.place as Int
-
-//        if( brews[position]?.methodID == BREW_METHOD_SHOP ) {
-//            return BREW_IN_SHOP
-//        } else {
-//            return BREW_IN_HOME
-//        }
     }
 
     // 新しく1行分のViewをXMLから生成し、1行分のViewHolderを生成してViewをセットする
@@ -42,10 +36,10 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         // 家飲みと店飲みを分けて作る
         if( viewType == BREW_IN_HOME ) {
             view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.one_brew_card_home, parent, false)
+                .inflate( if(brewListLayoutStyle==0) R.layout.one_brew_card_home else R.layout.one_brew_flat_home, parent, false)
         }  else {
             view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.one_brew_card_shop, parent, false)
+                .inflate( if(brewListLayoutStyle==0) R.layout.one_brew_card_shop else R.layout.one_brew_flat_shop, parent, false)
         }
 
         // 1行ビューをもとに、ViewHolder（←自分で作ったヤツ）インスタンスを生成

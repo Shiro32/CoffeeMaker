@@ -1,0 +1,56 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/config_appearance_header"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:key="list_sw"
+            android:title="@string/config_list_look_label"
+            android:entries="@array/look_labels"
+            android:entryValues="@array/look_values"
+            android:defaultValue="flat"
+            android:dialogTitle="@string/config_list_look_label"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/config_database_header"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            app:key="activity"
+            app:title="@string/config_takeout_db">
+            <intent
+                android:targetPackage="com.sakuraweb.fotopota.coffeemaker"
+                android:targetClass="com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutListActivity" />
+        </Preference>
+
+        <Preference
+            app:key="activity"
+            app:title="@string/config_equip_db">
+            <intent
+                android:targetPackage="com.sakuraweb.fotopota.coffeemaker"
+                android:targetClass="com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipListActivity" />
+        </Preference>
+
+        <Preference
+            app:key="activity"
+            app:title="@string/config_backup_db">
+            <intent
+                android:targetPackage="com.sakuraweb.fotopota.coffeemaker"
+                android:targetClass="com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutListActivity" />
+        </Preference>
+
+        <Preference
+            app:key="activity"
+            app:title="@string/config_restore_db">
+            <intent
+                android:targetPackage="com.sakuraweb.fotopota.coffeemaker"
+                android:targetClass="com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutListActivity" />
+        </Preference>
+
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menuFlatLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/oneTakeoutNameText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            android:text="ダークモカチップフラペチーノ"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/oneTakeoutRatingBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            android:id="@+id/oneTakeoutRatingBar"
+            style="@android:style/Widget.Material.Light.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/ratingBackColor"
+            android:progressTint="@color/ratingColor"
+            android:rating="3"
+            android:stepSize="0.5"
+            app:layout_constraintBottom_toBottomOf="@+id/oneTakeoutNameText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/oneTakeoutNameText" />
+
+        <TextView
+            android:id="@+id/oneTakeoutCountLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/oneTakeoutCountLabel"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutChainLabel" />
+
+        <TextView
+            android:id="@+id/oneTakeoutChainLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="1dp"
+            android:text="@string/oneTakeoutChainLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutChainText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutNameText" />
+
+        <TextView
+            android:id="@+id/oneTakeoutCountText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutCountLabel"
+            app:layout_constraintStart_toEndOf="@+id/oneTakeoutCountLabel"
+            tools:text="１００" />
+
+        <TextView
+            android:id="@+id/oneTakeoutChainText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/oneTakeoutChainLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutNameText"
+            tools:text="ファミリマート" />
+
+        <TextView
+            android:id="@+id/oneTakeoutPriceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/oneTakeoutPriceLabel"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutNameText" />
+
+        <TextView
+            android:id="@+id/oneTakeoutPriceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutPriceLabel"
+            app:layout_constraintStart_toEndOf="@+id/oneTakeoutPriceLabel"
+            tools:text="499" />
+
+        <TextView
+            android:id="@+id/oneTakeoutMemoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/oneTakeoutMemoLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutMemoText"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/oneTakeoutMemoText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="2dp"
+            android:text="最高です"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/oneTakeoutMemoLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutSizeText" />
+
+        <TextView
+            android:id="@+id/oneTakeoutSizeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/oneTakeoutSizeLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneTakeoutSizeText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutChainLabel" />
+
+        <TextView
+            android:id="@+id/oneTakeoutSizeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/oneTakeoutSizeLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneTakeoutChainText"
+            tools:text="グランデ" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="131dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

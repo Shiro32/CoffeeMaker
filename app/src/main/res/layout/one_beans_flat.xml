@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/oneBeansNameText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:text="マイルドKALDI"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/oneBeansRatingBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider4" />
+
+    <RatingBar
+        android:id="@+id/oneBeansRatingBar"
+        style="@android:style/Widget.Material.Light.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="1dp"
+        android:numStars="5"
+        android:progressBackgroundTint="@color/ratingBackColor"
+        android:progressTint="@color/ratingColor"
+        android:rating="3"
+        android:stepSize="0.5"
+        app:layout_constraintBottom_toBottomOf="@+id/oneBeansNameText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/oneBeansNameText" />
+
+    <TextView
+        android:id="@+id/oneBeansDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/oneBeansBuyDateLabel"
+        android:textSize="10sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansDateText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oneBeansNameText" />
+
+    <TextView
+        android:id="@+id/oneBeansDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/oneBeansBuyDateLabel"
+        app:layout_constraintStart_toEndOf="@+id/oneBeansDateLabel"
+        app:layout_constraintTop_toBottomOf="@+id/oneBeansNameText"
+        tools:text="2020年6月1日" />
+
+    <TextView
+        android:id="@+id/oneBeansPastText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oneBeansBuyDateLabel"
+        app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansDateText"
+        app:layout_constraintStart_toEndOf="@+id/oneBeansDateText"
+        tools:text="（20日経過）" />
+
+    <TextView
+        android:id="@+id/oneBeansShopText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/oneBeansShop"
+        app:layout_constraintStart_toEndOf="@+id/oneBeansShopLabel"
+        app:layout_constraintTop_toBottomOf="@+id/oneBeansDateText"
+        tools:text="KALDI銀座店" />
+
+    <TextView
+        android:id="@+id/oneBeansPriceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oneBeansShop"
+        app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansShopText"
+        app:layout_constraintStart_toEndOf="@+id/oneBeansShopText"
+        tools:text="499" />
+
+    <TextView
+        android:id="@+id/oneBeansRoastLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/oneBeansRoastLabel"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oneBeansShopLabel" />
+
+    <TextView
+        android:id="@+id/oneBeansShopLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/oneBeansShop"
+        android:textSize="10sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansShopText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oneBeansDateLabel" />
+
+    <TextView
+        android:id="@+id/oneBeansMemoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/oneBeansMemo"
+        android:textSize="10sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansMemoText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/oneBeansMemoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oneBeansShop"
+        app:layout_constraintStart_toStartOf="@+id/oneBeansDateText"
+        app:layout_constraintTop_toBottomOf="@+id/roastL2"
+        tools:text="最高です" />
+
+    <com.warkiz.widget.IndicatorSeekBar
+        android:id="@+id/oneBeansRoastBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
+        android:paddingLeft="5sp"
+        android:paddingEnd="4sp"
+        app:isb_clear_default_padding="true"
+        app:isb_indicator_color="@color/beansColor"
+        app:isb_indicator_text_color="@android:color/white"
+        app:isb_indicator_text_size="10sp"
+        app:isb_max="7"
+        app:isb_min="0"
+        app:isb_only_thumb_draggable="false"
+        app:isb_progress="3"
+        app:isb_seek_smoothly="false"
+        app:isb_show_indicator="circular_bubble"
+        app:isb_show_tick_marks_type="oval"
+        app:isb_show_tick_texts="false"
+        app:isb_thumb_color="@color/beansColor"
+        app:isb_thumb_size="13sp"
+        app:isb_tick_marks_color="#dddddd"
+        app:isb_tick_marks_ends_hide="false"
+        app:isb_tick_marks_size="7sp"
+        app:isb_tick_marks_swept_hide="false"
+        app:isb_tick_texts_array="@array/roast_labels"
+        app:isb_tick_texts_color="@android:color/black"
+        app:isb_tick_texts_size="10sp"
+        app:isb_ticks_count="8"
+        app:isb_track_background_color="#dddddd"
+        app:isb_track_background_size="2dp"
+        app:isb_track_progress_color="#dddddd"
+        app:isb_track_progress_size="2dp"
+        app:isb_track_rounded_corners="false"
+        app:isb_user_seekable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/oneBeansDateLabel"
+        app:layout_constraintTop_toTopOf="@+id/oneBeansRoastLabel" />
+
+    <TextView
+        android:id="@+id/roastL1"
+        android:layout_width="30sp"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="0.8"
+        android:orientation="vertical"
+        android:text="ライト"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toStartOf="@+id/roastL2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/oneBeansRoastBar"
+        app:layout_constraintTop_toBottomOf="@+id/oneBeansRoastBar" />
+
+    <TextView
+        android:id="@+id/roastL2"
+        android:layout_width="30sp"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="0.8"
+        android:orientation="vertical"
+        android:text="シナ\nモン"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toStartOf="@+id/roastL3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/roastL1"
+        app:layout_constraintTop_toTopOf="@+id/roastL1" />
+
+    <TextView
+        android:id="@+id/roastL3"
+        android:layout_width="30sp"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="0.8"
+        android:orientation="vertical"
+        android:text="ミディ\nアム"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toStartOf="@+id/roastL4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/roastL2"
+        app:layout_constraintTop_toTopOf="@+id/roastL2" />
+
+    <TextView
+        android:id="@+id/roastL4"
+        android:layout_width="30sp"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="0.8"
+        android:orientation="vertical"
+        android:text="ハイ"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toStartOf="@+id/roastL5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/roastL3"
+        app:layout_constraintTop_toTopOf="@+id/roastL3" />
+
+    <TextView
+        android:id="@+id/roastL5"
+        android:layout_width="30sp"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="0.8"
+        android:orientation="vertical"
+        android:text="シティ"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toStartOf="@+id/roastL6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/roastL4"
+        app:layout_constraintTop_toTopOf="@+id/roastL4" />
+
+    <TextView
+        android:id="@+id/roastL6"
+        android:layout_width="30sp"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="0.8"
+        android:orientation="vertical"
+        android:text="フル\nシティ"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toStartOf="@+id/roastL7"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/roastL5"
+        app:layout_constraintTop_toTopOf="@+id/roastL5" />
+
+    <TextView
+        android:id="@+id/roastL7"
+        android:layout_width="30sp"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="0.8"
+        android:orientation="vertical"
+        android:text="フレ\nンチ"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toStartOf="@+id/roastL8"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/roastL6"
+        app:layout_constraintTop_toTopOf="@+id/roastL6" />
+
+    <TextView
+        android:id="@+id/roastL8"
+        android:layout_width="30sp"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="0.8"
+        android:orientation="vertical"
+        android:text="イタリ\nアン"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="@+id/oneBeansRoastBar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/roastL7"
+        app:layout_constraintTop_toTopOf="@+id/roastL7" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

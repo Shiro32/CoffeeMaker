@@ -285,4 +285,15 @@
         <item>COOPモカロブレンド</item>
         <item>KEYコク深いリッチブレンド</item>
     </array>
+
+    <string-array name="look_values">
+        <item>card</item>
+        <item>flat</item>
+    </string-array>
+
+    <string-array name="look_labels">
+        <item>カード形式</item>
+        <item>フラット形式</item>
+    </string-array>
+
 </resources>

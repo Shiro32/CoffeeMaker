@@ -12,7 +12,6 @@ import io.realm.Realm
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_stats.*
 import kotlinx.android.synthetic.main.fragment_stats.view.*
 import java.util.*
 import java.util.Calendar.getInstance
@@ -40,7 +39,7 @@ class StatsFragment : Fragment() {
 
         // ツールバーやメニューの装備（ホームなのでメニュー無いけど）
         val ma: MainActivity = activity as MainActivity
-        ma.supportActionBar?.title = getString(R.string.title_analyze)
+        ma.supportActionBar?.title = getString(R.string.title_stats)
         ma.supportActionBar?.show()
 
         // 計測期間のデフォルト（＝全期間） →　Spinnerのリスナでやってもらえるので不要っぽい

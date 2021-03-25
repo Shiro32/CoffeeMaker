@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/cardHorizontalMargin"
+    android:layout_marginRight="@dimen/cardHorizontalMargin"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="50dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="236dp" />
+
+        <ImageView
+            android:id="@+id/oneEquipIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/machine2_160" />
+
+        <TextView
+            android:id="@+id/oneEquipNameText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="エスプレッソマシン１号"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/oneEquipRatingBar"
+            app:layout_constraintStart_toStartOf="@+id/guideline10"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            android:id="@+id/oneEquipRatingBar"
+            style="@android:style/Widget.Material.Light.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="1dp"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/ratingBackColor"
+            android:progressTint="@color/ratingColor"
+            android:rating="3"
+            android:stepSize="0.5"
+            app:layout_constraintBottom_toBottomOf="@+id/oneEquipNameText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/oneEquipNameText" />
+
+        <TextView
+            android:id="@+id/oneEquipDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="@string/oneEquipBuyDateLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipDateText"
+            app:layout_constraintStart_toStartOf="@+id/guideline10"
+            app:layout_constraintTop_toBottomOf="@+id/oneEquipNameText" />
+
+        <TextView
+            android:id="@+id/oneEquipDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/oneEquipDateLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneEquipNameText"
+            tools:text="2020年6月1日" />
+
+        <TextView
+            android:id="@+id/oneEquipShopText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/oneEquipShopLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneEquipDateText"
+            tools:text="KALDI銀座店" />
+
+        <TextView
+            android:id="@+id/oneEquipPriceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipDateLabel"
+            app:layout_constraintStart_toEndOf="@+id/oneEquipPriceLabel"
+            tools:text="499" />
+
+        <TextView
+            android:id="@+id/oneEquipMakerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipMakerLabel"
+            app:layout_constraintStart_toEndOf="@+id/oneEquipPriceLabel"
+            tools:text="499" />
+
+        <TextView
+            android:id="@+id/oneEquipPriceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/oneEquipPriceLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipDateLabel"
+            app:layout_constraintStart_toStartOf="@+id/guideline11" />
+
+        <TextView
+            android:id="@+id/oneEquipMakerLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/oneEquipMakerLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipShopLabel"
+            app:layout_constraintStart_toStartOf="@+id/guideline11" />
+
+        <TextView
+            android:id="@+id/oneEquipShopLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/oneEquipShop"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipShopText"
+            app:layout_constraintStart_toStartOf="@+id/guideline10"
+            app:layout_constraintTop_toBottomOf="@+id/oneEquipDateLabel" />
+
+        <TextView
+            android:id="@+id/oneEquipMemoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/oneEquipMemo"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipMemoText"
+            app:layout_constraintStart_toStartOf="@+id/guideline10" />
+
+        <TextView
+            android:id="@+id/oneEquipMemoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/oneEquipDateText"
+            app:layout_constraintTop_toBottomOf="@+id/oneEquipShopText"
+            tools:text="最高です" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

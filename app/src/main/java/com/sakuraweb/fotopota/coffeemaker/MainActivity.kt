@@ -3,23 +3,13 @@ package com.sakuraweb.fotopota.coffeemaker
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.ContextMenu
 import android.view.View
-import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_brew_list.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
 // 各アクティビティ間のグローバルな移動のためのRESULT CODE
 const val RESULT_TO_HOME = 1    // ホーム画面へ戻るコード
@@ -43,7 +33,7 @@ open class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_home, R.id.navigation_beans, R.id.navigation_settings))
+                R.id.navigation_home, R.id.navigation_beans, R.id.navigation_stats))
 
 
         // ↓これでアクションバーの中身を勝手に書き換えている

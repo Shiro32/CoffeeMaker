@@ -9,16 +9,41 @@
     <string name="title_brews">コーヒー記録</string>
     <string name="title_beans">使用豆DB</string>
     <string name="title_takeout">外飲みDB</string>
-    <string name="title_analyze">コーヒー統計</string>
+    <string name="title_stats">コーヒー統計</string>
+    <string name="title_config">設定</string>
 
-
-    <string name="titleTakeoutListFromBtnv">外飲みリスト</string>
-    <!-- なぜかfromEditはfragmentから設定できないのでデフォで設定してある -->
-    <string name="titleTakeoutListFromBrewEdit">コーヒーを選択</string>
+    <string name="titleTakeoutListFromBtnv">外飲みリスト編集</string>
+    <string name="titleTakeoutListFromBrewEdit">コーヒーを選択してね</string>
     <string name="titleTakeoutDetails">外飲みの詳細情報</string>
     <string name="titleTakeoutEditEdit">外飲み情報の編集</string>
     <string name="titleTakeoutEditNew">外飲み情報の作成</string>
     <string name="titleTakeoutEditCopy">コピーして作成</string>
+
+    <string name="titleEquipListFromBtnv">コーヒー器具編集</string>
+    <string name="titleEquipListFromBrewEdit">コーヒー器具を選択してね</string>
+    <string name="titleEquipDetails">コーヒー器具の詳細情報</string>
+    <string name="titleEquipEditEdit">コーヒー器具の編集</string>
+    <string name="titleEquipEditNew">コーヒー器具の作成</string>
+    <string name="titleEquipEditCopy">コピーして作成</string>
+    <string name="oneEquipBuyDateLabel">購入日：</string>
+    <string name="oneEquipShop">購入店：</string>
+    <string name="oneEquipMemo">メ　モ：</string>
+    <string name="oneEquipPriceLabel">価　格：</string>
+    <string name="oneEquipMakerLabel">メーカ：</string>
+
+    <string name="equipEditNameLabel">名　前：</string>
+    <string name="equipEditNameHint">ドリップ、プレスなど</string>
+    <string name="equipEditRatingLabel">評　価：</string>
+    <string name="equipEditRatingHint">※使用して淹れたコーヒーの評価で計算されます</string>
+    <string name="equipEditMakerLabel">メーカ：</string>
+    <string name="equipEditMakerHint">KALITA、BODUMなど</string>
+    <string name="equipEditShopLabel">購入店：</string>
+    <string name="equipEditShopHint">東急ハンズなど</string>
+    <string name="equipEditPriceLabel">金　額：</string>
+    <string name="equipEditPriceHint">1,000円など</string>
+    <string name="equipEditMemoLabel">メ　モ：</string>
+    <string name="equipEditMemoHint"></string>
+    <string name="equipEditDateLabel">購入日：</string>
 
 
     <string name="titleBrewList">コーヒー摂取記録</string>
@@ -148,7 +173,6 @@
     <string name="takeoutEditSizeHint">例：ラージ</string>
 
 
-
     <!-- ダイアログ -->
     <string name="deleteConfirmDialogTitle">削除確認</string>
     <string name="deleteConfirmDialogMessage">データを削除してよろしいですか？</string>
@@ -192,4 +216,15 @@
     <string name="brewDetailsMilkLabel">ミルク</string>
     <string name="brewEditMilkLabel">ミルク</string>
     <string name="brewEditItemName">コーヒー</string>
+
+    <!-- 設定画面用 -->
+    <string name="config_appearance_header">見た目の設定</string>
+    <string name="config_list_look_label">リストの形式</string>
+
+    <string name="config_database_header">各種データベースの設定</string>
+    <string name="config_takeout_db">外飲みデータの編集</string>
+    <string name="config_equip_db">コーヒー器具データの編集</string>
+    <string name="config_backup_db">全データのバックアップ</string>
+    <string name="config_restore_db">全データのレストア</string>
+
 </resources>

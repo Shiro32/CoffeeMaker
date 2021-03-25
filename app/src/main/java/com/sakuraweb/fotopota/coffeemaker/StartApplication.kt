@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.*
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.*
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.*
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.*
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -40,6 +41,7 @@ const val ICE_COFFEE = 1
 lateinit var brewRealmConfig: RealmConfiguration
 lateinit var beansRealmConfig: RealmConfiguration
 lateinit var takeoutRealmConfig: RealmConfiguration
+lateinit var equipRealmConfig: RealmConfiguration
 
 lateinit var brewMethods: Array<String>
 lateinit var brewMethodsCR: Array<String>
@@ -81,6 +83,9 @@ class StartApplication : Application() {
         // テイクアウトデータを作る
         createTakeoutData()
 
+        // コーヒー器具データを作る
+        createEquipData()
+
         // そのほか、グローバル変数セット
         brewMethodsImages = resources.obtainTypedArray(R.array.method_images)
 
@@ -110,6 +115,49 @@ class StartApplication : Application() {
 //        setTakeoutTakeDay()
 
     }
+
+    private fun createEquipData() {
+        // configを設定
+        equipRealmConfig = RealmConfiguration.Builder()
+            .name("equip.realm")
+            .modules(EquipDataModule())
+            .schemaVersion(EQUIP_DATA_VERSION)
+            .migration(EquipDataMigration())
+            .build()
+
+        // インスタンス化
+        val realm = Realm.getInstance(equipRealmConfig)
+        val equips: RealmResults<EquipData> = realm.where(
+            EquipData::class.java
+        ).findAll().sort("id", Sort.DESCENDING)
+
+        // データ数ゼロならサンプルを作る
+        if (equips.size == 0) {
+            val equipList = listOf<EquipDataInit>(
+                EquipDataInit("2021/1/1", "ドリッパー", "KALITA", 3.0F, 1, "KALDIか？", 500, "プラが欲しい"),
+                EquipDataInit("2021/1/1", "フレンチプレス", "BODUM", 3.0F, 2, "御殿場", 2000, "便利")
+            )
+
+            // DB書き込み
+            realm.beginTransaction()
+            var id = 1
+            for (i in equipList.reversed()) {
+                var b = realm.createObject<EquipData>(id++)
+                b.date = i.date.toDate("yyyy/MM/dd")
+                b.name = i.name
+                b.maker = i.maker
+                b.rating = i.rating
+                b.icon = i.icon
+                b.shop = i.shop
+                b.price = i.price
+                b.memo = i.memo
+            }
+            realm.commitTransaction()
+            blackToast(this, "EQUIPデータベース完了！")
+        }
+        realm.close()
+    }
+
 
     private fun createBeansData() {
         // configを設定

@@ -27,8 +27,8 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
 
     // 新しく1行分のViewをXMLから生成し、1行分のViewHolderを生成してViewをセットする
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeansViewHolder {
-        // 新しいView（1行）を生成する　レイアウト画面で作った、one_beans_card_home（1行）
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.one_beans_card_home, parent, false)
+        // 新しいView（1行）を生成する　レイアウト画面で作った、one_beans_card（1行）
+        val view = LayoutInflater.from(parent.context).inflate(beansListStyle, parent, false)
 
         // 1行ビューをもとに、ViewHolder（←自分で作ったヤツ）インスタンスを生成
         // 今作ったView（LinearLayout）を渡す
@@ -65,14 +65,6 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
                 holder.memo?.visibility = View.GONE
                 holder.memoLabel?.visibility = View.GONE
             }
-
-/*
-            holder.copyBtn?.setOnClickListener {
-                val intent = Intent(it.context, BeansEditActivity::class.java)
-                intent.putExtra("id", bean.id)
-                it.context.startActivity(intent)
-            }
-*/
 
             // 行タップした際のアクションをリスナで登録
             // ボタンは廃止しました

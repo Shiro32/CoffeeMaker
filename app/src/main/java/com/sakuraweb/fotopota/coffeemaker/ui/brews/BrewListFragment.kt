@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.*
@@ -24,6 +25,8 @@ import kotlinx.android.synthetic.main.fragment_brew_list.*
 import kotlinx.android.synthetic.main.fragment_brew_list.view.*
 import android.content.Intent as Intent
 
+var brewListLayoutStyle: Int = 0
+
 private lateinit var sortList: Array<String>
 
 class BrewFragment : Fragment() {
@@ -35,6 +38,17 @@ class BrewFragment : Fragment() {
 
         // このfragment自身を指す。ボタンなどを指定するには、rootが必要
         val root = inflater.inflate(R.layout.fragment_brew_list, container, false)
+
+        // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
+        PreferenceManager.getDefaultSharedPreferences(context).apply {
+//            settingTermSw   = getBoolean("term_sw", true)
+//            settingKmSw     = getBoolean("km_sw", true)
+//            settingKcalSw   = getBoolean("kcal_sw", true)
+//            settingMemoSw   = getBoolean("memo_sw", true)
+//            settingMenuSw   = getBoolean("menu_sw", true)
+//            settingPlaceSw  = getBoolean("place_sw", true)
+            brewListLayoutStyle = if( getString("list_sw", "") == "card" ) 0 else 1
+        }
 
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
         // realmのインスタンスを作る。Configはグローバル化してあるので、そのままインスタンスを作るだけ

@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.*
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_beans_list.view.*
 import java.util.*
 
 var isCalledFromBrewEditToBeans: Boolean = false
-
+var beansListStyle: Int = 0
 
 class BeansFragment : Fragment(), SetBeansListener {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
@@ -41,6 +42,17 @@ class BeansFragment : Fragment(), SetBeansListener {
 //        } else {
 //            root.callFromText.text = "ナビゲーションからだと思います・・・。"
 //        }
+
+        // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
+        PreferenceManager.getDefaultSharedPreferences(context).apply {
+//            settingTermSw   = getBoolean("term_sw", true)
+//            settingKmSw     = getBoolean("km_sw", true)
+//            settingKcalSw   = getBoolean("kcal_sw", true)
+//            settingMemoSw   = getBoolean("memo_sw", true)
+//            settingMenuSw   = getBoolean("menu_sw", true)
+//            settingPlaceSw  = getBoolean("place_sw", true)
+            beansListStyle = if( getString("list_sw", "") == "card" ) R.layout.one_beans_card else R.layout.one_beans_flat
+        }
 
         // Brewの編集画面から呼ばれたかどうかを覚えておく
         isCalledFromBrewEditToBeans = activity?.intent?.getStringExtra("from") == "Edit"
