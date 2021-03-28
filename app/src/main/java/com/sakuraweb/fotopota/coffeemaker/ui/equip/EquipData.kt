@@ -25,6 +25,7 @@ open class EquipData : RealmObject() {
     var icon: Int = 0   // 器具アイコン
     var name: String = ""   // 製品名
     var maker: String = ""      // メーカー
+    var type : String = ""      // 型式など
     var rating: Float = 0F
     var date: Date? = null    // 購入日
     var recent: Date? = null   // 最近の利用日

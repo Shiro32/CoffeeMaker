@@ -1,7 +1,9 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.equip
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.sakuraweb.fotopota.coffeemaker.*
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.REQUEST_CODE_BEANS_NAME_SELECT
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.select.BeansSelectActivity
 import io.realm.Realm
@@ -28,6 +31,9 @@ const val EQUIP_EDIT_MODE_EDIT = 2
 const val EQUIP_EDIT_MODE_COPY = 3
 
 const val REQUEST_CODE_EQUIP_NAME_SELECT = 100
+const val REQUEST_CODE_EQUIP_ICON_SELECT = 102
+
+var iconID: Int = 0
 
 class EquipEditActivity : AppCompatActivity() {
     private var editMode: Int = 0
@@ -76,10 +82,14 @@ class EquipEditActivity : AppCompatActivity() {
                 val equip = realm.where<EquipData>().equalTo("id", equipID).findFirst()
 
                 if( equip != null ) {
-                    equipEditRatingBar.rating = equip.rating
                     equipEditNameEdit.setText(equip.name)
+                    equipEditRatingBar.rating = equip.rating
                     equipEditShopEdit.setText(equip.shop)
                     equipEditPriceEdit.setText(equip.price.toString())
+                    equipEditMakerEdit.setText(equip.maker)
+                    equipEditTypeEdit.setText(equip.type)
+                    equipEditIconImage.setImageDrawable(brewMethodsImages.getDrawable(equip.icon))
+                    iconID = equip.icon
 
                     if( editMode== EQUIP_EDIT_MODE_EDIT) {
                         // 編集モードではメモ欄をコピー
@@ -118,13 +128,11 @@ class EquipEditActivity : AppCompatActivity() {
             dtp.show()
         }
 
-        // こんな感じでアイコン選ぶ？
-        // もちろん結果が欲しいので、forResult付きで
-//        beansEditSelectBtn.setOnClickListener {
-//            val intent = Intent(it.context, BeansSelectActivity::class.java)
-//            startActivityForResult(intent, REQUEST_CODE_BEANS_NAME_SELECT)
-//        }
-
+        // アイコン変更ボタン
+        equipEditIconChangeBtn.setOnClickListener {
+            val intent = Intent(it.context, IconSelectActivity::class.java)
+            startActivityForResult( intent, REQUEST_CODE_EQUIP_ICON_SELECT )
+        }
 
         // SAVEボタンのリスナ。あまりにバカでかいので外部に出す
         equipEditSaveBtn.setOnClickListener(OKButtonListener())
@@ -156,6 +164,8 @@ class EquipEditActivity : AppCompatActivity() {
             val equipName = equipEditNameEdit.text.toString()
             val equipRating= equipEditRatingBar.progress.toFloat()
             val equipShop= equipEditShopEdit.text.toString()
+            val equipMaker      = equipEditMakerEdit.text.toString()
+            val equipType               = equipEditTypeEdit.text.toString()
             val equipMemo = equipEditMemoEdit.text.toString()
             val equipPrice = if (equipEditPriceEdit.text.isNullOrEmpty()) {
                 0
@@ -179,7 +189,10 @@ class EquipEditActivity : AppCompatActivity() {
                         equip.name = equipName
                         equip.shop = equipShop
                         equip.price = equipPrice
+                        equip.maker = equipMaker
+                        equip.type = equipType
                         equip.memo = equipMemo
+                        equip.icon = iconID
                     }
                     blackToast(applicationContext, "追加しましたぜ")
                 }
@@ -193,7 +206,10 @@ class EquipEditActivity : AppCompatActivity() {
                         equip?.name = equipName
                         equip?.shop = equipShop
                         equip?.price = equipPrice
+                        equip?.maker = equipMaker
+                        equip?.type = equipType
                         equip?.memo = equipMemo
+                        equip?.icon = iconID
                     }
                     blackToast(applicationContext, "修正完了！")
                 }
@@ -215,7 +231,7 @@ class EquipEditActivity : AppCompatActivity() {
 
     // メニュー設置
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_opt_menu_4, menu)
+        menuInflater.inflate( if(equipID== EQUIP_SHOP) R.menu.menu_opt_menu_6 else R.menu.menu_opt_menu_5, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -226,16 +242,33 @@ class EquipEditActivity : AppCompatActivity() {
         when( item.itemId ) {
             // saveは面倒くさいので後回し・・・。
 
-            R.id.optMenu4ItemHome -> {
+            R.id.optMenu5ItemHome -> {
                 // 新機軸！ ちゃんとホームまで帰っていく！
                 val intent = Intent()
                 setResult( RESULT_TO_HOME, intent)
                 finish()
             }
 
-            R.id.optMenu4ItemCancel -> {
+            R.id.optMenu5ItemCancel -> {
                 finish()
             }
+
+            R.id.optMenu5ItemDelete -> {
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle(R.string.deleteConfirmDialogTitle)
+                builder.setMessage(R.string.deleteConfirmDialogMessage)
+                builder.setCancelable(true)
+                builder.setNegativeButton(R.string.deleteConfirmDialogCancelBtn, null)
+                builder.setPositiveButton("OK", object: DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        realm.executeTransaction { realm.where<EquipData>().equalTo("id", equipID)?.findFirst()?.deleteFromRealm() }
+                        blackToast(applicationContext, "削除しました")
+                        finish()
+                    }
+                })
+                builder.show()
+            }
+
         }
 
         return super.onOptionsItemSelected(item)
@@ -249,40 +282,19 @@ class EquipEditActivity : AppCompatActivity() {
 //        Log.d("SHIRO", "brew-edit / onDestroy")
     }
 
-
-
-/*
-    // 豆銘柄獲得の画面から、戻ってきたらViewに格納してあげる
-    // 店舗名ＤＢを持つのが面倒くさいので、製品名の前半部分を切り離して系列名称にする（適当だなぁ・・・）
-    @RequiresApi(Build.VERSION_CODES.N)
+    // @RequiresApi(Build.VERSION_CODES.N)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        val shopNameList: Map<String, String> = mapOf(
-            "スタバ" to "スターバックス",
-            "ファミマ" to "ファミリーマート",
-            "セブン" to "セブンイレブン"
-        )
-
         when( requestCode ) {
-            REQUEST_CODE_EQUIP_NAME_SELECT -> {
+            REQUEST_CODE_EQUIP_ICON_SELECT -> {
                 when( resultCode ) {
                     RESULT_OK -> {
-                        val name = data?.getStringExtra("name")
-                        val sep = name?.indexOf("】")
-
-                        if( sep!=null && sep!=-1 ) {
-                            var chain = name?.substring(1,sep)
-                            chain = shopNameList.getOrDefault(chain, chain)
-
-                            equipEditShopEdit.setText(chain)
-                            equipEditNameEdit.setText(name?.substring(sep+1, name.length))
-                        } else {
-                            equipEditNameEdit.setText(name)
-                        }
-                        // ここで銘柄選択ポップアップTOASTを出してもいいんだけど・・・。
-                        // BrewEditでも出すのでここでは出さない
+                        val id = data?.getIntExtra("id", 0)
+                        iconID = id as Int
+                        equipEditIconImage.setImageDrawable(brewMethodsImages.getDrawable(iconID))
                     }
+
                     RESULT_TO_HOME -> {
                         val intent = Intent()
                         setResult(RESULT_TO_HOME, intent)
@@ -292,7 +304,6 @@ class EquipEditActivity : AppCompatActivity() {
             }
         }
     }
-*/
 
 
     // 入力箇所（EditText）以外をタップしたときに、フォーカスをオフにする

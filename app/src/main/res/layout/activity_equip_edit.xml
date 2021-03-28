@@ -26,7 +26,8 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/equipEditCancelBtn"
         app:layout_constraintTop_toBottomOf="@+id/equipEditToolbar"
-        tools:layout_editor_absoluteX="44dp">
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="-205dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -86,10 +87,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/equipEditShopLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/equipEditDateLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/equipEditTypeLabel" />
 
             <EditText
                 android:id="@+id/equipEditShopEdit"
@@ -165,10 +166,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/equipEditMakerLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/equipEditRatingHint" />
+                app:layout_constraintTop_toBottomOf="@+id/equipEditDateLabel" />
+
+            <EditText
+                android:id="@+id/equipEditTypeEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:hint="@string/equipEditTypeHint"
+                android:inputType="text"
+                app:layout_constraintBaseline_toBaselineOf="@+id/equipEditTypeLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/equipEditTypeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/equipEditTypeLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/equipEditMakerLabel" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"
@@ -182,10 +205,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="64dp"
                 android:text="@string/equipEditDateLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/equipEditMakerLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/equipEditRatingLabel" />
 
             <TextView
                 android:id="@+id/equipEditDateText"
@@ -196,6 +219,27 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/equipEditDateLabel"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
+            <Button
+                android:id="@+id/equipEditIconChangeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/equipEditIconLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/equipEditIconImage" />
+
+            <ImageView
+                android:id="@+id/equipEditIconImage"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/dotour" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -205,7 +249,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@android:drawable/btn_default_small"
-        android:text="@string/brewEditCancelBtnLabel"
+        android:text="@string/equipEditCancelBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/equipEditSaveBtn"
         app:layout_constraintHorizontal_bias="0.5"

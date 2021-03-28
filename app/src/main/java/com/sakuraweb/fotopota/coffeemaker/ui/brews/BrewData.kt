@@ -2,11 +2,11 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.net.Uri
 import com.sakuraweb.fotopota.coffeemaker.HOT_COFFEE
-import io.realm.DynamicRealm
-import io.realm.RealmMigration
-import io.realm.RealmObject
+import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
+import io.realm.*
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmModule
+import io.realm.kotlin.where
 import java.util.*
 
 // コーヒーデータのデータ形式Class
@@ -20,7 +20,8 @@ import java.util.*
 // v4   挽度合いの表示を切り替えるSWを追加
 // v5   ミルク・砂糖の有無、アイス・ホットのＳＷ
 
-const val BREW_DATA_VERSION = 5L
+const val BREW_DATA_VERSION = 6L
+var brewDataMigrated = false
 
 // この記載と、Configuration時のModules指定をしないと、すべての関連ClassがDB化される
 // 個別のClassのバージョンアップができないので、こうやって単独化させてあげる
@@ -34,7 +35,8 @@ open class BrewData : RealmObject() {
 
     lateinit  var date: Date
     var rating: Float = 0.0F
-    var methodID: Int = 0
+    var methodID: Int = 0   // v5までは内部配列（文字・絵）の番号。v6からは不使用にして、equipIDを使う
+    var equipID: Long = 0   // v6から登場
     var place: Int = 0
     var shop: String = ""   // 外飲みの時だけ、購入店舗
     var beansID: Long = 0
@@ -91,6 +93,33 @@ class BrewDataMigration : RealmMigration {
                 .addField( "milk", Float::class.java)
                 .addField( "sugar", Float::class.java)
                 .addField( "iceHotSw", Int::class.java)
+            oldVersion++
+        }
+        if( oldVersion==5L ) {
+            // 大型アップデート。EQUIPデータベースができたための対応
+            // 内部の配列に対するmethodIDを不使用にする
+            // かわりに、equipID登場
+            realmSchema.get("BrewData")!!
+                .addField("equipID", Long::class.java )
+            oldVersion++
+
+            brewDataMigrated = true
+            // ここからBREWとEQUIPの変換作業が始まるけど、できるのか！？
+
+/*
+            // まず、0ドリップ～10外飲みまでの使用実績をリストアップ
+//            var realm = Realm.getInstance(brewRealmConfig)
+            val brews = realm.where(BrewData).findAll().sort("id", Sort.DESCENDING)
+            var m = Array(10){0}
+            for( b in brews ) {
+                m[ b.methodID ] += 1
+            }
+            realm.close()
+
+            // Equipデータベースを作る
+            realm = Realm.getInstance(())
+*/
+
         }
     }
 }

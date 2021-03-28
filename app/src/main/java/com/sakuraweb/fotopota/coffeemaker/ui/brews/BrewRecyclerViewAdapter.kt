@@ -3,13 +3,13 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.view.*
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipIconByID
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.findTakeoutChainNameByID
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
@@ -119,7 +119,11 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             }
 
             // 抽出方法にあったイラスト（アイコン）
-            holder.image?.setImageDrawable(brewMethodsImages.getDrawable(bp.methodID))
+//            holder.image?.setImageDrawable(brewMethodsImages.getDrawable(bp.methodID))
+            holder.image?.setImageDrawable(brewMethodsImages.getDrawable(findEquipIconByID(bp.equipID)))
+            //TODO: findEquipIconByIDを作らないと
+            //TODO: findEquipNameByIDもか・・・きりないな
+            //TODO: いっそ、findEquipByIDにしちゃう？
 
             // 行そのもの（Card）のリスナ
             // 行タップすることで編集画面(BrewEdit）に移行

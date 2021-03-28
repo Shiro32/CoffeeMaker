@@ -1,5 +1,15 @@
 package com.sakuraweb.fotopota.coffeemaker
 
+//TODO:結局、器具DBっていつも初期化されちゃわない！？
+//TODO:お湯の量（mlで）
+//TODO:抽出時間
+//TODO:増えすぎた表示項目のON・OFF
+//TODO:バックアップ
+//TODO:写真
+//TODO:器具DB内での並び順（外のみを先頭に）
+//TODO:器具DB内での外飲みの色
+//TODO:器具DB内での外のみの削除禁止（ほかの方法ないもんかね）
+//TODO:EQUIPを新造したときに、必ず外飲みだけは追加
 
 import android.app.Application
 import android.content.Context
@@ -29,7 +39,7 @@ import java.util.*
 const val BREW_IN_HOME = 1
 const val BREW_IN_SHOP = 2
 const val BREW_IN_BOTH = 3
-const val BREW_METHOD_SHOP = 10
+const val EQUIP_SHOP = 10L
 
 const val GRIND_SW_NAME = 0
 const val GRIND_SW_ROTATION = 1
@@ -61,6 +71,11 @@ lateinit var roastLabels: Array<String>
 lateinit var grindLabels: Array<String>
 lateinit var grind2Labels: Array<String>
 
+const val brew_list_backup      = "brew_list_backup.realm"
+const val bean_list_backup      = "bean_list_backup.realm"
+const val takeout_list_backup   = "takeout_list_backup.realm"
+const val equip_list_backup     = "equip_list_backup.realm"
+
 // 一番最初に実行されるApplicationクラス
 // いつもの、AppCompatActivity（MainActivity）は、manifest.xmlで最初の画面（Acitivity）として実行される
 // Application（CustomApplication）も、manifest.xmlで最初のクラスとして実行される
@@ -71,10 +86,19 @@ class StartApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        // そのほか、グローバル変数セット
+        brewMethodsImages = resources.obtainTypedArray(R.array.method_images)
+
+        // brewMethodsは、改行アリ（Recycler用）、改行無し（Edit用）の２つを作る
+        brewMethodsCR = resources.getStringArray(R.array.method_names)
+        // 含まれる\nを削除
+        brewMethods=arrayOf<String>()
+        for( b in brewMethodsCR ) brewMethods += b.replace("\n","")
+
         // Realm全体の初期化処理
         Realm.init(applicationContext)
 
-        // ブリューデータを作る（最初はサンプル込み）
+        // ブリューデータを作る
         createBrewData()
 
         // 豆データを作る
@@ -84,16 +108,54 @@ class StartApplication : Application() {
         createTakeoutData()
 
         // コーヒー器具データを作る
+        // 新規の場合はとりあえず標準的な器具をリスト
         createEquipData()
 
-        // そのほか、グローバル変数セット
-        brewMethodsImages = resources.obtainTypedArray(R.array.method_images)
+        // EQUIPが初登場したバージョン（BREW_DATA_VERSION=6）の時の処理
+        // BREWのmethodIDをやめて、equipIDでEQUIPD DB参照とする
+        if( brewDataMigrated || true ) {
+            // 既存BREWで使っている器具のリストを作る
+            var realm = Realm.getInstance(brewRealmConfig)
+            val brews = realm.where<BrewData>().findAll()
+            var methods = Array(11) { 0 }
+            for (b in brews ) {
+                methods[b.methodID] += 1
+                realm.executeTransaction {
+                    val bb = realm.where<BrewData>().equalTo("id", b.id ).findFirst()
+                    if( bb!=null ) bb.equipID = bb.methodID.toLong()
+                }
+            }
+            realm.close()
+            // 普通は無いと思うけど、外飲みゼロの場合の対策
+            methods[10] += 1
 
-        // brewMethodsは、改行アリ（Recycler用）、改行無し（Edit用）の２つを作る
-        brewMethodsCR = resources.getStringArray(R.array.method_names)
-        // 含まれる\nを削除
-        brewMethods=arrayOf<String>()
-        for( b in brewMethodsCR ) brewMethods += b.replace("\n","")
+            // できたばかりのEQUIPを全部消して実績だけ入れる
+            realm = Realm.getInstance(equipRealmConfig)
+            val equips = realm.where<EquipData>().findAll()
+            // まず全部消す・・・
+            for( e in equips ) {
+                realm.executeTransaction {
+                    realm.where<EquipData>().equalTo("id", e.id)?.findFirst()?.deleteFromRealm()
+                }
+            }
+            // 既存BREWの使用実績を入れる
+            for( i in 0..10) {
+                if( methods[i] > 0 ) {
+                    realm.executeTransaction {
+                        val equip = realm.createObject<EquipData>( i )
+//TODO: ここで、icon番号を変換することも可能
+                        equip.icon = if( i==0 ) 1 else i
+                        equip.name = brewMethods[i] // CRはどうすんだっけ・・・？
+                        equip.date = (if(i.toLong()==EQUIP_SHOP) "2050/12/31" else "2020/01/01").toDate("yyyy/MM/dd")
+                        // 外飲みをいつも先頭に並べるために小細工
+//                        equip.recent = (if(i.toLong()==EQUIP_SHOP) "2050/12/31" else "2020/01/01").toDate("yyyy/MM/dd")
+                    }
+                }
+            }
+
+            blackToast(applicationContext,"器具DB構築完了！")
+        }
+
 
         // 代表豆銘柄セレクト関係
         beansKind = resources.getStringArray(R.array.beans_kind)
@@ -134,15 +196,15 @@ class StartApplication : Application() {
         // データ数ゼロならサンプルを作る
         if (equips.size == 0) {
             val equipList = listOf<EquipDataInit>(
-                EquipDataInit("2021/1/1", "ドリッパー", "KALITA", 3.0F, 1, "KALDIか？", 500, "プラが欲しい"),
-                EquipDataInit("2021/1/1", "フレンチプレス", "BODUM", 3.0F, 2, "御殿場", 2000, "便利")
+                EquipDataInit(0L, "2021/1/1", "ドリッパー", "KALITA", "ABC-012",3.0F, 1, "", 500, ""),
+                EquipDataInit(1L, "2021/1/1", "フレンチプレス", "BODUM", "XXX-123", 3.0F, 2,  "",2000, ""),
+                EquipDataInit( EQUIP_SHOP, "2050/1/1", "外飲み", "", "", 3.0F, 10, "", 0, "消さないで")
             )
 
             // DB書き込み
             realm.beginTransaction()
-            var id = 1
             for (i in equipList.reversed()) {
-                var b = realm.createObject<EquipData>(id++)
+                var b = realm.createObject<EquipData>(i.id)
                 b.date = i.date.toDate("yyyy/MM/dd")
                 b.name = i.name
                 b.maker = i.maker

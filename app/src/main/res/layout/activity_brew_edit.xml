@@ -90,35 +90,35 @@
                 app:layout_constraintTop_toTopOf="@+id/brewEditRatingLabel" />
 
             <TextView
-                android:id="@+id/brewEditMethodLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/brewEditMethodLabel"
-                app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/brewEditRatingLabel" />
-
-            <Spinner
-                android:id="@+id/brewEditMethodSpin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:drawable/btn_dropdown"
-                android:entries="@array/method_names"
-                android:scrollbarSize="4dp"
-                app:layout_constraintBottom_toBottomOf="@+id/brewEditMethodLabel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toTopOf="@+id/brewEditMethodLabel" />
-
-            <TextView
                 android:id="@+id/brewEditBeansLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/brewEditBeansLabel"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/brewEditMethodLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/brewEditMethodLabel2" />
+
+            <TextView
+                android:id="@+id/brewEditMethodLabel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="使用器具"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toBottomOf="@+id/brewEditRatingLabel" />
+
+            <Button
+                android:id="@+id/brewEditMethodText2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@android:drawable/btn_default_small"
+                android:paddingStart="8dp"
+                android:text="未選択"
+                android:textAlignment="viewStart"
+                app:layout_constraintBaseline_toBaselineOf="@+id/brewEditMethodLabel2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/brewEditMemoText" />
 
             <Button
                 android:id="@+id/brewEditBeansText"

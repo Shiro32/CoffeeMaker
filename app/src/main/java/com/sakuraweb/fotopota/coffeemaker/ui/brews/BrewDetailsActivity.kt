@@ -13,6 +13,8 @@ import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.REQUEST_EDIT_BEANS
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipIconByID
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipNameByID
 import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_brew_details_home.*
@@ -31,6 +33,7 @@ import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsMilk
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsSugarBar
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsHotIceSw
 import kotlinx.android.synthetic.main.activity_brew_details_shop.*
+import kotlinx.android.synthetic.main.activity_brew_edit.*
 
 import java.util.*
 
@@ -96,7 +99,8 @@ class BrewDetailsActivity : AppCompatActivity() {
             // 家飲み・店飲み共通項目
 //            val dd: LocalDateTime = LocalDateTime.now()
             brewDetailsRatingBar.rating = brew.rating
-            brewDetailsMethodText.text = brewMethods[brew.methodID]
+//            brewDetailsMethodText.text = brewMethods[brew.methodID]
+            brewDetailsMethodText.text = findEquipNameByID(brew.equipID)
             brewDetailsBeansText.text = findBeansNameByID(brew.place, brew.beansID, brew.takeoutID) + days
             brewDetailsMemoText.setText(brew.memo)
             brewDetailsSugarBar.setProgress(brew.sugar)
@@ -104,7 +108,7 @@ class BrewDetailsActivity : AppCompatActivity() {
             brewDetailsHotIceSw.isChecked = (brew.iceHotSw != HOT_COFFEE)
 
             // 抽出方法にあったイラスト（アイコン）
-            brewDetailsMethodImage.setImageDrawable(brewMethodsImages.getDrawable(brew.methodID))
+            brewDetailsMethodImage.setImageDrawable(brewMethodsImages.getDrawable(findEquipIconByID(brew.equipID)))
 
             calendar.time = brew.date
             val year    = calendar.get(Calendar.YEAR)
@@ -145,7 +149,6 @@ class BrewDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     } // 詳細画面のonCreate
-
 
     // ツールバーの「戻る」ボタン
     override fun onSupportNavigateUp(): Boolean {

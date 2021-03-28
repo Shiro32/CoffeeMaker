@@ -3,17 +3,17 @@
 xmlns:android="http://schemas.android.com/apk/res/android">
 
 <item
-    android:id="@+id/optMenu4ItemHome"
+    android:id="@+id/optMenu5ItemHome"
     android:icon="@drawable/home"
-    android:title="@string/optMenu4ItemHome"
+    android:title="@string/optMenu5ItemHome"
     app:showAsAction="ifRoom" />
 <item
-    android:id="@+id/optMenu4ItemCancel"
-    android:title="@string/optMenu4ItemCancel"
+    android:id="@+id/optMenu5ItemCancel"
+    android:title="@string/optMenu5ItemCancel"
     app:showAsAction="never" />
-<item
-    android:id="@+id/optMenu4ItemSave"
+    <item
+    android:id="@+id/optMenu5ItemSave"
     android:icon="@android:drawable/ic_menu_edit"
-    android:title="@string/optMenu4ItemSave"
+    android:title="@string/optMenu5ItemSave"
     app:showAsAction="never" />
 </menu>

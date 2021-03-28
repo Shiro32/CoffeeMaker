@@ -69,6 +69,7 @@ class StatsFragment : Fragment() {
 
         // やっとこアダプタ・リスナをセット
         val adapter = ArrayAdapter<String>(ma, android.R.layout.simple_spinner_dropdown_item, mList)
+        ma.sortSpn.visibility = View.VISIBLE
         ma.sortSpn.adapter = adapter
         ma.sortSpn.onItemSelectedListener = MonthSpinnerChangeListener()
 

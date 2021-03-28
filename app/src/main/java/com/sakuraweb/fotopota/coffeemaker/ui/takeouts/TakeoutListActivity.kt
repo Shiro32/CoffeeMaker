@@ -108,6 +108,7 @@ class TakeoutListActivity : AppCompatActivity(), SetTakeoutListener {
             sortList = resources.getStringArray(R.array.sort_mode_takeout)
             val adapter =
                 ArrayAdapter<String>(applicationContext, android.R.layout.simple_spinner_dropdown_item, sortList)
+            sortSpn2.visibility = View.VISIBLE
             sortSpn2.adapter = adapter
             sortSpn2.onItemSelectedListener = SortSpinnerChangeListener()
         }
@@ -189,7 +190,21 @@ class TakeoutListActivity : AppCompatActivity(), SetTakeoutListener {
         finish()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        when( requestCode ) {
+            REQUEST_CODE_SHOW_TAKEOUT_DETAILS -> {
+                when (resultCode) {
+                    RESULT_TO_HOME -> {
+                        val intent = Intent()
+                        setResult(RESULT_TO_HOME, intent)
+                        finish()
+                    }
+                }
+            }
+        }
+    }
 
 
     // ツールバーの「戻る」ボタン

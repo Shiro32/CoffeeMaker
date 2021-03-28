@@ -4,7 +4,6 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 //        root.button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.navigation_settings, null))
 // これよりも、onClickイベントを発生させた方が良いみたい（＾＾）
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -43,10 +42,7 @@ class BrewFragment : Fragment() {
         PreferenceManager.getDefaultSharedPreferences(context).apply {
 //            settingTermSw   = getBoolean("term_sw", true)
 //            settingKmSw     = getBoolean("km_sw", true)
-//            settingKcalSw   = getBoolean("kcal_sw", true)
-//            settingMemoSw   = getBoolean("memo_sw", true)
-//            settingMenuSw   = getBoolean("menu_sw", true)
-//            settingPlaceSw  = getBoolean("place_sw", true)
+
             brewListLayoutStyle = if( getString("list_sw", "") == "card" ) 0 else 1
         }
 
@@ -79,6 +75,7 @@ class BrewFragment : Fragment() {
         // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
         sortList = resources.getStringArray(R.array.sort_mode_brew)
         val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+        ac.sortSpn.visibility = View.VISIBLE
         ac.sortSpn.adapter = adapter
         ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
 

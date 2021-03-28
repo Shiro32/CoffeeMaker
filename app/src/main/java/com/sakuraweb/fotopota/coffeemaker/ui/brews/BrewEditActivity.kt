@@ -18,12 +18,13 @@ import android.widget.AdapterView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipListActivity
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipNameByID
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutListActivity
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_brew_edit.*
-import kotlinx.android.synthetic.main.activity_brew_edit.view.*
 import java.util.*
 
 // BrewEditの動作モード（新規、編集、コピー新規、FABから）
@@ -33,6 +34,7 @@ const val BREW_EDIT_MODE_COPY = 3
 
 const val REQUEST_CODE_BEANS_SELECT = 1
 const val REQUEST_CODE_TAKEOUT_SELECT = 2
+const val REQUEST_CODE_EQUIP_SELECT = 3
 
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 
@@ -49,6 +51,7 @@ class BrewEditActivity : AppCompatActivity() {
     private var beansID: Long = 0L
     private var brewID: Long = 0L
     private var takeoutID: Long = 0L
+    private var equipID: Long = 0L
     private var editMode: Int = 0
     private lateinit var realm: Realm
     private lateinit var inputMethodManager: InputMethodManager
@@ -92,11 +95,14 @@ class BrewEditActivity : AppCompatActivity() {
                 val brew = realm.where<BrewData>().equalTo("id", brewID).findFirst()
                 if (brew != null) {
                     brewEditRatingBar.rating = brew.rating
-                    brewEditMethodSpin.setSelection(brew.methodID)
+                    brewEditMethodText2.text = findEquipNameByID(brew.equipID)
+
                     brewEditBeansText.text = findBeansNameByID(brew.place, brew.beansID, brew.takeoutID)
-                    // 豆データだけはViewに保存できないのでローカル変数に
+                    // 豆データなどはViewに保存できないのでローカル変数に
                     beansID = brew.beansID
                     takeoutID = brew.takeoutID
+                    equipID = brew.equipID
+
                     brewEditCupsBar.setProgress(brew.cups)
                     brewEditCupsDrunkBar.setProgress(brew.cupsDrunk)
 
@@ -161,11 +167,18 @@ class BrewEditActivity : AppCompatActivity() {
         // ここまでで基本的に画面構成終了
         // ーーーーーーーーーー　ここから各種ボタンのリスナ群設定　－－－－－－－－－－
 
+        // メソッド選択ボタンリスナ
+        brewEditMethodText2.setOnClickListener {
+            val intent = Intent( this, EquipListActivity::class.java )
+            intent.putExtra( "from", "Edit" )
+            startActivityForResult( intent, REQUEST_CODE_EQUIP_SELECT )
+        }
+
         // マメ選択ボタンリスナ
         // 抽出方法が店飲みの場合は、店飲みDBを選択する
         brewEditBeansText.setOnClickListener {
             // 店飲みDBを呼び出す
-            if( brewEditMethodSpin.selectedItemPosition == BREW_METHOD_SHOP ) {
+            if( equipID == EQUIP_SHOP ) {
                 val intent = Intent(this, TakeoutListActivity::class.java)
                 intent.putExtra("from", "Edit")
                 startActivityForResult(intent, REQUEST_CODE_TAKEOUT_SELECT) // これで見分ける
@@ -176,6 +189,8 @@ class BrewEditActivity : AppCompatActivity() {
             }
         }
 
+        updateEquip( equipID
+        )
         // 日付・時刻選択のダイアログボタン用
         // Date型は意外と使いにくいので、Calendar型で行こう
         val year    = calender.get(Calendar.YEAR)
@@ -220,9 +235,6 @@ class BrewEditActivity : AppCompatActivity() {
             finish()
         }
 
-        // 抽出方法のSpinnerを動かしたときのリスナ（店飲みの時、選択肢を減らすため
-        brewEditMethodSpin.onItemSelectedListener = MethodSpinnerChangeListener()
-
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(brewEditToolbar) // これやらないと落ちるよ
         supportActionBar?.title = getString(titles[editMode] as Int)
@@ -235,27 +247,16 @@ class BrewEditActivity : AppCompatActivity() {
     } // 編集画面のonCreate
 
 
-
-    // 飲み方（家の内外）によって表示を変えるための処理
-    // method Spinnerの値変更によって起動される。幸い、最初に初期値を設定するときも呼ばれるみたい。
-    private inner class MethodSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-            // 店飲みの場合、お湯の温度や豆挽状態を隠す
-            if( brewEditMethodSpin.selectedItemPosition == BREW_METHOD_SHOP ) {
-                brewEditHomeItems.visibility = View.GONE
-                brewEditTakeoutItems.visibility = View.VISIBLE
-            } else {
-                brewEditHomeItems.visibility = View.VISIBLE
-                brewEditTakeoutItems.visibility = View.GONE
-            }
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-            TODO("Not yet implemented")
+    // 外飲み（equipID==EQUIP_SHOP）か家のみかで、表示項目を変更する
+    private fun updateEquip(id: Long ) {
+        if ( id == EQUIP_SHOP) {
+            brewEditHomeItems.visibility = View.GONE
+            brewEditTakeoutItems.visibility = View.VISIBLE
+        } else {
+            brewEditHomeItems.visibility = View.VISIBLE
+            brewEditTakeoutItems.visibility = View.GONE
         }
     }
-
 
     // OKButton（保存）のリスナがあまりに巨大化してきたので独立
     // RealmDBに１件分のBREWデータを修正・追加する （intentのmodeによって、編集と新規作成両方やる）
@@ -267,7 +268,6 @@ class BrewEditActivity : AppCompatActivity() {
             // 各View（Barなどなど）からローカル変数に読み込んでおく
             val brewDate = (brewEditDateText.text as String + " " + brewEditTimeText.text as String).toDate()
             val brewRating = brewEditRatingBar.rating
-            val methodID      = brewEditMethodSpin.selectedItemPosition
             val brewCups    = brewEditCupsBar.progress.toFloat()
             val brewCupsDrunk= brewEditCupsDrunkBar.progress.toFloat()
             val brewGrindSw = if( brewEditGrindSw.isChecked ) GRIND_SW_ROTATION else GRIND_SW_NAME
@@ -297,9 +297,9 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.date = brewDate
                         brew.rating = brewRating
                         brew.beansID = beansID
-                        brew.methodID = methodID
                         brew.takeoutID = takeoutID
-                        brew.place = if( methodID==BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
+                        brew.equipID = equipID
+                        brew.place = if( equipID==EQUIP_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew.cups = brewCups
                         brew.cupsDrunk = brewCupsDrunk
                         brew.beansGrindSw = brewGrindSw
@@ -325,8 +325,8 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.rating    = brewRating
                         brew?.beansID   = beansID
                         brew?.takeoutID = takeoutID
-                        brew?.methodID  = methodID
-                        brew?.place     = if( methodID==BREW_METHOD_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
+                        brew?.equipID   = equipID
+                        brew?.place     = if( equipID==EQUIP_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew?.cups      = brewCups
                         brew?.cupsDrunk = brewCupsDrunk
                         brew?.beansGrindSw = brewGrindSw
@@ -407,11 +407,10 @@ class BrewEditActivity : AppCompatActivity() {
             REQUEST_CODE_BEANS_SELECT -> {
                 when( resultCode ) {
                     RESULT_OK -> {
-                        val id = data?.getLongExtra("id", 0L)
+                        val id = data?.getLongExtra("id", 0L) as Long
                         val name = data?.getStringExtra("name")
-
                         brewEditBeansText.text = name
-                        beansID = id as Long
+                        beansID = id
                         blackToast(applicationContext, "${name}を選択")
                     }
                     RESULT_TO_HOME -> {
@@ -421,6 +420,32 @@ class BrewEditActivity : AppCompatActivity() {
                     }
                 }
             }
+
+            // 器具選択
+            REQUEST_CODE_EQUIP_SELECT -> {
+                when( resultCode ) {
+                    RESULT_OK -> {
+                        val id = data?.getLongExtra("id", 0L) as Long
+                        val name = data?.getStringExtra("name")
+
+                        brewEditMethodText2.text = name
+                        // 選択によって、家飲み⇔外飲みが変わってしまった場合、豆をクリアする
+                        if( equipID != id && (equipID==EQUIP_SHOP || id==EQUIP_SHOP) ) {
+                            brewEditBeansText.text = "未選択"
+                            equipID = 0
+                        }
+                        equipID = id as Long
+                        updateEquip( equipID )
+                        blackToast(applicationContext, "${name}を選択")
+                    }
+                    RESULT_TO_HOME -> {
+                        val intent = Intent()
+                        setResult(RESULT_TO_HOME, intent)
+                        finish()
+                    }
+                }
+            }
+
 
             // テイクアウト選択画面
             REQUEST_CODE_TAKEOUT_SELECT -> {

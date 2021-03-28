@@ -6,6 +6,16 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.one_equip_card.view.*
+import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipDateText
+import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipIcon
+import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipMakerText
+import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipMemoLabel
+import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipMemoText
+import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipNameText
+import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipPriceText
+import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipRatingBar
+import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipShopText
+import kotlinx.android.synthetic.main.one_equip_flat.view.*
 
 // ViewHolderを作る
 // 要するに1行分のViewを保持する（データではない）、描画用のインスタンス。
@@ -17,6 +27,7 @@ import kotlinx.android.synthetic.main.one_equip_card.view.*
 class EquipViewHolder(iv: View) : RecyclerView.ViewHolder(iv) {
     var name:       TextView?=null
     var maker:      TextView?=null
+    var type:       TextView?=null
     var ratingBar:  RatingBar?=null
     var dateText:   TextView?=null
     var price:      TextView?=null
@@ -33,7 +44,8 @@ class EquipViewHolder(iv: View) : RecyclerView.ViewHolder(iv) {
 
     init {
         name        = iv.oneEquipNameText
-        maker        = iv.oneEquipMakerText
+        maker       = iv.oneEquipMakerText
+        type        = iv.oneEquipTypeText
         ratingBar   = iv.oneEquipRatingBar
         dateText    = iv.oneEquipDateText
         price       = iv.oneEquipPriceText

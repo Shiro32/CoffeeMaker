@@ -30,12 +30,15 @@
     <string name="oneEquipMemo">メ　モ：</string>
     <string name="oneEquipPriceLabel">価　格：</string>
     <string name="oneEquipMakerLabel">メーカ：</string>
+    <string name="oneEquipTypeLabel">型　式：</string>
 
     <string name="equipEditNameLabel">名　前：</string>
     <string name="equipEditNameHint">ドリップ、プレスなど</string>
     <string name="equipEditRatingLabel">評　価：</string>
-    <string name="equipEditRatingHint">※使用して淹れたコーヒーの評価で計算されます</string>
+    <string name="equipEditRatingHint">※使用して淹れたコーヒー\n　の評価で計算されます</string>
     <string name="equipEditMakerLabel">メーカ：</string>
+    <string name="equipEditTypeLabel">型　式：</string>
+    <string name="equipEditTypeHint">型式文字列</string>
     <string name="equipEditMakerHint">KALITA、BODUMなど</string>
     <string name="equipEditShopLabel">購入店：</string>
     <string name="equipEditShopHint">東急ハンズなど</string>
@@ -44,7 +47,10 @@
     <string name="equipEditMemoLabel">メ　モ：</string>
     <string name="equipEditMemoHint"></string>
     <string name="equipEditDateLabel">購入日：</string>
+    <string name="equipEditIconLabel">アイコン変更</string>
+    <string name="equipEditCancelBtnLabel">リストに戻る</string>
 
+    <string name="titleEquipIconSelect">器具のアイコンを選んでね</string>
 
     <string name="titleBrewList">コーヒー摂取記録</string>
     <string name="titleBrewDetails">レシピ詳細</string>
@@ -86,7 +92,7 @@
 
     <!-- Brew Edit -->
     <string name="brewEditHeaderText">スライダを多用したら、かえって入力しにくくなってゴメンナサイ・・・m(_ _)m</string>
-    <string name="brewEditMethodLabel">抽出方法</string>
+    <string name="brewEditMethodLabel">使用器具</string>
     <string name="brewEditDateLabel">作った日</string>
     <string name="brewEditCupLabel">作った量\n(カップ)</string>
     <string name="brewEditBeansLabel">使用豆</string>
@@ -198,6 +204,13 @@
     <string name="optMenu4ItemSave">保存</string>
     <string name="optMenu4ItemDelete">削除</string>
 
+    <!-- Type5 -->
+    <string name="optMenu5ItemHome">ホーム</string>
+    <string name="optMenu5ItemCancel">詳細へ戻る</string>
+    <string name="optMenu5ItemSave">保存</string>
+    <string name="optMenu5ItemDelete">削除</string>
+
+
     <!-- コンテキストメニュー -->
     <string name="ctxMenuBrewDetails">詳細</string>
     <string name="ctxMenuBrewEdit">編集</string>
@@ -226,5 +239,23 @@
     <string name="config_equip_db">コーヒー器具データの編集</string>
     <string name="config_backup_db">全データのバックアップ</string>
     <string name="config_restore_db">全データのレストア</string>
+    <string name="config_backup_header">データのバックアップ</string>
+
+    <string name="overwrite_confirm_dialog_title">上書き確認</string>
+    <string name="overwrite_confirm_dialog_cancel">キャンセル</string>
+    <string name="overwrite_confirm_backup_dialog_message">全データのバックアップを保存しますか？</string>
+    <string name="overwrite_confirm_dialog_message_run">既存の練習記録をバックアップデータで上書きしますか？</string>
+    <string name="overwrite_confirm_dialog_done_run">練習記録復旧完了</string>
+    <string name="overwrite_confirm_dialog_message_menu">既存の練習メニューデータをバックアップデータで上書きしますか？</string>
+    <string name="overwrite_confirm_dialog_done_menu">メニューデータ復旧完了</string>
+    <string name="dialog_backup_done_title">バックアップ完了</string>
+    <string name="dialog_backup_done_message">"飲み・豆・外飲み・器具の４データベースを以下の場所にバックアップ保存しました。\n
+PCとUSB接続、メールやSNSに添付するなどして取り出して活用してください。\n
+機種変更時は、新しい端末の同じ場所にフォルダを作ってコピーし、「ストレージから復旧」ボタンで復旧できます。\n
+■保存場所\n%s\n
+■飲みデータ\n%s\n
+■豆データ\n%s\n
+■外飲みデータ\n%s\n
+■器具データ\n%s"</string>
 
 </resources>

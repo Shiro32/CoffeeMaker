@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.equip.EquipListActivity">
+    tools:context=".ui.equip.IconSelectActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/equipListToolbar"
+        android:id="@+id/equipIconSelectToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -16,32 +16,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/titleEquipListFromBrewEdit"/>
+        app:title="@string/titleEquipIconSelect" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/equipRecycleView"
+    <GridView
+        android:id="@+id/equipIconGridView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:numColumns="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/equipListToolbar"
-        app:layout_constraintVertical_bias="1.0" >
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/equipFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/beansColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/equipIconSelectToolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,16 +8,19 @@ import android.widget.ArrayAdapter
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
-import com.sakuraweb.fotopota.coffeemaker.equipRealmConfig
+import com.sakuraweb.fotopota.coffeemaker.*
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipData
+import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.REQUEST_CODE_SHOW_TAKEOUT_DETAILS
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_equip_list.*
+import java.util.*
+
+// TODO:金属フィルターなど
 
 var isCalledFromBrewEditToEquip: Boolean = false
 var equipListLayout: Int = 0
@@ -32,7 +35,6 @@ class EquipListActivity : AppCompatActivity(), SetEquipListener {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
     private lateinit var adapter: EquipRecyclerViewAdapter           // アダプタのインスタンス
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
-    private lateinit var sortList: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +42,7 @@ class EquipListActivity : AppCompatActivity(), SetEquipListener {
 
         // Configで設定したモードで、カード型かフラット型か決めてインフレート
         PreferenceManager.getDefaultSharedPreferences(applicationContext).apply {
-            equipListLayout = if( getString("list_sw", "") == "card" ) R.layout.one_equip_card else R.layout.one_equip_card
+            equipListLayout = if( getString("list_sw", "") == "card" ) R.layout.one_equip_card else R.layout.one_equip_flat
         }
 
         // Brewの編集画面から呼ばれたかどうかを覚えておく （trueじゃなければConfigからの呼び出し）
@@ -54,7 +56,7 @@ class EquipListActivity : AppCompatActivity(), SetEquipListener {
 
         for( equip in equips) {
             // 自分を参照しているBREWを全部拾う
-            val brews = brewRealm.where<BrewData>().equalTo("methodID", equip.id).findAll().sort("date", Sort.DESCENDING)
+            val brews = brewRealm.where<BrewData>().equalTo("equipID", equip.id).findAll().sort("date", Sort.DESCENDING)
             if( brews.size>0 ) {
                 // 最新利用日のセット
                 val recent = brews[0]?.date
@@ -96,15 +98,38 @@ class EquipListActivity : AppCompatActivity(), SetEquipListener {
             getString( if(isCalledFromBrewEditToEquip) R.string.titleEquipListFromBrewEdit else R.string.titleEquipListFromBtnv )
     }
 
+    // ツールバーの「戻る」ボタン
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when( requestCode ) {
+            REQUEST_CODE_EQUIP_EDIT -> {
+                when (resultCode) {
+                    RESULT_TO_HOME -> {
+                        val intent = Intent()
+                        setResult(RESULT_TO_HOME, intent)
+                        finish()
+                    }
+                }
+            }
+        }
+    }
+
     // いよいよここでリスト表示
     // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
     override fun onStart() {
         super.onStart()
 
+        // TODO: 外飲みだけ特別先頭に持っていきたい
         // 全部の外飲みデータをrealmResults配列に読み込む
         // 並び順ルールは、１：購入日（ＤＢ登録日）、２：最近の利用日（BREWからの参照）の順で行う
         // こうすることで、最近利用する商品や最近登録した商品が上にくるようになる（気が付くねぇ・・・）
-        val realmResults = realm.where<EquipData>().findAll().sort("recent", Sort.DESCENDING)
+        val realmResults = realm.where<EquipData>().findAll().sort("recent", Sort.ASCENDING ).sort("date", Sort.DESCENDING)
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
@@ -126,3 +151,22 @@ class EquipListActivity : AppCompatActivity(), SetEquipListener {
     }
 
 }
+
+fun findEquipIconByID( id:Long): Int {
+    val realm = Realm.getInstance(equipRealmConfig)
+    val equip = realm.where<EquipData>().equalTo("id",id).findFirst()
+
+    val icon = equip?.icon ?: 0
+    realm.close()
+    return icon
+}
+
+fun findEquipNameByID( id:Long): String {
+    val realm = Realm.getInstance(equipRealmConfig)
+    val equip = realm.where<EquipData>().equalTo("id",id).findFirst()
+
+    val name = equip?.name ?: "未設定"
+    realm.close()
+    return name
+}
+

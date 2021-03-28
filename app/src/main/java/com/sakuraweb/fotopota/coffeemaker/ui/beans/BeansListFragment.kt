@@ -119,6 +119,7 @@ class BeansFragment : Fragment(), SetBeansListener {
             sortList = resources.getStringArray(R.array.sort_mode_beans)
             val adapter =
                 ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+            ac.sortSpn.visibility = View.VISIBLE
             ac.sortSpn.adapter = adapter
             ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
         }

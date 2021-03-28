@@ -36,6 +36,7 @@
     <fragment
         android:id="@+id/navigation_config"
         android:name="com.sakuraweb.fotopota.coffeemaker.ui.config.ConfigFragment"
-        android:label="fragment_navigation_congig" />
+        android:label="fragment_navigation_config"
+        tools:layout="@layout/fragment_config" />
 
 </navigation>

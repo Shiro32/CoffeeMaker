@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.equip.EquipEditActivity"></activity>
+        <activity android:name=".ui.equip.IconSelectActivity"></activity>
+        <activity android:name=".ui.equip.EquipEditActivity" />
         <activity android:name=".ui.equip.EquipListActivity" />
         <activity android:name=".ui.takeouts.select.TakeoutSelectActivity" />
         <activity android:name=".ui.takeouts.TakeoutDetailsActivity" />

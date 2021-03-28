@@ -1,10 +1,13 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.equip
 
+import android.app.Activity
 import android.content.Intent
+import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sakuraweb.fotopota.coffeemaker.brewMethodsImages
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
 
@@ -49,9 +52,10 @@ class EquipRecyclerViewAdapter(equipRealm: RealmResults<EquipData>, private val 
             holder.name?.text = equip.name
             holder.ratingBar?.rating = equip.rating
             holder.shop?.text = equip.shop
-            holder.price?.text = equip.price.toString()+"円"
+            holder.price?.text = "("+equip.price.toString()+"円)"
             holder.maker?.text = equip.maker
-
+            holder.type?.text = equip.type
+            holder.icon?.setImageDrawable(brewMethodsImages.getDrawable(equip.icon))
             holder.memo?.text = equip.memo
 
             if( equip.memo!="" ) {
@@ -71,12 +75,13 @@ class EquipRecyclerViewAdapter(equipRealm: RealmResults<EquipData>, private val 
                     listener.okBtnTapped(equip)
                 }
             } else {
-                // Configから呼び出された場合は、豆を編集する
+                // Configから呼び出された場合は、器具を編集する
                 holder.itemView.setOnClickListener {
-                    it.context.startActivity(Intent(it.context, EquipEditActivity::class.java). apply {
-                        putExtra( "id", equip.id )
-                        putExtra( "mode", EQUIP_EDIT_MODE_EDIT)
-                    })
+                    val intent = Intent(it.context, EquipEditActivity::class.java)
+                    intent.putExtra("id", equip.id )
+                    intent.putExtra("mode", EQUIP_EDIT_MODE_EDIT)
+                    val it2 = it.context as Activity
+                    it2.startActivityForResult(intent, REQUEST_CODE_EQUIP_EDIT)
                 }
             }
         }
