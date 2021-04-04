@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/oneEquipBase"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFFFFF">
@@ -90,14 +91,6 @@
             tools:text="KALDI銀座店" />
 
         <TextView
-            android:id="@+id/oneEquipPriceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipDateLabel"
-            app:layout_constraintStart_toEndOf="@+id/oneEquipShopText"
-            tools:text="499" />
-
-        <TextView
             android:id="@+id/oneEquipMakerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -159,14 +152,14 @@
             app:layout_constraintTop_toBottomOf="@+id/oneEquipMakerText"
             tools:text="最高です" />
 
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

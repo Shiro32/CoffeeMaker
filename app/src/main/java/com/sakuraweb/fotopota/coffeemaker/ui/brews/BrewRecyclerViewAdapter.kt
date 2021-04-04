@@ -23,6 +23,8 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
 
     private val brews: RealmResults<BrewData> = brewsRealm
 
+    // ここで外のみのチェック
+    // よくこんな方法、思いついたな・・・。
     override fun getItemViewType(position: Int): Int {
 
         return brews[position]?.place as Int

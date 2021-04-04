@@ -2,17 +2,32 @@ package com.sakuraweb.fotopota.coffeemaker.ui.config
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import com.sakuraweb.fotopota.coffeemaker.*
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BEANS_DATA_VERSION
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansDataMigration
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansDataModule
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.BREW_DATA_VERSION
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewDataMigration
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewDataModule
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.EQUIP_DATA_VERSION
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipData
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipDataMigration
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipDataModule
+import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TAKEOUT_DATA_VERSION
+import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
+import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutDataMigration
+import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutDataModule
 import io.realm.Realm
+import io.realm.RealmConfiguration
+import io.realm.kotlin.createObject
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
@@ -29,18 +44,24 @@ class ConfigFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.root_preferences)
 
         findPreference<Preference>("backup")?.setOnPreferenceClickListener {
-            backupRunAndMenuData()
+            backupData()
             true
         }
+
+        findPreference<Preference>("restore")?.setOnPreferenceClickListener {
+            restoreData()
+            true
+        }
+
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+/*    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         val a = 1
-    }
+    }*/
 
-    private fun backupRunAndMenuData() {
+    private fun backupData() {
         var ext = context?.getExternalFilesDir(null).toString()
 
         // 一応、上書き確認を出す
@@ -82,10 +103,280 @@ class ConfigFragment : PreferenceFragmentCompat() {
 
                         // 終わりましたよ、というダイアログ
                         msgBox(getString(R.string.dialog_backup_done_title), String.format(getString(R.string.dialog_backup_done_message),ext,
-                            brew_list_backup, bean_list_backup, takeout_list_backup, equip_list_backup ) )
+                            brew_list_backup, bean_list_backup, equip_list_backup, takeout_list_backup ) )
                     }
                 })
             show()
+        }
+    }
+
+    private fun restoreData() {
+        restoreBrewData()
+        restoreBeansData()
+        restoreEquipData()
+        restoreTakeoutData()
+    }
+
+    private fun restoreBrewData() {
+        val ext = context?.getExternalFilesDir(null).toString()
+        val src = File("$ext/$brew_list_backup")
+
+        if (src.exists()) {
+            AlertDialog.Builder(context).apply {
+                setTitle(R.string.overwrite_confirm_dialog_title)
+                setMessage(R.string.overwrite_confirm_dialog_message_brew)
+                setCancelable(true)
+                setNegativeButton(R.string.overwrite_confirm_dialog_cancel, null)
+                setPositiveButton("OK",
+                    object : DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                            val srcRealmConfig = RealmConfiguration.Builder()
+                                .name(brew_list_backup)
+                                .directory(File(ext))
+                                .modules(BrewDataModule())
+                                .schemaVersion(BREW_DATA_VERSION)
+                                .migration(BrewDataMigration())
+                                .build()
+                            val srcRealm = Realm.getInstance(srcRealmConfig)
+                            val dstRealm = Realm.getInstance(brewRealmConfig)
+
+                            dstRealm.beginTransaction()
+                            dstRealm.deleteAll()
+                            val temp = srcRealm.where<BrewData>().findAll()
+
+                            for (t in temp) {
+                                var d = dstRealm.createObject<BrewData>(t.id)
+                                d.date = t.date
+                                d.rating = t.rating
+                                d.methodID = t.methodID
+                                d.equipID = t.equipID
+                                d.place = t.place
+                                d.shop = t.shop
+                                d.beansID = t.beansID
+                                d.beansPast = t.beansPast
+                                d.beansGrindSw = t.beansGrindSw
+                                d.beansGrind = t.beansGrind
+                                d.beansGrind2 = t.beansGrind2
+                                d.beansUse = t.beansUse
+                                d.cups = t.cups
+                                d.cupsDrunk = t.cupsDrunk
+                                d.temp = t.temp
+                                d.steam = t.steam
+                                d.imageURI = t.imageURI
+                                d.memo = t.memo
+                                d.takeoutID = t.takeoutID
+                                d.milk = t.milk
+                                d.sugar = t.sugar
+                                d.iceHotSw = t.iceHotSw
+                                d.price = t.price
+                            }
+                            dstRealm.commitTransaction()
+                            dstRealm.close()
+                            srcRealm.close()
+                            blackToast( context, getString(R.string.overwrite_confirm_dialog_done_brew) )
+                        }
+                    })
+                show()
+            }
+        } // BREWデータのレストア終了
+        else {
+            msgBox(
+                getString(R.string.dialog_backup_nothing_title),
+                String.format(
+                    getString(R.string.dialog_backup_brew_nothing_message),
+                    ext,
+                    brew_list_backup
+                )
+            )
+        }
+    }
+
+    private fun restoreBeansData() {
+        val ext = context?.getExternalFilesDir(null).toString()
+        val src = File("$ext/$bean_list_backup")
+
+        if (src.exists()) {
+            AlertDialog.Builder(context).apply {
+                setTitle(R.string.overwrite_confirm_dialog_title)
+                setMessage(R.string.overwrite_confirm_dialog_message_beans)
+                setCancelable(true)
+                setNegativeButton(R.string.overwrite_confirm_dialog_cancel, null)
+                setPositiveButton("OK",
+                    object : DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                            val srcRealmConfig = RealmConfiguration.Builder()
+                                .name(bean_list_backup)
+                                .directory(File(ext))
+                                .modules(BeansDataModule())
+                                .schemaVersion(BEANS_DATA_VERSION)
+                                .migration(BeansDataMigration())
+                                .build()
+                            val srcRealm = Realm.getInstance(srcRealmConfig)
+                            val dstRealm = Realm.getInstance(beansRealmConfig)
+
+                            dstRealm.beginTransaction()
+                            dstRealm.deleteAll()
+                            val temp = srcRealm.where<BeansData>().findAll()
+
+                            for (t in temp) {
+                                var d = dstRealm.createObject<BeansData>(t.id)
+                                d.name      = t.name
+                                d.rating    = t.rating
+                                d.date      = t.date
+                                d.recent    = t.recent
+                                d.gram      = t.gram
+                                d.roast     = t.roast
+                                d.shop      = t.shop
+                                d.price     = t.price
+                                d.count     = t.count
+                                d.memo      = t.memo
+                            }
+                            dstRealm.commitTransaction()
+                            dstRealm.close()
+                            srcRealm.close()
+                            blackToast( context, getString(R.string.overwrite_confirm_dialog_done_beans) )
+                        }
+                    })
+                show()
+            }
+        } // BEANSデータのレストア終了
+        else {
+            msgBox(
+                getString(R.string.dialog_backup_nothing_title),
+                String.format(
+                    getString(R.string.dialog_backup_beans_nothing_message),
+                    ext,
+                    bean_list_backup
+                )
+            )
+        }
+    }
+
+
+    private fun restoreTakeoutData() {
+        val ext = context?.getExternalFilesDir(null).toString()
+        val src = File("$ext/$takeout_list_backup")
+
+        if (src.exists()) {
+            AlertDialog.Builder(context).apply {
+                setTitle(R.string.overwrite_confirm_dialog_title)
+                setMessage(R.string.overwrite_confirm_dialog_message_takeout)
+                setCancelable(true)
+                setNegativeButton(R.string.overwrite_confirm_dialog_cancel, null)
+                setPositiveButton("OK",
+                    object : DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                            val srcRealmConfig = RealmConfiguration.Builder()
+                                .name(takeout_list_backup)
+                                .directory(File(ext))
+                                .modules(TakeoutDataModule())
+                                .schemaVersion(TAKEOUT_DATA_VERSION)
+                                .migration(TakeoutDataMigration())
+                                .build()
+                            val srcRealm = Realm.getInstance(srcRealmConfig)
+                            val dstRealm = Realm.getInstance(takeoutRealmConfig)
+
+                            dstRealm.beginTransaction()
+                            dstRealm.deleteAll()
+                            val temp = srcRealm.where<TakeoutData>().findAll()
+
+                            for (t in temp) {
+                                var d = dstRealm.createObject<TakeoutData>(t.id)
+                                d.name      = t.name
+                                d.rating    = t.rating
+                                d.chain     = t.chain
+                                d.shop      = t.shop
+                                d.price     = t.price
+                                d.count     = t.count
+                                d.recent    = t.recent
+                                d.first     = t.first
+                                d.size      = t.size
+                                d.memo      = t.memo
+                            }
+                            dstRealm.commitTransaction()
+                            dstRealm.close()
+                            srcRealm.close()
+                            blackToast( context, getString(R.string.overwrite_confirm_dialog_done_takeout) )
+                        }
+                    })
+                show()
+            }
+        } // TAKEOUTデータのレストア終了
+        else {
+            msgBox(
+                getString(R.string.dialog_backup_nothing_title),
+                String.format(
+                    getString(R.string.dialog_backup_takeout_nothing_message),
+                    ext,
+                    takeout_list_backup
+                )
+            )
+        }
+    }
+
+    private fun restoreEquipData() {
+        val ext = context?.getExternalFilesDir(null).toString()
+        val src = File("$ext/$equip_list_backup")
+
+        if (src.exists()) {
+            AlertDialog.Builder(context).apply {
+                setTitle(R.string.overwrite_confirm_dialog_title)
+                setMessage(R.string.overwrite_confirm_dialog_message_equip)
+                setCancelable(true)
+                setNegativeButton(R.string.overwrite_confirm_dialog_cancel, null)
+                setPositiveButton("OK",
+                    object : DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                            val srcRealmConfig = RealmConfiguration.Builder()
+                                .name(equip_list_backup)
+                                .directory(File(ext))
+                                .modules(EquipDataModule())
+                                .schemaVersion(EQUIP_DATA_VERSION)
+                                .migration(EquipDataMigration())
+                                .build()
+                            val srcRealm = Realm.getInstance(srcRealmConfig)
+                            val dstRealm = Realm.getInstance(equipRealmConfig)
+
+                            dstRealm.beginTransaction()
+                            dstRealm.deleteAll()
+                            val temp = srcRealm.where<EquipData>().findAll()
+
+                            for (t in temp) {
+                                var d = dstRealm.createObject<EquipData>(t.id)
+                                d.icon      = t.icon
+                                d.name      = t.name
+                                d.maker     = t.maker
+                                d.type      = t.type
+                                d.rating    = t.rating
+                                d.date      = t.date
+                                d.recent    = t.recent
+                                d.shop      = t.shop
+                                d.price     = t.price
+                                d.count     = t.count
+                                d.memo      = t.memo
+                            }
+                            dstRealm.commitTransaction()
+                            dstRealm.close()
+                            srcRealm.close()
+                            blackToast( context, getString(R.string.overwrite_confirm_dialog_done_equip) )
+                        }
+                    })
+                show()
+            }
+        } // TAKEOUTデータのレストア終了
+        else {
+            msgBox(
+                getString(R.string.dialog_backup_nothing_title),
+                String.format(
+                    getString(R.string.dialog_backup_equip_nothing_message),
+                    ext,
+                    equip_list_backup
+                )
+            )
         }
     }
 

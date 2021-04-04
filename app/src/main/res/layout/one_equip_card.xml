@@ -13,6 +13,7 @@
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/oneEquipBase"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -28,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="236dp" />
+            app:layout_constraintGuide_begin="217dp" />
 
         <ImageView
             android:id="@+id/oneEquipIcon"
@@ -95,34 +96,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@+id/oneEquipShopLabel"
-            app:layout_constraintTop_toBottomOf="@+id/oneEquipDateText"
-            tools:text="KALDI銀座店" />
-
-        <TextView
-            android:id="@+id/oneEquipPriceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipDateLabel"
-            app:layout_constraintStart_toEndOf="@+id/oneEquipPriceLabel"
-            tools:text="499" />
+            app:layout_constraintStart_toEndOf="@+id/oneEquipShopLabel"
+            tools:text="KALDI銀座店" />
 
         <TextView
             android:id="@+id/oneEquipMakerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipMakerLabel"
-            app:layout_constraintStart_toEndOf="@+id/oneEquipPriceLabel"
-            tools:text="499" />
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/oneEquipMakerLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneEquipShopText"
+            tools:text="National" />
 
         <TextView
-            android:id="@+id/oneEquipPriceLabel"
+            android:id="@+id/oneEquipTypeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/oneEquipPriceLabel"
-            android:textSize="10sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipDateLabel"
-            app:layout_constraintStart_toStartOf="@+id/guideline11" />
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/oneEquipTypeLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneEquipShopText"
+            tools:text="National" />
 
         <TextView
             android:id="@+id/oneEquipMakerLabel"
@@ -130,19 +124,26 @@
             android:layout_height="wrap_content"
             android:text="@string/oneEquipMakerLabel"
             android:textSize="10sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipShopLabel"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipMakerText"
+            app:layout_constraintStart_toStartOf="@+id/guideline10" />
+
+        <TextView
+            android:id="@+id/oneEquipTypeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/oneEquipTypeLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipMakerText"
             app:layout_constraintStart_toStartOf="@+id/guideline11" />
 
         <TextView
             android:id="@+id/oneEquipShopLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/oneEquipShop"
             android:textSize="10sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipShopText"
-            app:layout_constraintStart_toStartOf="@+id/guideline10"
-            app:layout_constraintTop_toBottomOf="@+id/oneEquipDateLabel" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneEquipDateLabel"
+            app:layout_constraintStart_toStartOf="@+id/guideline11" />
 
         <TextView
             android:id="@+id/oneEquipMemoLabel"
@@ -158,8 +159,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/oneEquipDateText"
-            app:layout_constraintTop_toBottomOf="@+id/oneEquipShopText"
+            app:layout_constraintTop_toBottomOf="@+id/oneEquipMakerText"
             tools:text="最高です" />
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipMakerText
 import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipMemoLabel
 import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipMemoText
 import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipNameText
-import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipPriceText
+import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipTypeText
 import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipRatingBar
 import kotlinx.android.synthetic.main.one_equip_card.view.oneEquipShopText
 import kotlinx.android.synthetic.main.one_equip_flat.view.*
@@ -30,7 +30,6 @@ class EquipViewHolder(iv: View) : RecyclerView.ViewHolder(iv) {
     var type:       TextView?=null
     var ratingBar:  RatingBar?=null
     var dateText:   TextView?=null
-    var price:      TextView?=null
     var memo:       TextView?=null
     var memoLabel:  TextView?=null
     var icon:       ImageView?=null
@@ -48,7 +47,6 @@ class EquipViewHolder(iv: View) : RecyclerView.ViewHolder(iv) {
         type        = iv.oneEquipTypeText
         ratingBar   = iv.oneEquipRatingBar
         dateText    = iv.oneEquipDateText
-        price       = iv.oneEquipPriceText
         memo        = iv.oneEquipMemoText
         memoLabel   = iv.oneEquipMemoLabel
         icon        = iv.oneEquipIcon

@@ -101,21 +101,43 @@
 
     <!-- 抽出方法のアイコン集 -->
     <string-array name="method_images">
-        <item>@drawable/beans150</item>
+        <item>@drawable/beans150_light</item>
         <item>@drawable/dripper</item>
         <item>@drawable/espresso</item>
         <item>@drawable/machine</item>
         <item>@drawable/makinet</item>
         <item>@drawable/press</item>
-        <item>@drawable/cyphone</item>
+        <item>@drawable/cyphone2_150</item>
         <item>@drawable/pot</item>
         <item>@drawable/pack</item>
         <item>@drawable/instant</item>
         <item>@drawable/takeout</item>
         <item>@drawable/dripper_metal150</item>
-        <item>@drawable/dripper_nell150</item>
         <item>@drawable/dripper_paper150</item>
-
+        <item>@drawable/nel150</item>
+        <item>@drawable/takeout2</item>
+        <item>@drawable/takeout3</item>
+        <item>@drawable/eq_blk_macha1</item>
+        <item>@drawable/eq_blk_maker1</item>
+        <item>@drawable/eq_blk_makine1</item>
+        <item>@drawable/eq_blk_press1</item>
+        <item>@drawable/eq_blk_takeout1</item>
+        <item>@drawable/eq_bw_cup1</item>
+        <item>@drawable/eq_bw_cyphone1</item>
+        <item>@drawable/eq_bw_drip1</item>
+        <item>@drawable/eq_bw_maker1</item>
+        <item>@drawable/eq_bw_maker2</item>
+        <item>@drawable/eq_bw_makine1</item>
+        <item>@drawable/eq_bw_takeout2</item>
+        <item>@drawable/eq_bw_takeout3</item>
+        <item>@drawable/eq_bw_takeout4</item>
+        <item>@drawable/eq_bw_takeout5</item>
+        <item>@drawable/eq_col_cup1</item>
+        <item>@drawable/eq_col_cup2</item>
+        <item>@drawable/eq_col_maker1</item>
+        <item>@drawable/eq_col_makine1</item>
+        <item>@drawable/eq_col_press1</item>
+        <item>@drawable/eq_col_takeout1</item>
     </string-array>
 
     <!-- 店飲みのセレクト関係 -->

@@ -113,7 +113,7 @@ class StartApplication : Application() {
 
         // EQUIPが初登場したバージョン（BREW_DATA_VERSION=6）の時の処理
         // BREWのmethodIDをやめて、equipIDでEQUIPD DB参照とする
-        if( brewDataMigrated || true ) {
+        if( brewDataMigrated  ) {
             // 既存BREWで使っている器具のリストを作る
             var realm = Realm.getInstance(brewRealmConfig)
             val brews = realm.where<BrewData>().findAll()
@@ -198,7 +198,7 @@ class StartApplication : Application() {
             val equipList = listOf<EquipDataInit>(
                 EquipDataInit(0L, "2021/1/1", "ドリッパー", "KALITA", "ABC-012",3.0F, 1, "", 500, ""),
                 EquipDataInit(1L, "2021/1/1", "フレンチプレス", "BODUM", "XXX-123", 3.0F, 2,  "",2000, ""),
-                EquipDataInit( EQUIP_SHOP, "2050/1/1", "外飲み", "", "", 3.0F, 10, "", 0, "消さないで")
+                EquipDataInit( EQUIP_SHOP, "2050/1/1", "外飲み", "", "", 3.0F, 10, "", 0, "")
             )
 
             // DB書き込み

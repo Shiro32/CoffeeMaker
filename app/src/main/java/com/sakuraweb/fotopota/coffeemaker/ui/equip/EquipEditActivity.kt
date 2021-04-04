@@ -29,8 +29,6 @@ import java.util.*
 const val EQUIP_EDIT_MODE_NEW = 1
 const val EQUIP_EDIT_MODE_EDIT = 2
 const val EQUIP_EDIT_MODE_COPY = 3
-
-const val REQUEST_CODE_EQUIP_NAME_SELECT = 100
 const val REQUEST_CODE_EQUIP_ICON_SELECT = 102
 
 var iconID: Int = 0
@@ -104,7 +102,13 @@ class EquipEditActivity : AppCompatActivity() {
             }
         }
 
-
+        // 外飲みデータだけ注釈など
+        if( equipID== EQUIP_SHOP ) {
+            equipEditNotice.setText( R.string.equipEditNoticeHint )
+            equipEditGenealInfo.visibility = View.GONE
+        } else {
+            equipEditNotice.visibility = View.GONE
+        }
         // ここまでで基本的に画面構成終了
         // ーーーーーーーーーー　ここから各種ボタンのリスナ群設定　－－－－－－－－－－
 
@@ -145,7 +149,7 @@ class EquipEditActivity : AppCompatActivity() {
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(equipEditToolbar) // これやらないと落ちるよ
 //TODO: よくわからないから消したけど、何かしないとあかｎ
-//        supportActionBar?.title = getString(titles[editMode] as Int)
+        supportActionBar?.title = getString(titles[editMode] as Int)
 
         // 戻るボタン。表示だけで、実走はonSupportNavigateUp()で。超面倒くせえ！
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -160,7 +164,7 @@ class EquipEditActivity : AppCompatActivity() {
 
         override fun onClick(v: View?) {
             // 各View（Barなどなど）からローカル変数に読み込んでおく
-            val equipDate = Date()
+            val equipDate = equipEditDateText.text.toString().toDate("yyyy/MM/dd")
             val equipName = equipEditNameEdit.text.toString()
             val equipRating= equipEditRatingBar.progress.toFloat()
             val equipShop= equipEditShopEdit.text.toString()

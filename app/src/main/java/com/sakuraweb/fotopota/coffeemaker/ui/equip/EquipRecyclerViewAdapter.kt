@@ -2,13 +2,16 @@ package com.sakuraweb.fotopota.coffeemaker.ui.equip
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sakuraweb.fotopota.coffeemaker.EQUIP_SHOP
 import com.sakuraweb.fotopota.coffeemaker.brewMethodsImages
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.one_equip_card.view.*
 import java.text.SimpleDateFormat
 
 const val REQUEST_CODE_EQUIP_EDIT = 200
@@ -27,10 +30,23 @@ class EquipRecyclerViewAdapter(equipRealm: RealmResults<EquipData>, private val 
 
     private val equipList: RealmResults<EquipData> = equipRealm
 
+    // ここで外のみのチェック
+    // よくこんな方法、思いついたな・・・。
+    override fun getItemViewType(position: Int): Int {
+
+        val e = equipList[position]
+
+        return if(e!=null) e.id.toInt() else 0
+    }
+
     // 新しく1行分のViewをXMLから生成し、1行分のViewHolderを生成してViewをセットする
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EquipViewHolder {
         // 新しいView（1行）を生成する　レイアウト画面で作った、one_equip_card_home（1行）
         val view = LayoutInflater.from(parent.context).inflate(equipListLayout, parent, false)
+
+        if( viewType.toLong() == EQUIP_SHOP ) {
+            view.oneEquipBase.setBackgroundColor( Color.LTGRAY )
+        }
 
         // 1行ビューをもとに、ViewHolder（←自分で作ったヤツ）インスタンスを生成
         // 今作ったView（LinearLayout）を渡す
@@ -52,7 +68,7 @@ class EquipRecyclerViewAdapter(equipRealm: RealmResults<EquipData>, private val 
             holder.name?.text = equip.name
             holder.ratingBar?.rating = equip.rating
             holder.shop?.text = equip.shop
-            holder.price?.text = "("+equip.price.toString()+"円)"
+//            holder.price?.text = "("+equip.price.toString()+"円)"
             holder.maker?.text = equip.maker
             holder.type?.text = equip.type
             holder.icon?.setImageDrawable(brewMethodsImages.getDrawable(equip.icon))

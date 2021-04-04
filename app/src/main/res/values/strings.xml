@@ -6,23 +6,23 @@
 
 
     <string name="title_home">ホーム</string>
-    <string name="title_brews">コーヒー記録</string>
-    <string name="title_beans">使用豆DB</string>
-    <string name="title_takeout">外飲みDB</string>
+    <string name="title_brews">コーヒー日記</string>
+    <string name="title_beans">豆データ</string>
+    <string name="title_takeout">商品データ</string>
     <string name="title_stats">コーヒー統計</string>
     <string name="title_config">設定</string>
 
-    <string name="titleTakeoutListFromBtnv">外飲みリスト編集</string>
+    <string name="titleTakeoutListFromBtnv">コーヒー商品リスト編集</string>
     <string name="titleTakeoutListFromBrewEdit">コーヒーを選択してね</string>
-    <string name="titleTakeoutDetails">外飲みの詳細情報</string>
-    <string name="titleTakeoutEditEdit">外飲み情報の編集</string>
-    <string name="titleTakeoutEditNew">外飲み情報の作成</string>
+    <string name="titleTakeoutDetails">コーヒー商品の詳細情報</string>
+    <string name="titleTakeoutEditEdit">コーヒー商品情報の編集</string>
+    <string name="titleTakeoutEditNew">コーヒー商品情報の作成</string>
     <string name="titleTakeoutEditCopy">コピーして作成</string>
 
-    <string name="titleEquipListFromBtnv">コーヒー器具編集</string>
+    <string name="titleEquipListFromBtnv">器具データ一覧</string>
     <string name="titleEquipListFromBrewEdit">コーヒー器具を選択してね</string>
-    <string name="titleEquipDetails">コーヒー器具の詳細情報</string>
-    <string name="titleEquipEditEdit">コーヒー器具の編集</string>
+    <string name="titleEquipDetails">器具の詳細情報</string>
+    <string name="titleEquipEditEdit">器具データの編集</string>
     <string name="titleEquipEditNew">コーヒー器具の作成</string>
     <string name="titleEquipEditCopy">コピーして作成</string>
     <string name="oneEquipBuyDateLabel">購入日：</string>
@@ -45,14 +45,15 @@
     <string name="equipEditPriceLabel">金　額：</string>
     <string name="equipEditPriceHint">1,000円など</string>
     <string name="equipEditMemoLabel">メ　モ：</string>
-    <string name="equipEditMemoHint"></string>
+    <string name="equipEditMemoHint">メモ</string>
     <string name="equipEditDateLabel">購入日：</string>
     <string name="equipEditIconLabel">アイコン変更</string>
     <string name="equipEditCancelBtnLabel">リストに戻る</string>
+    <string name="equipEditNoticeHint">このアイテムは、自分で淹れたコーヒーと外で飲むコーヒーを見分けるために使っているため、削除はできません。\n削除はできませんが、名前やアイコン、メモは変更可能です。</string>
 
     <string name="titleEquipIconSelect">器具のアイコンを選んでね</string>
 
-    <string name="titleBrewList">コーヒー摂取記録</string>
+    <string name="titleBrewList">コーヒー日記</string>
     <string name="titleBrewDetails">レシピ詳細</string>
     <string name="titleBrewEditEdit">レシピ編集</string>
     <string name="titleBrewEditNew">レシピ作成</string>
@@ -161,7 +162,6 @@
     <string name="takeoutDetailsSizeLabel">サイズ：</string>
 
     <!-- Takeout Edit -->
-    <string name="takeoutEditHeader">豆の購入記録です。代表的な豆銘柄はボタンから選択できるかもしれませぬ。</string>
     <string name="takeoutEditDateLabel">購入日</string>
     <string name="takeoutEditNameLabel">銘　柄</string>
     <string name="takeoutEditRatingLabel">評　価</string>
@@ -235,7 +235,7 @@
     <string name="config_list_look_label">リストの形式</string>
 
     <string name="config_database_header">各種データベースの設定</string>
-    <string name="config_takeout_db">外飲みデータの編集</string>
+    <string name="config_takeout_db">コーヒー商品データの編集</string>
     <string name="config_equip_db">コーヒー器具データの編集</string>
     <string name="config_backup_db">全データのバックアップ</string>
     <string name="config_restore_db">全データのレストア</string>
@@ -244,18 +244,37 @@
     <string name="overwrite_confirm_dialog_title">上書き確認</string>
     <string name="overwrite_confirm_dialog_cancel">キャンセル</string>
     <string name="overwrite_confirm_backup_dialog_message">全データのバックアップを保存しますか？</string>
-    <string name="overwrite_confirm_dialog_message_run">既存の練習記録をバックアップデータで上書きしますか？</string>
-    <string name="overwrite_confirm_dialog_done_run">練習記録復旧完了</string>
-    <string name="overwrite_confirm_dialog_message_menu">既存の練習メニューデータをバックアップデータで上書きしますか？</string>
-    <string name="overwrite_confirm_dialog_done_menu">メニューデータ復旧完了</string>
+    <string name="dialog_backup_nothing_title">見つからんよ</string>
+
+    <string name="overwrite_confirm_dialog_message_brew">既存のコーヒー日記をバックアップデータで上書きしますか？</string>
+    <string name="overwrite_confirm_dialog_done_brew">コーヒー日記データ復旧完了</string>
+    <string name="dialog_backup_brew_nothing_message">コーヒー日記データが見つかりませんでした。
+以下の場所にバックアップファイルを保存してから実行してみてください。\n\n■保存場所\n%s\n■ファイル名\n%s"</string>
+
+    <string name="overwrite_confirm_dialog_message_beans">既存の豆データをバックアップデータで上書きしますか？</string>
+    <string name="overwrite_confirm_dialog_done_beans">豆データ復旧完了</string>
+    <string name="dialog_backup_beans_nothing_message">豆データが見つかりませんでした。
+以下の場所にバックアップファイルを保存してから実行してみてください。\n\n■保存場所\n%s\n■ファイル名\n%s"</string>
+
+    <string name="overwrite_confirm_dialog_message_takeout">既存のコーヒー商品データをバックアップデータで上書きしますか？</string>
+    <string name="overwrite_confirm_dialog_done_takeout">コーヒー商品データ復旧完了</string>
+    <string name="dialog_backup_takeout_nothing_message">コーヒー商品データが見つかりませんでした。
+以下の場所にバックアップファイルを保存してから実行してみてください。\n\n■保存場所\n%s\n■ファイル名\n%s"</string>
+
+    <string name="overwrite_confirm_dialog_message_equip">既存の器具データをバックアップデータで上書きしますか？</string>
+    <string name="overwrite_confirm_dialog_done_equip">器具データ復旧完了</string>
+    <string name="dialog_backup_equip_nothing_message">器具データが見つかりませんでした。
+以下の場所にバックアップファイルを保存してから実行してみてください。\n\n■保存場所\n%s\n■ファイル名\n%s"</string>
+
+
     <string name="dialog_backup_done_title">バックアップ完了</string>
-    <string name="dialog_backup_done_message">"飲み・豆・外飲み・器具の４データベースを以下の場所にバックアップ保存しました。\n
+    <string name="dialog_backup_done_message">"日記・豆・器具・商品の４データベースを以下の場所にバックアップ保存しました。\n
 PCとUSB接続、メールやSNSに添付するなどして取り出して活用してください。\n
 機種変更時は、新しい端末の同じ場所にフォルダを作ってコピーし、「ストレージから復旧」ボタンで復旧できます。\n
 ■保存場所\n%s\n
-■飲みデータ\n%s\n
+■日記データ\n%s\n
 ■豆データ\n%s\n
-■外飲みデータ\n%s\n
 ■器具データ\n%s"</string>
+■商品データ\n%s\n
 
 </resources>
