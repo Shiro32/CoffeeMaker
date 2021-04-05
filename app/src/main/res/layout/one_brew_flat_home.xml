@@ -91,7 +91,6 @@
             app:isb_tick_marks_ends_hide="false"
             app:isb_tick_marks_size="7sp"
             app:isb_tick_marks_swept_hide="false"
-            app:isb_tick_texts_array="@array/grind_labels"
             app:isb_tick_texts_color="@color/seekBarText"
             app:isb_tick_texts_size="10sp"
             app:isb_ticks_count="5"
@@ -207,8 +206,7 @@
             app:isb_track_rounded_corners="false"
             app:isb_user_seekable="false"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/oneBrewSteamLabel"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="@+id/oneBrewGrind1Bar"
             app:layout_constraintStart_toEndOf="@+id/oneBrewTempLabel"
             app:layout_constraintTop_toTopOf="@+id/oneBrewTempLabel" />
 

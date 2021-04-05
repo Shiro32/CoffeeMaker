@@ -24,6 +24,7 @@ import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutListActivity
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_brew_details_home.*
 import kotlinx.android.synthetic.main.activity_brew_edit.*
 import java.util.*
 
@@ -60,6 +61,22 @@ class BrewEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_brew_edit)
+
+        // 設定メニューで表示・非表示を切り替える
+        // BrewEditは必ずBrewDetailsから呼ばれ、すでにConfigは読み込み済みのはず
+        if( !configMilkSw ) {
+            brewEditMilkBar.visibility = View.GONE
+            brewEditMilkLabel.visibility = View.GONE
+        }
+        if( !configSugarSw ) {
+            brewEditSugarBar.visibility = View.GONE
+            brewEditSugarLabel.visibility = View.GONE
+        }
+        if( !configSteamSw ) {
+            brewEditSteamBar.visibility = View.GONE
+            brewEditSteamLabel.visibility = View.GONE
+        } else
+            brewEditSteamBar.max = configSteamMax
 
         // ツールバータイトル用（４モード対応）
         val titles:Map<Int,Int> = mapOf(
@@ -112,6 +129,7 @@ class BrewEditActivity : AppCompatActivity() {
                     brewEditGrind1Bar.setProgress(brew.beansGrind)
                     brewEditGrind2Bar.setDecimalScale(1)
                     brewEditGrind2Bar.setProgress(brew.beansGrind2)
+                    brewEditGrind2Bar.max = configMillMax
 
                     brewEditBeansUseBar.setProgress(brew.beansUse)
                     brewEditTempBar.setProgress(brew.temp)

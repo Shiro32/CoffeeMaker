@@ -26,6 +26,13 @@ import android.content.Intent as Intent
 
 var brewListLayoutStyle: Int = 0
 
+// 各種表示設定（設定画面で設定したものの保持用）
+var configMillMax = 10F
+var configMilkSw = true
+var configSugarSw = true
+var configSteamSw = true
+var configSteamMax = 60F
+
 private lateinit var sortList: Array<String>
 
 class BrewFragment : Fragment() {
@@ -40,8 +47,11 @@ class BrewFragment : Fragment() {
 
         // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
         PreferenceManager.getDefaultSharedPreferences(context).apply {
-//            settingTermSw   = getBoolean("term_sw", true)
-//            settingKmSw     = getBoolean("km_sw", true)
+            getString("mill_max", "20")?.let { configMillMax = it.toFloat() }
+            getString("steam_max", "60")?.let { configSteamMax = it.toFloat() }
+            configMilkSw    = getBoolean("milk_sw", true)
+            configSugarSw   = getBoolean("sugar_sw", true)
+            configSteamSw   = getBoolean("steam_sw", true)
 
             brewListLayoutStyle = if( getString("list_sw", "") == "card" ) 0 else 1
         }

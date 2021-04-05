@@ -217,8 +217,7 @@
             app:isb_track_rounded_corners="false"
             app:isb_user_seekable="false"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/oneBrewSteamLabel"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="@+id/oneBrewGrind1Bar"
             app:layout_constraintStart_toEndOf="@+id/oneBrewTempLabel"
             app:layout_constraintTop_toTopOf="@+id/oneBrewTempLabel" />
 

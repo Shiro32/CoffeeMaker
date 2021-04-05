@@ -3,9 +3,13 @@ package com.sakuraweb.fotopota.coffeemaker.ui.config
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Environment
+import android.os.Environment.getExternalStoragePublicDirectory
+import android.text.InputType
 import androidx.preference.PreferenceFragmentCompat
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BEANS_DATA_VERSION
@@ -41,7 +45,21 @@ class ConfigFragment : PreferenceFragmentCompat() {
         ac.supportActionBar?.title = "いろいろ設定"
         ac.sortSpn.visibility = View.INVISIBLE
 
+        // プリファレンスをXMLからインフレートする
         addPreferencesFromResource(R.xml.root_preferences)
+
+        //　各入力項目を数字限定にする。面倒よねぇ・・・。
+        findPreference<EditTextPreference>("mill_max")?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
+        findPreference<EditTextPreference>("steam_max")?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
+        findPreference<EditTextPreference>("brew_max")?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
 
         findPreference<Preference>("backup")?.setOnPreferenceClickListener {
             backupData()
@@ -62,7 +80,7 @@ class ConfigFragment : PreferenceFragmentCompat() {
     }*/
 
     private fun backupData() {
-        var ext = context?.getExternalFilesDir(null).toString()
+        var ext = context?.getExternalFilesDir(null ).toString()
 
         // 一応、上書き確認を出す
         AlertDialog.Builder(context).apply {

@@ -221,9 +221,9 @@
     <!-- 分析画面 -->
     <string name="anaAllPeriod">全期間</string>
     <string name="brewEditGrindSwitchLabel">挽き目\n設定方法</string>
-    <string name="brewEditGrindSwitchRotationLabel">ミルのネジ等で設定</string>
+    <string name="brewEditGrindSwitchRotationLabel">ミルのノッチ等で設定</string>
     <string name="brewEditGrindSwitchNameLabel">名前で設定</string>
-    <string name="brewEditGrind2Label">ミル設定\n(ネジ)</string>
+    <string name="brewEditGrind2Label">ミル設定\n(ノッチ)</string>
     <string name="brewEditHotIceSwLabel">Hot/Ice</string>
     <string name="brewEditSugarLabel">砂糖</string>
     <string name="brewDetailsMilkLabel">ミルク</string>
@@ -237,9 +237,23 @@
     <string name="config_database_header">各種データベースの設定</string>
     <string name="config_takeout_db">コーヒー商品データの編集</string>
     <string name="config_equip_db">コーヒー器具データの編集</string>
+
+    <string name="config_backup_header">データのバックアップ</string>
     <string name="config_backup_db">全データのバックアップ</string>
     <string name="config_restore_db">全データのレストア</string>
-    <string name="config_backup_header">データのバックアップ</string>
+
+    <string name="config_inputs_header">入力項目の設定</string>
+    <string name="config_inputs_mill_max_label">ミルの最大ノッチ数</string>
+
+    <string name="config_inputs_brew_time_label">抽出時間（秒）</string>
+    <string name="config_inputs_brew_time_max_label">抽出時間の最大（秒）</string>
+
+    <string name="config_inputs_steam_time_label">蒸らし時間（秒）</string>
+    <string name="config_inputs_steam_time_max_label">蒸らし時間の最大（秒）</string>
+
+    <string name="config_inputs_sugar_label">砂糖使用量</string>
+    <string name="config_inputs_milk_label">ミルク使用量</string>
+
 
     <string name="overwrite_confirm_dialog_title">上書き確認</string>
     <string name="overwrite_confirm_dialog_cancel">キャンセル</string>

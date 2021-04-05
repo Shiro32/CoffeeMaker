@@ -12,6 +12,7 @@ import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipIconByID
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.findTakeoutChainNameByID
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.one_brew_card_home.view.*
 import java.text.SimpleDateFormat
 
 const val REQUEST_CODE_SHOW_DETAILS = 1
@@ -32,13 +33,15 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
 
     // 新しく1行分のViewをXMLから生成し、1行分のViewHolderを生成してViewをセットする
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrewViewHolder {
-        val view:View
-
-        // 新しいView（1行）を生成する
-        // 家飲みと店飲みを分けて作る
+        // 家飲み、店飲み、フラット、カードで4種類
+        val view: View
         if( viewType == BREW_IN_HOME ) {
             view = LayoutInflater.from(parent.context)
                 .inflate( if(brewListLayoutStyle==0) R.layout.one_brew_card_home else R.layout.one_brew_flat_home, parent, false)
+                if( !configSteamSw ) {
+                    view.oneBrewSteamBar.visibility = View.GONE
+                    view.oneBrewSteamLabel.visibility = View.GONE
+                }
         }  else {
             view = LayoutInflater.from(parent.context)
                 .inflate( if(brewListLayoutStyle==0) R.layout.one_brew_card_shop else R.layout.one_brew_flat_shop, parent, false)
@@ -47,8 +50,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         // 1行ビューをもとに、ViewHolder（←自分で作ったヤツ）インスタンスを生成
         // 今作ったView（LinearLayout）を渡す
         // ビューホルダは、内部のローカル変数に1行分のデータを保持
-        val holder = BrewViewHolder(view)
-        return holder
+        return BrewViewHolder(view)
     }
 
     // ViewHolderの表示内容を更新する
@@ -76,17 +78,17 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                 } else {
                     holder.beansGrindBar?.tickCount = 2
                     holder.beansGrindBar?.min = 0F
-                    holder.beansGrindBar?.max = 20F
+                    holder.beansGrindBar?.max = configMillMax
                     holder.beansGrindBar?.hideThumbText(false)
                     holder.beansGrindBar?.setDecimalScale(1)
                     holder.beansGrindBar?.setProgress(bp.beansGrind2)
-                    holder.beansGrindBar?.customTickTexts(grind2Labels)
+//                    holder.beansGrindBar?.customTickTexts(grind2Labels)
                 }
 
-                holder.beansUseBar?.setProgress(bp.beansUse.toFloat())
-                holder.cupsBar?.setProgress(bp.cups.toFloat())
-                holder.tempBar?.setProgress(bp.temp.toFloat())
-                holder.steamBar?.setProgress(bp.steam.toFloat())
+                holder.beansUseBar?.setProgress(bp.beansUse)
+                holder.cupsBar?.setProgress(bp.cups)
+                holder.tempBar?.setProgress(bp.temp)
+                holder.steamBar?.setProgress(bp.steam)
 
                 // 豆の経過日数を計算する
                 if(bp.beansID>0L) {

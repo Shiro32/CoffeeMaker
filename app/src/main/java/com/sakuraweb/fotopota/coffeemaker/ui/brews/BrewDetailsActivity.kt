@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.preference.PreferenceManager
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.REQUEST_EDIT_BEANS
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
@@ -32,8 +33,9 @@ import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsTool
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsMilkBar
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsSugarBar
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsHotIceSw
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsMilkLabel
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsSugarLabel
 import kotlinx.android.synthetic.main.activity_brew_details_shop.*
-import kotlinx.android.synthetic.main.activity_brew_edit.*
 
 import java.util.*
 
@@ -48,6 +50,7 @@ class BrewDetailsActivity : AppCompatActivity() {
     // 詳細画面開始
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         // Realmのインスタンスを生成
         // Edit画面終了まで維持（onDestroy）でclose
@@ -79,6 +82,7 @@ class BrewDetailsActivity : AppCompatActivity() {
                     brewDetailsGrind1Bar.visibility = View.GONE
                     brewDetailsGrind1Label.visibility = View.GONE
                     brewDetailsGrind2Bar.setProgress(brew.beansGrind2)
+                    brewDetailsGrind2Bar.max = configMillMax
                 }
 
                 brewDetailsBeansUseBar.setProgress(brew.beansUse)
@@ -97,6 +101,21 @@ class BrewDetailsActivity : AppCompatActivity() {
             }
 
             // 家飲み・店飲み共通項目
+            // 設定画面の項目を反映
+            if( !configMilkSw ) {
+                brewDetailsMilkBar.visibility = View.GONE
+                brewDetailsMilkLabel.visibility = View.GONE
+            }
+            if( !configSugarSw ) {
+                brewDetailsSugarBar.visibility = View.GONE
+                brewDetailsSugarLabel.visibility = View.GONE
+            }
+            if( !configSteamSw ) {
+                brewDetailsSteamBar.visibility = View.GONE
+                brewDetailsSteamLabel.visibility = View.GONE
+            } else
+                brewDetailsSteamBar.max = configSteamMax
+
 //            val dd: LocalDateTime = LocalDateTime.now()
             brewDetailsRatingBar.rating = brew.rating
 //            brewDetailsMethodText.text = brewMethods[brew.methodID]
