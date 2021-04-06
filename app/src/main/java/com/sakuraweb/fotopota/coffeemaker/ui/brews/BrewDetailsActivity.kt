@@ -43,7 +43,6 @@ const val REQUEST_EDIT_BREW = 1
 
 // Brewの１カードごとの詳細画面
 // 当初は編集画面と一体化していたけど、List→Details→Editと３段階に変更
-
 class BrewDetailsActivity : AppCompatActivity() {
     private lateinit var realm: Realm
 
@@ -51,10 +50,8 @@ class BrewDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         // Realmのインスタンスを生成
         // Edit画面終了まで維持（onDestroy）でclose
-        // configはStartActivityで生成済み
         realm = Realm.getInstance(brewRealmConfig)
 
         // 表示データ（クリック元のカードのid）
@@ -90,18 +87,30 @@ class BrewDetailsActivity : AppCompatActivity() {
                 brewDetailsCupsDrunkBar.setProgress(brew.cupsDrunk)
                 brewDetailsTempBar.setProgress(brew.temp)
                 brewDetailsSteamBar.setProgress(brew.steam)
+                brewDetailsBrewTimeBar.setProgress(brew.brewTime)
                 // 豆の経過日数を計算する
                 if(brew.beansID>0L) {
                     val d1 = findBeansDateByID(brew.beansID)?.time
                     if (d1!=null)  days = "（"+((brew.date.time-d1)/(1000*60*60*24)).toString()+"日経過）"
                 }
+
+                // 家飲みにかかる各種ＯＮ・ＯＦＦ設定
+                if( !configSteamSw ) {
+                    brewDetailsSteamBar.visibility = View.GONE
+                    brewDetailsSteamLabel.visibility = View.GONE
+                } else brewDetailsSteamBar.max = configSteamMax
+                if( !configBrewSw ) {
+                    brewDetailsBrewTimeBar.visibility = View.GONE
+                    brewDetailsBrewTimeLabel.visibility = View.GONE
+                } else brewDetailsBrewTimeBar.max = configBrewMax
+
             } else {
                 setContentView(R.layout.activity_brew_details_shop)
                 brewDetailsShopText.setText(brew.shop)
             }
 
-            // 家飲み・店飲み共通項目
-            // 設定画面の項目を反映
+            // 家飲み・店飲み共通項目 設定画面の項目を反映
+            // 共通の設定項目（家飲みの方の設定はここでやっちゃダメ）
             if( !configMilkSw ) {
                 brewDetailsMilkBar.visibility = View.GONE
                 brewDetailsMilkLabel.visibility = View.GONE
@@ -110,15 +119,8 @@ class BrewDetailsActivity : AppCompatActivity() {
                 brewDetailsSugarBar.visibility = View.GONE
                 brewDetailsSugarLabel.visibility = View.GONE
             }
-            if( !configSteamSw ) {
-                brewDetailsSteamBar.visibility = View.GONE
-                brewDetailsSteamLabel.visibility = View.GONE
-            } else
-                brewDetailsSteamBar.max = configSteamMax
 
-//            val dd: LocalDateTime = LocalDateTime.now()
             brewDetailsRatingBar.rating = brew.rating
-//            brewDetailsMethodText.text = brewMethods[brew.methodID]
             brewDetailsMethodText.text = findEquipNameByID(brew.equipID)
             brewDetailsBeansText.text = findBeansNameByID(brew.place, brew.beansID, brew.takeoutID) + days
             brewDetailsMemoText.setText(brew.memo)
@@ -140,8 +142,6 @@ class BrewDetailsActivity : AppCompatActivity() {
             brewDetailsTimeText.text = getString(R.string.timeFormat).format(hour,min)
         }
 
-
-
         // ーーーーーーーーーー　ここから各種のリスナ設定　ーーーーーーーーーー
         // 編集ボタン
         brewDetailsEditBtn.setOnClickListener {
@@ -155,9 +155,7 @@ class BrewDetailsActivity : AppCompatActivity() {
         }
 
         // 一覧へ戻るボタン
-        brewDetailsReturnBtn.setOnClickListener {
-            finish()
-        }
+        brewDetailsReturnBtn.setOnClickListener { finish() }
 
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(brewDetailsToolbar)

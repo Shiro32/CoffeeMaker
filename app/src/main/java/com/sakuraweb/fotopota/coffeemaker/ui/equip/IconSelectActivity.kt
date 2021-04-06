@@ -18,8 +18,6 @@ class IconSelectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_icon_select)
 
-        lateinit var gridView: GridView
-
         val adapter = IconSelectGridAdapter( )
         equipIconGridView.adapter = adapter
 
@@ -54,7 +52,7 @@ class IconSelectActivity : AppCompatActivity() {
 
     // メニュー選択の対応
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intentID = this.intent.getLongExtra("id", 0L)
+//        val intentID = this.intent.getLongExtra("id", 0L)
         when( item.itemId ) {
             // saveは面倒くさいので後回し・・・。
 

@@ -1,12 +1,9 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
-import android.net.Uri
 import com.sakuraweb.fotopota.coffeemaker.HOT_COFFEE
-import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
 import io.realm.*
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmModule
-import io.realm.kotlin.where
 import java.util.*
 
 // コーヒーデータのデータ形式Class
@@ -20,8 +17,8 @@ import java.util.*
 // v4   挽度合いの表示を切り替えるSWを追加
 // v5   ミルク・砂糖の有無、アイス・ホットのＳＷ
 
-const val BREW_DATA_VERSION = 6L
-var brewDataMigrated = false
+const val BREW_DATA_VERSION = 7L
+var brewDataMigrated5to6 = false
 
 // この記載と、Configuration時のModules指定をしないと、すべての関連ClassがDB化される
 // 個別のClassのバージョンアップができないので、こうやって単独化させてあげる
@@ -56,6 +53,7 @@ open class BrewData : RealmObject() {
     var milk: Float = 0.0F  // v5 単位無しで、0～100
     var sugar: Float = 0.0F // v5　単位無しで、0～100
     var iceHotSw: Int = HOT_COFFEE   // v5 0:Hot, 1:Ice
+    var brewTime: Float = 0.0F // v7で登場
 
     var price: Int = 0 // 家飲み=1、外飲み=2　全然使ってなかったよ・・・
 }
@@ -64,9 +62,9 @@ open class BrewData : RealmObject() {
 // 初期バージョン（0）から順に最新版までたどって、versionを上げていく。すごいねぇ・・・。
 class BrewDataMigration : RealmMigration {
 
-    override fun migrate(realm: DynamicRealm, oldVersion: Long, newVersion: Long) {
+    override fun migrate(realm: DynamicRealm, old: Long, newVersion: Long) {
         val realmSchema = realm.schema
-        var oldVersion = oldVersion
+        var oldVersion = old
 
         if( oldVersion==0L ) {
             realmSchema.get("BrewData")!!
@@ -103,23 +101,13 @@ class BrewDataMigration : RealmMigration {
                 .addField("equipID", Long::class.java )
             oldVersion++
 
-            brewDataMigrated = true
-            // ここからBREWとEQUIPの変換作業が始まるけど、できるのか！？
-
-/*
-            // まず、0ドリップ～10外飲みまでの使用実績をリストアップ
-//            var realm = Realm.getInstance(brewRealmConfig)
-            val brews = realm.where(BrewData).findAll().sort("id", Sort.DESCENDING)
-            var m = Array(10){0}
-            for( b in brews ) {
-                m[ b.methodID ] += 1
-            }
-            realm.close()
-
-            // Equipデータベースを作る
-            realm = Realm.getInstance(())
-*/
-
+            brewDataMigrated5to6 = true
+        }
+        if( oldVersion==6L ) {
+            // 抽出時間登場
+            realmSchema.get("BrewData")!!
+                .addField("brewTime", Float::class.java )
+            oldVersion++
         }
     }
 }

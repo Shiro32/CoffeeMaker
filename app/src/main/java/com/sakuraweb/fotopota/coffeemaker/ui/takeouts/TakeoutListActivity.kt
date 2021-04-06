@@ -272,7 +272,7 @@ fun setTakeoutTakeDay() {
     val takeRealm = Realm.getInstance(takeoutRealmConfig)
     val brewRealm = Realm.getInstance(brewRealmConfig)
 
-    val past = SimpleDateFormat("yyyy/MM/dd HH:mm:ss" ).parse("2000/01/01 00:00:00")
+//    val past = SimpleDateFormat("yyyy/MM/dd HH:mm:ss" ).parse("2000/01/01 00:00:00")
 
     // 全店飲みを読み込む
     val takeouts = takeRealm.where(TakeoutData::class.java).findAll()

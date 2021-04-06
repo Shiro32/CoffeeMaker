@@ -17,7 +17,6 @@ import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.provider.Settings.Global.getString
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
@@ -113,7 +112,7 @@ class StartApplication : Application() {
 
         // EQUIPが初登場したバージョン（BREW_DATA_VERSION=6）の時の処理
         // BREWのmethodIDをやめて、equipIDでEQUIPD DB参照とする
-        if( brewDataMigrated  ) {
+        if( brewDataMigrated5to6  ) {
             // 既存BREWで使っている器具のリストを作る
             var realm = Realm.getInstance(brewRealmConfig)
             val brews = realm.where<BrewData>().findAll()
@@ -177,6 +176,7 @@ class StartApplication : Application() {
 //        setTakeoutTakeDay()
 
     }
+
 
     private fun createEquipData() {
         // configを設定
@@ -413,3 +413,4 @@ fun getFirstBrewDate() : Date {
 
     return begin
 }
+

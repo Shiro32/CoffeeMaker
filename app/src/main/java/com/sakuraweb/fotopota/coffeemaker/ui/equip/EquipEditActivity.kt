@@ -125,7 +125,7 @@ class EquipEditActivity : AppCompatActivity() {
         equipEditDateText.paintFlags = equipEditDateText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         equipEditDateText.setOnClickListener {
             val dtp = DatePickerDialog(
-                this, DatePickerDialog.OnDateSetListener { view, y, m, d ->
+                this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
                     equipEditDateText.text = getString(R.string.dateFormat).format(y, m+1, d)
                 }, year, month, day
             )

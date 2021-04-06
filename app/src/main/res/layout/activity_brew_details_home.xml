@@ -534,6 +534,59 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/brewDetailsSteamLabel" />
 
+            <com.warkiz.widget.IndicatorSeekBar
+                android:id="@+id/brewDetailsBrewTimeBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="14sp"
+                android:paddingEnd="12sp"
+                app:isb_clear_default_padding="true"
+                app:isb_indicator_color="@color/beansColor"
+                app:isb_indicator_text_color="@android:color/white"
+                app:isb_indicator_text_size="@dimen/brewEditBarIndicatorSize"
+                app:isb_max="120"
+                app:isb_min="0"
+                app:isb_only_thumb_draggable="false"
+                app:isb_progress="0"
+                app:isb_seek_smoothly="true"
+                app:isb_show_indicator="circular_bubble"
+                app:isb_show_thumb_text="true"
+                app:isb_show_tick_marks_type="oval"
+                app:isb_show_tick_texts="true"
+                app:isb_thumb_adjust_auto="false"
+                app:isb_thumb_color="@color/beansColor"
+                app:isb_thumb_size="@dimen/brewDetailsThumbSize"
+                app:isb_tick_marks_color="#dddddd"
+                app:isb_tick_marks_ends_hide="false"
+                app:isb_tick_marks_size="@dimen/brewDetailsTickMarkSize"
+                app:isb_tick_marks_swept_hide="false"
+                app:isb_tick_texts_color="@android:color/black"
+                app:isb_tick_texts_size="@dimen/brewEditTickTextSize"
+                app:isb_ticks_count="2"
+                app:isb_track_background_color="#dddddd"
+                app:isb_track_background_size="3sp"
+                app:isb_track_progress_color="#dddddd"
+                app:isb_track_progress_size="3sp"
+                app:isb_track_rounded_corners="false"
+                app:isb_user_seekable="false"
+                app:layout_constraintBottom_toBottomOf="@+id/brewDetailsBrewTimeLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/brewDetailsBrewTimeLabel" />
+
+            <TextView
+                android:id="@+id/brewDetailsBrewTimeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="0.9"
+                android:text="@string/brewEditBrewTimeLabel"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsSteamLabel" />
+
             <TextView
                 android:id="@+id/brewDetailsSugarLabel"
                 android:layout_width="wrap_content"
@@ -544,7 +597,7 @@
                 android:text="@string/brewEditSugarLabel"
                 android:textAlignment="textEnd"
                 app:layout_constraintEnd_toStartOf="@+id/guideline8"
-                app:layout_constraintTop_toBottomOf="@+id/brewDetailsSteamLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsBrewTimeLabel" />
 
             <com.warkiz.widget.IndicatorSeekBar
                 android:id="@+id/brewDetailsSugarBar"
@@ -594,7 +647,7 @@
                 android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:lineSpacingMultiplier="0.9"
-                android:text="@string/brewDetailsMilkLabel"
+                android:text="@string/brewEditMilkLabel"
                 android:textAlignment="textEnd"
                 app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toBottomOf="@+id/brewDetailsSugarLabel" />

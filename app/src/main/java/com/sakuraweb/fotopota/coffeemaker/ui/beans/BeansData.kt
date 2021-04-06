@@ -39,9 +39,9 @@ open class BeansData : RealmObject() {
 // 初期バージョン（0）から順に最新版までたどって、versionを上げていく。すごいねぇ・・・。
 class BeansDataMigration : RealmMigration {
 
-    override fun migrate(realm: DynamicRealm, oldVersion: Long, newVersion: Long) {
+    override fun migrate(realm: DynamicRealm, old: Long, newVersion: Long) {
         val realmSchema = realm.schema
-        var oldVersion = oldVersion
+        var oldVersion = old
 
 //        if( oldVersion==0L ) {
 //            realmSchema.get("BeansData")!!

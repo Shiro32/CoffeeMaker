@@ -47,7 +47,7 @@ class BeansSelectActivity : AppCompatActivity() {
     // メニュー選択の対応
     // TODO: ボタンでの処理と同じなので共通化したいな
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intentID = this.intent.getLongExtra("id", 0L)
+//        val intentID = this.intent.getLongExtra("id", 0L)
         when( item.itemId ) {
             // saveは面倒くさいので後回し・・・。
 

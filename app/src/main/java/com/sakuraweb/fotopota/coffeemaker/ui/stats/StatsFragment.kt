@@ -58,7 +58,7 @@ class StatsFragment : Fragment() {
 
         val realm = Realm.getInstance(brewRealmConfig)
         var brews = realm.where<BrewData>().sort("date", Sort.ASCENDING).findAll()
-        if (brews.size > 0) month.time = brews[0]?.date
+        if (brews.size > 0) month.time = brews[0]!!.date
         realm.close()
 
         do {
@@ -160,7 +160,7 @@ class StatsFragment : Fragment() {
             val realm = Realm.getInstance(brewRealmConfig)
             val brews = realm.where<BrewData>().findAll().sort("date", Sort.ASCENDING)
 
-            if (brews.size > 0) begin.time = brews[0]?.date
+            if (brews.size > 0) begin.time = brews[0]!!.date
             realm.close()
 //            last.time = Date()
 

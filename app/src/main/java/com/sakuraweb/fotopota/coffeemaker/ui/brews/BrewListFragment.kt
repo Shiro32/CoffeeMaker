@@ -32,6 +32,8 @@ var configMilkSw = true
 var configSugarSw = true
 var configSteamSw = true
 var configSteamMax = 60F
+var configBrewSw = true
+var configBrewMax = 120F
 
 private lateinit var sortList: Array<String>
 
@@ -49,9 +51,11 @@ class BrewFragment : Fragment() {
         PreferenceManager.getDefaultSharedPreferences(context).apply {
             getString("mill_max", "20")?.let { configMillMax = it.toFloat() }
             getString("steam_max", "60")?.let { configSteamMax = it.toFloat() }
+            getString("brew_max", "120")?.let { configBrewMax = it.toFloat() }
             configMilkSw    = getBoolean("milk_sw", true)
             configSugarSw   = getBoolean("sugar_sw", true)
             configSteamSw   = getBoolean("steam_sw", true)
+            configBrewSw    = getBoolean("brew_sw", true)
 
             brewListLayoutStyle = if( getString("list_sw", "") == "card" ) 0 else 1
         }

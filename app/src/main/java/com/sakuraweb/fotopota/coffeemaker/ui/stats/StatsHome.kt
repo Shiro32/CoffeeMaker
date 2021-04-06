@@ -55,7 +55,7 @@ class StatsHome : Fragment() {
     // ここから統計データ表示のメイン処理
     // メイン画面から、統計基本情報を含んだStatsPackを受け取る
     // 期間（begin～last）、そこに含まれるbeansID、takeoutID、表示用ヒントなどを含む
-    open fun onCreateStats(spin:StatsPack ) {
+    fun onCreateStats(spin:StatsPack ) {
 
         // 期間のラベル
         statsHomeTotalHint.text = spin.msg

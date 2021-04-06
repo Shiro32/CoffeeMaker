@@ -115,7 +115,7 @@ class BeansEditActivity : AppCompatActivity() {
         beansEditDateText.paintFlags = beansEditDateText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         beansEditDateText.setOnClickListener {
             val dtp = DatePickerDialog(
-                this, DatePickerDialog.OnDateSetListener { view, y, m, d ->
+                this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
                     beansEditDateText.text = getString(R.string.dateFormat).format(y, m+1, d)
                 }, year, month, day
             )

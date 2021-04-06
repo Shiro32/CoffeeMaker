@@ -72,7 +72,7 @@
             android:key="brew_sw"
             android:title="@string/config_inputs_brew_time_label" />
         <EditTextPreference
-            android:defaultValue="20"
+            android:defaultValue="120"
             android:dialogTitle="@string/config_inputs_brew_time_max_label"
             android:key="brew_max"
             android:title="@string/config_inputs_brew_time_max_label"

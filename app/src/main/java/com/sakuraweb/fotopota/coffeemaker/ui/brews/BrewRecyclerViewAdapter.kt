@@ -60,7 +60,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         val bp = brews[position]
 
         if( bp!=null ) {
-            var days = ""
+            var days: String
 
             // 家飲みの場合は抽出情報（店飲みの場合は不要）
             if( bp.place == BREW_IN_HOME ) {

@@ -61,6 +61,7 @@ class BrewEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_brew_edit)
+        inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         // 設定メニューで表示・非表示を切り替える
         // BrewEditは必ずBrewDetailsから呼ばれ、すでにConfigは読み込み済みのはず
@@ -72,11 +73,14 @@ class BrewEditActivity : AppCompatActivity() {
             brewEditSugarBar.visibility = View.GONE
             brewEditSugarLabel.visibility = View.GONE
         }
+        if( !configBrewSw ) {
+            brewEditBrewTimeBar.visibility = View.GONE
+            brewEditBrewTimeLabel.visibility = View.GONE
+        } else brewEditBrewTimeBar.max = configBrewMax
         if( !configSteamSw ) {
             brewEditSteamBar.visibility = View.GONE
             brewEditSteamLabel.visibility = View.GONE
-        } else
-            brewEditSteamBar.max = configSteamMax
+        } else brewEditSteamBar.max = configSteamMax
 
         // ツールバータイトル用（４モード対応）
         val titles:Map<Int,Int> = mapOf(
@@ -85,11 +89,8 @@ class BrewEditActivity : AppCompatActivity() {
             BREW_EDIT_MODE_COPY to R.string.titleBrewEditCopy
         )
 
-        inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
         // Realmのインスタンスを生成
         // Edit画面終了まで維持（onDestroy）でclose
-        // configはStartActivityで生成済み
         realm = Realm.getInstance(brewRealmConfig)
 
         // 呼び出し元から、どのような動作を求められているか（新規、編集、コピー）
@@ -104,7 +105,6 @@ class BrewEditActivity : AppCompatActivity() {
         // 既存データをRealmDBからダイアログのViewに読み込む
         when( editMode ) {
             BREW_EDIT_MODE_NEW -> {
-                // brewEditDeleteBtn.visibility = View.INVISIBLE
                 brewEditCancelBtn.text = getString(R.string.returnBtnLabel)
             }
 
@@ -134,6 +134,7 @@ class BrewEditActivity : AppCompatActivity() {
                     brewEditBeansUseBar.setProgress(brew.beansUse)
                     brewEditTempBar.setProgress(brew.temp)
                     brewEditSteamBar.setProgress(brew.steam)
+                    brewEditBrewTimeBar.setProgress(brew.brewTime)
                     brewEditShopText.setText(brew.shop)
 
                     brewEditSugarBar.setProgress(brew.sugar)
@@ -156,7 +157,7 @@ class BrewEditActivity : AppCompatActivity() {
         brewEditSugarBar.setIndicatorTextFormat("\${TICK_TEXT}")
         brewEditMilkBar.setIndicatorTextFormat("\${TICK_TEXT}")
 
-        brewEditGrindSw.setOnCheckedChangeListener { buttonView, isChecked ->
+        brewEditGrindSw.setOnCheckedChangeListener { _, isChecked ->
             if( isChecked ) {
                 brewEditGrind2Bar.setIndicatorTextFormat("\${PROGRESS}")
                 brewEditGrind1Bar.visibility = View.GONE
@@ -225,7 +226,7 @@ class BrewEditActivity : AppCompatActivity() {
         brewEditDateText.paintFlags = brewEditDateText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         brewEditDateText.setOnClickListener {
             val dtp = DatePickerDialog(
-                this, DatePickerDialog.OnDateSetListener { view, y, m, d ->
+                this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
                     brewEditDateText.text = getString(R.string.dateFormat).format(y, m+1, d)
                 }, year, month, day
             )
@@ -236,7 +237,7 @@ class BrewEditActivity : AppCompatActivity() {
         brewEditTimeText.paintFlags = brewEditTimeText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         brewEditTimeText.setOnClickListener {
             val ttp = TimePickerDialog(
-                this, TimePickerDialog.OnTimeSetListener { view, h, m ->
+                this, TimePickerDialog.OnTimeSetListener { _, h, m ->
                     brewEditTimeText.text = getString(R.string.timeFormat).format(h, m)
                 }, hour, min, true
             )
@@ -294,6 +295,7 @@ class BrewEditActivity : AppCompatActivity() {
             val brewBeansUse= brewEditBeansUseBar.progress.toFloat()
             val brewTemp    = brewEditTempBar.progress.toFloat()
             val brewSteam   = brewEditSteamBar.progress.toFloat()
+            val brewTime    = brewEditBrewTimeBar.progress.toFloat()
             val brewShop   = brewEditShopText.text.toString()
             val brewMemo   = brewEditMemoText.text.toString()
 
@@ -326,6 +328,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.beansUse = brewBeansUse
                         brew.temp = brewTemp
                         brew.steam = brewSteam
+                        brew.brewTime = brewTime
                         brew.shop = brewShop
                         brew.memo = brewMemo
                         brew.sugar = brewSugar
@@ -353,6 +356,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.beansUse  = brewBeansUse
                         brew?.temp      = brewTemp
                         brew?.steam     = brewSteam
+                        brew?.brewTime  = brewTime
                         brew?.shop      = brewShop
                         brew?.memo      = brewMemo
                         brew?.sugar     = brewSugar
@@ -452,7 +456,7 @@ class BrewEditActivity : AppCompatActivity() {
                             brewEditBeansText.text = "未選択"
                             equipID = 0
                         }
-                        equipID = id as Long
+                        equipID = id
                         updateEquip( equipID )
                         blackToast(applicationContext, "${name}を選択")
                     }

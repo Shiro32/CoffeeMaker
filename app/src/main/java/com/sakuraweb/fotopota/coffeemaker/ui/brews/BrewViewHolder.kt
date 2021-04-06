@@ -57,7 +57,6 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
 
         shopText        = iv.oneBrewShopText
         memoText        = iv.oneBrewMemoText
-//        memoLabel       = iv.oneBrewMemoLabel
         image           = iv.oneBrewImage
     }
 }

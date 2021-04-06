@@ -249,11 +249,13 @@ class TakeoutEditActivity : AppCompatActivity() {
                         val sep = name?.indexOf("】")
 
                         if( sep!=null && sep!=-1 ) {
-                            var chain = name?.substring(1,sep)
-                            chain = shopNameList.getOrDefault(chain, chain)
-
+                            var chain = name.substring(1,sep)
+                            // スタバ・ファミマ・セブンは短縮化する
+                            // ↓この下記からは古いAndroidはダメみたいなのでエルビス演算子に書き換え
+//                            chain = shopNameList.getOrDefault(chain, chain)
+                            chain = shopNameList[chain]?:chain
                             takeoutEditChainEdit.setText(chain)
-                            takeoutEditNameEdit.setText(name?.substring(sep+1, name.length))
+                            takeoutEditNameEdit.setText(name.substring(sep+1, name.length))
                         } else {
                             takeoutEditNameEdit.setText(name)
                         }

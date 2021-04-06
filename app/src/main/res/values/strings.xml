@@ -89,6 +89,7 @@
     <string name="oneBrewShopLabel">購入:</string>
 
     <!-- Brew Details -->
+    <!-- なぜか大部分は、BrewEditと共用 -->
     <string name="brewDetailsHeaderText">詳細画面です（要らないか？）</string>
 
     <!-- Brew Edit -->
@@ -113,6 +114,15 @@
     <string name="brewEditShopLabel">購入店</string>
     <string name="brewEditShopHint">例：銀座店</string>
     <string name="brewEditCupDrunkLabel">飲んだ量\n(カップ)</string>
+    <string name="brewEditGrindSwitchLabel">挽き目\n設定方法</string>
+    <string name="brewEditGrindSwitchRotationLabel">ミルのノッチ等で設定</string>
+    <string name="brewEditGrindSwitchNameLabel">名前で設定</string>
+    <string name="brewEditGrind2Label">ミル設定\n(ノッチ)</string>
+    <string name="brewEditHotIceSwLabel">Hot/Ice</string>e
+    <string name="brewEditSugarLabel">砂糖</string>
+    <string name="brewEditMilkLabel">ミルク</string>
+    <string name="brewEditBrewTimeLabel">抽出時間\n(秒)</string>
+    <string name="brewEditItemName">コーヒー</string>
 
     <!-- Beans -->
     <string name="beansKindSpecial">ストレート</string>
@@ -218,17 +228,7 @@
     <string name="takeoutEditRatingHint">※飲んだ時の評価の平均で自動計算されます</string>
     <string name="beansEditRatingHint">※飲んだ時の評価の平均値が自動計算されます</string>
 
-    <!-- 分析画面 -->
     <string name="anaAllPeriod">全期間</string>
-    <string name="brewEditGrindSwitchLabel">挽き目\n設定方法</string>
-    <string name="brewEditGrindSwitchRotationLabel">ミルのノッチ等で設定</string>
-    <string name="brewEditGrindSwitchNameLabel">名前で設定</string>
-    <string name="brewEditGrind2Label">ミル設定\n(ノッチ)</string>
-    <string name="brewEditHotIceSwLabel">Hot/Ice</string>
-    <string name="brewEditSugarLabel">砂糖</string>
-    <string name="brewDetailsMilkLabel">ミルク</string>
-    <string name="brewEditMilkLabel">ミルク</string>
-    <string name="brewEditItemName">コーヒー</string>
 
     <!-- 設定画面用 -->
     <string name="config_appearance_header">見た目の設定</string>
