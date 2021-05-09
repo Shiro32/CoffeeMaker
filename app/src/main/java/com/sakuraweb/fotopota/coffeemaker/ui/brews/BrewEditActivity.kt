@@ -14,7 +14,6 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
@@ -24,7 +23,6 @@ import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutListActivity
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.activity_brew_details_home.*
 import kotlinx.android.synthetic.main.activity_brew_edit.*
 import java.util.*
 
@@ -73,15 +71,26 @@ class BrewEditActivity : AppCompatActivity() {
             brewEditSugarBar.visibility = View.GONE
             brewEditSugarLabel.visibility = View.GONE
         }
-        if( !configBrewSw ) {
+        if( !configBrewTimeSw ) {
             brewEditBrewTimeBar.visibility = View.GONE
             brewEditBrewTimeLabel.visibility = View.GONE
         } else brewEditBrewTimeBar.max = configBrewMax
-        if( !configSteamSw ) {
+        if( !configSteamTimeSw ) {
             brewEditSteamBar.visibility = View.GONE
             brewEditSteamLabel.visibility = View.GONE
         } else brewEditSteamBar.max = configSteamMax
-
+        if( !configCupsBrewedSw ) {
+            brewEditCupsBar.visibility = View.GONE
+            brewEditCupLabel.visibility = View.GONE
+        }
+        if( !configCupsDrunkSw ) {
+            brewEditCupsDrunkBar.visibility = View.GONE
+            brewEditCupDrunkLabel.visibility = View.GONE
+        }
+        if( !configWaterVolumeSw ) {
+            brewEditWaterVolumeBar.visibility = View.GONE
+            brewEditWaterVolumeLabel.visibility = View.GONE
+        } else brewEditWaterVolumeBar.max = configWaterVolumeMax
         // ツールバータイトル用（４モード対応）
         val titles:Map<Int,Int> = mapOf(
             BREW_EDIT_MODE_NEW to R.string.titleBrewEditNew,
@@ -127,9 +136,12 @@ class BrewEditActivity : AppCompatActivity() {
                     // どちらのbarを表示するかは、別途用意するSWで決める
                     brewEditGrindSw.isChecked = (brew.beansGrindSw == GRIND_SW_ROTATION)
                     brewEditGrind1Bar.setProgress(brew.beansGrind)
-                    brewEditGrind2Bar.setDecimalScale(1)
+                    brewEditGrind2Bar.max = configMillMax   // 先にMAXをセットしておかないと、これを超える数字をセットできない！
                     brewEditGrind2Bar.setProgress(brew.beansGrind2)
-                    brewEditGrind2Bar.max = configMillMax
+                    brewEditGrind2Bar.setDecimalScale(if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0)
+
+                    brewEditWaterVolumeBar.max = configWaterVolumeMax
+                    brewEditWaterVolumeBar.setProgress(brew.waterVolume)
 
                     brewEditBeansUseBar.setProgress(brew.beansUse)
                     brewEditTempBar.setProgress(brew.temp)
@@ -159,9 +171,11 @@ class BrewEditActivity : AppCompatActivity() {
 
         brewEditGrindSw.setOnCheckedChangeListener { _, isChecked ->
             if( isChecked ) {
-                brewEditGrind2Bar.setIndicatorTextFormat("\${PROGRESS}")
                 brewEditGrind1Bar.visibility = View.GONE
+                brewEditGrind2Bar.setIndicatorTextFormat("\${PROGRESS}")
                 brewEditGrind2Bar.visibility = View.VISIBLE
+                brewEditGrind2Bar.max = configMillMax
+                brewEditGrind2Bar.setDecimalScale(if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0)
             } else {
                 brewEditGrind1Bar.setIndicatorTextFormat("\${TICK_TEXT}")
                 brewEditGrind1Bar.visibility = View.VISIBLE
@@ -175,6 +189,8 @@ class BrewEditActivity : AppCompatActivity() {
             brewEditGrind2Bar.setIndicatorTextFormat("\${PROGRESS}")
             brewEditGrind1Bar.visibility = View.GONE
             brewEditGrind2Bar.visibility = View.VISIBLE
+            brewEditGrind2Bar.max = configMillMax
+            brewEditGrind2Bar.setDecimalScale(if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0)
         } else {
             // 名前表示
             brewEditGrind1Bar.setIndicatorTextFormat("\${TICK_TEXT}")
@@ -208,8 +224,7 @@ class BrewEditActivity : AppCompatActivity() {
             }
         }
 
-        updateEquip( equipID
-        )
+        updateEquip( equipID )
         // 日付・時刻選択のダイアログボタン用
         // Date型は意外と使いにくいので、Calendar型で行こう
         val year    = calender.get(Calendar.YEAR)
@@ -289,9 +304,10 @@ class BrewEditActivity : AppCompatActivity() {
             val brewRating = brewEditRatingBar.rating
             val brewCups    = brewEditCupsBar.progress.toFloat()
             val brewCupsDrunk= brewEditCupsDrunkBar.progress.toFloat()
+            val brewWaterVolume     = brewEditWaterVolumeBar.progress.toFloat()
             val brewGrindSw = if( brewEditGrindSw.isChecked ) GRIND_SW_ROTATION else GRIND_SW_NAME
             val brewGrind1   = brewEditGrind1Bar.progress.toFloat()
-            val brewGrind2 = brewEditGrind2Bar.progressFloat
+            val brewGrind2 = brewEditGrind2Bar.progress.toFloat()
             val brewBeansUse= brewEditBeansUseBar.progress.toFloat()
             val brewTemp    = brewEditTempBar.progress.toFloat()
             val brewSteam   = brewEditSteamBar.progress.toFloat()
@@ -322,6 +338,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.place = if( equipID==EQUIP_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew.cups = brewCups
                         brew.cupsDrunk = brewCupsDrunk
+                        brew.waterVolume = brewWaterVolume
                         brew.beansGrindSw = brewGrindSw
                         brew.beansGrind = brewGrind1
                         brew.beansGrind2 = brewGrind2
@@ -350,6 +367,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.place     = if( equipID==EQUIP_SHOP ) BREW_IN_SHOP else BREW_IN_HOME
                         brew?.cups      = brewCups
                         brew?.cupsDrunk = brewCupsDrunk
+                        brew?.waterVolume = brewWaterVolume
                         brew?.beansGrindSw = brewGrindSw
                         brew?.beansGrind= brewGrind1
                         brew?.beansGrind2=brewGrind2

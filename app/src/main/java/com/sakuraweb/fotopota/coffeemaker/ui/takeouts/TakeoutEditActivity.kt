@@ -271,8 +271,14 @@ class TakeoutEditActivity : AppCompatActivity() {
             }
         }
     }
+/*
 
+    override fun onStop() {
+        super.onStop()
+        realm.close()
+    }
 
+*/
     // 入力箇所（EditText）以外をタップしたときに、フォーカスをオフにする
     // おおもとのLayoutにfocusableInTouchModeをtrueにしないといけない
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {

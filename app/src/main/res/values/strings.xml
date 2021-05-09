@@ -12,11 +12,11 @@
     <string name="title_stats">コーヒー統計</string>
     <string name="title_config">設定</string>
 
-    <string name="titleTakeoutListFromBtnv">コーヒー商品リスト編集</string>
-    <string name="titleTakeoutListFromBrewEdit">コーヒーを選択してね</string>
-    <string name="titleTakeoutDetails">コーヒー商品の詳細情報</string>
-    <string name="titleTakeoutEditEdit">コーヒー商品情報の編集</string>
-    <string name="titleTakeoutEditNew">コーヒー商品情報の作成</string>
+    <string name="titleTakeoutListFromBtnv">市販コーヒーリスト編集</string>
+    <string name="titleTakeoutListFromBrewEdit">市販コーヒーを選択してね</string>
+    <string name="titleTakeoutDetails">市販コーヒーの詳細情報</string>
+    <string name="titleTakeoutEditEdit">市販コーヒー情報の編集</string>
+    <string name="titleTakeoutEditNew">市販コーヒー情報の作成</string>
     <string name="titleTakeoutEditCopy">コピーして作成</string>
 
     <string name="titleEquipListFromBtnv">器具データ一覧</string>
@@ -49,7 +49,7 @@
     <string name="equipEditDateLabel">購入日：</string>
     <string name="equipEditIconLabel">アイコン変更</string>
     <string name="equipEditCancelBtnLabel">リストに戻る</string>
-    <string name="equipEditNoticeHint">このアイテムは、自分で淹れたコーヒーと外で飲むコーヒーを見分けるために使っているため、削除はできません。\n削除はできませんが、名前やアイコン、メモは変更可能です。</string>
+    <string name="equipEditNoticeHint">このアイテムは、自分で淹れたコーヒーと市販コーヒーを見分けるために使っているため、削除はできません。\n削除はできませんが、名前やアイコン、メモは変更可能です。</string>
 
     <string name="titleEquipIconSelect">器具のアイコンを選んでね</string>
 
@@ -123,6 +123,7 @@
     <string name="brewEditMilkLabel">ミルク</string>
     <string name="brewEditBrewTimeLabel">抽出時間\n(秒)</string>
     <string name="brewEditItemName">コーヒー</string>
+    <string name="brewEditWaterVolumeLabel">お湯の量\n(cc)</string>
 
     <!-- Beans -->
     <string name="beansKindSpecial">ストレート</string>
@@ -235,7 +236,7 @@
     <string name="config_list_look_label">リストの形式</string>
 
     <string name="config_database_header">各種データベースの設定</string>
-    <string name="config_takeout_db">コーヒー商品データの編集</string>
+    <string name="config_takeout_db">市販コーヒーデータの編集</string>
     <string name="config_equip_db">コーヒー器具データの編集</string>
 
     <string name="config_backup_header">データのバックアップ</string>
@@ -244,6 +245,7 @@
 
     <string name="config_inputs_header">入力項目の設定</string>
     <string name="config_inputs_mill_max_label">ミルの最大ノッチ数</string>
+    <string name="config_inputs_mill_float_label">ミルのノッチ数の単位</string>
 
     <string name="config_inputs_brew_time_label">抽出時間（秒）</string>
     <string name="config_inputs_brew_time_max_label">抽出時間の最大（秒）</string>
@@ -253,7 +255,10 @@
 
     <string name="config_inputs_sugar_label">砂糖使用量</string>
     <string name="config_inputs_milk_label">ミルク使用量</string>
-
+    <string name="config_inputs_cups_brewed_label">淹れたカップ数</string>
+    <string name="config_inputs_cups_drunk_label">飲んだカップ数</string>
+    <string name="config_inputs_water_volume_label">お湯の量（cc）</string>
+    <string name="config_inputs_water_volume_max_label">お湯の最大量(cc)</string>
 
     <string name="overwrite_confirm_dialog_title">上書き確認</string>
     <string name="overwrite_confirm_dialog_cancel">キャンセル</string>
@@ -270,9 +275,9 @@
     <string name="dialog_backup_beans_nothing_message">豆データが見つかりませんでした。
 以下の場所にバックアップファイルを保存してから実行してみてください。\n\n■保存場所\n%s\n■ファイル名\n%s"</string>
 
-    <string name="overwrite_confirm_dialog_message_takeout">既存のコーヒー商品データをバックアップデータで上書きしますか？</string>
-    <string name="overwrite_confirm_dialog_done_takeout">コーヒー商品データ復旧完了</string>
-    <string name="dialog_backup_takeout_nothing_message">コーヒー商品データが見つかりませんでした。
+    <string name="overwrite_confirm_dialog_message_takeout">既存の市販コーヒーデータをバックアップデータで上書きしますか？</string>
+    <string name="overwrite_confirm_dialog_done_takeout">市販コーヒーデータ復旧完了</string>
+    <string name="dialog_backup_takeout_nothing_message">市販コーヒーデータが見つかりませんでした。
 以下の場所にバックアップファイルを保存してから実行してみてください。\n\n■保存場所\n%s\n■ファイル名\n%s"</string>
 
     <string name="overwrite_confirm_dialog_message_equip">既存の器具データをバックアップデータで上書きしますか？</string>
@@ -282,13 +287,13 @@
 
 
     <string name="dialog_backup_done_title">バックアップ完了</string>
-    <string name="dialog_backup_done_message">"日記・豆・器具・商品の４データベースを以下の場所にバックアップ保存しました。\n
+    <string name="dialog_backup_done_message">日記・豆・器具・商品の４データベースを以下の場所にバックアップ保存しました。\n
 PCとUSB接続、メールやSNSに添付するなどして取り出して活用してください。\n
 機種変更時は、新しい端末の同じ場所にフォルダを作ってコピーし、「ストレージから復旧」ボタンで復旧できます。\n
 ■保存場所\n%s\n
 ■日記データ\n%s\n
 ■豆データ\n%s\n
-■器具データ\n%s"</string>
-■商品データ\n%s\n
+■器具データ\n%s\n
+■市販品データ\n%s\n</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
+import com.sakuraweb.fotopota.coffeemaker.GRIND_UNIT_INT
 import com.sakuraweb.fotopota.coffeemaker.HOT_COFFEE
 import io.realm.*
 import io.realm.annotations.PrimaryKey
@@ -17,8 +18,9 @@ import java.util.*
 // v4   挽度合いの表示を切り替えるSWを追加
 // v5   ミルク・砂糖の有無、アイス・ホットのＳＷ
 
-const val BREW_DATA_VERSION = 7L
+const val BREW_DATA_VERSION = 8L
 var brewDataMigrated5to6 = false
+var brewDataMigrated7to8 = false
 
 // この記載と、Configuration時のModules指定をしないと、すべての関連ClassがDB化される
 // 個別のClassのバージョンアップができないので、こうやって単独化させてあげる
@@ -39,11 +41,13 @@ open class BrewData : RealmObject() {
     var beansID: Long = 0
     var beansPast: Int = 0
     var beansGrindSw: Int = 0       // v4から登場
+    var beansGrindUnit: Int = GRIND_UNIT_INT // v8から登場
     var beansGrind: Float = 0.0F
     var beansGrind2: Float = 0.0F   // v3から登場
     var beansUse: Float = 0.0F
     var cups: Float = 0.0F
     var cupsDrunk: Float = 0.0F
+    var waterVolume: Float = 0.0F // v8
     var temp: Float = 0.0F
     var steam: Float = 0.0F
     var imageURI: String = ""
@@ -62,9 +66,9 @@ open class BrewData : RealmObject() {
 // 初期バージョン（0）から順に最新版までたどって、versionを上げていく。すごいねぇ・・・。
 class BrewDataMigration : RealmMigration {
 
-    override fun migrate(realm: DynamicRealm, old: Long, newVersion: Long) {
+    override fun migrate(realm: DynamicRealm, oldVersion: Long, newVersion: Long) {
         val realmSchema = realm.schema
-        var oldVersion = old
+        var oldVersion = oldVersion
 
         if( oldVersion==0L ) {
             realmSchema.get("BrewData")!!
@@ -108,6 +112,15 @@ class BrewDataMigration : RealmMigration {
             realmSchema.get("BrewData")!!
                 .addField("brewTime", Float::class.java )
             oldVersion++
+        }
+        if( oldVersion==7L ) {
+            // 挽目の単位、湯量登場
+            realmSchema.get("BrewData")!!
+                .addField("beansGrindUnit", Int::class.java )
+                .addField("waterVolume", Float::class.java )
+            oldVersion++
+
+            brewDataMigrated7to8 = true
         }
     }
 }

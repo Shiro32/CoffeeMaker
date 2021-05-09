@@ -181,6 +181,12 @@ class TakeoutListActivity : AppCompatActivity(), SetTakeoutListener {
         takeoutRecycleView.adapter = this.adapter
     }
 
+    // これを忘れずに！
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
+    }
+
     override fun okBtnTapped(ret: TakeoutData?) {
         val intent = Intent()
         intent.putExtra("id", ret?.id )

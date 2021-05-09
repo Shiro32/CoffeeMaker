@@ -24,16 +24,22 @@ import kotlinx.android.synthetic.main.fragment_brew_list.*
 import kotlinx.android.synthetic.main.fragment_brew_list.view.*
 import android.content.Intent as Intent
 
-var brewListLayoutStyle: Int = 0
+var brewListLayoutStyle: Int = CARD_STYLE
+var configMillUnit: Int = GRIND_UNIT_FLOAT
 
 // 各種表示設定（設定画面で設定したものの保持用）
 var configMillMax = 10F
 var configMilkSw = true
 var configSugarSw = true
-var configSteamSw = true
+var configSteamTimeSw = true
 var configSteamMax = 60F
-var configBrewSw = true
+var configBrewTimeSw = true
 var configBrewMax = 120F
+var configCupsBrewedSw = true
+var configCupsDrunkSw = true
+var configWaterVolumeSw = true
+var configWaterVolumeMax = 120F
+lateinit var grind2Labels: Array<String>
 
 private lateinit var sortList: Array<String>
 
@@ -52,12 +58,19 @@ class BrewFragment : Fragment() {
             getString("mill_max", "20")?.let { configMillMax = it.toFloat() }
             getString("steam_max", "60")?.let { configSteamMax = it.toFloat() }
             getString("brew_max", "120")?.let { configBrewMax = it.toFloat() }
+            getString("water_volume_max", "120")?.let { configWaterVolumeMax = it.toFloat() }
             configMilkSw    = getBoolean("milk_sw", true)
             configSugarSw   = getBoolean("sugar_sw", true)
-            configSteamSw   = getBoolean("steam_sw", true)
-            configBrewSw    = getBoolean("brew_sw", true)
+            configSteamTimeSw   = getBoolean("steam_sw", true)
+            configBrewTimeSw    = getBoolean("brew_sw", true)
+            configCupsBrewedSw = getBoolean("cups_brewed_sw", true)
+            configCupsDrunkSw  = getBoolean("cups_drunk_sw", true)
+            configWaterVolumeSw = getBoolean("water_volume_sw", false)
 
-            brewListLayoutStyle = if( getString("list_sw", "") == "card" ) 0 else 1
+            configMillUnit = if( getString("mill_unit_sw", "") == "int" ) GRIND_UNIT_INT else GRIND_UNIT_FLOAT
+            brewListLayoutStyle = if( getString("list_sw", "") == "card" ) CARD_STYLE else FLAT_STYLE
+
+            grind2Labels = arrayOf( "0", configMillMax.toInt().toString() )
         }
 
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
@@ -230,10 +243,6 @@ class BrewFragment : Fragment() {
             }
         }
 
-//        // 全部のコースデータをrealmResults配列に読み込む
-//        val realmResults = realm.where<BrewData>()
-//            .findAll().sort("date", Sort.DESCENDING)
-
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
         layoutManager = LinearLayoutManager(activity)
@@ -246,22 +255,11 @@ class BrewFragment : Fragment() {
 //        // コンテキストメニューをセット
 //        registerForContextMenu(brewRecycleView)
 
-        Log.d("SHIRO", "brew / onStart - READ & Re-draw")
-//        Toast.makeText(activity, "homeのonStart", Toast.LENGTH_SHORT).show()
-
     }
 
-    // 終了処理
-    // 特にきめがあって書いたわけではなく、HHCのコースセレクトダイアログに従って書いただけ見たい
-    // そう考えると、書く位置を間違っているのかも
-    // TODO: onStopの方がいいそうです（onDestroyは呼ばれないことがある）
+    // realmの閉め忘れに注意！
     override fun onDestroy() {
-        Log.d("SHIRO", "brew / onDestroy - DB CLOSE")
-
         super.onDestroy()
         realm.close()
-
-//        Toast.makeText(activity, "homeのonDestroy", Toast.LENGTH_SHORT).show()
     }
-
 }

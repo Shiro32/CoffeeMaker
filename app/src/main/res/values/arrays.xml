@@ -15,8 +15,8 @@
         <item>評価順</item>
         <item>使用豆順</item>
         <item>抽出法順</item>
-        <item>外飲除外</item>
-        <item>外飲だけ</item>
+        <item>市販除外</item>
+        <item>市販だけ</item>
     </array>
 
     <array name="sort_mode_beans">
@@ -76,7 +76,7 @@
         <item>水出し</item>
         <item>ドリップ\nパック</item>
         <item>インスタント</item>
-        <item>外で飲み</item>    // これだけ特殊。コード10、家飲みとして区別
+        <item>市販コーヒー</item>    // これだけ特殊。コード10、家飲みとして区別
     </string-array>
 
     <string-array name="hot_ice_names">
@@ -320,6 +320,16 @@
     <string-array name="look_labels">
         <item>カード形式</item>
         <item>フラット形式</item>
+    </string-array>
+
+    <string-array name="mill_values">
+        <item>int</item>
+        <item>float</item>
+    </string-array>
+
+    <string-array name="mill_units">
+        <item>整数表示（例：5）</item>
+        <item>小数表示（例：5.3）</item>
     </string-array>
 
 </resources>

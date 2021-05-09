@@ -2,13 +2,16 @@ package com.sakuraweb.fotopota.coffeemaker.ui.equip
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Color
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.EQUIP_SHOP
+import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.brewMethodsImages
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.one_equip_card.view.*
@@ -45,7 +48,7 @@ class EquipRecyclerViewAdapter(equipRealm: RealmResults<EquipData>, private val 
         val view = LayoutInflater.from(parent.context).inflate(equipListLayout, parent, false)
 
         if( viewType.toLong() == EQUIP_SHOP ) {
-            view.oneEquipBase.setBackgroundColor( Color.LTGRAY )
+            view.oneEquipBase.setBackgroundResource( R.color.cardColor2 )
         }
 
         // 1行ビューをもとに、ViewHolder（←自分で作ったヤツ）インスタンスを生成

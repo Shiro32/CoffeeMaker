@@ -42,9 +42,14 @@ const val EQUIP_SHOP = 10L
 
 const val GRIND_SW_NAME = 0
 const val GRIND_SW_ROTATION = 1
+const val GRIND_UNIT_INT = 0
+const val GRIND_UNIT_FLOAT = 1
 
 const val HOT_COFFEE = 0
 const val ICE_COFFEE = 1
+
+const val CARD_STYLE = 0
+const val FLAT_STYLE = 1
 
 // グローバル変数たち
 lateinit var brewRealmConfig: RealmConfiguration
@@ -68,7 +73,6 @@ lateinit var takeoutRestaurant: Array<String>
 
 lateinit var roastLabels: Array<String>
 lateinit var grindLabels: Array<String>
-lateinit var grind2Labels: Array<String>
 
 const val brew_list_backup      = "brew_list_backup.realm"
 const val bean_list_backup      = "bean_list_backup.realm"
@@ -110,6 +114,7 @@ class StartApplication : Application() {
         // 新規の場合はとりあえず標準的な器具をリスト
         createEquipData()
 
+
         // EQUIPが初登場したバージョン（BREW_DATA_VERSION=6）の時の処理
         // BREWのmethodIDをやめて、equipIDでEQUIPD DB参照とする
         if( brewDataMigrated5to6  ) {
@@ -146,13 +151,28 @@ class StartApplication : Application() {
                         equip.icon = if( i==0 ) 1 else i
                         equip.name = brewMethods[i] // CRはどうすんだっけ・・・？
                         equip.date = (if(i.toLong()==EQUIP_SHOP) "2050/12/31" else "2020/01/01").toDate("yyyy/MM/dd")
-                        // 外飲みをいつも先頭に並べるために小細工
+                       // 外飲みをいつも先頭に並べるために小細工
 //                        equip.recent = (if(i.toLong()==EQUIP_SHOP) "2050/12/31" else "2020/01/01").toDate("yyyy/MM/dd")
                     }
                 }
             }
-
+            realm.close()
             blackToast(applicationContext,"器具DB構築完了！")
+        }
+
+        // v7→v8で湯量（waterVolume）が追加された
+        // 全部ゼロになるのはアカンので、とりあえず、カップ数×120ccにしておこう
+        if( brewDataMigrated7to8 ) {
+            var realm = Realm.getInstance(brewRealmConfig)
+            val brews = realm.where<BrewData>().findAll()
+            for( b in brews ) {
+                realm.executeTransaction {
+                    b.waterVolume = b.cupsDrunk * 120
+                }
+            }
+
+            realm.close()
+            blackToast(applicationContext, "湯量項目追加完了！")
         }
 
 
@@ -170,7 +190,6 @@ class StartApplication : Application() {
 
         roastLabels = resources.getStringArray(R.array.roast_labels)
         grindLabels = resources.getStringArray(R.array.grind_labels)
-        grind2Labels = resources.getStringArray(R.array.grind2_labels)
 
 
 //        setTakeoutTakeDay()
@@ -198,7 +217,7 @@ class StartApplication : Application() {
             val equipList = listOf<EquipDataInit>(
                 EquipDataInit(0L, "2021/1/1", "ドリッパー", "KALITA", "ABC-012",3.0F, 1, "", 500, ""),
                 EquipDataInit(1L, "2021/1/1", "フレンチプレス", "BODUM", "XXX-123", 3.0F, 2,  "",2000, ""),
-                EquipDataInit( EQUIP_SHOP, "2050/1/1", "外飲み", "", "", 3.0F, 10, "", 0, "")
+                EquipDataInit( EQUIP_SHOP, "2050/1/1", "市販コーヒー", "", "", 3.0F, 10, "", 0, "")
             )
 
             // DB書き込み

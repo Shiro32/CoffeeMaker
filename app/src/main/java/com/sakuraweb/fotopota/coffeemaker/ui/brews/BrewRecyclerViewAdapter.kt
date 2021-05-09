@@ -12,6 +12,7 @@ import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipIconByID
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.findTakeoutChainNameByID
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.activity_brew_edit.*
 import kotlinx.android.synthetic.main.one_brew_card_home.view.*
 import java.text.SimpleDateFormat
 
@@ -38,7 +39,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         if( viewType == BREW_IN_HOME ) {
             view = LayoutInflater.from(parent.context)
                 .inflate( if(brewListLayoutStyle==0) R.layout.one_brew_card_home else R.layout.one_brew_flat_home, parent, false)
-                if( !configSteamSw ) {
+                if( !configSteamTimeSw ) {
                     view.oneBrewSteamBar.visibility = View.GONE
                     view.oneBrewSteamLabel.visibility = View.GONE
                 }
@@ -80,14 +81,15 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                     holder.beansGrindBar?.min = 0F
                     holder.beansGrindBar?.max = configMillMax
                     holder.beansGrindBar?.hideThumbText(false)
-                    holder.beansGrindBar?.setDecimalScale(1)
+                    holder.beansGrindBar?.setDecimalScale(if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0)
                     holder.beansGrindBar?.setProgress(bp.beansGrind2)
-//                    holder.beansGrindBar?.customTickTexts(grind2Labels)
+                    holder.beansGrindBar?.customTickTexts(grind2Labels)
                 }
 
                 holder.beansUseBar?.setProgress(bp.beansUse)
                 holder.cupsBar?.setProgress(bp.cups)
                 holder.tempBar?.setProgress(bp.temp)
+                holder.steamBar?.max = configSteamMax
                 holder.steamBar?.setProgress(bp.steam)
 
                 // 豆の経過日数を計算する

@@ -32,7 +32,8 @@ var equipListLayout: Int = 0
 // 違いはタイトルくらいかな？
 
 class EquipListActivity : AppCompatActivity(), SetEquipListener {
-    private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
+    // onCreateで開いて、onStopで閉めるため、グローバルにしておく
+    private lateinit var realm: Realm
     private lateinit var adapter: EquipRecyclerViewAdapter           // アダプタのインスタンス
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
 
@@ -78,7 +79,6 @@ class EquipListActivity : AppCompatActivity(), SetEquipListener {
         brewRealm.close()
 
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
-        // realmのインスタンスを作る。ConfigはStartupで設定済み
         realm = Realm.getInstance(equipRealmConfig)
 
         // 追加ボタン（fab）のリスナを設定する（EditActivity画面を呼び出す）
@@ -150,6 +150,10 @@ class EquipListActivity : AppCompatActivity(), SetEquipListener {
         finish()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
+    }
 }
 
 fun findEquipIconByID( id:Long): Int {

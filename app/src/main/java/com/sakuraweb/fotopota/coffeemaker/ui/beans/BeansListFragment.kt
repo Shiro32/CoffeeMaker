@@ -89,9 +89,7 @@ class BeansFragment : Fragment(), SetBeansListener {
         brewRealm.close()
 
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
-        // realmのインスタンスを作る。ConfigはStartupで設定済み
         realm = Realm.getInstance(beansRealmConfig)
-
 
         // 追加ボタン（fab）のリスナを設定する（EditActivity画面を呼び出す）
         root.beansFAB.setOnClickListener {
@@ -124,7 +122,6 @@ class BeansFragment : Fragment(), SetBeansListener {
             ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
         }
 
-        Log.d("SHIRO", "beans / onCreateView")
         return root
     }
 
@@ -227,7 +224,7 @@ class BeansFragment : Fragment(), SetBeansListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("SHIRO", "beans / onDestroy")
+        realm.close()
     }
 
     override fun okBtnTapped(ret: BeansData?) {
@@ -238,7 +235,6 @@ class BeansFragment : Fragment(), SetBeansListener {
         activity?.setResult(RESULT_OK, intent)
         activity?.finish()
     }
-
 }
 
 

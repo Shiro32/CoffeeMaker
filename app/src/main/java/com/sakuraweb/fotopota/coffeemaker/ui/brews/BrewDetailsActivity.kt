@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.preference.PreferenceManager
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.REQUEST_EDIT_BEANS
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
@@ -35,6 +34,7 @@ import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsSuga
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsHotIceSw
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsMilkLabel
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsSugarLabel
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsCupLabel
 import kotlinx.android.synthetic.main.activity_brew_details_shop.*
 
 import java.util.*
@@ -69,6 +69,28 @@ class BrewDetailsActivity : AppCompatActivity() {
                 // ここでようやくレイアウトをインフレート
                 setContentView(R.layout.activity_brew_details_home)
 
+                // 家飲みにかかる各種ＯＮ・ＯＦＦ設定
+                if( !configSteamTimeSw ) {  // 蒸らし時間
+                    brewDetailsSteamBar.visibility = View.GONE
+                    brewDetailsSteamLabel.visibility = View.GONE
+                } else brewDetailsSteamBar.max = configSteamMax
+                if( !configBrewTimeSw ) {   // 抽出時間
+                    brewDetailsBrewTimeBar.visibility = View.GONE
+                    brewDetailsBrewTimeLabel.visibility = View.GONE
+                } else brewDetailsBrewTimeBar.max = configBrewMax
+                if( !configCupsBrewedSw ) {   // 抽出カップ数
+                    brewDetailsCupsBar.visibility = View.GONE
+                    brewDetailsCupLabel.visibility = View.GONE
+                } else brewDetailsBrewTimeBar.max = configBrewMax
+                if( !configCupsDrunkSw ) {   // 飲んだカップ数
+                    brewDetailsCupsDrunkBar.visibility = View.GONE
+                    brewDetailsCupDrunkLabel.visibility = View.GONE
+                } else brewDetailsBrewTimeBar.max = configBrewMax
+                if( !configWaterVolumeSw ) {   // 抽出cc
+                    brewDetailsWaterVolumeBar.visibility = View.GONE
+                    brewDetailsWaterVolumeLabel.visibility = View.GONE
+                } else brewDetailsBrewTimeBar.max = configBrewMax
+
                 // Grindを数字入力できるようにする処理（アドホックだなぁ・・・）
                 // １個しかないスライダ（beansGrindBar）を、Swで名前・回転数、どちらかで使う
                 if( brew.beansGrindSw == GRIND_SW_NAME ) {
@@ -78,8 +100,8 @@ class BrewDetailsActivity : AppCompatActivity() {
                 } else {
                     brewDetailsGrind1Bar.visibility = View.GONE
                     brewDetailsGrind1Label.visibility = View.GONE
-                    brewDetailsGrind2Bar.setProgress(brew.beansGrind2)
                     brewDetailsGrind2Bar.max = configMillMax
+                    brewDetailsGrind2Bar.setProgress(brew.beansGrind2)
                 }
 
                 brewDetailsBeansUseBar.setProgress(brew.beansUse)
@@ -88,21 +110,17 @@ class BrewDetailsActivity : AppCompatActivity() {
                 brewDetailsTempBar.setProgress(brew.temp)
                 brewDetailsSteamBar.setProgress(brew.steam)
                 brewDetailsBrewTimeBar.setProgress(brew.brewTime)
+                brewDetailsWaterVolumeBar.max = configWaterVolumeMax
+                brewDetailsWaterVolumeBar.setProgress(brew.waterVolume)
+                brewDetailsWaterVolumeBar.setDecimalScale( if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0 )
+
                 // 豆の経過日数を計算する
                 if(brew.beansID>0L) {
                     val d1 = findBeansDateByID(brew.beansID)?.time
                     if (d1!=null)  days = "（"+((brew.date.time-d1)/(1000*60*60*24)).toString()+"日経過）"
                 }
 
-                // 家飲みにかかる各種ＯＮ・ＯＦＦ設定
-                if( !configSteamSw ) {
-                    brewDetailsSteamBar.visibility = View.GONE
-                    brewDetailsSteamLabel.visibility = View.GONE
-                } else brewDetailsSteamBar.max = configSteamMax
-                if( !configBrewSw ) {
-                    brewDetailsBrewTimeBar.visibility = View.GONE
-                    brewDetailsBrewTimeLabel.visibility = View.GONE
-                } else brewDetailsBrewTimeBar.max = configBrewMax
+
 
             } else {
                 setContentView(R.layout.activity_brew_details_shop)

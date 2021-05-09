@@ -39,21 +39,6 @@
         </Preference>
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/config_backup_header"
-        app:icon="@android:drawable/ic_menu_save"
-        app:iconSpaceReserved="false">
-
-        <Preference
-            app:key="backup"
-            app:title="@string/config_backup_db">
-        </Preference>
-        <Preference
-            app:key="restore"
-            app:title="@string/config_restore_db">
-        </Preference>
-    </PreferenceCategory>
-
 
     <PreferenceCategory
         android:title="@string/config_inputs_header"
@@ -65,6 +50,15 @@
             android:dialogTitle="@string/config_inputs_mill_max_label"
             android:key="mill_max"
             android:title="@string/config_inputs_mill_max_label"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:defaultValue="float"
+            android:dialogTitle="@string/config_inputs_mill_float_label"
+            android:entries="@array/mill_units"
+            android:entryValues="@array/mill_values"
+            android:key="mill_unit_sw"
+            android:title="@string/config_inputs_mill_float_label"
             app:useSimpleSummaryProvider="true" />
 
         <CheckBoxPreference
@@ -97,5 +91,42 @@
             android:defaultValue="true"
             android:key="milk_sw"
             android:title="@string/config_inputs_milk_label" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="cups_brewed_sw"
+            android:title="@string/config_inputs_cups_brewed_label" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="cups_drunk_sw"
+            android:title="@string/config_inputs_cups_drunk_label" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="water_volume_sw"
+            android:title="@string/config_inputs_water_volume_label" />
+        <EditTextPreference
+            android:defaultValue="120"
+            android:dialogTitle="@string/config_inputs_water_volume_max_label"
+            android:key="water_volume_max"
+            android:title="@string/config_inputs_water_volume_max_label"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
+
+
+
+    <PreferenceCategory
+        android:title="@string/config_backup_header"
+        app:icon="@android:drawable/ic_menu_save"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            app:key="backup"
+            app:title="@string/config_backup_db">
+        </Preference>
+        <Preference
+            app:key="restore"
+            app:title="@string/config_restore_db">
+        </Preference>
+    </PreferenceCategory>
+
 </PreferenceScreen>
