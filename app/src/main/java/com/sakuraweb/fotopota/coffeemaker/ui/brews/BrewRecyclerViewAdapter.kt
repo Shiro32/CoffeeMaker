@@ -4,12 +4,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.*
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipIconAndNameByID
 import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipIconByID
+import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipNameByID
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.findTakeoutChainNameByID
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_brew_edit.*
@@ -39,10 +42,11 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
         if( viewType == BREW_IN_HOME ) {
             view = LayoutInflater.from(parent.context)
                 .inflate( if(brewListLayoutStyle==0) R.layout.one_brew_card_home else R.layout.one_brew_flat_home, parent, false)
-                if( !configSteamTimeSw ) {
-                    view.oneBrewSteamBar.visibility = View.GONE
-                    view.oneBrewSteamLabel.visibility = View.GONE
-                }
+                // ここで表示・非表示をやりますか。前に詰めるとかの処理が面倒だけど・・・。いっそLinearLayoutでいいのかも！？
+//                if( !configSteamTimeSw ) {
+//                    view.oneBrewSteamBar.visibility = View.GONE
+//                    view.oneBrewSteamLabel.visibility = View.GONE
+//                }
         }  else {
             view = LayoutInflater.from(parent.context)
                 .inflate( if(brewListLayoutStyle==0) R.layout.one_brew_card_shop else R.layout.one_brew_flat_shop, parent, false)
@@ -68,29 +72,20 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                 holder.beansPassText?.text = bp.beansPast.toString()
 
                 // Grindを数字入力できるようにする処理（アドホックだなぁ・・・）
-                // １個しかないスライダ（beansGrindBar）を、名前・回転数、どちらかで使うSWで分ける
-                if( bp.beansGrindSw == GRIND_SW_NAME ) {
-                    holder.beansGrindBar?.tickCount = 5
-                    holder.beansGrindBar?.min = 1F
-                    holder.beansGrindBar?.max = 5F
-                    holder.beansGrindBar?.hideThumbText(true)
-                    holder.beansGrindBar?.setProgress(bp.beansGrind)
-                    holder.beansGrindBar?.customTickTexts(grindLabels)
-                } else {
-                    holder.beansGrindBar?.tickCount = 2
-                    holder.beansGrindBar?.min = 0F
-                    holder.beansGrindBar?.max = configMillMax
-                    holder.beansGrindBar?.hideThumbText(false)
-                    holder.beansGrindBar?.setDecimalScale(if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0)
-                    holder.beansGrindBar?.setProgress(bp.beansGrind2)
-                    holder.beansGrindBar?.customTickTexts(grind2Labels)
-                }
+                // １個しかないTextViewを、名前・回転数、どちらかで使うSWで分ける
+                //TODO: もっと簡単な式で描けるでしょ？
+                holder.miniGrindText?.text =
+                    if( bp.beansGrindSw == GRIND_SW_NAME ) {
+                        grindLabels[bp.beansGrind.toInt()-1]
+                    } else {
+                        (if(configMillUnit== GRIND_UNIT_FLOAT) bp.beansGrind2 else bp.beansGrind2.toInt()).toString()
+                    }
 
-                holder.beansUseBar?.setProgress(bp.beansUse)
-                holder.cupsBar?.setProgress(bp.cups)
-                holder.tempBar?.setProgress(bp.temp)
-                holder.steamBar?.max = configSteamMax
-                holder.steamBar?.setProgress(bp.steam)
+                holder.miniBeansText?.text      = bp.beansUse.toInt().toString()+"g"
+                holder.miniSteamText?.text      = bp.steam.toInt().toString()+"秒"
+                holder.miniTempText?.text       = bp.temp.toInt().toString()+"℃"
+                holder.miniBrewTimeText?.text   = bp.brewTime.toInt().toString()+"秒"
+                holder.miniVolumeText?.text     = bp.waterVolume.toInt().toString()+"cc"
 
                 // 豆の経過日数を計算する
                 if(bp.beansID>0L) {
@@ -111,25 +106,20 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
             val df = SimpleDateFormat("yyyy/MM/dd HH:mm")
             holder.dateText?.text       = df.format(bp.date)
             holder.ratingBar?.rating    = bp.rating
-//            holder.methodText?.text     = brewMethodsCR[bp.methodID]
             holder.beansKindText?.text = findBeansNameByID(bp.place, bp.beansID, bp.takeoutID )
 
             // メモ欄が入ってないときは欄自体消す
             if( bp.memo!="" ) {
                 holder.memoText?.text = bp.memo
                 holder.memoText?.visibility = View.VISIBLE
-//                holder.memoLabel?.visibility = View.VISIBLE
             } else {
                 holder.memoText?.visibility = View.GONE
-//                holder.memoLabel?.visibility = View.GONE
             }
 
-            // 抽出方法にあったイラスト（アイコン）
-//            holder.image?.setImageDrawable(brewMethodsImages.getDrawable(bp.methodID))
-            holder.image?.setImageDrawable(brewMethodsImages.getDrawable(findEquipIconByID(bp.equipID)))
-            //TODO: findEquipIconByIDを作らないと
-            //TODO: findEquipNameByIDもか・・・きりないな
-            //TODO: いっそ、findEquipByIDにしちゃう？
+            // 抽出方法にあったイラスト（アイコン） 初めてPair型を使ってみた！少しは早くなる？
+            val iconAndName = findEquipIconAndNameByID(bp.equipID)
+            holder.image?.setImageDrawable(brewMethodsImages.getDrawable(iconAndName.first))
+            holder.methodText?.text = iconAndName.second
 
             // 行そのもの（Card）のリスナ
             // 行タップすることで編集画面(BrewEdit）に移行

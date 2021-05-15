@@ -6,272 +6,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF">
+    android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/oneBrewImage"
             android:layout_width="wrap_content"
             android:layout_height="38dp"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:adjustViewBounds="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/oneBrewBeansKindText"
             app:srcCompat="@drawable/machine2_160" />
-
-        <TextView
-            android:id="@+id/oneBrewDateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="2020年4月1日 10時00分"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/oneBrewPastText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="（10日経過）"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textSize="10sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewBeansKindText"
-            app:layout_constraintStart_toEndOf="@+id/oneBrewBeansKindText" />
-
-        <TextView
-            android:id="@+id/oneBrewBeansKindText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="ブルーマウンテンブレンド"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewDateText" />
-
-        <TextView
-            android:id="@+id/oneBrewBeansGrindLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/oneBrewGrind"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toStartOf="@+id/oneBrewGrind1Bar"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewMemoText" />
-
-        <com.warkiz.widget.IndicatorSeekBar
-            android:id="@+id/oneBrewGrind1Bar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingLeft="6sp"
-            android:paddingEnd="10sp"
-            app:isb_clear_default_padding="true"
-            app:isb_indicator_color="@color/beansColor"
-            app:isb_indicator_text_color="@android:color/white"
-            app:isb_indicator_text_size="10sp"
-            app:isb_max="5"
-            app:isb_min="1"
-            app:isb_only_thumb_draggable="false"
-            app:isb_progress="3"
-            app:isb_progress_value_float="true"
-            app:isb_seek_smoothly="true"
-            app:isb_show_indicator="circular_bubble"
-            app:isb_show_thumb_text="true"
-            app:isb_show_tick_marks_type="oval"
-            app:isb_show_tick_texts="true"
-            app:isb_thumb_adjust_auto="false"
-            app:isb_thumb_color="@color/beansColor"
-            app:isb_thumb_size="12sp"
-            app:isb_tick_marks_color="#dddddd"
-            app:isb_tick_marks_ends_hide="false"
-            app:isb_tick_marks_size="7sp"
-            app:isb_tick_marks_swept_hide="false"
-            app:isb_tick_texts_color="@color/seekBarText"
-            app:isb_tick_texts_size="10sp"
-            app:isb_ticks_count="5"
-            app:isb_track_background_color="#dddddd"
-            app:isb_track_background_size="2dp"
-            app:isb_track_progress_color="#dddddd"
-            app:isb_track_progress_size="2dp"
-            app:isb_track_rounded_corners="false"
-            app:isb_user_seekable="false"
-            app:layout_constraintEnd_toStartOf="@+id/oneBrewBeansUseLabel"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/oneBrewBeansGrindLabel"
-            app:layout_constraintTop_toTopOf="@+id/oneBrewBeansGrindLabel" />
-
-        <TextView
-            android:id="@+id/oneBrewBeansUseLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/oneBrewBeanUse"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toStartOf="@+id/oneBrewBeansUseBar"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/oneBrewGrind1Bar"
-            app:layout_constraintTop_toTopOf="@+id/oneBrewBeansGrindLabel" />
-
-        <com.warkiz.widget.IndicatorSeekBar
-            android:id="@+id/oneBrewBeansUseBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:paddingLeft="6sp"
-            android:paddingEnd="10sp"
-            app:isb_clear_default_padding="true"
-            app:isb_indicator_color="@color/beansColor"
-            app:isb_indicator_text_color="@android:color/white"
-            app:isb_indicator_text_size="10sp"
-            app:isb_max="60"
-            app:isb_min="0"
-            app:isb_only_thumb_draggable="false"
-            app:isb_progress="30"
-            app:isb_seek_smoothly="false"
-            app:isb_show_indicator="circular_bubble"
-            app:isb_show_thumb_text="true"
-            app:isb_show_tick_marks_type="oval"
-            app:isb_show_tick_texts="true"
-            app:isb_thumb_color="@color/beansColor"
-            app:isb_thumb_size="12sp"
-            app:isb_tick_marks_color="#dddddd"
-            app:isb_tick_marks_ends_hide="false"
-            app:isb_tick_marks_size="7sp"
-            app:isb_tick_marks_swept_hide="false"
-            app:isb_tick_texts_color="@color/seekBarText"
-            app:isb_tick_texts_size="10sp"
-            app:isb_ticks_count="2"
-            app:isb_track_background_color="#dddddd"
-            app:isb_track_background_size="2dp"
-            app:isb_track_progress_color="#dddddd"
-            app:isb_track_progress_size="2dp"
-            app:isb_track_rounded_corners="false"
-            app:isb_user_seekable="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/oneBrewBeansUseLabel"
-            app:layout_constraintTop_toTopOf="@+id/oneBrewBeansUseLabel" />
-
-        <TextView
-            android:id="@+id/oneBrewTempLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/oneBrewTemp"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toStartOf="@+id/oneBrewTempBar"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansGrindLabel" />
-
-        <com.warkiz.widget.IndicatorSeekBar
-            android:id="@+id/oneBrewTempBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:paddingLeft="6sp"
-            android:paddingEnd="10sp"
-            app:isb_clear_default_padding="true"
-            app:isb_indicator_color="@color/beansColor"
-            app:isb_indicator_text_color="@android:color/white"
-            app:isb_indicator_text_size="10sp"
-            app:isb_max="100"
-            app:isb_min="0"
-            app:isb_only_thumb_draggable="false"
-            app:isb_progress="80"
-            app:isb_seek_smoothly="false"
-            app:isb_show_indicator="circular_bubble"
-            app:isb_show_thumb_text="true"
-            app:isb_show_tick_marks_type="oval"
-            app:isb_show_tick_texts="true"
-            app:isb_thumb_color="@color/beansColor"
-            app:isb_thumb_size="12sp"
-            app:isb_tick_marks_color="#dddddd"
-            app:isb_tick_marks_ends_hide="false"
-            app:isb_tick_marks_size="7sp"
-            app:isb_tick_marks_swept_hide="false"
-            app:isb_tick_texts_color="@color/seekBarText"
-            app:isb_tick_texts_size="10sp"
-            app:isb_ticks_count="2"
-            app:isb_track_background_color="#dddddd"
-            app:isb_track_background_size="2dp"
-            app:isb_track_progress_color="#dddddd"
-            app:isb_track_progress_size="2dp"
-            app:isb_track_rounded_corners="false"
-            app:isb_user_seekable="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/oneBrewGrind1Bar"
-            app:layout_constraintStart_toEndOf="@+id/oneBrewTempLabel"
-            app:layout_constraintTop_toTopOf="@+id/oneBrewTempLabel" />
-
-        <TextView
-            android:id="@+id/oneBrewSteamLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/oneBrewSteam"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toStartOf="@+id/oneBrewSteamBar"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/oneBrewTempBar"
-            app:layout_constraintTop_toTopOf="@+id/oneBrewTempLabel" />
-
-        <com.warkiz.widget.IndicatorSeekBar
-            android:id="@+id/oneBrewSteamBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:paddingLeft="6sp"
-            android:paddingEnd="10sp"
-            app:isb_clear_default_padding="true"
-            app:isb_indicator_color="@color/beansColor"
-            app:isb_indicator_text_color="@android:color/white"
-            app:isb_indicator_text_size="10sp"
-            app:isb_max="120"
-            app:isb_min="0"
-            app:isb_only_thumb_draggable="false"
-            app:isb_progress="30"
-            app:isb_seek_smoothly="false"
-            app:isb_show_indicator="circular_bubble"
-            app:isb_show_thumb_text="true"
-            app:isb_show_tick_marks_type="oval"
-            app:isb_show_tick_texts="true"
-            app:isb_thumb_color="@color/beansColor"
-            app:isb_thumb_size="12sp"
-            app:isb_tick_marks_color="#dddddd"
-            app:isb_tick_marks_ends_hide="false"
-            app:isb_tick_marks_size="7sp"
-            app:isb_tick_marks_swept_hide="false"
-            app:isb_tick_texts_color="@color/seekBarText"
-            app:isb_tick_texts_size="10sp"
-            app:isb_ticks_count="2"
-            app:isb_track_background_color="#dddddd"
-            app:isb_track_background_size="2dp"
-            app:isb_track_progress_color="#dddddd"
-            app:isb_track_progress_size="2dp"
-            app:isb_track_rounded_corners="false"
-            app:isb_user_seekable="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/oneBrewSteamLabel"
-            app:layout_constraintTop_toTopOf="@+id/oneBrewTempLabel" />
-
-        <TextView
-            android:id="@+id/oneBrewMemoText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:lineSpacingMultiplier="0.7"
-            android:text="メモメモ"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansKindText" />
 
         <RatingBar
             android:id="@+id/oneBrewRatingBar"
@@ -288,6 +34,65 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/oneBrewDateText" />
 
+        <TextView
+            android:id="@+id/oneBrewDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            android:text="2020年4月1日 10時00分"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/oneBrewPastText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="（10日経過）"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBrewBeansKindText"
+            app:layout_constraintStart_toEndOf="@+id/oneBrewBeansKindText" />
+
+        <TextView
+            android:id="@+id/oneBrewBeansKindText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:maxLines="2"
+            android:text="ブルーマウンテンブレンド"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewDateText" />
+
+        <TextView
+            android:id="@+id/oneBrewMemoText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:lineSpacingMultiplier="0.7"
+            android:text="メモメモ"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/gridLayout"
+            app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+
+        <TextView
+            android:id="@+id/oneBrewMethodText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:lineSpacingMultiplier="0.7"
+            android:text="大きなドリッパー"
+            app:layout_constraintBottom_toBottomOf="@+id/oneBrewImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline5" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline5"
             android:layout_width="wrap_content"
@@ -295,15 +100,115 @@
             android:orientation="vertical"
             app:layout_constraintGuide_begin="60dp" />
 
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:columnCount="12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewMethodText"
+            app:rowCount="2">
+
+                <ImageView
+                    android:id="@+id/miniGrindIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="8dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/mini_mill" />
+
+                <TextView
+                    android:id="@+id/miniGrindText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16.5" />
+
+                <ImageView
+                    android:id="@+id/miniBeansIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="8dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/mini_bean" />
+
+                <TextView
+                    android:id="@+id/miniBeansText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18g" />
+
+                <ImageView
+                    android:id="@+id/miniTempIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="8dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/mini_temp" />
+
+                <TextView
+                    android:id="@+id/miniTempText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="92℃" />
+
+
+                <ImageView
+                    android:id="@+id/miniSteamIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="8dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/mini_steam" />
+
+                <TextView
+                    android:id="@+id/miniSteamText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30秒" />
+
+
+                <ImageView
+                    android:id="@+id/miniBrewTimeIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="8dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/mini_brew_time" />
+
+                <TextView
+                    android:id="@+id/miniBrewTimeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="120s" />
+
+                <ImageView
+                    android:id="@+id/miniVolumeIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="8dp"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/mini_volume" />
+
+                <TextView
+                    android:id="@+id/miniVolumeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="多め" />
+
+
+        </androidx.gridlayout.widget.GridLayout>
+
         <View
             android:id="@+id/divider3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewTempBar" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewMemoText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

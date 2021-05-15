@@ -99,6 +99,20 @@
         <item>超</item>
     </string-array>
 
+
+    <string-array name="mini_icon_images">
+        <item>@drawable/mini_bean</item>
+        <item>@drawable/mini_brew_time</item>
+        <item>@drawable/mini_volume</item>
+        <item>@drawable/mini_sugar</item>
+        <item>@drawable/mini_milk</item>
+        <item>@drawable/mini_cups_made</item>
+        <item>@drawable/mini_cpus_drunk</item>
+        <item>@drawable/mini_mill</item>
+        <item>@drawable/mini_temp</item>
+        <item>@drawable/mini_steam</item>
+    </string-array>
+
     <!-- 抽出方法のアイコン集 -->
     <string-array name="method_images">
         <item>@drawable/beans150_light</item>

@@ -4,13 +4,15 @@ import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.warkiz.widget.IndicatorSeekBar
-import kotlinx.android.synthetic.main.one_brew_card_home.view.*
 import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewBeansKindText
 import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewDateText
 import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewImage
 import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewMemoText
+import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewPastText
 import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewRatingBar
 import kotlinx.android.synthetic.main.one_brew_card_shop.view.*
+import kotlinx.android.synthetic.main.one_brew_flat_home.view.*
+import org.w3c.dom.Text
 
 // ViewHolderを作る
 // 要するに1行分のViewを保持する（データではない）、描画用のインスタンス。
@@ -23,18 +25,19 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
     var dateText:       TextView? = null
     var pastText:       TextView? = null
     var ratingBar:      RatingBar? = null
-    var methodText:     TextView? = null
     var beansKindText:  TextView? = null
     var beansPassText:  TextView? = null
-    var beansGrindBar:  IndicatorSeekBar? = null
-    var beansUseBar:    IndicatorSeekBar? = null
-    var cupsBar:        IndicatorSeekBar? = null
-    var tempBar:        IndicatorSeekBar? = null
-    var steamBar:       IndicatorSeekBar? =null
     var shopText:       TextView? = null
     var memoText:       TextView? = null
+    var methodText:     TextView? = null
     var image:          ImageView? = null
 
+    var miniGrindText:  TextView? = null
+    var miniBeansText:  TextView? = null
+    var miniTempText:   TextView? = null
+    var miniSteamText:  TextView? = null
+    var miniVolumeText: TextView? = null
+    var miniBrewTimeText:TextView?= null
 
     // 初期化処理
     // KOTLINではプライマリコンストラクタは、引数をローカル変数にコピーするだけ （ivに貰っている）
@@ -45,15 +48,17 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         dateText        = iv.oneBrewDateText
         pastText        = iv.oneBrewPastText
         ratingBar       = iv.oneBrewRatingBar
-//        methodText      = iv.oneBrewMethodText
 
         beansKindText   = iv.oneBrewBeansKindText
+        methodText      = iv.oneBrewMethodText
 
-        // SeekBarだらけ
-        beansGrindBar   = iv.oneBrewGrind1Bar
-        beansUseBar     = iv.oneBrewBeansUseBar
-        tempBar         = iv.oneBrewTempBar
-        steamBar        = iv.oneBrewSteamBar
+        // ミニアイコン
+        miniGrindText   = iv.miniGrindText
+        miniBeansText   = iv.miniBeansText
+        miniTempText    = iv.miniTempText
+        miniVolumeText  = iv.miniVolumeText
+        miniSteamText   = iv.miniSteamText
+        miniBrewTimeText= iv.miniBrewTimeText
 
         shopText        = iv.oneBrewShopText
         memoText        = iv.oneBrewMemoText

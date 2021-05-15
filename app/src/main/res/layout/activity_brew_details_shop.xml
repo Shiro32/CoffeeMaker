@@ -138,10 +138,6 @@
                 app:layout_constraintStart_toEndOf="@+id/brewDetailsHotIceSwLabel2" />
 
 
-
-
-
-
             <TextView
                 android:id="@+id/brewDetailsMethodText"
                 android:layout_width="0dp"
@@ -410,7 +406,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/brewDetailsEditBtn"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -420,7 +415,19 @@
         android:background="@android:drawable/btn_default_small"
         android:text="@string/editBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/brewDetailsCopyBtn"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/brewDetailsReturnBtn" />
+
+    <Button
+        android:id="@+id/brewDetailsCopyBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_default_small"
+        android:text="@string/copyBtnLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/brewDetailsEditBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

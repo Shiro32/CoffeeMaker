@@ -75,6 +75,14 @@ class BeansDetailsActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_EDIT_BEANS)
         }
 
+        beansDetailsCopyBtn.setOnClickListener {
+            val intent = Intent(applicationContext, BeansEditActivity::class.java)
+            intent.putExtra("mode", BEANS_EDIT_MODE_COPY)
+            intent.putExtra("id", intentID)
+            blackToast(applicationContext, "同じデータで複製しました")
+            startActivityForResult(intent, REQUEST_EDIT_BEANS)
+        }
+
         // 一覧へ戻るボタン
         beansDetailsReturnBtn.setOnClickListener {
             finish()
@@ -123,6 +131,7 @@ class BeansDetailsActivity : AppCompatActivity() {
                 val intent = Intent(applicationContext, BeansEditActivity::class.java)
                 intent.putExtra("mode", BEANS_EDIT_MODE_COPY)
                 intent.putExtra("id", beansID)
+                blackToast(applicationContext, "同じデータで複製しました")
                 startActivityForResult(intent, REQUEST_EDIT_BEANS)
             }
 

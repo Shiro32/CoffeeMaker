@@ -1,25 +1,30 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipListActivity
 import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipNameByID
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutListActivity
+import com.warkiz.widget.IndicatorSeekBar
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
@@ -63,6 +68,53 @@ class BrewEditActivity : AppCompatActivity() {
 
         // 設定メニューで表示・非表示を切り替える
         // BrewEditは必ずBrewDetailsから呼ばれ、すでにConfigは読み込み済みのはず
+
+        if( !configSteamTimeSw ) {  // 蒸らし時間
+            brewEditSteamBar.visibility = View.GONE
+            brewEditSteamLabel.visibility = View.GONE
+        } else {
+            brewEditSteamBar.min = configSteamTimeMin
+            brewEditSteamBar.max = configSteamTimeMax
+        }
+
+        if( !configBrewTimeSw ) {   // 抽出時間
+            brewEditBrewTimeBar.visibility = View.GONE
+            brewEditBrewTimeLabel.visibility = View.GONE
+        } else {
+            brewEditBrewTimeBar.min = configBrewTimeMin
+            brewEditBrewTimeBar.max = configBrewTimeMax
+        }
+
+        if( !configWaterVolumeSw ) {   // 抽出cc
+            brewEditWaterVolumeBar.visibility = View.GONE
+            brewEditWaterVolumeLabel.visibility = View.GONE
+        } else {
+            brewEditWaterVolumeBar.min = configWaterVolumeMin
+            brewEditWaterVolumeBar.max = configWaterVolumeMax
+        }
+
+        if( !configTempSw ) { // 温度
+            brewEditTempBar.visibility = View.GONE
+            brewEditTempLabel.visibility = View.GONE
+        } else {
+            brewEditTempBar.min = configTempMin
+            brewEditTempBar.max = configTempMax
+        }
+
+        if( !configCupsBrewedSw ) {   // 抽出カップ数
+            brewEditCupsBar.visibility = View.GONE
+            brewEditCupLabel.visibility = View.GONE
+        }
+
+        if( !configCupsDrunkSw ) {   // 飲んだカップ数
+            brewEditCupsDrunkBar.visibility = View.GONE
+            brewEditCupDrunkLabel.visibility = View.GONE
+        }
+
+        brewEditGrind2Bar.max = configMillMax   // 先にMAXをセットしておかないと、これを超える数字をセットできない！
+        brewEditGrind2Bar.min = configMillMin
+        brewEditGrind2Bar.setDecimalScale(if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0)
+
         if( !configMilkSw ) {
             brewEditMilkBar.visibility = View.GONE
             brewEditMilkLabel.visibility = View.GONE
@@ -71,26 +123,7 @@ class BrewEditActivity : AppCompatActivity() {
             brewEditSugarBar.visibility = View.GONE
             brewEditSugarLabel.visibility = View.GONE
         }
-        if( !configBrewTimeSw ) {
-            brewEditBrewTimeBar.visibility = View.GONE
-            brewEditBrewTimeLabel.visibility = View.GONE
-        } else brewEditBrewTimeBar.max = configBrewMax
-        if( !configSteamTimeSw ) {
-            brewEditSteamBar.visibility = View.GONE
-            brewEditSteamLabel.visibility = View.GONE
-        } else brewEditSteamBar.max = configSteamMax
-        if( !configCupsBrewedSw ) {
-            brewEditCupsBar.visibility = View.GONE
-            brewEditCupLabel.visibility = View.GONE
-        }
-        if( !configCupsDrunkSw ) {
-            brewEditCupsDrunkBar.visibility = View.GONE
-            brewEditCupDrunkLabel.visibility = View.GONE
-        }
-        if( !configWaterVolumeSw ) {
-            brewEditWaterVolumeBar.visibility = View.GONE
-            brewEditWaterVolumeLabel.visibility = View.GONE
-        } else brewEditWaterVolumeBar.max = configWaterVolumeMax
+
         // ツールバータイトル用（４モード対応）
         val titles:Map<Int,Int> = mapOf(
             BREW_EDIT_MODE_NEW to R.string.titleBrewEditNew,
@@ -136,19 +169,13 @@ class BrewEditActivity : AppCompatActivity() {
                     // どちらのbarを表示するかは、別途用意するSWで決める
                     brewEditGrindSw.isChecked = (brew.beansGrindSw == GRIND_SW_ROTATION)
                     brewEditGrind1Bar.setProgress(brew.beansGrind)
-                    brewEditGrind2Bar.max = configMillMax   // 先にMAXをセットしておかないと、これを超える数字をセットできない！
                     brewEditGrind2Bar.setProgress(brew.beansGrind2)
-                    brewEditGrind2Bar.setDecimalScale(if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0)
-
-                    brewEditWaterVolumeBar.max = configWaterVolumeMax
                     brewEditWaterVolumeBar.setProgress(brew.waterVolume)
-
                     brewEditBeansUseBar.setProgress(brew.beansUse)
                     brewEditTempBar.setProgress(brew.temp)
                     brewEditSteamBar.setProgress(brew.steam)
                     brewEditBrewTimeBar.setProgress(brew.brewTime)
                     brewEditShopText.setText(brew.shop)
-
                     brewEditSugarBar.setProgress(brew.sugar)
                     brewEditMilkBar.setProgress(brew.milk)
                     brewEditHotIceSW.isChecked = brew.iceHotSw != HOT_COFFEE
@@ -174,12 +201,17 @@ class BrewEditActivity : AppCompatActivity() {
                 brewEditGrind1Bar.visibility = View.GONE
                 brewEditGrind2Bar.setIndicatorTextFormat("\${PROGRESS}")
                 brewEditGrind2Bar.visibility = View.VISIBLE
-                brewEditGrind2Bar.max = configMillMax
-                brewEditGrind2Bar.setDecimalScale(if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0)
+                // バーを使わず手入力する場合
+                brewEditGrindLabel.visibility = View.VISIBLE
+                brewEditGrindLabel2.visibility = View.GONE
+                brewEditGrindLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogGrind2), brewEditGrind2Bar, configMillUnit== GRIND_UNIT_FLOAT ) }
             } else {
                 brewEditGrind1Bar.setIndicatorTextFormat("\${TICK_TEXT}")
                 brewEditGrind1Bar.visibility = View.VISIBLE
                 brewEditGrind2Bar.visibility = View.GONE
+                // 直接入力は不要
+                brewEditGrindLabel.visibility = View.GONE
+                brewEditGrindLabel2.visibility = View.VISIBLE
             }
         }
 
@@ -189,13 +221,18 @@ class BrewEditActivity : AppCompatActivity() {
             brewEditGrind2Bar.setIndicatorTextFormat("\${PROGRESS}")
             brewEditGrind1Bar.visibility = View.GONE
             brewEditGrind2Bar.visibility = View.VISIBLE
-            brewEditGrind2Bar.max = configMillMax
-            brewEditGrind2Bar.setDecimalScale(if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0)
+            // バーを使わず手入力する場合
+            brewEditGrindLabel.visibility = View.VISIBLE
+            brewEditGrindLabel2.visibility = View.GONE
+            brewEditGrindLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogGrind2), brewEditGrind2Bar, configMillUnit== GRIND_UNIT_FLOAT ) }
         } else {
             // 名前表示
             brewEditGrind1Bar.setIndicatorTextFormat("\${TICK_TEXT}")
             brewEditGrind1Bar.visibility = View.VISIBLE
             brewEditGrind2Bar.visibility = View.GONE
+            // 直接入力は不要
+            brewEditGrindLabel.visibility = View.GONE
+            brewEditGrindLabel2.visibility = View.VISIBLE
         }
 
 
@@ -269,6 +306,16 @@ class BrewEditActivity : AppCompatActivity() {
             finish()
         }
 
+        // すべてのスライドバーに手入力オプションを付ける
+        // GrindBarだけはSWによって処理を分けるので、前段のリスナ等で設定
+        brewEditWaterVolumeLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogWaterVolume), brewEditWaterVolumeBar, false ) }
+        brewEditCupLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogCups), brewEditCupsBar, false) }
+        brewEditCupDrunkLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogCupsDrunk), brewEditCupsDrunkBar, false) }
+        brewEditBeansUseLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogBeansUse), brewEditBeansUseBar, false ) }
+        brewEditTempLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogTemp), brewEditTempBar, false ) }
+        brewEditSteamLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogSteam), brewEditSteamBar, false ) }
+        brewEditBrewTimeLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogBrewTime), brewEditBrewTimeBar, false ) }
+
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(brewEditToolbar) // これやらないと落ちるよ
         supportActionBar?.title = getString(titles[editMode] as Int)
@@ -279,6 +326,38 @@ class BrewEditActivity : AppCompatActivity() {
 
         Log.d("SHIRO", "brew-edit / onCreate")
     } // 編集画面のonCreate
+
+
+    private fun inputNumberDialog(title:String, bar:IndicatorSeekBar, isFloat:Boolean ) {
+        val input = EditText(this)
+        input.textAlignment = View.TEXT_ALIGNMENT_CENTER
+        if( isFloat ) {
+            input.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+            input.setText( bar.progressFloat.toString() )
+        } else {
+            input.inputType = InputType.TYPE_CLASS_NUMBER
+            input.setText( bar.progress.toString() )
+        }
+
+        AlertDialog.Builder(this).apply {
+            setTitle(title)
+            setMessage("入力範囲："+bar.min.toInt().toString()+"～"+bar.max.toInt().toString())
+            setView(input)
+            setCancelable(true)
+            setNegativeButton("やめる", null)
+            setPositiveButton("OK",
+                object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        var v = input.text.toString().toFloat()
+                        if( v<bar.min ) v=bar.min
+                        if( v>bar.max ) v=bar.max
+                        bar.setProgress( v )
+                    }
+                })
+            show()
+        }
+    }
+
 
 
     // 外飲み（equipID==EQUIP_SHOP）か家のみかで、表示項目を変更する
@@ -302,21 +381,21 @@ class BrewEditActivity : AppCompatActivity() {
             // 各View（Barなどなど）からローカル変数に読み込んでおく
             val brewDate = (brewEditDateText.text as String + " " + brewEditTimeText.text as String).toDate()
             val brewRating = brewEditRatingBar.rating
-            val brewCups    = brewEditCupsBar.progress.toFloat()
-            val brewCupsDrunk= brewEditCupsDrunkBar.progress.toFloat()
-            val brewWaterVolume     = brewEditWaterVolumeBar.progress.toFloat()
+            val brewCups    = brewEditCupsBar.progressFloat
+            val brewCupsDrunk= brewEditCupsDrunkBar.progressFloat
+            val brewWaterVolume     = brewEditWaterVolumeBar.progressFloat
             val brewGrindSw = if( brewEditGrindSw.isChecked ) GRIND_SW_ROTATION else GRIND_SW_NAME
-            val brewGrind1   = brewEditGrind1Bar.progress.toFloat()
-            val brewGrind2 = brewEditGrind2Bar.progress.toFloat()
-            val brewBeansUse= brewEditBeansUseBar.progress.toFloat()
-            val brewTemp    = brewEditTempBar.progress.toFloat()
-            val brewSteam   = brewEditSteamBar.progress.toFloat()
-            val brewTime    = brewEditBrewTimeBar.progress.toFloat()
+            val brewGrind1   = brewEditGrind1Bar.progressFloat
+            val brewGrind2 = brewEditGrind2Bar.progressFloat
+            val brewBeansUse= brewEditBeansUseBar.progressFloat
+            val brewTemp    = brewEditTempBar.progressFloat
+            val brewSteam   = brewEditSteamBar.progressFloat
+            val brewTime    = brewEditBrewTimeBar.progressFloat
             val brewShop   = brewEditShopText.text.toString()
             val brewMemo   = brewEditMemoText.text.toString()
 
-            val brewSugar   = brewEditSugarBar.progress.toFloat()
-            val brewMilk    = brewEditMilkBar.progress.toFloat()
+            val brewSugar   = brewEditSugarBar.progressFloat
+            val brewMilk    = brewEditMilkBar.progressFloat
             val brewIceHotSW = if( brewEditHotIceSW.isChecked ) ICE_COFFEE else HOT_COFFEE
 
             when( editMode ) {

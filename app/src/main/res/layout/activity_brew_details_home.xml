@@ -197,7 +197,6 @@
                 app:isb_min="0"
                 app:isb_only_thumb_draggable="false"
                 app:isb_progress="120"
-                app:isb_progress_value_float="true"
                 app:isb_seek_smoothly="true"
                 app:isb_show_indicator="circular_bubble"
                 app:isb_show_thumb_text="true"
@@ -815,7 +814,19 @@
         android:background="@android:drawable/btn_default_small"
         android:text="@string/editBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/brewDetailsCopyBtn"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/brewDetailsReturnBtn" />
+
+    <Button
+        android:id="@+id/brewDetailsCopyBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_default_small"
+        android:text="@string/copyBtnLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/brewDetailsEditBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,20 +11,21 @@
         android:layout_width="wrap_content"
         android:layout_height="38dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="1dp"
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/oneBrewBeansKindText"
         app:srcCompat="@drawable/machine2_160" />
 
     <TextView
         android:id="@+id/oneBrewDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="2dp"
         android:text="2020年4月1日 10時00分"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,6 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
+        android:layout_marginTop="4dp"
         android:text="豆のなまえ"
         android:textColor="@android:color/black"
         android:textStyle="bold"
@@ -45,19 +47,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="店の名前"
+        app:layout_constraintBottom_toBottomOf="@+id/oneBrewImage"
         app:layout_constraintEnd_toEndOf="@+id/oneBrewBeansKindText"
-        app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText"
-        app:layout_constraintTop_toBottomOf="@+id/oneBrewBeansKindText" />
+        app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText" />
 
     <TextView
         android:id="@+id/oneBrewMemoText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:text="@string/oneBrewMemoLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/oneBrewShopText"
-        app:layout_constraintStart_toStartOf="@+id/oneBrewBeansKindText"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/oneBrewShopText" />
 
     <RatingBar

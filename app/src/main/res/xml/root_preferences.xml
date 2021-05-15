@@ -19,7 +19,7 @@
 
     <PreferenceCategory
         android:title="@string/config_database_header"
-        app:icon="@android:drawable/ic_menu_manage"
+        app:icon="@android:drawable/ic_menu_save"
         app:iconSpaceReserved="false">
 
         <Preference
@@ -41,17 +41,9 @@
 
 
     <PreferenceCategory
-        android:title="@string/config_inputs_header"
-        app:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/config_inputs_mill_label"
+        app:icon="@android:drawable/ic_menu_manage"
         app:iconSpaceReserved="false">
-
-        <EditTextPreference
-            android:defaultValue="20"
-            android:dialogTitle="@string/config_inputs_mill_max_label"
-            android:key="mill_max"
-            android:title="@string/config_inputs_mill_max_label"
-            app:useSimpleSummaryProvider="true" />
-
         <ListPreference
             android:defaultValue="float"
             android:dialogTitle="@string/config_inputs_mill_float_label"
@@ -61,55 +53,132 @@
             android:title="@string/config_inputs_mill_float_label"
             app:useSimpleSummaryProvider="true" />
 
-        <CheckBoxPreference
+        <EditTextPreference
+            android:defaultValue="5"
+            android:dialogTitle="@string/config_inputs_mill_min_label"
+            android:key="mill_min"
+            android:title="@string/config_inputs_mill_min_label"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:defaultValue="20"
+            android:dialogTitle="@string/config_inputs_mill_max_label"
+            android:key="mill_max"
+            android:title="@string/config_inputs_mill_max_label"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/config_inputs_brew_time_title"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="brew_sw"
             android:title="@string/config_inputs_brew_time_label" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/config_inputs_brew_time_min_label"
+            android:key="brew_min"
+            android:title="@string/config_inputs_brew_time_min_label"
+            app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="120"
             android:dialogTitle="@string/config_inputs_brew_time_max_label"
             android:key="brew_max"
             android:title="@string/config_inputs_brew_time_max_label"
             app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
 
-        <CheckBoxPreference
+    <PreferenceCategory
+        android:title="@string/config_inputs_steam_time_title"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="steam_sw"
             android:title="@string/config_inputs_steam_time_label" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/config_inputs_steam_time_min_label"
+            android:key="steam_min"
+            android:title="@string/config_inputs_steam_time_min_label"
+            app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="60"
             android:dialogTitle="@string/config_inputs_steam_time_max_label"
             android:key="steam_max"
             android:title="@string/config_inputs_steam_time_max_label"
             app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
 
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="sugar_sw"
-            android:title="@string/config_inputs_sugar_label" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="milk_sw"
-            android:title="@string/config_inputs_milk_label" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="cups_brewed_sw"
-            android:title="@string/config_inputs_cups_brewed_label" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="cups_drunk_sw"
-            android:title="@string/config_inputs_cups_drunk_label" />
-        <CheckBoxPreference
+    <PreferenceCategory
+        android:title="@string/config_inputs_water_volume_title"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="water_volume_sw"
             android:title="@string/config_inputs_water_volume_label" />
         <EditTextPreference
-            android:defaultValue="120"
+            android:defaultValue="0"
+            android:dialogTitle="@string/config_inputs_water_volume_min_label"
+            android:key="water_volume_min"
+            android:title="@string/config_inputs_water_volume_min_label"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="300"
             android:dialogTitle="@string/config_inputs_water_volume_max_label"
             android:key="water_volume_max"
             android:title="@string/config_inputs_water_volume_max_label"
             app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/config_inputs_temp_title"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="temp_sw"
+            android:title="@string/config_inputs_temp_label" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/config_inputs_temp_min_label"
+            android:key="temp_min"
+            android:title="@string/config_inputs_temp_min_label"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="120"
+            android:dialogTitle="@string/config_inputs_temp_max_label"
+            android:key="temp_max"
+            android:title="@string/config_inputs_temp_max_label"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/config_inputs_etc_title"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="sugar_sw"
+            android:title="@string/config_inputs_sugar_label" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="milk_sw"
+            android:title="@string/config_inputs_milk_label" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="cups_brewed_sw"
+            android:title="@string/config_inputs_cups_brewed_label" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="cups_drunk_sw"
+            android:title="@string/config_inputs_cups_drunk_label" />
     </PreferenceCategory>
 
 

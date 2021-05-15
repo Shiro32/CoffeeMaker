@@ -51,11 +51,15 @@ class ConfigFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.root_preferences)
 
         //　各入力項目を数字限定にする。面倒よねぇ・・・。
+        findPreference<EditTextPreference>("mill_min")?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
         findPreference<EditTextPreference>("mill_max")?.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER
         }
 
-        findPreference<EditTextPreference>("steam_max")?.setOnBindEditTextListener { editText ->
+        findPreference<EditTextPreference>("brew_min")?.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER
         }
 
@@ -63,7 +67,27 @@ class ConfigFragment : PreferenceFragmentCompat() {
             editText.inputType = InputType.TYPE_CLASS_NUMBER
         }
 
+        findPreference<EditTextPreference>("steam_min")?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
+        findPreference<EditTextPreference>("steam_max")?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
+        findPreference<EditTextPreference>("water_volume_min")?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
         findPreference<EditTextPreference>("water_volume_max")?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
+        findPreference<EditTextPreference>("temp_min")?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
+        findPreference<EditTextPreference>("temp_max")?.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER
         }
 

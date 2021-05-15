@@ -165,7 +165,7 @@ fun findEquipIconByID( id:Long): Int {
     return icon
 }
 
-fun findEquipNameByID( id:Long): String {
+fun findEquipNameByID( id:Long ): String {
     val realm = Realm.getInstance(equipRealmConfig)
     val equip = realm.where<EquipData>().equalTo("id",id).findFirst()
 
@@ -174,3 +174,12 @@ fun findEquipNameByID( id:Long): String {
     return name
 }
 
+fun findEquipIconAndNameByID( id:Long ): Pair<Int, String> {
+    val realm = Realm.getInstance(equipRealmConfig)
+    val equip = realm.where<EquipData>().equalTo("id",id).findFirst()
+
+    val icon = equip?.icon ?: 0
+    val name = equip?.name ?: "未設定"
+    realm.close()
+    return Pair(icon, name)
+}

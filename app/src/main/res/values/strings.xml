@@ -1,8 +1,8 @@
 <resources>
 
     <string name="app_name">コーヒー日記</string>
-    <string name="mainLabel">日々、大量に飲む（個人差あり？）コーヒーのレシピ、豆やテイクアウトの購入記録を付けられるアプリです。\n抽出方法やお湯の温度などのほか、登録済み豆リストから選ぶこともできます。
-        \n記録したコーヒーデータは、超高度な統計手法で分析する・・・予定なんですが、まだ工事中です m(_ _)m</string>
+    <string name="mainLabel">日々、大量に飲むコーヒーのレシピ、豆や市販コーヒーの購入記録を付けられるアプリです。\n抽出方法やお湯の温度、蒸らし時間などの淹れ方や、使った豆の情報管理もできます。
+        \n記録したデータは、超高度な統計手法で分析する・・・予定なんですが、まだ工事中で、簡単なグラフくらいしかでません m(_ _)m</string>
 
 
     <string name="title_home">ホーム</string>
@@ -48,7 +48,7 @@
     <string name="equipEditMemoHint">メモ</string>
     <string name="equipEditDateLabel">購入日：</string>
     <string name="equipEditIconLabel">アイコン変更</string>
-    <string name="equipEditCancelBtnLabel">リストに戻る</string>
+    <string name="equipEditCancelBtnLabel">キャンセル</string>
     <string name="equipEditNoticeHint">このアイテムは、自分で淹れたコーヒーと市販コーヒーを見分けるために使っているため、削除はできません。\n削除はできませんが、名前やアイコン、メモは変更可能です。</string>
 
     <string name="titleEquipIconSelect">器具のアイコンを選んでね</string>
@@ -67,8 +67,9 @@
     <string name="titleBeansEditNew">豆情報の作成</string>
     <string name="titleBeansEditCopy">コピーして作成</string>
 
+    <string name="copyBtnLabel">複製</string>
     <string name="editBtnLabel">編集</string>
-    <string name="returnBtnLabel">← リストに戻る</string>
+    <string name="returnBtnLabel">キャンセル</string>
     <string name="editText">編集</string>
     <string name="copyText">コピー</string>
     <string name="deleteText">削除</string>
@@ -107,7 +108,7 @@
     <string name="brewEditBeansHint">例：ブルーマウンテン</string>
     <string name="brewEditSaveBtnLabel">保存</string>
     <string name="brewEditDeleteBtnLabel">削除</string>
-    <string name="brewEditCancelBtnLabel">← 詳細に戻る</string>
+    <string name="brewEditCancelBtnLabel">キャンセル</string>
     <string name="brewEditMemoHint">例：今までで一番おいしい</string>
     <string name="brewEditPriceLabel">値段</string>
     <string name="brewEditPriceHint">例：500</string>
@@ -124,6 +125,15 @@
     <string name="brewEditBrewTimeLabel">抽出時間\n(秒)</string>
     <string name="brewEditItemName">コーヒー</string>
     <string name="brewEditWaterVolumeLabel">お湯の量\n(cc)</string>
+
+    <string name="brewEditDialogWaterVolume">お湯の量（cc）を入力</string>
+    <string name="brewEditDialogCups">淹れたカップ数（杯）を入力</string>
+    <string name="brewEditDialogCupsDrunk">飲んだカップ数（杯）を入力</string>
+    <string name="brewEditDialogGrind2">挽度合い（ミルの設定値）を入力</string>
+    <string name="brewEditDialogBeansUse">使用した豆の量（g）を入力</string>
+    <string name="brewEditDialogTemp">お湯の温度（℃）を入力</string>
+    <string name="brewEditDialogSteam">蒸らし時間（秒）を入力</string>
+    <string name="brewEditDialogBrewTime">抽出時間（秒）を入力</string>
 
     <!-- Beans -->
     <string name="beansKindSpecial">ストレート</string>
@@ -201,23 +211,23 @@
     <string name="optMenu1ItemHome">ホーム</string>
 
     <string name="optMenu2ItemHome">ホーム</string>
-    <string name="optMenu2ItemCancel">編集画面へ戻る</string>
+    <string name="optMenu2ItemCancel">キャンセル</string>
 
     <string name="optMenu3ItemEdit">編集する</string>
     <string name="optMenu3ItemDelete">削除</string>
     <string name="optMenu3ItemHome">ホーム</string>
-    <string name="optMenu3ItemCancel">リストへ戻る</string>
+    <string name="optMenu3ItemCancel">キャンセル</string>
     <string name="optMenu3ItemCopy">コピーして新規作成</string>
 
     <!-- Type4 -->
     <string name="optMenu4ItemHome">ホーム</string>
-    <string name="optMenu4ItemCancel">詳細へ戻る</string>
+    <string name="optMenu4ItemCancel">キャンセル</string>
     <string name="optMenu4ItemSave">保存</string>
     <string name="optMenu4ItemDelete">削除</string>
 
     <!-- Type5 -->
     <string name="optMenu5ItemHome">ホーム</string>
-    <string name="optMenu5ItemCancel">詳細へ戻る</string>
+    <string name="optMenu5ItemCancel">キャンセル</string>
     <string name="optMenu5ItemSave">保存</string>
     <string name="optMenu5ItemDelete">削除</string>
 
@@ -237,28 +247,43 @@
 
     <string name="config_database_header">各種データベースの設定</string>
     <string name="config_takeout_db">市販コーヒーデータの編集</string>
-    <string name="config_equip_db">コーヒー器具データの編集</string>
+    <string name="config_equip_db">器具データの編集</string>
 
     <string name="config_backup_header">データのバックアップ</string>
     <string name="config_backup_db">全データのバックアップ</string>
     <string name="config_restore_db">全データのレストア</string>
 
     <string name="config_inputs_header">入力項目の設定</string>
-    <string name="config_inputs_mill_max_label">ミルの最大ノッチ数</string>
-    <string name="config_inputs_mill_float_label">ミルのノッチ数の単位</string>
+    <string name="config_inputs_mill_label">ミルの設定</string>
+    <string name="config_inputs_mill_min_label">最小ノッチ数</string>
+    <string name="config_inputs_mill_max_label">最大ノッチ数</string>
+    <string name="config_inputs_mill_float_label">ノッチ数の単位</string>
 
-    <string name="config_inputs_brew_time_label">抽出時間（秒）</string>
-    <string name="config_inputs_brew_time_max_label">抽出時間の最大（秒）</string>
+    <string name="config_inputs_brew_time_title">抽出時間の設定</string>
+    <string name="config_inputs_brew_time_label">入力項目とする</string>
+    <string name="config_inputs_brew_time_min_label">最短時間（秒）</string>
+    <string name="config_inputs_brew_time_max_label">最長時間（秒）</string>
 
-    <string name="config_inputs_steam_time_label">蒸らし時間（秒）</string>
-    <string name="config_inputs_steam_time_max_label">蒸らし時間の最大（秒）</string>
+    <string name="config_inputs_steam_time_title">蒸らし時間の設定</string>
+    <string name="config_inputs_steam_time_label">入力項目とする</string>
+    <string name="config_inputs_steam_time_min_label">最短時間（秒）</string>
+    <string name="config_inputs_steam_time_max_label">最長時間（秒）</string>
 
+    <string name="config_inputs_water_volume_title">湯量の設定</string>
+    <string name="config_inputs_water_volume_label">入力項目とする</string>
+    <string name="config_inputs_water_volume_min_label">最小量(cc)</string>
+    <string name="config_inputs_water_volume_max_label">最大量(cc)</string>
+
+    <string name="config_inputs_temp_title">湯温の設定</string>
+    <string name="config_inputs_temp_label">入力項目とする</string>
+    <string name="config_inputs_temp_min_label">最小温度(℃)</string>
+    <string name="config_inputs_temp_max_label">最高温度(℃)</string>
+
+    <string name="config_inputs_etc_title">そのほかの入力設定</string>
     <string name="config_inputs_sugar_label">砂糖使用量</string>
     <string name="config_inputs_milk_label">ミルク使用量</string>
     <string name="config_inputs_cups_brewed_label">淹れたカップ数</string>
     <string name="config_inputs_cups_drunk_label">飲んだカップ数</string>
-    <string name="config_inputs_water_volume_label">お湯の量（cc）</string>
-    <string name="config_inputs_water_volume_max_label">お湯の最大量(cc)</string>
 
     <string name="overwrite_confirm_dialog_title">上書き確認</string>
     <string name="overwrite_confirm_dialog_cancel">キャンセル</string>

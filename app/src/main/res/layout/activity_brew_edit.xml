@@ -174,14 +174,16 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/brewEditHotIceSWLabel2"
                 app:layout_constraintStart_toEndOf="@+id/brewEditHotIceSWLabel2" />
 
-            <TextView
+            <Button
                 android:id="@+id/brewEditWaterVolumeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:background="@android:drawable/btn_default_small"
                 android:gravity="center"
                 android:text="@string/brewEditWaterVolumeLabel"
-                android:textAlignment="textEnd"
+                android:textAlignment="center"
+                android:textAllCaps="false"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditHotIceSWLabel" />
 
@@ -224,17 +226,19 @@
                 app:isb_user_seekable="true"
                 app:layout_constraintBottom_toBottomOf="@+id/brewEditWaterVolumeLabel"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/brewEditWaterVolumeLabel" />
 
-            <TextView
+            <Button
                 android:id="@+id/brewEditCupLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:background="@android:drawable/btn_default_small"
                 android:gravity="center"
                 android:text="@string/brewEditCupLabel"
-                android:textAlignment="textEnd"
+                android:textAlignment="center"
+                android:textAllCaps="false"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditWaterVolumeLabel" />
 
@@ -278,14 +282,16 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/brewEditCupLabel" />
 
-            <TextView
+            <Button
                 android:id="@+id/brewEditCupDrunkLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:background="@android:drawable/btn_default_small"
                 android:gravity="center"
                 android:text="@string/brewEditCupDrunkLabel"
-                android:textAlignment="textEnd"
+                android:textAlignment="center"
+                android:textAllCaps="false"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditCupLabel" />
 
@@ -342,14 +348,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="80dp" />
+                    app:layout_constraintGuide_begin="100dp" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="70dp" />
+                    app:layout_constraintGuide_begin="90dp" />
 
                 <Switch
                     android:id="@+id/brewEditGrindSw"
@@ -365,13 +371,27 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:checked="false" />
 
-                <TextView
+                <Button
                     android:id="@+id/brewEditGrindLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:background="@android:drawable/btn_default_small"
                     android:text="@string/brewEditGrindLabel"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline7"
+                    app:layout_constraintTop_toTopOf="@+id/brewGrindSwitchRotationLabel" />
+
+                <Button
+                    android:id="@+id/brewEditGrindLabel2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@android:drawable/btn_default_small"
+                    android:enabled="false"
+                    android:text="@string/brewEditGrindLabel"
+                    android:textAlignment="center"
                     app:layout_constraintEnd_toStartOf="@+id/guideline7"
                     app:layout_constraintTop_toTopOf="@+id/brewGrindSwitchRotationLabel" />
 
@@ -471,14 +491,16 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline3"
                     app:layout_constraintTop_toBottomOf="@+id/brewEditGrindSw" />
 
-                <TextView
+                <Button
                     android:id="@+id/brewEditBeansUseLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="90dp"
+                    android:layout_marginTop="88dp"
+                    android:background="@android:drawable/btn_default_small"
                     android:gravity="center"
                     android:text="@string/brewEditBeansUseLabel"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
                     app:layout_constraintEnd_toStartOf="@+id/guideline7"
                     app:layout_constraintTop_toBottomOf="@+id/brewGrindSwitchRotationLabel" />
 
@@ -524,14 +546,16 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline3"
                     app:layout_constraintTop_toTopOf="@+id/brewEditBeansUseLabel" />
 
-                <TextView
+                <Button
                     android:id="@+id/brewEditTempLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/brewEditVerticalSkip"
+                    android:background="@android:drawable/btn_default_small"
                     android:gravity="center"
                     android:text="@string/brewEditTempLabel"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
                     app:layout_constraintEnd_toStartOf="@+id/guideline7"
                     app:layout_constraintTop_toBottomOf="@+id/brewEditBeansUseLabel" />
 
@@ -577,14 +601,16 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline3"
                     app:layout_constraintTop_toTopOf="@+id/brewEditTempLabel" />
 
-                <TextView
+                <Button
                     android:id="@+id/brewEditSteamLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/brewEditVerticalSkip"
+                    android:background="@android:drawable/btn_default_small"
                     android:gravity="center"
                     android:text="@string/brewEditSteamLabel"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
                     app:layout_constraintEnd_toStartOf="@+id/guideline7"
                     app:layout_constraintTop_toBottomOf="@+id/brewEditTempLabel" />
 
@@ -630,14 +656,16 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline3"
                     app:layout_constraintTop_toTopOf="@+id/brewEditSteamLabel" />
 
-                <TextView
+                <Button
                     android:id="@+id/brewEditBrewTimeLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
+                    android:background="@android:drawable/btn_default_small"
                     android:gravity="center"
                     android:text="@string/brewEditBrewTimeLabel"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
                     app:layout_constraintEnd_toStartOf="@+id/guideline7"
                     app:layout_constraintTop_toBottomOf="@+id/brewEditSteamLabel" />
 
@@ -694,14 +722,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditHomeItems">
 
-                <TextView
+                <Button
                     android:id="@+id/brewEditShopLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="10dp"
+                    android:background="@android:drawable/btn_default_small"
+                    android:enabled="false"
                     android:text="@string/brewEditShopLabel"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="center"
                     app:layout_constraintEnd_toStartOf="@+id/brewEditShopText"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -709,7 +739,7 @@
                     android:id="@+id/brewEditShopText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="80dp"
+                    android:layout_marginStart="100dp"
                     android:ems="10"
                     android:hint="@string/brewEditShopHint"
                     android:inputType="text"
@@ -718,13 +748,15 @@
                     app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <Button
                 android:id="@+id/brewEditSugarLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:background="@android:drawable/btn_default_small"
+                android:enabled="false"
                 android:text="@string/brewEditSugarLabel"
-                android:textAlignment="textEnd"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditTakeoutItems" />
 
@@ -770,13 +802,15 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/brewEditSugarLabel" />
 
-            <TextView
+            <Button
                 android:id="@+id/brewEditMilkLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
+                android:background="@android:drawable/btn_default_small"
+                android:enabled="false"
                 android:text="@string/brewEditMilkLabel"
-                android:textAlignment="textEnd"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditSugarLabel" />
 
@@ -823,13 +857,15 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/brewEditMilkLabel" />
 
-            <TextView
+            <Button
                 android:id="@+id/brewEditMemoLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
+                android:background="@android:drawable/btn_default_small"
+                android:enabled="false"
                 android:text="@string/brewEditMemoLabel"
-                android:textAlignment="textEnd"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditMilkLabel" />
 
@@ -841,8 +877,8 @@
                 android:ems="10"
                 android:hint="@string/brewEditMemoHint"
                 android:inputType="textMultiLine|text"
-                android:lines="2"
-                android:minLines="2"
+                android:lines="10"
+                android:minLines="3"
                 app:layout_constraintBaseline_toBaselineOf="@+id/brewEditMemoLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2" />
@@ -852,14 +888,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="80dp" />
+                app:layout_constraintGuide_begin="100dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="70dp" />
+                app:layout_constraintGuide_begin="90dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

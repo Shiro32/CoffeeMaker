@@ -19,6 +19,7 @@ import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_brew_details_home.*
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsBeansText
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsCopyBtn
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsCupsBar
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsDateText
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsTimeText
@@ -73,23 +74,44 @@ class BrewDetailsActivity : AppCompatActivity() {
                 if( !configSteamTimeSw ) {  // 蒸らし時間
                     brewDetailsSteamBar.visibility = View.GONE
                     brewDetailsSteamLabel.visibility = View.GONE
-                } else brewDetailsSteamBar.max = configSteamMax
+                } else {
+                    brewDetailsSteamBar.min = configSteamTimeMin
+                    brewDetailsSteamBar.max = configSteamTimeMax
+                }
+
                 if( !configBrewTimeSw ) {   // 抽出時間
                     brewDetailsBrewTimeBar.visibility = View.GONE
                     brewDetailsBrewTimeLabel.visibility = View.GONE
-                } else brewDetailsBrewTimeBar.max = configBrewMax
-                if( !configCupsBrewedSw ) {   // 抽出カップ数
-                    brewDetailsCupsBar.visibility = View.GONE
-                    brewDetailsCupLabel.visibility = View.GONE
-                } else brewDetailsBrewTimeBar.max = configBrewMax
-                if( !configCupsDrunkSw ) {   // 飲んだカップ数
-                    brewDetailsCupsDrunkBar.visibility = View.GONE
-                    brewDetailsCupDrunkLabel.visibility = View.GONE
-                } else brewDetailsBrewTimeBar.max = configBrewMax
+                } else {
+                    brewDetailsBrewTimeBar.min = configBrewTimeMin
+                    brewDetailsBrewTimeBar.max = configBrewTimeMax
+                }
+
                 if( !configWaterVolumeSw ) {   // 抽出cc
                     brewDetailsWaterVolumeBar.visibility = View.GONE
                     brewDetailsWaterVolumeLabel.visibility = View.GONE
-                } else brewDetailsBrewTimeBar.max = configBrewMax
+                } else {
+                    brewDetailsWaterVolumeBar.min = configWaterVolumeMin
+                    brewDetailsWaterVolumeBar.max = configWaterVolumeMax
+                }
+
+                if( !configTempSw ) { // 温度
+                    brewDetailsTempBar.visibility = View.GONE
+                    brewDetailsTempLabel.visibility = View.GONE
+                } else {
+                    brewDetailsTempBar.min = configTempMin
+                    brewDetailsTempBar.max = configTempMax
+                }
+
+                if( !configCupsBrewedSw ) {   // 抽出カップ数
+                    brewDetailsCupsBar.visibility = View.GONE
+                    brewDetailsCupLabel.visibility = View.GONE
+                }
+
+                if( !configCupsDrunkSw ) {   // 飲んだカップ数
+                    brewDetailsCupsDrunkBar.visibility = View.GONE
+                    brewDetailsCupDrunkLabel.visibility = View.GONE
+                }
 
                 // Grindを数字入力できるようにする処理（アドホックだなぁ・・・）
                 // １個しかないスライダ（beansGrindBar）を、Swで名前・回転数、どちらかで使う
@@ -100,8 +122,10 @@ class BrewDetailsActivity : AppCompatActivity() {
                 } else {
                     brewDetailsGrind1Bar.visibility = View.GONE
                     brewDetailsGrind1Label.visibility = View.GONE
+                    brewDetailsGrind2Bar.min = configMillMin
                     brewDetailsGrind2Bar.max = configMillMax
                     brewDetailsGrind2Bar.setProgress(brew.beansGrind2)
+                    brewDetailsGrind2Bar.setDecimalScale( if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0 )
                 }
 
                 brewDetailsBeansUseBar.setProgress(brew.beansUse)
@@ -110,16 +134,13 @@ class BrewDetailsActivity : AppCompatActivity() {
                 brewDetailsTempBar.setProgress(brew.temp)
                 brewDetailsSteamBar.setProgress(brew.steam)
                 brewDetailsBrewTimeBar.setProgress(brew.brewTime)
-                brewDetailsWaterVolumeBar.max = configWaterVolumeMax
                 brewDetailsWaterVolumeBar.setProgress(brew.waterVolume)
-                brewDetailsWaterVolumeBar.setDecimalScale( if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0 )
 
                 // 豆の経過日数を計算する
                 if(brew.beansID>0L) {
                     val d1 = findBeansDateByID(brew.beansID)?.time
                     if (d1!=null)  days = "（"+((brew.date.time-d1)/(1000*60*60*24)).toString()+"日経過）"
                 }
-
 
 
             } else {
@@ -172,6 +193,15 @@ class BrewDetailsActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_EDIT_BREW)
         }
 
+        // 複製ボタン
+        brewDetailsCopyBtn.setOnClickListener {
+            val intent = Intent(applicationContext, BrewEditActivity::class.java)
+            intent.putExtra("mode", BREW_EDIT_MODE_COPY)
+            intent.putExtra("id", intentID)
+            blackToast(applicationContext, "同じデータで複製しました")
+            startActivityForResult(intent, REQUEST_EDIT_BREW)
+        }
+
         // 一覧へ戻るボタン
         brewDetailsReturnBtn.setOnClickListener { finish() }
 
@@ -217,7 +247,7 @@ class BrewDetailsActivity : AppCompatActivity() {
                 val intent = Intent(applicationContext, BrewEditActivity::class.java)
                 intent.putExtra("mode", BREW_EDIT_MODE_COPY)
                 intent.putExtra("id", brewID)
-                blackToast(applicationContext, "複製しました")
+                blackToast(applicationContext, "同じデータで複製しました")
                 startActivityForResult(intent, REQUEST_EDIT_BEANS)
             }
 
