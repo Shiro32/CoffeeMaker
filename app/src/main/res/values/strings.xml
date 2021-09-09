@@ -242,6 +242,9 @@
     <string name="anaAllPeriod">全期間</string>
 
     <!-- 設定画面用 -->
+    <string name="config_inputs_input">データ入力</string>
+    <string name="config_inputs_display">リストに表示</string>
+
     <string name="config_appearance_header">見た目の設定</string>
     <string name="config_list_look_label">リストの形式</string>
 
@@ -260,30 +263,26 @@
     <string name="config_inputs_mill_float_label">ノッチ数の単位</string>
 
     <string name="config_inputs_brew_time_title">抽出時間の設定</string>
-    <string name="config_inputs_brew_time_label">入力項目とする</string>
     <string name="config_inputs_brew_time_min_label">最短時間（秒）</string>
     <string name="config_inputs_brew_time_max_label">最長時間（秒）</string>
 
     <string name="config_inputs_steam_time_title">蒸らし時間の設定</string>
-    <string name="config_inputs_steam_time_label">入力項目とする</string>
     <string name="config_inputs_steam_time_min_label">最短時間（秒）</string>
     <string name="config_inputs_steam_time_max_label">最長時間（秒）</string>
 
     <string name="config_inputs_water_volume_title">湯量の設定</string>
-    <string name="config_inputs_water_volume_label">入力項目とする</string>
     <string name="config_inputs_water_volume_min_label">最小量(cc)</string>
     <string name="config_inputs_water_volume_max_label">最大量(cc)</string>
 
     <string name="config_inputs_temp_title">湯温の設定</string>
-    <string name="config_inputs_temp_label">入力項目とする</string>
     <string name="config_inputs_temp_min_label">最小温度(℃)</string>
     <string name="config_inputs_temp_max_label">最高温度(℃)</string>
 
-    <string name="config_inputs_etc_title">そのほかの入力設定</string>
-    <string name="config_inputs_sugar_label">砂糖使用量</string>
-    <string name="config_inputs_milk_label">ミルク使用量</string>
-    <string name="config_inputs_cups_brewed_label">淹れたカップ数</string>
-    <string name="config_inputs_cups_drunk_label">飲んだカップ数</string>
+    <string name="config_inputs_sugar_title">砂糖使用量設定</string>
+    <string name="config_inputs_milk_title">ミルク使用量設定</string>
+    <string name="config_inputs_beans_title">コーヒー豆使用量設定</string>
+    <string name="config_inputs_cups_title">淹れたカップ数設定</string>
+    <string name="config_inputs_cups_drunk_title">飲んだカップ数設定</string>
 
     <string name="overwrite_confirm_dialog_title">上書き確認</string>
     <string name="overwrite_confirm_dialog_cancel">キャンセル</string>

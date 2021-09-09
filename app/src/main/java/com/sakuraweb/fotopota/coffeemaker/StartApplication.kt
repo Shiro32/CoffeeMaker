@@ -73,6 +73,8 @@ lateinit var takeoutRestaurant: Array<String>
 
 lateinit var roastLabels: Array<String>
 lateinit var grindLabels: Array<String>
+lateinit var sugarLabels: Array<String>
+lateinit var milkLabels:  Array<String>
 
 const val brew_list_backup      = "brew_list_backup.realm"
 const val bean_list_backup      = "bean_list_backup.realm"
@@ -190,7 +192,8 @@ class StartApplication : Application() {
 
         roastLabels = resources.getStringArray(R.array.roast_labels)
         grindLabels = resources.getStringArray(R.array.grind_labels)
-
+        milkLabels  = resources.getStringArray(R.array.milk_volume)
+        sugarLabels = resources.getStringArray(R.array.sugar_volume)
 
 //        setTakeoutTakeDay()
 

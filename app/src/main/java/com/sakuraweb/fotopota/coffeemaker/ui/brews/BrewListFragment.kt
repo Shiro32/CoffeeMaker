@@ -30,24 +30,43 @@ var configMillUnit: Int = GRIND_UNIT_FLOAT
 // 各種表示設定（設定画面で設定したものの保持用）
 var configMillMax = 10F
 var configMillMin = 0F
-var configMilkSw = true
-var configSugarSw = true
+var configMillDispSw = true
+
 var configSteamTimeSw = true
 var configSteamTimeMax = 60F
 var configSteamTimeMin = 0F
+var configSteamTimeDispSw = true
 
 var configBrewTimeSw = true
 var configBrewTimeMax = 120F
 var configBrewTimeMin = 0F
+var configBrewTimeDispSw = true
 
-var configCupsBrewedSw = true
-var configCupsDrunkSw = true
 var configWaterVolumeSw = true
 var configWaterVolumeMax = 240F
 var configWaterVolumeMin = 0F
+var configWaterVolumeDispSw = true
+
 var configTempSw = true
 var configTempMax = 120F
 var configTempMin = 0F
+var configTempDispSw = true
+
+var configBeansSw = true
+var configBeansDispSw = true
+
+var configMilkSw = true
+var configMilkDispSw = false
+
+var configSugarSw = true
+var configSugarDispSw = false
+
+var configCupsBrewedSw = true
+var configCupsBrewedDispSw = false
+
+var configCupsDrunkSw = true
+var configCupsDrunkDispSw = false
+
 
 
 lateinit var grind2Labels: Array<String>
@@ -68,28 +87,43 @@ class BrewFragment : Fragment() {
         PreferenceManager.getDefaultSharedPreferences(context).apply {
             getString("water_volume_max", "240")?.let { configWaterVolumeMax = it.toFloat() }
             getString("water_volume_min", "0")?.let { configWaterVolumeMin = it.toFloat() }
-            configWaterVolumeSw = getBoolean("water_volume_sw", false)
+            configWaterVolumeSw     = getBoolean("water_volume_sw", true)
+            configWaterVolumeDispSw = getBoolean("water_volume_disp_sw", true)
 
             getString("mill_min", "00")?.let { configMillMin = it.toFloat() }
             getString("mill_max", "20")?.let { configMillMax = it.toFloat() }
             configMillUnit = if( getString("mill_unit_sw", "") == "int" ) GRIND_UNIT_INT else GRIND_UNIT_FLOAT
+            configMillDispSw = getBoolean("mill_disp_sw", true)
 
             getString("steam_min", "00")?.let { configSteamTimeMin = it.toFloat() }
             getString("steam_max", "60")?.let { configSteamTimeMax = it.toFloat() }
-            configSteamTimeSw   = getBoolean("steam_sw", true)
+            configSteamTimeSw       = getBoolean("steam_sw", true)
+            configSteamTimeDispSw   = getBoolean("steam_disp_sw", true)
 
             getString("brew_min", "000")?.let { configBrewTimeMin = it.toFloat() }
             getString("brew_max", "120")?.let { configBrewTimeMax = it.toFloat() }
-            configBrewTimeSw    = getBoolean("brew_sw", true)
+            configBrewTimeSw        = getBoolean("brew_sw", true)
+            configBrewTimeDispSw    = getBoolean("brew_disp_sw",true)
 
             getString("temp_min", "0")?.let { configTempMin = it.toFloat() }
             getString("temp_max", "120")?.let { configTempMax = it.toFloat() }
-            configTempSw = getBoolean("temp_sw", true)
+            configTempSw        = getBoolean("temp_sw", true)
+            configTempDispSw    = getBoolean("temp_disp_sw",true)
 
-            configMilkSw    = getBoolean("milk_sw", true)
-            configSugarSw   = getBoolean("sugar_sw", true)
-            configCupsBrewedSw = getBoolean("cups_brewed_sw", true)
-            configCupsDrunkSw  = getBoolean("cups_drunk_sw", true)
+            configBeansSw       = getBoolean("beans_sw", true)
+            configBeansDispSw   = getBoolean("beans_disp_sw", true)
+
+            configMilkSw        = getBoolean("milk_sw", true)
+            configMilkDispSw    = getBoolean("milk_disp_sw", false)
+
+            configSugarSw       = getBoolean("sugar_sw", true)
+            configSugarDispSw   = getBoolean("sugar_disp_sw", false)
+
+            configCupsBrewedSw      = getBoolean("cups_brewed_sw", true)
+            configCupsBrewedDispSw  = getBoolean("cups_brewed_disp_sw", false)
+
+            configCupsDrunkSw       = getBoolean("cups_drunk_sw", true)
+            configCupsDrunkDispSw   = getBoolean("cups_drunk_disp_sw", false)
 
             brewListLayoutStyle = if( getString("list_sw", "") == "card" ) CARD_STYLE else FLAT_STYLE
             grind2Labels = arrayOf( "0", configMillMax.toInt().toString() )

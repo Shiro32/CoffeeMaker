@@ -73,32 +73,32 @@ class BrewEditActivity : AppCompatActivity() {
             brewEditSteamBar.visibility = View.GONE
             brewEditSteamLabel.visibility = View.GONE
         } else {
-            brewEditSteamBar.min = configSteamTimeMin
             brewEditSteamBar.max = configSteamTimeMax
+            brewEditSteamBar.min = configSteamTimeMin
         }
 
         if( !configBrewTimeSw ) {   // 抽出時間
             brewEditBrewTimeBar.visibility = View.GONE
             brewEditBrewTimeLabel.visibility = View.GONE
         } else {
-            brewEditBrewTimeBar.min = configBrewTimeMin
             brewEditBrewTimeBar.max = configBrewTimeMax
+            brewEditBrewTimeBar.min = configBrewTimeMin
         }
 
         if( !configWaterVolumeSw ) {   // 抽出cc
             brewEditWaterVolumeBar.visibility = View.GONE
             brewEditWaterVolumeLabel.visibility = View.GONE
         } else {
-            brewEditWaterVolumeBar.min = configWaterVolumeMin
             brewEditWaterVolumeBar.max = configWaterVolumeMax
+            brewEditWaterVolumeBar.min = configWaterVolumeMin
         }
 
         if( !configTempSw ) { // 温度
             brewEditTempBar.visibility = View.GONE
             brewEditTempLabel.visibility = View.GONE
         } else {
-            brewEditTempBar.min = configTempMin
             brewEditTempBar.max = configTempMax
+            brewEditTempBar.min = configTempMin
         }
 
         if( !configCupsBrewedSw ) {   // 抽出カップ数

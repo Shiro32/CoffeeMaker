@@ -3,7 +3,7 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.warkiz.widget.IndicatorSeekBar
+import kotlinx.android.synthetic.main.one_brew_card_home.view.*
 import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewBeansKindText
 import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewDateText
 import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewImage
@@ -11,8 +11,13 @@ import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewMemoText
 import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewPastText
 import kotlinx.android.synthetic.main.one_brew_card_home.view.oneBrewRatingBar
 import kotlinx.android.synthetic.main.one_brew_card_shop.view.*
-import kotlinx.android.synthetic.main.one_brew_flat_home.view.*
-import org.w3c.dom.Text
+import kotlinx.android.synthetic.main.one_brew_flat_home.view.miniBeansText
+import kotlinx.android.synthetic.main.one_brew_flat_home.view.miniBrewTimeText
+import kotlinx.android.synthetic.main.one_brew_flat_home.view.miniGrindText
+import kotlinx.android.synthetic.main.one_brew_flat_home.view.miniSteamText
+import kotlinx.android.synthetic.main.one_brew_flat_home.view.miniTempText
+import kotlinx.android.synthetic.main.one_brew_flat_home.view.miniVolumeText
+import kotlinx.android.synthetic.main.one_brew_flat_home.view.oneBrewMethodText
 
 // ViewHolderを作る
 // 要するに1行分のViewを保持する（データではない）、描画用のインスタンス。
@@ -38,6 +43,21 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
     var miniSteamText:  TextView? = null
     var miniVolumeText: TextView? = null
     var miniBrewTimeText:TextView?= null
+    var miniSugarText:  TextView? = null
+    var miniMilkText:   TextView? = null
+    var miniCupsBrewedText: TextView? = null
+    var miniCupsDrunkText:  TextView? = null
+
+    var miniGrind:      LinearLayout? = null
+    var miniBeans:      LinearLayout? = null
+    var miniTemp:       LinearLayout? = null
+    var miniSteam:      LinearLayout? = null
+    var miniVolume:     LinearLayout? = null
+    var miniBrewTime:   LinearLayout? = null
+    var miniSugar:      LinearLayout? = null
+    var miniMilk:       LinearLayout? = null
+    var miniCupsBrewed: LinearLayout? = null
+    var miniCupsDrunk:  LinearLayout? = null
 
     // 初期化処理
     // KOTLINではプライマリコンストラクタは、引数をローカル変数にコピーするだけ （ivに貰っている）
@@ -59,6 +79,21 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         miniVolumeText  = iv.miniVolumeText
         miniSteamText   = iv.miniSteamText
         miniBrewTimeText= iv.miniBrewTimeText
+        miniSugarText   = iv.miniSugarText
+        miniMilkText    = iv.miniMilkText
+        miniCupsBrewedText = iv.miniCupsBrewedText
+        miniCupsDrunkText  = iv.miniCupsDrunkText
+
+        miniGrind       = iv.miniGrind
+        miniBeans       = iv.miniBeans
+        miniTemp        = iv.miniTemp
+        miniSteam       = iv.miniSteam
+        miniVolume      = iv.miniVolume
+        miniBrewTime    = iv.miniBrewTime
+        miniMilk        = iv.miniMilk
+        miniSugar       = iv.miniSugar
+        miniCupsBrewed  = iv.miniCupsBrewed
+        miniCupsDrunk   = iv.miniCupsDrunk
 
         shopText        = iv.oneBrewShopText
         memoText        = iv.oneBrewMemoText

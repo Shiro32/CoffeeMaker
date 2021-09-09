@@ -4,18 +4,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.*
-import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
 import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipIconAndNameByID
-import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipIconByID
-import com.sakuraweb.fotopota.coffeemaker.ui.equip.findEquipNameByID
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.findTakeoutChainNameByID
 import io.realm.RealmResults
-import kotlinx.android.synthetic.main.activity_brew_edit.*
 import kotlinx.android.synthetic.main.one_brew_card_home.view.*
 import java.text.SimpleDateFormat
 
@@ -39,14 +35,23 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrewViewHolder {
         // 家飲み、店飲み、フラット、カードで4種類
         val view: View
+
         if( viewType == BREW_IN_HOME ) {
             view = LayoutInflater.from(parent.context)
                 .inflate( if(brewListLayoutStyle==0) R.layout.one_brew_card_home else R.layout.one_brew_flat_home, parent, false)
-                // ここで表示・非表示をやりますか。前に詰めるとかの処理が面倒だけど・・・。いっそLinearLayoutでいいのかも！？
-//                if( !configSteamTimeSw ) {
-//                    view.oneBrewSteamBar.visibility = View.GONE
-//                    view.oneBrewSteamLabel.visibility = View.GONE
-//                }
+
+            // ここで表示・非表示処理。FlexboxLayoutで前に詰める＆折り返す
+            if( !configMillDispSw )         view.miniGrind.visibility = View.GONE
+            if( !configBeansDispSw )        view.miniBeans.visibility = View.GONE
+            if( !configTempDispSw )         view.miniTemp.visibility = View.GONE
+            if( !configSteamTimeDispSw )    view.miniSteam.visibility = View.GONE
+            if( !configBrewTimeDispSw )     view.miniBrewTime.visibility = View.GONE
+            if( !configWaterVolumeDispSw)   view.miniVolume.visibility = View.GONE
+            if( !configMilkDispSw )         view.miniMilk.visibility = View.GONE
+            if( !configSugarDispSw)         view.miniSugar.visibility = View.GONE
+            if( !configCupsBrewedDispSw )   view.miniCupsBrewed.visibility = View.GONE
+            if( !configCupsDrunkDispSw )    view.miniCupsDrunk.visibility = View.GONE
+
         }  else {
             view = LayoutInflater.from(parent.context)
                 .inflate( if(brewListLayoutStyle==0) R.layout.one_brew_card_shop else R.layout.one_brew_flat_shop, parent, false)
@@ -86,6 +91,11 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                 holder.miniTempText?.text       = bp.temp.toInt().toString()+"℃"
                 holder.miniBrewTimeText?.text   = bp.brewTime.toInt().toString()+"秒"
                 holder.miniVolumeText?.text     = bp.waterVolume.toInt().toString()+"cc"
+
+                holder.miniSugarText?.text      = sugarLabels[(bp.sugar/25F).toInt()]
+                holder.miniMilkText?.text       = milkLabels[(bp.milk/33.3F).toInt()]
+                holder.miniCupsBrewedText?.text = bp.cups.toInt().toString()+"杯"
+                holder.miniCupsDrunkText?.text  = bp.cupsDrunk.toInt().toString()+"杯"
 
                 // 豆の経過日数を計算する
                 if(bp.beansID>0L) {

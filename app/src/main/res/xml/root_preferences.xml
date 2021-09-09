@@ -39,45 +39,33 @@
         </Preference>
     </PreferenceCategory>
 
-
     <PreferenceCategory
-        android:title="@string/config_inputs_mill_label"
-        app:icon="@android:drawable/ic_menu_manage"
+        android:title="@string/config_backup_header"
+        app:icon="@android:drawable/ic_menu_save"
         app:iconSpaceReserved="false">
-        <ListPreference
-            android:defaultValue="float"
-            android:dialogTitle="@string/config_inputs_mill_float_label"
-            android:entries="@array/mill_units"
-            android:entryValues="@array/mill_values"
-            android:key="mill_unit_sw"
-            android:title="@string/config_inputs_mill_float_label"
-            app:useSimpleSummaryProvider="true" />
 
-        <EditTextPreference
-            android:defaultValue="5"
-            android:dialogTitle="@string/config_inputs_mill_min_label"
-            android:key="mill_min"
-            android:title="@string/config_inputs_mill_min_label"
-            app:useSimpleSummaryProvider="true" />
-
-        <EditTextPreference
-            android:defaultValue="20"
-            android:dialogTitle="@string/config_inputs_mill_max_label"
-            android:key="mill_max"
-            android:title="@string/config_inputs_mill_max_label"
-            app:useSimpleSummaryProvider="true" />
-
+        <Preference
+            app:key="backup"
+            app:title="@string/config_backup_db">
+        </Preference>
+        <Preference
+            app:key="restore"
+            app:title="@string/config_restore_db">
+        </Preference>
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/config_inputs_brew_time_title"
         app:icon="@android:drawable/ic_menu_manage"
         app:iconSpaceReserved="false">
-
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="brew_sw"
-            android:title="@string/config_inputs_brew_time_label" />
+            android:title="@string/config_inputs_input" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="brew_disp_sw"
+            android:title="@string/config_inputs_display" />
         <EditTextPreference
             android:defaultValue="0"
             android:dialogTitle="@string/config_inputs_brew_time_min_label"
@@ -96,11 +84,14 @@
         android:title="@string/config_inputs_steam_time_title"
         app:icon="@android:drawable/ic_menu_manage"
         app:iconSpaceReserved="false">
-
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="steam_sw"
-            android:title="@string/config_inputs_steam_time_label" />
+            android:title="@string/config_inputs_input" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="steam_disp_sw"
+            android:title="@string/config_inputs_display" />
         <EditTextPreference
             android:defaultValue="0"
             android:dialogTitle="@string/config_inputs_steam_time_min_label"
@@ -116,13 +107,47 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/config_inputs_mill_label"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="mill_disp_sw"
+            android:title="@string/config_inputs_display" />
+        <ListPreference
+            android:defaultValue="float"
+            android:dialogTitle="@string/config_inputs_mill_float_label"
+            android:entries="@array/mill_units"
+            android:entryValues="@array/mill_values"
+            android:key="mill_unit_sw"
+            android:title="@string/config_inputs_mill_float_label"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="5"
+            android:dialogTitle="@string/config_inputs_mill_min_label"
+            android:key="mill_min"
+            android:title="@string/config_inputs_mill_min_label"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="20"
+            android:dialogTitle="@string/config_inputs_mill_max_label"
+            android:key="mill_max"
+            android:title="@string/config_inputs_mill_max_label"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/config_inputs_water_volume_title"
         app:icon="@android:drawable/ic_menu_manage"
         app:iconSpaceReserved="false">
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="water_volume_sw"
-            android:title="@string/config_inputs_water_volume_label" />
+            android:title="@string/config_inputs_input" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="water_volume_disp_sw"
+            android:title="@string/config_inputs_display" />
         <EditTextPreference
             android:defaultValue="0"
             android:dialogTitle="@string/config_inputs_water_volume_min_label"
@@ -144,7 +169,11 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="temp_sw"
-            android:title="@string/config_inputs_temp_label" />
+            android:title="@string/config_inputs_input" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="temp_disp_sw"
+            android:title="@string/config_inputs_display" />
         <EditTextPreference
             android:defaultValue="0"
             android:dialogTitle="@string/config_inputs_temp_min_label"
@@ -160,42 +189,77 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/config_inputs_etc_title"
+        android:title="@string/config_inputs_sugar_title"
         app:icon="@android:drawable/ic_menu_manage"
         app:iconSpaceReserved="false">
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="sugar_sw"
-            android:title="@string/config_inputs_sugar_label" />
+            android:title="@string/config_inputs_input" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="sugar_disp_sw"
+            android:title="@string/config_inputs_display" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/config_inputs_milk_title"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSpaceReserved="false">
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="milk_sw"
-            android:title="@string/config_inputs_milk_label" />
+            android:title="@string/config_inputs_input" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="milk_disp_sw"
+            android:title="@string/config_inputs_display" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/config_inputs_cups_title"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSpaceReserved="false">
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="cups_brewed_sw"
-            android:title="@string/config_inputs_cups_brewed_label" />
+            android:title="@string/config_inputs_input" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="cups_brewed_disp_sw"
+            android:title="@string/config_inputs_display" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/config_inputs_cups_drunk_title"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSpaceReserved="false">
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="cups_drunk_sw"
-            android:title="@string/config_inputs_cups_drunk_label" />
+            android:title="@string/config_inputs_input" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="cups_drunk_disp_sw"
+            android:title="@string/config_inputs_display" />
     </PreferenceCategory>
-
-
 
     <PreferenceCategory
-        android:title="@string/config_backup_header"
-        app:icon="@android:drawable/ic_menu_save"
+        android:title="@string/config_inputs_beans_title"
+        app:icon="@android:drawable/ic_menu_manage"
         app:iconSpaceReserved="false">
-
-        <Preference
-            app:key="backup"
-            app:title="@string/config_backup_db">
-        </Preference>
-        <Preference
-            app:key="restore"
-            app:title="@string/config_restore_db">
-        </Preference>
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="beans_sw"
+            android:title="@string/config_inputs_input" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="beans_disp_sw"
+            android:title="@string/config_inputs_display" />
     </PreferenceCategory>
+
+
+
+
 
 </PreferenceScreen>

@@ -69,19 +69,6 @@
             app:layout_constraintTop_toBottomOf="@+id/oneBrewDateText" />
 
         <TextView
-            android:id="@+id/oneBrewMemoText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:lineSpacingMultiplier="0.7"
-            android:text="メモメモ"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/gridLayout"
-            app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
-
-        <TextView
             android:id="@+id/oneBrewMethodText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -100,105 +87,232 @@
             android:orientation="vertical"
             app:layout_constraintGuide_begin="60dp" />
 
-        <androidx.gridlayout.widget.GridLayout
-            android:id="@+id/gridLayout"
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexbox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:columnCount="12"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            app:alignItems="flex_start"
+            app:flexDirection="row"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBrewMethodText"
-            app:rowCount="2">
+            app:layout_constraintTop_toBottomOf="@+id/oneBrewImage">
 
-                <ImageView
-                    android:id="@+id/miniGrindIcon"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="8dp"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/mini_mill" />
-
-                <TextView
-                    android:id="@+id/miniGrindText"
+                <LinearLayout
+                    android:id="@+id/miniGrind"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="16.5" />
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/miniBeansIcon"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="8dp"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/mini_bean" />
+                        <ImageView
+                            android:id="@+id/miniGrindIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mini_mill" />
 
-                <TextView
-                    android:id="@+id/miniBeansText"
+                        <TextView
+                            android:id="@+id/miniGrindText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="16.5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/miniBeans"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="18g" />
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/miniTempIcon"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="8dp"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/mini_temp" />
+                        <ImageView
+                            android:id="@+id/miniBeansIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mini_bean" />
 
-                <TextView
-                    android:id="@+id/miniTempText"
+                        <TextView
+                            android:id="@+id/miniBeansText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="18g" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/miniTemp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="92℃" />
+                    android:layout_height="wrap_content">
 
+                        <ImageView
+                            android:id="@+id/miniTempIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mini_temp" />
 
-                <ImageView
-                    android:id="@+id/miniSteamIcon"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="8dp"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/mini_steam" />
+                        <TextView
+                            android:id="@+id/miniTempText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="92℃" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/miniSteamText"
+                <LinearLayout
+                    android:id="@+id/miniSteam"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="30秒" />
+                    android:layout_height="wrap_content">
 
+                        <ImageView
+                            android:id="@+id/miniSteamIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mini_steam" />
 
-                <ImageView
-                    android:id="@+id/miniBrewTimeIcon"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="8dp"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/mini_brew_time" />
+                        <TextView
+                            android:id="@+id/miniSteamText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="30秒" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/miniBrewTimeText"
+                <LinearLayout
+                    android:id="@+id/miniBrewTime"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="120s" />
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/miniVolumeIcon"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="8dp"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/mini_volume" />
+                        <ImageView
+                            android:id="@+id/miniBrewTimeIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mini_brew_time" />
 
-                <TextView
-                    android:id="@+id/miniVolumeText"
+                        <TextView
+                            android:id="@+id/miniBrewTimeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="120s" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/miniVolume"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="多め" />
+                    android:layout_height="wrap_content">
 
+                        <ImageView
+                            android:id="@+id/miniVolumeIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mini_volume" />
 
-        </androidx.gridlayout.widget.GridLayout>
+                        <TextView
+                            android:id="@+id/miniVolumeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="多め" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/miniCupsBrewed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/miniCupsBrewedIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mini_cups_made" />
+
+                        <TextView
+                            android:id="@+id/miniCupsBrewedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="多め" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/miniCupsDrunk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/miniCupsDrunkIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mini_cpus_drunk" />
+
+                        <TextView
+                            android:id="@+id/miniCupsDrunkText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="多め" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/miniSugar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/miniSugarIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mini_sugar" />
+
+                        <TextView
+                            android:id="@+id/miniSugarText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="多め" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/miniMilk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/miniMilkIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mini_milk" />
+
+                        <TextView
+                            android:id="@+id/miniMilkText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="多め" />
+                </LinearLayout>
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <TextView
+            android:id="@+id/oneBrewMemoText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:lineSpacingMultiplier="0.7"
+            android:text="メモメモ"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flexbox" />
 
         <View
             android:id="@+id/divider3"

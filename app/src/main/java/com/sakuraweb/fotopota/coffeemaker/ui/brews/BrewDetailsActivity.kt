@@ -75,32 +75,32 @@ class BrewDetailsActivity : AppCompatActivity() {
                     brewDetailsSteamBar.visibility = View.GONE
                     brewDetailsSteamLabel.visibility = View.GONE
                 } else {
-                    brewDetailsSteamBar.min = configSteamTimeMin
                     brewDetailsSteamBar.max = configSteamTimeMax
+                    brewDetailsSteamBar.min = configSteamTimeMin
                 }
 
                 if( !configBrewTimeSw ) {   // 抽出時間
                     brewDetailsBrewTimeBar.visibility = View.GONE
                     brewDetailsBrewTimeLabel.visibility = View.GONE
                 } else {
-                    brewDetailsBrewTimeBar.min = configBrewTimeMin
                     brewDetailsBrewTimeBar.max = configBrewTimeMax
+                    brewDetailsBrewTimeBar.min = configBrewTimeMin
                 }
 
                 if( !configWaterVolumeSw ) {   // 抽出cc
                     brewDetailsWaterVolumeBar.visibility = View.GONE
                     brewDetailsWaterVolumeLabel.visibility = View.GONE
                 } else {
-                    brewDetailsWaterVolumeBar.min = configWaterVolumeMin
                     brewDetailsWaterVolumeBar.max = configWaterVolumeMax
+                    brewDetailsWaterVolumeBar.min = configWaterVolumeMin
                 }
 
                 if( !configTempSw ) { // 温度
                     brewDetailsTempBar.visibility = View.GONE
                     brewDetailsTempLabel.visibility = View.GONE
                 } else {
-                    brewDetailsTempBar.min = configTempMin
                     brewDetailsTempBar.max = configTempMax
+                    brewDetailsTempBar.min = configTempMin
                 }
 
                 if( !configCupsBrewedSw ) {   // 抽出カップ数
@@ -122,8 +122,8 @@ class BrewDetailsActivity : AppCompatActivity() {
                 } else {
                     brewDetailsGrind1Bar.visibility = View.GONE
                     brewDetailsGrind1Label.visibility = View.GONE
-                    brewDetailsGrind2Bar.min = configMillMin
                     brewDetailsGrind2Bar.max = configMillMax
+                    brewDetailsGrind2Bar.min = configMillMin
                     brewDetailsGrind2Bar.setProgress(brew.beansGrind2)
                     brewDetailsGrind2Bar.setDecimalScale( if( configMillUnit== GRIND_UNIT_FLOAT ) 1 else 0 )
                 }
