@@ -65,6 +65,7 @@ lateinit var beansKind: Array<String>   // 以下３種のタイトル配列
 lateinit var beansSpecial: Array<String>
 lateinit var beansBlend: Array<String>
 lateinit var beansPack: Array<String>
+lateinit var beansProcessLabels: Array<String>
 
 lateinit var takeoutKind: Array<String> // 以下３種のタイトル配列
 lateinit var takeoutConvini: Array<String>
@@ -177,6 +178,29 @@ class StartApplication : Application() {
             blackToast(applicationContext, "湯量項目追加完了！")
         }
 
+        // BeansDataのマイグレーション処理
+        // v1→v2
+        // repeat（購入回数）を1にセットするだけ
+        if( beansDataMigrated1to2 ) {
+            var realm = Realm.getInstance(beansRealmConfig)
+            var beans = realm.where<BeansData>().findAll()
+            for( b in beans ) {
+                realm.executeTransaction {
+                    b.repeat = 1
+                }
+            }
+        }
+        // v2→v3
+        // repeatDateを初期化
+        if( beansDataMigrated2to3 ) {
+            var realm = Realm.getInstance(beansRealmConfig)
+            var beans = realm.where<BeansData>().findAll()
+            for( b in beans ) {
+                realm.executeTransaction {
+                    b.repeatDate = b.date
+                }
+            }
+        }
 
         // 代表豆銘柄セレクト関係
         beansKind = resources.getStringArray(R.array.beans_kind)
@@ -194,7 +218,7 @@ class StartApplication : Application() {
         grindLabels = resources.getStringArray(R.array.grind_labels)
         milkLabels  = resources.getStringArray(R.array.milk_volume)
         sugarLabels = resources.getStringArray(R.array.sugar_volume)
-
+        beansProcessLabels = resources.getStringArray(R.array.process_labels)
 //        setTakeoutTakeDay()
 
     }
@@ -276,6 +300,7 @@ class StartApplication : Application() {
             for (i in beansList.reversed()) {
                 var b = realm.createObject<BeansData>(id++)
                 b.date = i.date.toDate("yyyy/MM/dd")
+                b.repeatDate = i.date.toDate("yyyy/MM/dd")
                 b.name = i.name
                 b.gram = i.gram
                 b.roast = i.roast

@@ -9,10 +9,15 @@ import io.realm.annotations.RealmModule
 import java.util.*
 
 // コーヒー豆データのデータ形式Class
-// Realmで使うためには、絶対にopenにしないといけないので注意！
-
 // ★★データ項目（名前も）を変えた場合は、migrateメソッドに追記し、VERSIONも+1すること
-const val BEANS_DATA_VERSION = 1L
+// 他の各種ＤＢと違って、元祖ＤＢをv0ではなく、v1から始めてしまった・・・。
+const val BEANS_DATA_VERSION = 3L
+var beansDataMigrated1to2 = false
+var beansDataMigrated2to3 = false
+
+// v1   元祖
+// v2   購入回数（repeat）、豆処理（process）を追加
+// v3   初回購入（date）と最新購入（repeatDate）を分けた
 
 @RealmModule(classes = [BeansData::class])
 class BeansDataModule
@@ -23,14 +28,17 @@ open class BeansData : RealmObject() {
     var id: Long = 0
 
     var name: String = ""   // 銘柄
-    var rating: Float = 0F
-    lateinit var date: Date    // 購入日
-    lateinit var recent: Date   // 最近の利用日
-    var gram: Float = 0F     // グラム
-    var roast: Float = 0F      // 焙煎（深煎り～浅煎りまで）
+    var rating: Float = 0F  // 評価
+    lateinit var date: Date         // 最初の購入日
+    var repeatDate: Date?=null  // 最近の購入日（v3から） なぜか「?」型にしないとmigrationできなかった
+    lateinit var recent: Date       // 最近の利用日
+    var gram: Float = 0F    // グラム
+    var roast: Float = 0F   // 焙煎（深煎り～浅煎りまで）
     var shop: String = ""   // 購入店
     var price: Int = 0      // 購入価格
-    var count: Int = 0
+    var count: Int = 0      // 利用回数
+    var repeat: Int = 1     // 購入回数（v2から）
+    var process: Int = 0    // 豆処理（washedなど、v2から）
     var memo: String = ""   // メモ
 }
 
@@ -43,11 +51,26 @@ class BeansDataMigration : RealmMigration {
         val realmSchema = realm.schema
         var oldVersion = old
 
-//        if( oldVersion==0L ) {
-//            realmSchema.get("BeansData")!!
-//                .addField("recent", Date::class.java)
-//            oldVersion++
-//        }
+        // Version 1（何もなし・・・）
+        if( oldVersion==0L ) {
+            oldVersion++
+        }
 
+        // Version 2
+        if( oldVersion==1L ) {
+            realmSchema.get("BeansData")!!
+                .addField("repeat", Int::class.java)
+                .addField("process", Int::class.java)
+            oldVersion++
+            beansDataMigrated1to2 = true
+        }
+
+        // Version 3
+        if( oldVersion==2L ) {
+            realmSchema.get("BeansData")!!
+                .addField("repeatDate", Date::class.java)
+            oldVersion++
+            beansDataMigrated2to3 = true
+        }
     }
 }

@@ -9,6 +9,7 @@
     <color name="beansColor">#641414</color>
     <color name="lightBeansColor">#E67878</color>
     <color name="cardColor2">#FFFDE7</color>
+    <color name="cardColorWhite">#FFFFFF</color>
     <color name="seekBarText">#777777</color>
     <color name="cardListBackground">#E6E6E6</color>
 </resources>

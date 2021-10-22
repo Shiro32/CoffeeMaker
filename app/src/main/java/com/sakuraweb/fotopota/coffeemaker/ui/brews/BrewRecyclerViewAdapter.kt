@@ -90,10 +90,10 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                 holder.miniSteamText?.text      = bp.steam.toInt().toString()+"秒"
                 holder.miniTempText?.text       = bp.temp.toInt().toString()+"℃"
                 holder.miniBrewTimeText?.text   = bp.brewTime.toInt().toString()+"秒"
-                holder.miniVolumeText?.text     = bp.waterVolume.toInt().toString()+"cc"
+                holder.miniVolumeText?.text     = bp.waterVolume.toInt().toString()+ configWaterVolumeUnit
 
-                holder.miniSugarText?.text      = sugarLabels[(bp.sugar/25F).toInt()]
-                holder.miniMilkText?.text       = milkLabels[(bp.milk/33.3F).toInt()]
+                holder.miniSugarText?.text      = sugarLabels[(bp.sugar/33.3F).toInt()]
+                holder.miniMilkText?.text       = milkLabels[(bp.milk/25F).toInt()]
                 holder.miniCupsBrewedText?.text = bp.cups.toInt().toString()+"杯"
                 holder.miniCupsDrunkText?.text  = bp.cupsDrunk.toInt().toString()+"杯"
 

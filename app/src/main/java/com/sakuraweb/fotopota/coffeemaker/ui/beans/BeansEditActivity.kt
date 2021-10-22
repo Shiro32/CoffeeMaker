@@ -11,15 +11,13 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.select.BeansSelectActivity
-import com.sakuraweb.fotopota.coffeemaker.ui.brews.BREW_EDIT_MODE_EDIT
-import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.select.TakeoutSelectActivity
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_beans_edit.*
-import kotlinx.android.synthetic.main.activity_brew_edit.*
 import java.util.*
 
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
@@ -27,6 +25,13 @@ import java.util.*
 
 const val REQUEST_CODE_BEANS_NAME_SELECT = 1
 
+// BEANS EDIT
+// BEANS LISTから呼び出されて、豆データの編集を行う
+// intent:（4モード）
+//      BEANS_EDIT_MODE_EDIT: 既存データの編集
+//      BEANS_EDIT_MODE_COPY: 既存データの複製
+//      BEANS_EDIT_MODE_NEW : 新規データ入力
+//      BEANS_EDIT_MODE_REPEAT: 再購入データの入力（既存データをコピーしてカウント＋１）
 class BeansEditActivity : AppCompatActivity() {
     private var editMode: Int = 0
     private var beansID: Long = 0L
@@ -42,11 +47,12 @@ class BeansEditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beans_edit)
 
-        // ツールバータイトル用（３モード対応）
+        // ツールバータイトル用（４モード対応）
         val titles:Map<Int,Int> = mapOf(
             BEANS_EDIT_MODE_NEW to R.string.titleBeansEditNew,
             BEANS_EDIT_MODE_EDIT to R.string.titleBeansEditEdit,
-            BEANS_EDIT_MODE_COPY to R.string.titleBeansEditCopy
+            BEANS_EDIT_MODE_COPY to R.string.titleBeansEditCopy,
+            BEANS_EDIT_MODE_REPEAT to R.string.titleBeansEditRepeat
         )
 
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -62,33 +68,62 @@ class BeansEditActivity : AppCompatActivity() {
         beansID = intent.getLongExtra("id", 0L)
 
         // 入力ダイアログ用に現在日時を取得しておく（インスタンス化と現在日時同時）
-        val calender = Calendar.getInstance()
+        val firstDate = Calendar.getInstance()
+        val repeatDate = Calendar.getInstance()
 
         // 既存データをRealmDBからダイアログのViewに読み込む
         when( editMode ) {
+            // 新規作成
             BEANS_EDIT_MODE_NEW -> {
-                // ボタンをグレーとかあったけど、今は特になし
+                beansEditRepeatText.text = "1"
             }
 
-            BEANS_EDIT_MODE_COPY, BEANS_EDIT_MODE_EDIT -> {
+            // 編集、　再購入、複製
+            BEANS_EDIT_MODE_REPEAT, BEANS_EDIT_MODE_EDIT, BEANS_EDIT_MODE_COPY -> {
                 val beans = realm.where<BeansData>().equalTo("id", beansID).findFirst()
 
                 if( beans != null ) {
                     beansEditRatingBar.rating = beans.rating
+                    beansEditRatingText.text = "%.1f".format( beans.rating )
+
                     beansEditNameEdit.setText(beans.name)
                     beansEditRoastBar.setProgress(beans.roast)
                     beansEditGramBar.setProgress(beans.gram)
                     beansEditShopEdit.setText(beans.shop)
                     beansEditPriceEdit.setText(beans.price.toString())
+                    beansEditMemoEdit.setText(beans.memo)
 
-                    if( editMode== BEANS_EDIT_MODE_EDIT )  {
-                        // 編集モードの時の処理
-                        // 時刻は既存データのものを再利用
-                        calender.time = beans.date  // 日付は面倒なので後でまとめて・・・
-                        beansEditMemoEdit.setText(beans.memo)
-                    } else {
-                        // 新規モードの時は、メモ欄を削除
-                        beansEditMemoEdit.setText("")
+                    beansEditMemoEdit.setText(beans.memo)
+                    beansEditProcessSpinner.setSelection(beans.process)
+
+                    when( editMode ) {
+                        BEANS_EDIT_MODE_EDIT -> {
+                            beansEditRepeatText.text = beans.repeat.toString()
+                            firstDate.time = beans.date
+                            repeatDate.time = beans.repeatDate
+                        }
+                        BEANS_EDIT_MODE_COPY -> {
+                            beansEditRepeatText.text = "1"
+                        }
+                        BEANS_EDIT_MODE_REPEAT -> {
+                            beansEditRepeatText.text = (beans.repeat+1).toString()
+                            firstDate.time = beans.date
+                            // ほぼすべての項目をinactiveに
+                            beansEditNameEdit.focusable = View.NOT_FOCUSABLE
+                            beansEditNameEdit.isEnabled = false
+                            beansEditSelectBtn.focusable = View.NOT_FOCUSABLE
+                            beansEditSelectBtn.isEnabled = false
+                            beansEditRoastBar.focusable = View.NOT_FOCUSABLE
+                            beansEditRoastBar.isEnabled = false
+                            beansEditGramBar.focusable = View.NOT_FOCUSABLE
+                            beansEditGramBar.isEnabled = false
+                            beansEditShopEdit.focusable = View.NOT_FOCUSABLE
+                            beansEditShopEdit.isEnabled = false
+                            beansEditPriceEdit.focusable = View.NOT_FOCUSABLE
+                            beansEditPriceEdit.isEnabled = false
+                            beansEditProcessSpinner.focusable = View.NOT_FOCUSABLE
+                            beansEditProcessSpinner.isEnabled = false
+                        }
                     }
                 }
             }
@@ -98,29 +133,66 @@ class BeansEditActivity : AppCompatActivity() {
         beansEditRoastBar.customTickTexts(roastLabels)
         beansEditRoastBar.setIndicatorTextFormat("\${TICK_TEXT}")
 
+        // 精製処理は共通なのでここに
+//        val adapter = ArrayAdapter<String>(applicationContext, android.R.layout.simple_spinner_dropdown_item, beansProcessLabels )
+//        beansEditProcessSpinner.adapter = adapter
 
         // ここまでで基本的に画面構成終了
         // ーーーーーーーーーー　ここから各種ボタンのリスナ群設定　－－－－－－－－－－
 
-        // 日付・時刻選択のダイアログボタン用
-        // Date型は意外と使いにくいので、Calendar型で行こう
-        val year    = calender.get(Calendar.YEAR)
-        val month   = calender.get(Calendar.MONTH)
-        val day     = calender.get(Calendar.DAY_OF_MONTH)
+        beansEditDateText.visibility        = View.INVISIBLE
+        beansEditDateLabel.visibility       = View.INVISIBLE
+        beansEditRepeatDateText.visibility  = View.INVISIBLE
+        beansEditRepeatDateLabel.visibility = View.INVISIBLE
+        // 初回購入日のボタン
+        if( (editMode==BEANS_EDIT_MODE_NEW) or (editMode==BEANS_EDIT_MODE_COPY) or (editMode== BEANS_EDIT_MODE_EDIT) ) {
+            beansEditDateText.visibility        = View.VISIBLE
+            beansEditDateLabel.visibility       = View.VISIBLE
 
-        // 日付・時刻をTextViewに事前にセット
-        beansEditDateText.text = getString(R.string.dateFormat).format(year,month+1,day)
+            val year    = firstDate.get(Calendar.YEAR)
+            val month   = firstDate.get(Calendar.MONTH)
+            val day     = firstDate.get(Calendar.DAY_OF_MONTH)
 
-        // 日付ボタンの、リスナ登録・アンダーライン設定（ほかにやり方ないのかね・・・？）
-        beansEditDateText.paintFlags = beansEditDateText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-        beansEditDateText.setOnClickListener {
-            val dtp = DatePickerDialog(
-                this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
-                    beansEditDateText.text = getString(R.string.dateFormat).format(y, m+1, d)
-                }, year, month, day
-            )
-            dtp.show()
+            // 日付・時刻をTextViewに事前にセット
+            beansEditDateText.text = getString(R.string.dateFormat).format(year,month+1,day)
+
+            // 日付ボタンの、リスナ登録・アンダーライン設定（ほかにやり方ないのかね・・・？）
+            beansEditDateText.paintFlags = beansEditDateText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            beansEditDateText.setOnClickListener {
+                val dtp = DatePickerDialog(
+                    this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
+                        beansEditDateText.text = getString(R.string.dateFormat).format(y, m+1, d)
+                    }, year, month, day
+                )
+                dtp.show()
+            }
         }
+
+        // 最新リピート購入日のボタン
+        if( (editMode== BEANS_EDIT_MODE_REPEAT) or (editMode== BEANS_EDIT_MODE_EDIT) ) {
+            beansEditRepeatDateText.visibility  = View.VISIBLE
+            beansEditRepeatDateLabel.visibility = View.VISIBLE
+
+            val year    = repeatDate.get(Calendar.YEAR)
+            val month   = repeatDate.get(Calendar.MONTH)
+            val day     = repeatDate.get(Calendar.DAY_OF_MONTH)
+
+            // 日付・時刻をTextViewに事前にセット
+            beansEditRepeatDateText.text = getString(R.string.dateFormat).format(year,month+1,day)
+
+            // 日付ボタンの、リスナ登録・アンダーライン設定（ほかにやり方ないのかね・・・？）
+            beansEditRepeatDateText.paintFlags = beansEditRepeatDateText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            beansEditRepeatDateText.setOnClickListener {
+                val dtp = DatePickerDialog(
+                    this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
+                        beansEditRepeatDateText.text = getString(R.string.dateFormat).format(y, m+1, d)
+                    }, year, month, day
+                )
+                dtp.show()
+            }
+        }
+
+
 
         // 豆セレクト画面へ
         // もちろん結果が欲しいので、forResult付きで
@@ -154,56 +226,96 @@ class BeansEditActivity : AppCompatActivity() {
 
         override fun onClick(v: View?) {
             // 各View（Barなどなど）からローカル変数に読み込んでおく
-            val beansDate = beansEditDateText.text.toString().toDate("yyyy/MM/dd")
+            lateinit var beansDate: Date
+            lateinit var beansRepeatDate: Date
+
+            when( editMode ) {
+                BEANS_EDIT_MODE_NEW, BEANS_EDIT_MODE_COPY -> {
+                    beansDate = beansEditDateText.text.toString().toDate("yyyy/MM/dd")
+                    beansRepeatDate = beansDate
+                }
+                BEANS_EDIT_MODE_EDIT -> {
+                    beansDate = beansEditDateText.text.toString().toDate("yyyy/MM/dd")
+                    beansRepeatDate = beansEditRepeatDateText.text.toString().toDate("yyyy/MM/dd")
+                }
+                BEANS_EDIT_MODE_REPEAT -> {
+                    beansRepeatDate = beansEditRepeatDateText.text.toString().toDate("yyyy/MM/dd")
+                }
+            }
+
             val beansRating = beansEditRatingBar.progress.toFloat()
             val beansName = beansEditNameEdit.text.toString()
             val beansRoast = beansEditRoastBar.progress.toFloat()
             val beansGram = beansEditGramBar.progress.toFloat()
             val beansShop = beansEditShopEdit.text.toString()
             val beansMemo = beansEditMemoEdit.text.toString()
-            val beansPrice = if (beansEditPriceEdit.text.isNullOrEmpty()) {
-                0
-            } else {
-                beansEditPriceEdit.text.toString().toInt()
-            }
+            val beansPrice = if (beansEditPriceEdit.text.isNullOrEmpty()) 0 else beansEditPriceEdit.text.toString().toInt()
+            val beansRepeat      = beansEditRepeatText.text.toString().toInt()
+            val beansProcess = beansEditProcessSpinner.selectedItemPosition
 
             // Realmに書き込む
             when (editMode) {
-                // 新規作成、コピーして新規作成どちらも同じ
+                // 新規作成の場合
                 // DB末尾に新規保存。１行でトランザクション完結
-                BEANS_EDIT_MODE_COPY, BEANS_EDIT_MODE_NEW -> {
+                BEANS_EDIT_MODE_NEW, BEANS_EDIT_MODE_COPY -> {
                     realm.executeTransaction {
                         // whereで最後尾を探し、そこに追記
                         val maxID = realm.where<BeansData>().max("id")
                         val nextID = (maxID?.toLong() ?: 0L) + 1L
 
                         val beans = realm.createObject<BeansData>(nextID)
-                        beans.date = beansDate
-                        beans.rating = beansRating
-                        beans.name = beansName
-                        beans.roast = beansRoast
-                        beans.gram = beansGram
-                        beans.shop = beansShop
-                        beans.price = beansPrice
-                        beans.memo = beansMemo
+                        beans.date      = beansDate
+                        beans.repeatDate = beansRepeatDate
+                        beans.rating    = beansRating
+                        beans.name      = beansName
+                        beans.roast     = beansRoast
+                        beans.process   = beansProcess
+                        beans.gram      = beansGram
+                        beans.shop      = beansShop
+                        beans.price     = beansPrice
+                        beans.memo      = beansMemo
+                        beans.repeat    = beansRepeat
                     }
                     blackToast(applicationContext, "追加しましたぜ")
                 }
 
-                // 既存ＤＢの編集登録
+                // 既存ＤＢの編集の場合
+                // 新規レコードは作らず、既存レコードに再書き込みして終了
                 BEANS_EDIT_MODE_EDIT -> {
                     realm.executeTransaction {
                         val beans = realm.where<BeansData>().equalTo("id", beansID).findFirst()
-                        beans?.date = beansDate
-                        beans?.rating = beansRating
-                        beans?.name = beansName
-                        beans?.roast = beansRoast
-                        beans?.gram = beansGram
-                        beans?.shop = beansShop
-                        beans?.price = beansPrice
-                        beans?.memo = beansMemo
+                        beans?.date     = beansDate
+                        beans?.repeatDate = beansRepeatDate
+                        beans?.rating   = beansRating
+                        beans?.name     = beansName
+                        beans?.roast    = beansRoast
+                        beans?.process  = beansProcess
+                        beans?.gram     = beansGram
+                        beans?.shop     = beansShop
+                        beans?.price    = beansPrice
+                        beans?.memo     = beansMemo
+                        beans?.repeat   = beansRepeat
                     }
-                    blackToast(applicationContext, "修正完了！")
+                    blackToast(applicationContext, "更新完了！")
+                }
+
+                // 既存ＤＢの編集の場合
+                // 新規レコードは作らず、既存レコードに再書き込みして終了
+                BEANS_EDIT_MODE_REPEAT -> {
+                    realm.executeTransaction {
+                        val beans = realm.where<BeansData>().equalTo("id", beansID).findFirst()
+                        beans?.repeatDate = beansRepeatDate
+                        beans?.rating   = beansRating
+                        beans?.name     = beansName
+                        beans?.roast    = beansRoast
+                        beans?.process  = beansProcess
+                        beans?.gram     = beansGram
+                        beans?.shop     = beansShop
+                        beans?.price    = beansPrice
+                        beans?.memo     = beansMemo
+                        beans?.repeat   = beansRepeat
+                    }
+                    blackToast(applicationContext, "更新完了！")
                 }
             }
 

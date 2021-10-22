@@ -26,7 +26,8 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/beansEditCancelBtn"
         app:layout_constraintTop_toBottomOf="@+id/beansEditToolbar"
-        tools:layout_editor_absoluteX="44dp">
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="61dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,10 +37,9 @@
                 android:id="@+id/beansEditNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text="@string/beansEditNameLabel"
                 app:layout_constraintBaseline_toBaselineOf="@+id/beansEditNameEdit"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline13" />
 
             <EditText
                 android:id="@+id/beansEditNameEdit"
@@ -48,7 +48,8 @@
                 android:layout_marginEnd="4dp"
                 android:ems="10"
                 android:hint="@string/beansEditNameHint"
-                android:inputType="text"
+                android:inputType="textMultiLine|text"
+                android:minLines="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/beansEditSelectBtn"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -58,11 +59,10 @@
                 android:id="@+id/beansEditRatingLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/beansEditRatingLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beansEditNameLabel" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditNameEdit" />
 
             <TextView
                 android:id="@+id/beansEditRatingHint"
@@ -73,14 +73,60 @@
                 app:layout_constraintTop_toBottomOf="@+id/beansEditRatingBar" />
 
             <TextView
-                android:id="@+id/beansEditDateLabel"
+                android:id="@+id/beansEditRatingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="0.0"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditSelectBtn" />
+
+            <TextView
+                android:id="@+id/beansEditRepeatHint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:text="@string/beansEditRepeatHint"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditRepeatText"
+                app:layout_constraintStart_toEndOf="@+id/beansEditRepeatText" />
+
+            <TextView
+                android:id="@+id/beansEditDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditDateLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditRepeatDateLabel" />
+
+            <TextView
+                android:id="@+id/beansEditRepeatDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/beansEditRepeatDateLabel"
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintTop_toBottomOf="@+id/beansEditRatingHint" />
+
+            <TextView
+                android:id="@+id/beansEditRepeatLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/beansEditRepeatLabel"
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditDateLabel" />
+
+            <TextView
+                android:id="@+id/beansEditProcessLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/beansEditProcessLabel"
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditRepeatLabel" />
 
             <TextView
                 android:id="@+id/beansEditDateText"
@@ -89,6 +135,24 @@
                 android:text="1999/01/01"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBaseline_toBaselineOf="@+id/beansEditDateLabel"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansEditRepeatDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1999/01/01"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditRepeatDateLabel"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansEditRepeatText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100回"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditRepeatLabel"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
             <RatingBar
@@ -107,11 +171,10 @@
                 android:id="@+id/beansEditRoastLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditRoastLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beansEditDateLabel" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditProcessLabel" />
 
             <com.warkiz.widget.IndicatorSeekBar
                 android:id="@+id/beansEditRoastBar"
@@ -259,15 +322,13 @@
                 app:layout_constraintStart_toEndOf="@+id/roastL14"
                 app:layout_constraintTop_toTopOf="@+id/roastL" />
 
-            <TextView
-                android:id="@+id/beansEditGramLabel"
+            <Button
+                android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/btn_default_small"
                 android:text="@string/beansEditGramLabel"
                 app:layout_constraintBottom_toBottomOf="@+id/beansEditGramBar"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/beansEditGramBar" />
 
             <com.warkiz.widget.IndicatorSeekBar
@@ -286,7 +347,7 @@
                 app:isb_min="100"
                 app:isb_only_thumb_draggable="true"
                 app:isb_progress="200"
-                app:isb_seek_smoothly="false"
+                app:isb_seek_smoothly="true"
                 app:isb_show_indicator="circular_bubble"
                 app:isb_show_tick_marks_type="oval"
                 app:isb_show_tick_texts="true"
@@ -314,11 +375,10 @@
                 android:id="@+id/beansEditShopLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/beansEditShopLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beansEditGramLabel" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/button" />
 
             <EditText
                 android:id="@+id/beansEditShopEdit"
@@ -336,10 +396,9 @@
                 android:id="@+id/beansEditPriceLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/beansEditPriceLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintTop_toBottomOf="@+id/beansEditShopLabel" />
 
             <EditText
@@ -358,10 +417,9 @@
                 android:id="@+id/beansEditMemo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/beansEditMemoLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintTop_toBottomOf="@+id/beansEditPriceLabel" />
 
             <EditText
@@ -382,7 +440,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="65dp" />
+                app:layout_constraintGuide_begin="90dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="70dp" />
 
             <Button
                 android:id="@+id/beansEditSelectBtn"
@@ -391,6 +456,16 @@
                 android:text="@string/beansEditNameBtnLabel"
                 app:layout_constraintBaseline_toBaselineOf="@+id/beansEditNameEdit"
                 app:layout_constraintEnd_toEndOf="parent" />
+
+            <Spinner
+                android:id="@+id/beansEditProcessSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/process_labels"
+                android:minWidth="100dp"
+                app:layout_constraintBottom_toBottomOf="@+id/beansEditProcessLabel"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/beansEditProcessLabel" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

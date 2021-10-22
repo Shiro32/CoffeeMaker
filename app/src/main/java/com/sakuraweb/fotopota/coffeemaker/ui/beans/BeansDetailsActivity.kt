@@ -9,7 +9,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.sakuraweb.fotopota.coffeemaker.*
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import io.realm.Realm
+import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_beans_datails.*
 import java.util.*
@@ -18,6 +20,7 @@ import java.util.*
 const val BEANS_EDIT_MODE_NEW = 1
 const val BEANS_EDIT_MODE_EDIT = 2
 const val BEANS_EDIT_MODE_COPY = 3
+const val BEANS_EDIT_MODE_REPEAT = 4
 
 const val REQUEST_EDIT_BEANS = 1
 
@@ -45,22 +48,55 @@ class BeansDetailsActivity : AppCompatActivity() {
         // Realmからデータの読み込み
         val beans = realm.where<BeansData>().equalTo("id", intentID).findFirst()
         if (beans != null) {
-            beansDetailsRatingBar.  rating = beans.rating
-            beansDetailsNameText.   setText(beans.name)
-            beansDetailsRoastBar.   setProgress(beans.roast)
-            beansDetailsGramBar.    setProgress(beans.gram)
-            beansDetailsShopText.   setText(beans.shop)
-            beansDetailsPriceText.  setText(beans.price.toString()) // nullをやると死ぬので注意
-            beansDetailsMemoText.   setText(beans.memo)
+            beansDetailsRatingBar.rating    = beans.rating
+            beansDetailsRatingText.text     = "%.1f".format( beans.rating )
+            beansDetailsNameText.text       = beans.name
+            beansDetailsRoastBar.setProgress(beans.roast)
+            beansDetailsGramBar. setProgress(beans.gram)
+            beansDetailsShopText.text       = beans.shop
+            beansDetailsPriceText.text      = beans.price.toString() // nullをやると死ぬので注意
+            beansDetailsMemoText.text       = beans.memo
+            beansDetailsRepeatText.text     = beans.repeat.toString()
+            beansDetailsCountText.text      = beans.count.toString()
+            beansDetailsProcessText.text    = beansProcessLabels[beans.process]
 
             // 豆の経過日数を計算する（面倒くせぇ・・・）
             var days = "（"+((Date().time - beans.date?.time as Long)/(1000*60*60*24)).toString()+"日経過）"
 
+            // 最新購入
+            calendar.time = beans.repeatDate
+            var year    = calendar.get(Calendar.YEAR)
+            var month   = calendar.get(Calendar.MONTH)
+            var day     = calendar.get(Calendar.DAY_OF_MONTH)
+            beansDetailsRepeatDateText.text = getString(R.string.dateFormat).format(year,month+1,day)+days
+
+            // 初回購入
             calendar.time = beans.date
-            val year    = calendar.get(Calendar.YEAR)
-            val month   = calendar.get(Calendar.MONTH)
-            val day     = calendar.get(Calendar.DAY_OF_MONTH)
-            beansDetailsDateText.text = getString(R.string.dateFormat).format(year,month+1,day)+days
+            year    = calendar.get(Calendar.YEAR)
+            month   = calendar.get(Calendar.MONTH)
+            day     = calendar.get(Calendar.DAY_OF_MONTH)
+            beansDetailsDateText.text = getString(R.string.dateFormat).format(year,month+1,day)
+
+            // 被使用BREWから、入れた時のコメントを全部拾う
+            // ratingのように、BeansListで探査して、Beansのレコードに保存するのもアリだけど、
+            // List表示があまりに遅くなりそうなので、やめて個別に処理することにした
+            // だけど、どうせRatingはBeansListでやっているので、そっちで処理するのも選択肢
+            var comments: String = ""
+            val brewRealm = Realm.getInstance(brewRealmConfig)
+            val brews = brewRealm.where<BrewData>().equalTo("beansID", beans.id).findAll().sort("date", Sort.DESCENDING)
+            if( brews.size>0 ) {
+                for( b in brews)  {
+                    if( b.memo != "" ) {
+                        calendar.time = b.date
+                        val year = calendar.get(Calendar.YEAR)
+                        val month = calendar.get(Calendar.MONTH)
+                        val day = calendar.get(Calendar.DAY_OF_MONTH)
+                        comments += "%s（%d/%d/%d）\n\n".format(b.memo, year, month, day)
+                    }
+                }
+            }
+            brewRealm.close()
+            beansDetailsCommentText.setText( if(comments!="") comments else "なし" )
         }
 
         // ーーーーーーーーーー　ここから各種のリスナ設定　ーーーーーーーーーー
@@ -75,11 +111,21 @@ class BeansDetailsActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_EDIT_BEANS)
         }
 
+        // 再購入ボタン
+        beansDetailsRepeatBtn.setOnClickListener {
+            val intent = Intent(applicationContext, BeansEditActivity::class.java)
+            intent.putExtra("mode", BEANS_EDIT_MODE_REPEAT)
+            intent.putExtra("id", intentID)
+            blackToast(applicationContext, "同じ豆を再購入しました！")
+            startActivityForResult(intent, REQUEST_EDIT_BEANS)
+        }
+
+        // 複製ボタン
         beansDetailsCopyBtn.setOnClickListener {
             val intent = Intent(applicationContext, BeansEditActivity::class.java)
             intent.putExtra("mode", BEANS_EDIT_MODE_COPY)
             intent.putExtra("id", intentID)
-            blackToast(applicationContext, "同じデータで複製しました")
+            blackToast(applicationContext, "データをコピーしました！")
             startActivityForResult(intent, REQUEST_EDIT_BEANS)
         }
 

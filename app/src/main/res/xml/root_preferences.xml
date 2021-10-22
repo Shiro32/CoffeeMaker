@@ -23,7 +23,7 @@
         app:iconSpaceReserved="false">
 
         <Preference
-            app:key="activity"
+            app:key="activity1"
             app:title="@string/config_takeout_db">
             <intent
                 android:targetClass="com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutListActivity"
@@ -31,12 +31,21 @@
         </Preference>
 
         <Preference
-            app:key="activity"
+            app:key="activity2"
             app:title="@string/config_equip_db">
             <intent
                 android:targetClass="com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipListActivity"
                 android:targetPackage="com.sakuraweb.fotopota.coffeemaker" />
         </Preference>
+
+        <Preference
+            app:key="activity3"
+            app:title="@string/config_merge_beans_db">
+            <intent
+                android:targetClass="com.sakuraweb.fotopota.coffeemaker.ui.merge.BeansMergeListActivity"
+                android:targetPackage="com.sakuraweb.fotopota.coffeemaker" />
+        </Preference>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -160,6 +169,15 @@
             android:key="water_volume_max"
             android:title="@string/config_inputs_water_volume_max_label"
             app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="cc"
+            android:dialogTitle="@string/config_inputs_water_volume_unit"
+            android:entries="@array/water_volume_unit_labels"
+            android:entryValues="@array/water_volume_unit_labels"
+            android:key="water_volume_unit"
+            android:title="@string/config_inputs_water_volume_title"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

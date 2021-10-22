@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -79,6 +78,18 @@
             tools:text="（20日経過）" />
 
         <TextView
+            android:id="@+id/oneBeansRatingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="@string/oneBeansBuyDateLabel"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/oneBeansRatingBar"
+            tools:text="4.5" />
+
+        <TextView
             android:id="@+id/oneBeansShopText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -87,6 +98,26 @@
             app:layout_constraintStart_toEndOf="@+id/oneBeansShopLabel"
             app:layout_constraintTop_toBottomOf="@+id/oneBeansDateText"
             tools:text="KALDI銀座店" />
+
+        <TextView
+            android:id="@+id/oneBeansRepeatText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/oneBeansShop"
+            app:layout_constraintStart_toEndOf="@+id/oneBeansShopLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneBeansShopText"
+            tools:text="100回" />
+
+        <TextView
+            android:id="@+id/oneBeansCountText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/oneBeansShop"
+            app:layout_constraintStart_toEndOf="@+id/oneBeansCountLabel"
+            app:layout_constraintTop_toBottomOf="@+id/oneBeansShopText"
+            tools:text="100回" />
 
         <TextView
             android:id="@+id/oneBeansPriceText"
@@ -106,7 +137,7 @@
             android:text="@string/oneBeansRoastLabel"
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oneBeansShopLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/oneBeansRepeatLabel" />
 
         <TextView
             android:id="@+id/oneBeansShopLabel"
@@ -119,6 +150,26 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansShopText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/oneBeansDateLabel" />
+
+        <TextView
+            android:id="@+id/oneBeansRepeatLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/oneBeansRepeatLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansRepeatText"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/oneBeansCountLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="@string/oneBeansCountLabel"
+            android:textSize="10sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oneBeansRepeatText"
+            app:layout_constraintStart_toEndOf="@+id/oneBeansRepeatText" />
 
         <TextView
             android:id="@+id/oneBeansMemoLabel"

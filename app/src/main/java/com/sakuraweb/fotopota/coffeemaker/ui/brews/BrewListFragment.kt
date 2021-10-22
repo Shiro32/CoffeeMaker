@@ -67,7 +67,7 @@ var configCupsBrewedDispSw = false
 var configCupsDrunkSw = true
 var configCupsDrunkDispSw = false
 
-
+var configWaterVolumeUnit = "cc"
 
 lateinit var grind2Labels: Array<String>
 
@@ -127,6 +127,8 @@ class BrewFragment : Fragment() {
 
             brewListLayoutStyle = if( getString("list_sw", "") == "card" ) CARD_STYLE else FLAT_STYLE
             grind2Labels = arrayOf( "0", configMillMax.toInt().toString() )
+
+            getString("water_volume_unit", "cc")?.let { configWaterVolumeUnit = it }
         }
 
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー

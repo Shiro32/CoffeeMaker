@@ -36,13 +36,6 @@ class BeansFragment : Fragment(), SetBeansListener {
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
         val root = inflater.inflate(R.layout.fragment_beans_list, container, false)
 
-//      呼び出し元の検知方法。どこかで出番があるかも
-//        if( activity?.intent?.getStringExtra("from") == "Edit" ) {
-//            root.callFromText.text = "Edit画面から呼ばれました"
-//        } else {
-//            root.callFromText.text = "ナビゲーションからだと思います・・・。"
-//        }
-
         // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
         PreferenceManager.getDefaultSharedPreferences(context).apply {
 //            settingTermSw   = getBoolean("term_sw", true)
@@ -57,36 +50,6 @@ class BeansFragment : Fragment(), SetBeansListener {
         // Brewの編集画面から呼ばれたかどうかを覚えておく
         isCalledFromBrewEditToBeans = activity?.intent?.getStringExtra("from") == "Edit"
 
-        // BREWからの参照を全部調べ上げて、TAKEOUTの各種参照情報を更新する
-        // 評価、最終利用日、利用回数
-        val beansRealm = Realm.getInstance(beansRealmConfig)
-        val brewRealm = Realm.getInstance(brewRealmConfig)
-        val beans = beansRealm.where(BeansData::class.java).findAll()
-
-        for( bean in beans) {
-            // BREWの中で自分を参照しているデータを日付ソートで全部拾う
-            val brews = brewRealm.where<BrewData>().equalTo("beansID", bean.id).findAll().sort("date", Sort.DESCENDING)
-            if( brews.size>0 ) {
-                // 最新利用日のセット
-                val recent = brews[0]?.date
-                // 利用側（BREW）での評価の算出
-                var rate:Float = 0.0F
-                for( b in brews)  rate += b.rating
-
-                beansRealm.executeTransaction {
-                    if( recent!=null ) bean.recent = recent
-                    bean.rating = rate / brews.size
-                    bean.count = brews.size
-                }
-            } else {
-                // １回も利用が無かった場合・・・（涙）
-                beansRealm.executeTransaction {
-                    // 利用無し、をどう表現したらいいやら・・・。Non-nullだし。
-                }
-            }
-        }
-        beansRealm.close()
-        brewRealm.close()
 
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
         realm = Realm.getInstance(beansRealmConfig)
@@ -123,6 +86,42 @@ class BeansFragment : Fragment(), SetBeansListener {
         }
 
         return root
+    }
+
+    // 豆の被使用状況（回数・評価）を更新
+    private fun updateBeansUsage() {
+        // BREWからの参照を全部調べ上げて、BEANSの各種被参照情報を更新する
+        // 評価、最終利用日、利用回数
+        val beansRealm = Realm.getInstance(beansRealmConfig)
+        val brewRealm = Realm.getInstance(brewRealmConfig)
+        val beans = beansRealm.where(BeansData::class.java).findAll()
+
+        for( bean in beans) {
+            // BREWの中で自分を参照しているデータを日付ソートで全部拾う
+            val brews = brewRealm.where<BrewData>().equalTo("beansID", bean.id).findAll().sort("date", Sort.DESCENDING)
+            if( brews.size>0 ) {
+                // 最新利用日のセット
+                val recent = brews[0]?.date
+                // 利用側（BREW）での評価の算出
+                var rate:Float = 0.0F
+                for( b in brews)  rate += b.rating
+
+                // 当該豆情報を更新
+                beansRealm.executeTransaction {
+                    if( recent!=null ) bean.recent = recent
+                    bean.rating = rate / brews.size
+                    bean.count = brews.size
+                }
+            } else {
+                // １回も利用が無かった場合・・・（涙）
+                beansRealm.executeTransaction {
+                    bean.rating = 0.0F
+                    bean.count = 0
+                }
+            }
+        }
+        beansRealm.close()
+        brewRealm.close()
     }
 
     // ソートSpinnerを変更した時のリスナ
@@ -165,20 +164,23 @@ class BeansFragment : Fragment(), SetBeansListener {
     override fun onStart() {
         super.onStart()
 
+        // 豆の被使用状況を更新
+        updateBeansUsage()
+
         // 全部の豆データをrealmResults配列に読み込む
         val realmResults: RealmResults<BeansData>
 
         if( isCalledFromBrewEditToBeans ) {
-            realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
+            realmResults = realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
         } else {
             val ma = activity as MainActivity
             when (ma.sortSpn.selectedItem.toString()) {
-                sortList[0] -> {    // 使用日順
+                sortList[0] -> {    // 最新購入日順
                     realmResults =
-                        realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
+                        realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
                 }
-                sortList[1] -> {    // 購入日順
-                    realmResults = realm.where<BeansData>().findAll().sort("date", Sort.DESCENDING)
+                sortList[1] -> {    // 仕様日順
+                    realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
                 }
                 sortList[2] -> {     // 評価順
                     realmResults = realm.where<BeansData>().findAll()

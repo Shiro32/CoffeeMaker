@@ -135,6 +135,7 @@ class BrewDetailsActivity : AppCompatActivity() {
                 brewDetailsSteamBar.setProgress(brew.steam)
                 brewDetailsBrewTimeBar.setProgress(brew.brewTime)
                 brewDetailsWaterVolumeBar.setProgress(brew.waterVolume)
+                brewDetailsWaterVolumeLabel.text = getString(R.string.brewEditWaterVolumeLabel).format(configWaterVolumeUnit)
 
                 // 豆の経過日数を計算する
                 if(brew.beansID>0L) {
@@ -144,6 +145,7 @@ class BrewDetailsActivity : AppCompatActivity() {
 
 
             } else {
+                // 外のみの場合諸表示（すごく少ない）
                 setContentView(R.layout.activity_brew_details_shop)
                 brewDetailsShopText.setText(brew.shop)
             }

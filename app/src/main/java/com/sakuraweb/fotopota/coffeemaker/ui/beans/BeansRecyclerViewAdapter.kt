@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sakuraweb.fotopota.coffeemaker.R
 import io.realm.RealmResults
 import java.text.SimpleDateFormat
 import java.util.*
@@ -45,17 +44,20 @@ class BeansRecyclerViewAdapter(beansRealm: RealmResults<BeansData>, private val 
 
         if (bean != null) {
 
+            // 1レコードの各要素を代入する
+            // 最新購入日
             val df = SimpleDateFormat("yyyy/MM/dd")
+            holder.dateText?.text = df.format(bean.repeatDate)
+            holder.pastText?.text = "(%s日経過)".format((Date().time - bean.repeatDate?.time as Long)/(1000*60*60*24))
 
             holder.name?.text = bean.name
             holder.ratingBar?.rating = bean.rating
-            holder.dateText?.text = df.format(bean.date)
-            // 豆の経過日数を計算する（面倒くせぇ・・・）
-            holder.pastText?.text = "（"+((Date().time - bean.date?.time as Long)/(1000*60*60*24)).toString()+"日経過）"
-            holder.gramBar?.setProgress(bean.gram)
+            holder.ratingText?.text = "%.1f".format( bean.rating )
             holder.roastBar?.setProgress(bean.roast)
             holder.shop?.text = bean.shop
-            holder.price?.text = "（"+bean.price.toString()+"円)"
+            holder.price?.text = "（%d円)".format(bean.price)
+            holder.repeat?.text = "%d回".format(bean.repeat)
+            holder.count?.text = "%d回".format(bean.count)
 
             if( bean.memo!="" ) {
                 holder.memo?.text = bean.memo

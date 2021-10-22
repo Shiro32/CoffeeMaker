@@ -131,6 +131,9 @@ class BrewEditActivity : AppCompatActivity() {
             BREW_EDIT_MODE_COPY to R.string.titleBrewEditCopy
         )
 
+        brewEditWaterVolumeLabel.text = getString(R.string.brewEditWaterVolumeLabel).format(configWaterVolumeUnit)
+
+
         // Realmのインスタンスを生成
         // Edit画面終了まで維持（onDestroy）でclose
         realm = Realm.getInstance(brewRealmConfig)
@@ -308,7 +311,7 @@ class BrewEditActivity : AppCompatActivity() {
 
         // すべてのスライドバーに手入力オプションを付ける
         // GrindBarだけはSWによって処理を分けるので、前段のリスナ等で設定
-        brewEditWaterVolumeLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogWaterVolume), brewEditWaterVolumeBar, false ) }
+        brewEditWaterVolumeLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogWaterVolume).format(configWaterVolumeUnit), brewEditWaterVolumeBar, false ) }
         brewEditCupLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogCups), brewEditCupsBar, false) }
         brewEditCupDrunkLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogCupsDrunk), brewEditCupsDrunkBar, false) }
         brewEditBeansUseLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogBeansUse), brewEditBeansUseBar, false ) }

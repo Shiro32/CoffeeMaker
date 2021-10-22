@@ -4,13 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import com.sakuraweb.fotopota.coffeemaker.R
 import com.sakuraweb.fotopota.coffeemaker.RESULT_TO_HOME
 import kotlinx.android.synthetic.main.activity_beans_list.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_beans_list.*
 
 // マメ一覧表を出すためのActivity
 // ナビゲーション（BottomNavigation）で表示するのとは違い、Brew一覧＞Brew編集＞マメ選択、と来た場合

@@ -20,8 +20,8 @@
     </array>
 
     <array name="sort_mode_beans">
-        <item>使用日順</item>
         <item>購入日順</item>
+        <item>使用日順</item>
         <item>評価順</item>
         <item>使用回数</item>
         <item>購入店</item>
@@ -63,6 +63,17 @@
         <item>仏</item>
         <item>伊</item>
     </array>
+
+    <!-- 精製・処理方法 -->
+    <array name="process_labels">
+        <item>不明</item>
+        <item>Natural</item>
+        <item>Washed</item>
+        <item>Honey</item>
+        <item>Anaerobic</item>
+    </array>
+
+
 
     <!-- 抽出方法の名称（ポップアップメニューやリストで使用） -->
     <string-array name="method_names">
@@ -345,5 +356,21 @@
         <item>整数表示（例：5）</item>
         <item>小数表示（例：5.3）</item>
     </string-array>
+
+    <!-- 水の単位 -->
+    <array name="water_volume_unit_labels">
+        <item>cc</item>
+        <item>g</item>
+        <item>ml</item>
+        <item>ガロン</item>
+    </array>
+
+    <array name="water_volume_unit_values">
+        <item>cc</item>
+        <item>g</item>
+        <item>ml</item>
+        <item>show</item>
+    </array>
+
 
 </resources>

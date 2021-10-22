@@ -26,7 +26,8 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/beansDetailsEditBtn"
         app:layout_constraintTop_toBottomOf="@+id/beansDetailsToolbar"
-        tools:layout_editor_absoluteX="44dp">
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,10 +37,9 @@
                 android:id="@+id/beansDetailsNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/beansEditNameLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -55,21 +55,54 @@
                 android:id="@+id/beansDetailsRatingLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditRatingLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toBottomOf="@+id/beansDetailsNameLabel" />
+
+            <TextView
+                android:id="@+id/beansDetailsRepeatDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/beansEditRepeatDateLabel"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsRatingLabel" />
 
             <TextView
                 android:id="@+id/beansDetailsDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditDateLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beansDetailsRatingLabel" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsRepeatDateLabel" />
+
+            <TextView
+                android:id="@+id/beansDetailsRepeatLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/beansEditRepeatLabel"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsDateLabel" />
+
+            <TextView
+                android:id="@+id/beansDetailsCountLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="@string/beansEditCountLabel"
+                app:layout_constraintStart_toEndOf="@+id/beansDetailsRepeatUnit"
+                app:layout_constraintTop_toTopOf="@+id/beansDetailsRepeatLabel" />
+
+            <TextView
+                android:id="@+id/beansDetailsRepeatDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1999/01/01"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsRepeatDateLabel"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
 
             <TextView
                 android:id="@+id/beansDetailsDateText"
@@ -78,6 +111,59 @@
                 android:text="1999/01/01"
                 app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsDateLabel"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansDetailsRatingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="4.5"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsNameText" />
+
+            <TextView
+                android:id="@+id/beansDetailsRepeatText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2000"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsRepeatLabel"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansDetailsProcessText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Washed"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsProcessLabel"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansDetailsCountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="2000"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsRepeatLabel"
+                app:layout_constraintStart_toEndOf="@+id/beansDetailsCountLabel" />
+
+            <TextView
+                android:id="@+id/beansDetailsRepeatUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="回"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsRepeatLabel"
+                app:layout_constraintStart_toEndOf="@+id/beansDetailsRepeatText" />
+
+            <TextView
+                android:id="@+id/beansDetailsCountUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="回"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsRepeatLabel"
+                app:layout_constraintStart_toEndOf="@+id/beansDetailsCountText" />
 
             <RatingBar
                 android:id="@+id/beansDetailsRatingBar"
@@ -95,11 +181,19 @@
                 android:id="@+id/beansDetailsRoastLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/beansEditRoastLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beansDetailsDateLabel" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsProcessLabel" />
+
+            <TextView
+                android:id="@+id/beansDetailsProcessLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/beansEditProcessLabel"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsRepeatLabel" />
 
             <com.warkiz.widget.IndicatorSeekBar
                 android:id="@+id/beansDetailsRoastBar"
@@ -251,10 +345,9 @@
                 android:id="@+id/beansDetailsGramLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/beansEditGramLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toBottomOf="@+id/roastL10" />
 
             <com.warkiz.widget.IndicatorSeekBar
@@ -302,10 +395,9 @@
                 android:id="@+id/beansDetailsShopLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/beansEditShopLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toBottomOf="@+id/beansDetailsGramLabel" />
 
             <TextView
@@ -321,30 +413,43 @@
                 android:id="@+id/beansDetailsPriceLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditPriceLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toBottomOf="@+id/beansDetailsShopLabel" />
 
             <TextView
                 android:id="@+id/beansDetailsPriceText"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsPriceLabel"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansDetailsPriceUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="円"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsPriceLabel"
+                app:layout_constraintStart_toEndOf="@+id/beansDetailsPriceText" />
 
             <TextView
                 android:id="@+id/beansDetailsMemoLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditMemoLabel"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toBottomOf="@+id/beansDetailsPriceLabel" />
+
+            <TextView
+                android:id="@+id/beansDetailsCommentLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/beansEditCommentLabel"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
+                app:layout_constraintTop_toTopOf="@+id/beansDetailsCommentText" />
 
             <TextView
                 android:id="@+id/beansDetailsMemoText"
@@ -355,38 +460,44 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
+            <TextView
+                android:id="@+id/beansDetailsCommentText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="若干酸味が強い（2021/1/1）\n薄目で作るとおいしいかもしれない（2021/2/2）"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsMemoText" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="65dp" />
+                app:layout_constraintGuide_begin="90dp" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline12"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="32dp"
-                android:adjustViewBounds="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beansDetailsMemoText"
-                app:srcCompat="@drawable/back1" />
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="70dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <Button
         android:id="@+id/beansDetailsReturnBtn"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:drawable/btn_default_small"
         android:text="@string/returnBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/beansDetailsEditBtn"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -407,8 +518,19 @@
         android:background="@android:drawable/btn_default_small"
         android:text="@string/copyBtnLabel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/beansDetailsRepeatBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/beansDetailsEditBtn" />
+
+    <Button
+        android:id="@+id/beansDetailsRepeatBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_default_small"
+        android:text="@string/repeatBtnLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/beansDetailsCopyBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

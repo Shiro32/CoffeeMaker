@@ -66,9 +66,11 @@
     <string name="titleBeansEditEdit">豆情報の編集</string>
     <string name="titleBeansEditNew">豆情報の作成</string>
     <string name="titleBeansEditCopy">コピーして作成</string>
+    <string name="titleBeansEditRepeat">同じ豆を再購入</string>
 
     <string name="copyBtnLabel">複製</string>
     <string name="editBtnLabel">編集</string>
+    <string name="repeatBtnLabel">再購入</string>
     <string name="returnBtnLabel">キャンセル</string>
     <string name="editText">編集</string>
     <string name="copyText">コピー</string>
@@ -124,9 +126,9 @@
     <string name="brewEditMilkLabel">ミルク</string>
     <string name="brewEditBrewTimeLabel">抽出時間\n(秒)</string>
     <string name="brewEditItemName">コーヒー</string>
-    <string name="brewEditWaterVolumeLabel">お湯の量\n(cc)</string>
+    <string name="brewEditWaterVolumeLabel">お湯の量\n(%s)</string>
 
-    <string name="brewEditDialogWaterVolume">お湯の量（cc）を入力</string>
+    <string name="brewEditDialogWaterVolume">お湯の量（%s）を入力</string>
     <string name="brewEditDialogCups">淹れたカップ数（杯）を入力</string>
     <string name="brewEditDialogCupsDrunk">飲んだカップ数（杯）を入力</string>
     <string name="brewEditDialogGrind2">挽度合い（ミルの設定値）を入力</string>
@@ -141,30 +143,49 @@
     <string name="beansKindPack">ドリップパック</string>
 
     <!-- OneBeans -->
-    <string name="oneBeansBuyDateLabel">購入日：</string>
-    <string name="oneBeansShop">購入店：</string>
+    <string name="oneBeansBuyDateLabel">最新購入：</string>
+    <string name="oneBeansShop">購入店　：</string>
     <string name="oneBeansGrindLabel">挽き：</string>
     <string name="oneBeansGramLabel">グラム：</string>
     <string name="oneBeansPriceLabel">円</string>
     <string name="oneBeansMemo">メ　モ：</string>
-    <string name="oneBeansRoastLabel">焙煎度：</string>
+    <string name="oneBeansRoastLabel">焙煎度合：</string>
+    <string name="oneBeansRepeatLabel">購入回数：</string>
+    <string name="oneBeansCountLabel">飲んだ回数：</string>
 
     <!-- Beans Edit -->
     <string name="beansEditHeader">豆の購入記録です。代表的な豆銘柄はボタンから選択できるかもしれませぬ。</string>
-    <string name="beansEditDateLabel">購入日</string>
+    <string name="beansEditDateLabel">初回購入</string>
+    <string name="beansEditRepeatDateLabel">最新購入</string>
     <string name="beansEditNameLabel">銘柄</string>
     <string name="beansEditRatingLabel">評価</string>
     <string name="beansEditShopLabel">購入店</string>
-    <string name="beansEditRoastLabel">焙煎</string>
+    <string name="beansEditRoastLabel">焙煎度合</string>
+    <string name="beansEditProcessLabel">精製方法</string>
+    <string name="beansEditRepeatLabel">購入回数</string>
+    <string name="beansEditCountLabel">飲んだ回数</string>
     <string name="beansEditGramLabel">グラム</string>
-    <string name="beansEditPriceLabel">お値段\n（円）</string>
+    <string name="beansEditPriceLabel">お値段</string>
     <string name="beansEditMemoLabel">メモ</string>
     <string name="beansEditNameHint">例：マンデリン</string>
     <string name="beansEditShopHintLabel">例：KALDI銀座店</string>
     <string name="beansEditPriceHintLabel">例：800</string>
     <string name="beansEditNameBtnLabel">参照</string>
-    <string name="beansEditMemoHint">例：３回目のリピート購入</string>
+    <string name="beansEditMemoHint">例：アイスで飲むのが良い</string>
+    <string name="beansEditRepeatHint">※自動計算です</string>
+    <string name="beansEditCommentLabel">感想</string>
 
+    <!-- Beans Merge -->
+    <string name="titleBeansMergeList">まとめたい豆を選んでください</string>
+    <string name="mergeBtnLabel">まとめる</string>
+    <string name="mergeDescription">過去に登録した複数の豆データを、合算して一つの豆データにまとめる処理です。\n\n
+V3.22までは新しい豆を購入の都度、別データとして登録せざるを得ませんでしたのが、今になって一つにまとめたいときにご利用ください。\n\n
+複数の豆を選択し、「まとめる」ボタンを押すと、新たな豆データが作られ、コーヒー作成側のリンクも張りなおしてくれます。\n\n
+が、全般的に不安な動きですので、やる前にはデータベースのバックアップを取っておくことをお勧めします・・・。</string>
+    <string name="mergeComplete">%d個の豆データをまとめて、\n\n%s\n\nという名前の豆を登録しました。\n\n
+まとめる前の豆データは削除しましたが、まとめる前の豆を使ったコーヒーのリンクは、この新しい豆データに張りなおしてあります。\n\n
+うまくいってなかったらごめんなさい・・・m(_ _)</string>
+    <string name="mergeConfirm">選択中の豆データを一つにまとめて良いですか？\n\n選択中の豆データを合算した新しい豆データを1件登録し、選択中の豆データは削除されます。</string>
 
     <!-- Takeout -->
     <string name="takeoutKindConvini">コンビニ</string>
@@ -236,8 +257,8 @@
     <string name="ctxMenuBrewDetails">詳細</string>
     <string name="ctxMenuBrewEdit">編集</string>
     <string name="ctxMenuBrewCopy">コピーして新規作成</string>
-    <string name="takeoutEditRatingHint">※飲んだ時の評価の平均で自動計算されます</string>
-    <string name="beansEditRatingHint">※飲んだ時の評価の平均値が自動計算されます</string>
+    <string name="takeoutEditRatingHint">※飲んだ評価の平均で自動計算</string>
+    <string name="beansEditRatingHint">※飲んだ評価の平均で自動計算</string>
 
     <string name="anaAllPeriod">全期間</string>
 
@@ -251,6 +272,7 @@
     <string name="config_database_header">各種データベースの設定</string>
     <string name="config_takeout_db">市販コーヒーデータの編集</string>
     <string name="config_equip_db">器具データの編集</string>
+    <string name="config_merge_beans_db">豆データの編集</string>
 
     <string name="config_backup_header">データのバックアップ</string>
     <string name="config_backup_db">全データのバックアップ</string>
@@ -271,8 +293,10 @@
     <string name="config_inputs_steam_time_max_label">最長時間（秒）</string>
 
     <string name="config_inputs_water_volume_title">湯量の設定</string>
-    <string name="config_inputs_water_volume_min_label">最小量(cc)</string>
-    <string name="config_inputs_water_volume_max_label">最大量(cc)</string>
+    <string name="config_inputs_water_volume_min_label">最小量</string>
+    <string name="config_inputs_water_volume_max_label">最大量</string>
+    <string name="config_inputs_water_volume_unit">湯量の単位</string>
+
 
     <string name="config_inputs_temp_title">湯温の設定</string>
     <string name="config_inputs_temp_min_label">最小温度(℃)</string>

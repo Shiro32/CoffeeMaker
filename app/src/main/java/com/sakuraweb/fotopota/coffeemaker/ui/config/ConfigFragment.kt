@@ -3,8 +3,6 @@ package com.sakuraweb.fotopota.coffeemaker.ui.config
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Environment
-import android.os.Environment.getExternalStoragePublicDirectory
 import android.text.InputType
 import androidx.preference.PreferenceFragmentCompat
 import android.view.View
@@ -17,10 +15,7 @@ import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansDataMigration
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansDataModule
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.*
-import com.sakuraweb.fotopota.coffeemaker.ui.equip.EQUIP_DATA_VERSION
 import com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipData
-import com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipDataMigration
-import com.sakuraweb.fotopota.coffeemaker.ui.equip.EquipDataModule
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TAKEOUT_DATA_VERSION
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutDataMigration
@@ -31,11 +26,6 @@ import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 
 class ConfigFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
