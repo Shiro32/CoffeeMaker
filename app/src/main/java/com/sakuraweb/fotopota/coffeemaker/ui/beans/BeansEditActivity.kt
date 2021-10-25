@@ -1,19 +1,24 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.beans
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.select.BeansSelectActivity
+import com.warkiz.widget.IndicatorSeekBar
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
@@ -139,6 +144,7 @@ class BeansEditActivity : AppCompatActivity() {
 
         // ここまでで基本的に画面構成終了
         // ーーーーーーーーーー　ここから各種ボタンのリスナ群設定　－－－－－－－－－－
+        beansEditGramButton.setOnClickListener { inputNumberDialog(getString(R.string.beansEditDialogGram), beansEditGramBar, false) }
 
         beansEditDateText.visibility        = View.INVISIBLE
         beansEditDateLabel.visibility       = View.INVISIBLE
@@ -407,6 +413,34 @@ class BeansEditActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(event)
     }
 
+    private fun inputNumberDialog(title:String, bar: IndicatorSeekBar, isFloat:Boolean ) {
+        val input = EditText(this)
+        input.textAlignment = View.TEXT_ALIGNMENT_CENTER
+        if( isFloat ) {
+            input.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+            input.setText( bar.progressFloat.toString() )
+        } else {
+            input.inputType = InputType.TYPE_CLASS_NUMBER
+            input.setText( bar.progress.toString() )
+        }
 
+        AlertDialog.Builder(this).apply {
+            setTitle(title)
+            setMessage("入力範囲："+bar.min.toInt().toString()+"～"+bar.max.toInt().toString())
+            setView(input)
+            setCancelable(true)
+            setNegativeButton("やめる", null)
+            setPositiveButton("OK",
+                object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        var v = input.text.toString().toFloat()
+                        if( v<bar.min ) v=bar.min
+                        if( v>bar.max ) v=bar.max
+                        bar.setProgress( v )
+                    }
+                })
+            show()
+        }
+    }
 }
 // class

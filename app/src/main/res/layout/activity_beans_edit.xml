@@ -323,7 +323,7 @@
                 app:layout_constraintTop_toTopOf="@+id/roastL" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/beansEditGramButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_default_small"
@@ -337,18 +337,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:isScrollContainer="true"
                 android:paddingLeft="14sp"
                 android:paddingEnd="13dp"
                 app:isb_clear_default_padding="true"
                 app:isb_indicator_color="@android:color/holo_red_light"
                 app:isb_indicator_text_color="@android:color/white"
                 app:isb_indicator_text_size="@dimen/brewEditBarIndicatorSize"
-                app:isb_max="400"
+                app:isb_max="500"
                 app:isb_min="100"
                 app:isb_only_thumb_draggable="true"
                 app:isb_progress="200"
                 app:isb_seek_smoothly="true"
                 app:isb_show_indicator="circular_bubble"
+                app:isb_show_thumb_text="true"
                 app:isb_show_tick_marks_type="oval"
                 app:isb_show_tick_texts="true"
                 app:isb_thumb_adjust_auto="false"
@@ -360,7 +362,7 @@
                 app:isb_tick_marks_swept_hide="false"
                 app:isb_tick_texts_color="@android:color/black"
                 app:isb_tick_texts_size="@dimen/brewEditTickTextSize"
-                app:isb_ticks_count="4"
+                app:isb_ticks_count="2"
                 app:isb_track_background_color="#dddddd"
                 app:isb_track_background_size="3sp"
                 app:isb_track_progress_color="#dddddd"
@@ -378,7 +380,7 @@
                 android:layout_marginTop="32dp"
                 android:text="@string/beansEditShopLabel"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/button" />
+                app:layout_constraintTop_toBottomOf="@+id/beansEditGramButton" />
 
             <EditText
                 android:id="@+id/beansEditShopEdit"
