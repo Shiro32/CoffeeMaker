@@ -1,15 +1,21 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Paint
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.text.InputType
 import android.util.Log
 import android.view.Menu
@@ -18,6 +24,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
+import androidx.core.content.res.ResourcesCompat
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
@@ -29,6 +38,9 @@ import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_brew_edit.*
+import java.io.File
+import java.lang.Exception
+import java.text.SimpleDateFormat
 import java.util.*
 
 // BrewEditの動作モード（新規、編集、コピー新規、FABから）
@@ -39,8 +51,13 @@ const val BREW_EDIT_MODE_COPY = 3
 const val REQUEST_CODE_BEANS_SELECT = 1
 const val REQUEST_CODE_TAKEOUT_SELECT = 2
 const val REQUEST_CODE_EQUIP_SELECT = 3
+const val REQUEST_PHOTO_TAKE        = 4
+const val REQUEST_PHOTO_SELECT      = 5
 
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
+// TODO: 写真を選択しなかった場合はどうなる？（デフォルトの写真？）
+// TODO: 任意の画像も選びたい（COFFEEMAKERフォルダ内のでいいので）
+// TODO: 画像が見つからない（削除された）時に落ちない？
 
 // Brewの各カードの編集画面
 // 事実上、全画面表示のダイアログ
@@ -57,6 +74,7 @@ class BrewEditActivity : AppCompatActivity() {
     private var takeoutID: Long = 0L
     private var equipID: Long = 0L
     private var editMode: Int = 0
+    private var _imageUri: Uri = Uri.parse("")
     private lateinit var realm: Realm
     private lateinit var inputMethodManager: InputMethodManager
 
@@ -159,7 +177,8 @@ class BrewEditActivity : AppCompatActivity() {
                     brewEditRatingBar.rating = brew.rating
                     brewEditMethodText2.text = findEquipNameByID(brew.equipID)
 
-                    brewEditBeansText.text = findBeansNameByID(brew.place, brew.beansID, brew.takeoutID)
+                    brewEditBeansText.text =
+                        findBeansNameByID(brew.place, brew.beansID, brew.takeoutID)
                     // 豆データなどはViewに保存できないのでローカル変数に
                     beansID = brew.beansID
                     takeoutID = brew.takeoutID
@@ -183,7 +202,16 @@ class BrewEditActivity : AppCompatActivity() {
                     brewEditMilkBar.setProgress(brew.milk)
                     brewEditHotIceSW.isChecked = brew.iceHotSw != HOT_COFFEE
 
-                    if( editMode==BREW_EDIT_MODE_EDIT )  {
+                    if( brew.imageURI!="" ) {
+                        try {
+                            _imageUri = Uri.parse(brew.imageURI)
+                            brewEditBrewImage.setImageURI( _imageUri )
+                        } catch( e:Exception ) {
+                            brewEditBrewImage.setImageResource(android.R.drawable.ic_menu_report_image)
+                        }
+                    }
+
+                    if (editMode == BREW_EDIT_MODE_EDIT) {
                         // 編集モードの時の処理
                         // 時刻は既存データのものを再利用
                         calender.time = brew.date
@@ -433,6 +461,10 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.sugar = brewSugar
                         brew.milk = brewMilk
                         brew.iceHotSw = brewIceHotSW
+
+//TODO: 写真を選んでないときの処理は必要では？
+                        brew.imageURI  = _imageUri.toString()
+
                     }
                     blackToast(applicationContext, "追加しましたぜ")
                 }
@@ -462,6 +494,9 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.sugar     = brewSugar
                         brew?.milk      = brewMilk
                         brew?.iceHotSw  = brewIceHotSW
+
+//TODO: 写真を選んでないときの処理は必要では？
+                        brew?.imageURI  = _imageUri.toString()
                     }
                     blackToast(applicationContext, "修正完了！")
                 }
@@ -587,6 +622,30 @@ class BrewEditActivity : AppCompatActivity() {
                     }
                 }
             }
+
+            REQUEST_PHOTO_TAKE -> {
+                if( resultCode == RESULT_OK) {
+                    //撮影された写真はファイル化されて、外部メモリに格納されているはず
+                    //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
+                    //なんとなくだけど、intentの中に入っていてgetすべきじゃないかと思うのだけど違うみたい
+                    brewEditBrewImage.setImageURI(_imageUri)
+                } else {
+                    contentResolver.delete(_imageUri, null, null)
+                }
+            }
+
+            REQUEST_PHOTO_SELECT -> {
+                if( resultCode == RESULT_OK) {
+                    //撮影された写真はファイル化されて、外部メモリに格納されているはず
+                    //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
+                    //なんとなくだけど、intentの中に入っていてgetすべきじゃないかと思うのだけど違うみたい
+                    brewEditBrewImage.setImageURI(data?.data)
+                    _imageUri = data?.data  as Uri
+                } else {
+                    _imageUri = Uri.parse("")
+                }
+            }
+
         }
     } // onActivityResult
 
@@ -599,73 +658,115 @@ class BrewEditActivity : AppCompatActivity() {
         brewEditLayout.requestFocus()
         return super.dispatchTouchEvent(event)
     }
+
+    // ここから先はカメラ処理
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        //カメラ起動時のrequestPermissionsの結果が、ここに帰ってくる模様
+        //ダイアログを出してユーザー許可を仰ぐので、ＮＧなこともＯＫなこともある
+
+        //WRITE_EXTERNAL_STORAGEに対するパーミションダイアログでかつ許可を選択したなら…
+        if(requestCode == 2000 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // これでようやく許可が出た
+            // ダイアログの許可結果はどこかに保存する必要は無いよう（次のcheckSelfPermissionではOKになる）
+            // カメラ→事前確認で許可なし→許可ダイアログ→許可出た→もう一回カメラ起動
+            //もう一度カメラアプリを起動。
+            onBrewImageBtnClick(brewEditBrewImageBtn)
+        }
+
+        // 逆に、ダイアログでユーザーが許可しなかったら、何もしないで終了
+        // カメラ→事前確認で許可なし→許可ダイアログ→許可出ない→終了
+    }
+
+    fun onBrewImageDeleteBtnClick( view: View ) {
+        _imageUri = Uri.parse("")
+        brewEditBrewImage.setImageResource(android.R.drawable.ic_menu_camera)
+    }
+
+    fun onBrewImageSelectBtnClick( view: View ) {
+        //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードを2000に設定。
+            //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
+            //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
+            val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            ActivityCompat.requestPermissions(this, permissions, 2000)
+            return
+        }
+
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
+        }
+        startActivityForResult(intent, REQUEST_PHOTO_SELECT)
+    }
+
+    fun onBrewImageBtnClick( view: View ){
+        // XMLレイアウトで直接onclick要素で指定している（引数は自動的にview）→setonclicklistnerをさぼってるだけだけど
+        // パーミッション→ファイル名→ContentValues→ContentResolver→Intent→起動
+
+        //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードを2000に設定。
+            //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
+            //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
+            val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            ActivityCompat.requestPermissions(this, permissions, 2000)
+            return
+        }
+
+        // ファイル名を作る作るだけ
+        val photoName	= "coffee"+SimpleDateFormat("yyyyMMddHHmmss").format(Date())+".jpg"
+        val photoContentValue = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, photoName)
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        }
+
+        val mediaLocation = MediaStore.Images.Media.getContentUri("external")
+        val photoUri = contentResolver.insert(mediaLocation, photoContentValue)
+
+        photoUri?.let { _imageUri = photoUri }
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        startActivityForResult(intent, REQUEST_PHOTO_TAKE )
+    }
+
+    fun onBrewImageBtnClick2(view: View) {
+        // XMLレイアウトで直接onclick要素で指定している（引数は自動的にview）→setonclicklistnerをさぼってるだけだけど
+        // パーミッション→ファイル名→ContentValues→ContentResolver→Intent→起動
+
+        //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードを2000に設定。
+            //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
+            //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
+            val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            ActivityCompat.requestPermissions(this, permissions, 2000)
+            return
+        }
+
+        // ファイル名作るだけ
+        //日時データを「yyyyMMddHHmmss」の形式に整形するフォーマッタを生成。
+        val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
+        val photoName	= "coffee"+dateFormat.format(Date())+".jpg"
+        val photoDir 	= getExternalFilesDir(Environment.DIRECTORY_DCIM)
+        val photoFile	= File( photoDir, photoName )
+
+        _imageUri = FileProvider.getUriForFile(
+            applicationContext,
+            applicationContext.packageName+".fileprovider",
+            photoFile
+        )
+
+        //Intentオブジェクトを生成。（imageUriを設定する）
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, _imageUri)
+
+        //アクティビティを起動。
+        startActivityForResult(intent, REQUEST_PHOTO_TAKE)
+    }
+
 } // Class
 
 
-
-/*
-        brewEditSaveBtn.setOnClickListener() {
-            Log.d("SHIRO", "brew-edit / Saveボタンリスナ。各Viewから値を取って選択中のRealmを修正してfinishする")
-
-            // 各View（Barなどなど）からローカル変数に読み込んでおく
-            val brewDate = (brewEditDateText.text as String + " " + brewEditTimeText.text as String).toDate()
-            val brewRating = brewEditRatingBar.rating
-            val methodID      = brewEditMethodSpin.selectedItemPosition
-            val brewCups    = brewEditCupsBar.progress.toFloat()
-            val brewGrind   = brewEditGrindBar.progress.toFloat()
-            val brewBeansUse= brewEditBeansUseBar.progress.toFloat()
-            val brewTemp    = brewEditTempBar.progress.toFloat()
-            val brewSteam   = brewEditSteamBar.progress.toFloat()
-            val brewMemo   = brewEditMemoText.text.toString()
-
-
-            when( mode ) {
-                BREW_EDIT_MODE_COPY, BREW_EDIT_MODE_NEW -> {
-                    // DB末尾に新規保存。１行でトランザクション完結
-                    realm.executeTransaction {
-                        // whereで最後尾を探し、そこに追記
-                        val maxID = realm.where<BrewData>().max("id")
-                        val nextID = (maxID?.toLong() ?: 0L) + 1L
-
-                        // ここから書き込み
-                        val brew = realm.createObject<BrewData>(nextID)
-                        brew.date = brewDate
-                        brew.rating = brewRating
-                        brew.beansID = beansID
-                        brew.methodID = methodID
-                        brew.cups = brewCups
-                        brew.beansGrind = brewGrind
-                        brew.beansUse = brewBeansUse
-                        brew.temp = brewTemp
-                        brew.steam = brewSteam
-                        brew.memo = brewMemo
-                    }
-                    blackToast(applicationContext, "追加しましたぜ")
-                }
-
-                BREW_EDIT_MODE_EDIT-> {
-                    // 既存ＤＢの修正作業。これも１行でトランザクション完結
-                    realm.executeTransaction {
-                        val brew = realm.where<BrewData>().equalTo("id", brewID).findFirst()
-                        brew?.date      = brewDate
-                        brew?.rating    = brewRating
-                        brew?.beansID   = beansID
-                        brew?.methodID  = methodID
-                        brew?.cups      = brewCups
-                        brew?.beansGrind= brewGrind
-                        brew?.beansUse  = brewBeansUse
-                        brew?.temp      = brewTemp
-                        brew?.steam     = brewSteam
-                        brew?.memo      = brewMemo
-                    }
-                    blackToast(applicationContext, "修正完了！")
-                }
-            }
-
-            // 編集画面クローズ
-            // EDIT→DETAILS→LISTへ戻れるよう、setResult
-            val intent = Intent()
-            setResult(RESULT_TO_LIST, intent)
-            finish()
-        } // saveBtn
-*/

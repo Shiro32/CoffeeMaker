@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.*
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
 import io.realm.Realm
@@ -257,10 +258,12 @@ fun findBeansNameByID( place:Int, beansID: Long, takeoutID: Long ): String {
     }
 }
 
+// beansIDから当該豆の最新購入日を返す
+// 以前は最初の購入日だったのをv4から訂正
 fun findBeansDateByID( id:Long): Date? {
     val realm = Realm.getInstance(beansRealmConfig)
     val bean = realm.where<BeansData>().equalTo("id",id).findFirst()
-    var d1 = bean?.date
+    var d1 = bean?.repeatDate
 
     realm.close()
 

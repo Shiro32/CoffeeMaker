@@ -792,13 +792,34 @@
                 app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/machine2_160" />
 
-            <ImageView
-                android:id="@+id/imageView2"
+            <TextView
+                android:id="@+id/brewDetailsBrewImageLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/brewDetailsMemoText"
-                app:srcCompat="@drawable/beasns2" />
+                android:layout_marginTop="24dp"
+                android:text="@string/brewEditBrewImageLabel"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsMemoLabel" />
+
+            <ImageView
+                android:id="@+id/brewDetailsBrewImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/brewDetailsBrewImageLabel"
+                app:srcCompat="@android:drawable/ic_menu_camera" />
+
+            <TextView
+                android:id="@+id/brewDetailsDebugText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/brewDetailsBrewImage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

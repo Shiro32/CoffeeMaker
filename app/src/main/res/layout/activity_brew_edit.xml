@@ -883,6 +883,69 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
+            <Button
+                android:id="@+id/brewEditBrewImageBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:drawable/ic_menu_camera"
+                android:gravity="center"
+                android:onClick="onBrewImageBtnClick"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toBottomOf="@+id/brewEditMemoText" />
+
+            <Button
+                android:id="@+id/brewEditBrewImageSelectBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:drawable/ic_menu_gallery"
+                android:gravity="center"
+                android:onClick="onBrewImageSelectBtnClick"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toBottomOf="@+id/brewEditBrewImageBtn" />
+
+            <Button
+                android:id="@+id/brewEditBrewImageDeleteBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="32dp"
+                android:background="@android:drawable/ic_menu_delete"
+                android:gravity="center"
+                android:onClick="onBrewImageDeleteBtnClick"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toBottomOf="@+id/brewEditBrewImageSelectBtn" />
+
+            <ImageView
+                android:id="@+id/brewEditBrewImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:adjustViewBounds="true"
+                android:onClick="onBrewImageBtnClick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/brewEditBrewImageBtn"
+                app:srcCompat="@android:drawable/ic_menu_camera" />
+
+            <EditText
+                android:id="@+id/brewEditDebugText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/brewEditBrewImage" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline2"
                 android:layout_width="wrap_content"

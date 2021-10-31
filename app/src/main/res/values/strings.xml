@@ -106,6 +106,10 @@
     <string name="brewEditTempLabel">湯の温度\n(℃)</string>
     <string name="brewEditSteamLabel">蒸らし\n(秒)</string>
     <string name="brewEditMemoLabel">メモ</string>
+    <string name="brewEditBrewImageLabel">おもひで</string>
+    <string name="brewEditBrewImageBtnLabel">おもひで\n写真撮影</string>
+    <string name="brewEditBrewImageSelectBtnLabel">画像選択</string>
+    <string name="brewEditBrewImageDeleteBtnLabel">画像削除</string>
     <string name="brewEditRatingLabel">できばえ</string>
     <string name="brewEditBeansHint">例：ブルーマウンテン</string>
     <string name="brewEditSaveBtnLabel">保存</string>

@@ -3,12 +3,14 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.REQUEST_EDIT_BEANS
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
@@ -36,7 +38,10 @@ import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsHotI
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsMilkLabel
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsSugarLabel
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsCupLabel
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsBrewImage
+import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsDebugText
 import kotlinx.android.synthetic.main.activity_brew_details_shop.*
+import java.lang.Exception
 
 import java.util.*
 
@@ -171,6 +176,20 @@ class BrewDetailsActivity : AppCompatActivity() {
 
             // 抽出方法にあったイラスト（アイコン）
             brewDetailsMethodImage.setImageDrawable(brewMethodsImages.getDrawable(findEquipIconByID(brew.equipID)))
+
+            // おもひで写真
+            if( brew.imageURI!="" ) {
+//                brewDetailsMemoText.text = brew.imageURI
+                brewDetailsDebugText.text = brew.imageURI
+
+                try {
+                    brewDetailsBrewImage.setImageURI(Uri.parse(brew.imageURI))
+                } catch (e:Exception) {
+                    // 無い時はカメラアイコンを
+                    brewDetailsBrewImage.setImageResource(android.R.drawable.ic_menu_report_image)
+                    brewDetailsMemoText.text = brew.imageURI
+                }
+            }
 
             calendar.time = brew.date
             val year    = calendar.get(Calendar.YEAR)
