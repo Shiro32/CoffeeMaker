@@ -26,8 +26,8 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/beansEditCancelBtn"
         app:layout_constraintTop_toBottomOf="@+id/beansEditToolbar"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="61dp">
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="127dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -416,7 +416,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
             <TextView
-                android:id="@+id/beansEditMemo"
+                android:id="@+id/beansEditMemoLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -433,9 +433,70 @@
                 android:hint="@string/beansEditMemoHint"
                 android:inputType="textMultiLine|text"
                 android:minLines="2"
-                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditMemo"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansEditMemoLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansEditImageLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/beansEditPhotoLabel"
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toTopOf="@+id/beansEditImageTakeBtn" />
+
+            <Button
+                android:id="@+id/beansEditImageTakeBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:drawable/ic_menu_camera"
+                android:gravity="center"
+                android:onClick="onBeansImageBtnClick"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditMemoEdit" />
+
+            <Button
+                android:id="@+id/beansEditImageSelectBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:drawable/ic_menu_gallery"
+                android:gravity="center"
+                android:onClick="onBeansImageSelectBtnClick"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toEndOf="@+id/beansEditImageTakeBtn"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditMemoEdit" />
+
+            <Button
+                android:id="@+id/beansEditDeleteBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:drawable/ic_menu_delete"
+                android:gravity="center"
+                android:onClick="onBeansImageDeleteBtnClick"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditMemoEdit" />
+
+            <ImageView
+                android:id="@+id/beansEditImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:adjustViewBounds="true"
+                android:onClick="onBeansImageBtnClick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditImageTakeBtn"
+                app:srcCompat="@android:drawable/ic_menu_camera" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"

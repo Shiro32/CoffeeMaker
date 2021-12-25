@@ -1,6 +1,7 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -82,6 +83,7 @@ class BrewEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_brew_edit)
+
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         // 設定メニューで表示・非表示を切り替える
@@ -565,7 +567,7 @@ class BrewEditActivity : AppCompatActivity() {
                 when( resultCode ) {
                     RESULT_OK -> {
                         val id = data?.getLongExtra("id", 0L) as Long
-                        val name = data?.getStringExtra("name")
+                        val name = data.getStringExtra("name")
                         brewEditBeansText.text = name
                         beansID = id
                         blackToast(applicationContext, "${name}を選択")
@@ -679,8 +681,19 @@ class BrewEditActivity : AppCompatActivity() {
     }
 
     fun onBrewImageDeleteBtnClick( view: View ) {
-        _imageUri = Uri.parse("")
-        brewEditBrewImage.setImageResource(android.R.drawable.ic_menu_camera)
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.linkRemoveConfirmDialogTitle)
+        builder.setMessage(R.string.linkRemoveConfirmDialogMessage)
+        builder.setCancelable(true)
+        builder.setNegativeButton(R.string.linkRemoveConfirmDialogCancelBtn, null)
+        builder.setPositiveButton("OK", object: DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                _imageUri = Uri.parse("")
+                brewEditBrewImage.setImageResource(android.R.drawable.ic_menu_camera)
+                blackToast(applicationContext, "画像登録を解除しました")
+            }
+        })
+        builder.show()
     }
 
     fun onBrewImageSelectBtnClick( view: View ) {

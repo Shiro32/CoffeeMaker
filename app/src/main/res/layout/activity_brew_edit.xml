@@ -893,34 +893,34 @@
                 android:onClick="onBrewImageBtnClick"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditMemoText" />
 
             <Button
                 android:id="@+id/brewEditBrewImageSelectBtn"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
                 android:background="@android:drawable/ic_menu_gallery"
                 android:gravity="center"
                 android:onClick="onBrewImageSelectBtnClick"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/brewEditBrewImageBtn" />
+                app:layout_constraintStart_toEndOf="@+id/brewEditBrewImageBtn"
+                app:layout_constraintTop_toTopOf="@+id/brewEditBrewImageBtn" />
 
             <Button
                 android:id="@+id/brewEditBrewImageDeleteBtn"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
                 android:background="@android:drawable/ic_menu_delete"
                 android:gravity="center"
                 android:onClick="onBrewImageDeleteBtnClick"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/brewEditBrewImageSelectBtn" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/brewEditBrewImageSelectBtn" />
 
             <ImageView
                 android:id="@+id/brewEditBrewImage"
@@ -932,7 +932,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toTopOf="@+id/brewEditBrewImageBtn"
+                app:layout_constraintTop_toBottomOf="@+id/brewEditBrewImageBtn"
                 app:srcCompat="@android:drawable/ic_menu_camera" />
 
             <EditText

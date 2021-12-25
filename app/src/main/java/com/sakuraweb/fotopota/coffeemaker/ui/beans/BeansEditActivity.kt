@@ -1,21 +1,26 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.beans
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Paint
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.EditText
+import androidx.core.app.ActivityCompat
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.select.BeansSelectActivity
 import com.warkiz.widget.IndicatorSeekBar
@@ -23,12 +28,15 @@ import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_beans_edit.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 // TODO: 起動時に、一回、全データをBREWSからの参照チェックやるべき。いつやる？ Takeoutも同じだけど。
 
 const val REQUEST_CODE_BEANS_NAME_SELECT = 1
+const val REQUEST_BEANS_PHOTO_SELECT = 100
+const val REQUEST_BEANS_PHOTO_TAKE = 101
 
 // BEANS EDIT
 // BEANS LISTから呼び出されて、豆データの編集を行う
@@ -40,6 +48,7 @@ const val REQUEST_CODE_BEANS_NAME_SELECT = 1
 class BeansEditActivity : AppCompatActivity() {
     private var editMode: Int = 0
     private var beansID: Long = 0L
+    private var _imageUri: Uri = Uri.parse("")
     private lateinit var realm: Realm
     private lateinit var inputMethodManager: InputMethodManager
 
@@ -87,9 +96,9 @@ class BeansEditActivity : AppCompatActivity() {
             BEANS_EDIT_MODE_REPEAT, BEANS_EDIT_MODE_EDIT, BEANS_EDIT_MODE_COPY -> {
                 val beans = realm.where<BeansData>().equalTo("id", beansID).findFirst()
 
-                if( beans != null ) {
+                if (beans != null) {
                     beansEditRatingBar.rating = beans.rating
-                    beansEditRatingText.text = "%.1f".format( beans.rating )
+                    beansEditRatingText.text = String.format("%.1f", beans.rating)
 
                     beansEditNameEdit.setText(beans.name)
                     beansEditRoastBar.setProgress(beans.roast)
@@ -101,17 +110,17 @@ class BeansEditActivity : AppCompatActivity() {
                     beansEditMemoEdit.setText(beans.memo)
                     beansEditProcessSpinner.setSelection(beans.process)
 
-                    when( editMode ) {
+                    when (editMode) {
                         BEANS_EDIT_MODE_EDIT -> {
                             beansEditRepeatText.text = beans.repeat.toString()
                             firstDate.time = beans.date
-                            repeatDate.time = beans.repeatDate
+                            repeatDate.time = beans.repeatDate as Date
                         }
                         BEANS_EDIT_MODE_COPY -> {
                             beansEditRepeatText.text = "1"
                         }
                         BEANS_EDIT_MODE_REPEAT -> {
-                            beansEditRepeatText.text = (beans.repeat+1).toString()
+                            beansEditRepeatText.text = (beans.repeat + 1).toString()
                             firstDate.time = beans.date
                             // ほぼすべての項目をinactiveに
                             beansEditNameEdit.focusable = View.NOT_FOCUSABLE
@@ -128,6 +137,15 @@ class BeansEditActivity : AppCompatActivity() {
                             beansEditPriceEdit.isEnabled = false
                             beansEditProcessSpinner.focusable = View.NOT_FOCUSABLE
                             beansEditProcessSpinner.isEnabled = false
+                        }
+                    }
+
+                    if (beans.imageURI != "") {
+                        try {
+                            _imageUri = Uri.parse( beans.imageURI )
+                            beansEditImage.setImageURI( _imageUri )
+                        } catch( e:Exception ) {
+                            beansEditImage.setImageResource(android.R.drawable.ic_menu_report_image)
                         }
                     }
                 }
@@ -166,7 +184,7 @@ class BeansEditActivity : AppCompatActivity() {
             beansEditDateText.paintFlags = beansEditDateText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             beansEditDateText.setOnClickListener {
                 val dtp = DatePickerDialog(
-                    this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
+                    this, { _, y, m, d ->
                         beansEditDateText.text = getString(R.string.dateFormat).format(y, m+1, d)
                     }, year, month, day
                 )
@@ -190,7 +208,7 @@ class BeansEditActivity : AppCompatActivity() {
             beansEditRepeatDateText.paintFlags = beansEditRepeatDateText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             beansEditRepeatDateText.setOnClickListener {
                 val dtp = DatePickerDialog(
-                    this, DatePickerDialog.OnDateSetListener { _, y, m, d ->
+                    this, { _, y, m, d ->
                         beansEditRepeatDateText.text = getString(R.string.dateFormat).format(y, m+1, d)
                     }, year, month, day
                 )
@@ -281,6 +299,7 @@ class BeansEditActivity : AppCompatActivity() {
                         beans.price     = beansPrice
                         beans.memo      = beansMemo
                         beans.repeat    = beansRepeat
+                        beans.imageURI  = _imageUri.toString()
                     }
                     blackToast(applicationContext, "追加しましたぜ")
                 }
@@ -301,11 +320,12 @@ class BeansEditActivity : AppCompatActivity() {
                         beans?.price    = beansPrice
                         beans?.memo     = beansMemo
                         beans?.repeat   = beansRepeat
+                        beans?.imageURI = _imageUri.toString()
                     }
                     blackToast(applicationContext, "更新完了！")
                 }
 
-                // 既存ＤＢの編集の場合
+                // リピート購入の場合
                 // 新規レコードは作らず、既存レコードに再書き込みして終了
                 BEANS_EDIT_MODE_REPEAT -> {
                     realm.executeTransaction {
@@ -320,6 +340,7 @@ class BeansEditActivity : AppCompatActivity() {
                         beans?.price    = beansPrice
                         beans?.memo     = beansMemo
                         beans?.repeat   = beansRepeat
+                        beans?.imageURI = _imageUri.toString()
                     }
                     blackToast(applicationContext, "更新完了！")
                 }
@@ -396,6 +417,29 @@ class BeansEditActivity : AppCompatActivity() {
                     }
                 }
             }
+
+            REQUEST_BEANS_PHOTO_TAKE -> {
+                if( resultCode == RESULT_OK) {
+                    //撮影された写真はファイル化されて、外部メモリに格納されているはず
+                    //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
+                    //なんとなくだけど、intentの中に入っていてgetすべきじゃないかと思うのだけど違うみたい
+                    beansEditImage.setImageURI(_imageUri)
+                } else {
+                    contentResolver.delete(_imageUri, null, null)
+                }
+            }
+
+            REQUEST_BEANS_PHOTO_SELECT -> {
+                if( resultCode == RESULT_OK) {
+                    //撮影された写真はファイル化されて、外部メモリに格納されているはず
+                    //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
+                    //なんとなくだけど、intentの中に入っていてgetすべきじゃないかと思うのだけど違うみたい
+                    beansEditImage.setImageURI(data?.data)
+                    _imageUri = data?.data  as Uri
+                } else {
+                    _imageUri = Uri.parse("")
+                }
+            }
         }
     }
 
@@ -405,13 +449,107 @@ class BeansEditActivity : AppCompatActivity() {
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
         // キーボードを隠す
         inputMethodManager.hideSoftInputFromWindow(
-            beansEditLayout.getWindowToken(),
+            beansEditLayout.windowToken,
             InputMethodManager.HIDE_NOT_ALWAYS
         )
         // 背景にフォーカスを移す
         beansEditLayout.requestFocus()
         return super.dispatchTouchEvent(event)
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        //カメラ起動時のrequestPermissionsの結果が、ここに帰ってくる模様
+        //ダイアログを出してユーザー許可を仰ぐので、ＮＧなこともＯＫなこともある
+
+        //WRITE_EXTERNAL_STORAGEに対するパーミションダイアログでかつ許可を選択したなら…
+        if(requestCode == 2001 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // これでようやく許可が出た
+            // ダイアログの許可結果はどこかに保存する必要は無いよう（次のcheckSelfPermissionではOKになる）
+            // カメラ→事前確認で許可なし→許可ダイアログ→許可出た→もう一回カメラ起動
+            //もう一度カメラアプリを起動。
+            onBeansImageBtnClick(beansEditImageTakeBtn)
+        }
+
+        // 逆に、ダイアログでユーザーが許可しなかったら、何もしないで終了
+        // カメラ→事前確認で許可なし→許可ダイアログ→許可出ない→終了
+    }
+
+    fun onBeansImageBtnClick( view: View ){
+        // XMLレイアウトで直接onclick要素で指定している（引数は自動的にview）→setOnClickListenerをさぼってるだけだけど
+        // パーミッション→ファイル名→ContentValues→ContentResolver→Intent→起動
+
+        //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードを2000に設定。
+            //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
+            //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
+            val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            ActivityCompat.requestPermissions(this, permissions, 2001)
+            return
+        }
+
+        // ファイル名を作る作るだけ
+        val photoName	= "coffee"+ SimpleDateFormat("yyyyMMddHHmmss").format(Date())+".jpg"
+        val photoContentValue = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, photoName)
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        }
+
+        val mediaLocation = MediaStore.Images.Media.getContentUri("external")
+        val photoUri = contentResolver.insert(mediaLocation, photoContentValue)
+
+        photoUri?.let { _imageUri = photoUri }
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        startActivityForResult(intent, REQUEST_BEANS_PHOTO_TAKE )
+    }
+
+    fun onBeansImageDeleteBtnClick( view: View ) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.linkRemoveConfirmDialogTitle)
+        builder.setMessage(R.string.linkRemoveConfirmDialogMessage)
+        builder.setCancelable(true)
+        builder.setNegativeButton(R.string.linkRemoveConfirmDialogCancelBtn, null)
+        builder.setPositiveButton("OK", object: DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                _imageUri = Uri.parse("")
+                beansEditImage.setImageResource(android.R.drawable.ic_menu_camera)
+                blackToast(applicationContext, "画像登録を解除しました")
+            }
+        })
+        builder.show()
+    }
+
+    fun onBeansImageSelectBtnClick( view: View ) {
+        //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードを2000に設定。
+            //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
+            //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
+            val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            ActivityCompat.requestPermissions(this, permissions, 2001)
+            return
+        }
+
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
+        }
+        startActivityForResult(intent, REQUEST_BEANS_PHOTO_SELECT)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     private fun inputNumberDialog(title:String, bar: IndicatorSeekBar, isFloat:Boolean ) {
         val input = EditText(this)

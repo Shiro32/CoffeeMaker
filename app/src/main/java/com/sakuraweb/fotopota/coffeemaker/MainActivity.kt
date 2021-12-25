@@ -71,7 +71,7 @@ open class MainActivity : AppCompatActivity() {
 //Toast.makeText(applicationContext, "MainのonActivityResult", Toast.LENGTH_SHORT).show()
 
         // ものすご～く気に入らないけど、これで我慢しよう・・・
-        // 配下のfragmentのさらにRecylerViewのAdapterで呼び出した時は、
+        // 配下のfragmentのさらにRecyclerViewのAdapterで呼び出した時は、
         // 当該のfragmentのonResultには戻らず、ここに戻ってきちゃうみたい
         // だったらそれでいいよ、ということでここでやっちゃう
         if( resultCode == RESULT_TO_HOME ) {

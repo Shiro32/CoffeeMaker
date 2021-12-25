@@ -3,6 +3,7 @@ package com.sakuraweb.fotopota.coffeemaker.ui.beans
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -59,6 +60,16 @@ class BeansDetailsActivity : AppCompatActivity() {
             beansDetailsRepeatText.text     = beans.repeat.toString()
             beansDetailsCountText.text      = beans.count.toString()
             beansDetailsProcessText.text    = beansProcessLabels[beans.process]
+
+            // おもひで写真
+            if( beans.imageURI!="" ) {
+                try {
+                    beansDetailsImage.setImageURI( Uri.parse(beans.imageURI) )
+                } catch (e:Exception) {
+                    // 無い時はカメラアイコン
+                    beansDetailsImage.setImageResource(android.R.drawable.ic_menu_report_image)
+                }
+            }
 
             // 豆の経過日数を計算する（面倒くせぇ・・・）
             var days = "（"+((Date().time - beans.date?.time as Long)/(1000*60*60*24)).toString()+"日経過）"

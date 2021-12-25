@@ -419,11 +419,14 @@ class StartApplication : Application() {
 // 黒いToast画面を出すだけ
 public fun blackToast(c: Context, s: String) {
     val toast = Toast.makeText(c, s, Toast.LENGTH_SHORT)
-    val view: View = toast.view
+    val view = toast.view
 
 //    view.background.setColorFilter(Color.rgb(0,0,0), PorterDuff.Mode.SRC_IN)
-    view.background.colorFilter = PorterDuffColorFilter(Color.rgb(0,0,0), PorterDuff.Mode.SRC_IN)
-    view.findViewById<TextView>(android.R.id.message).setTextColor(Color.rgb(255,255,255))
+    if( view!=null ) {
+        view.background.colorFilter =
+            PorterDuffColorFilter(Color.rgb(0, 0, 0), PorterDuff.Mode.SRC_IN)
+        view.findViewById<TextView>(android.R.id.message).setTextColor(Color.rgb(255, 255, 255))
+    }
 
     toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0)
     toast.show()

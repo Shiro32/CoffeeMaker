@@ -187,7 +187,7 @@ class BrewDetailsActivity : AppCompatActivity() {
                 } catch (e:Exception) {
                     // 無い時はカメラアイコンを
                     brewDetailsBrewImage.setImageResource(android.R.drawable.ic_menu_report_image)
-                    brewDetailsMemoText.text = brew.imageURI
+                    brewDetailsDebugText.text = brew.imageURI
                 }
             }
 

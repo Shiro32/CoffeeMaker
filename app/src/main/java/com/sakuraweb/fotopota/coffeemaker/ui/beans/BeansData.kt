@@ -2,22 +2,25 @@ package com.sakuraweb.fotopota.coffeemaker.ui.beans
 
 import android.net.Uri
 import io.realm.DynamicRealm
+import io.realm.FieldAttribute
 import io.realm.RealmMigration
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmModule
+import io.realm.annotations.Required
 import java.util.*
 
 // コーヒー豆データのデータ形式Class
 // ★★データ項目（名前も）を変えた場合は、migrateメソッドに追記し、VERSIONも+1すること
 // 他の各種ＤＢと違って、元祖ＤＢをv0ではなく、v1から始めてしまった・・・。
-const val BEANS_DATA_VERSION = 3L
+const val BEANS_DATA_VERSION = 4L
 var beansDataMigrated1to2 = false
 var beansDataMigrated2to3 = false
 
 // v1   元祖
 // v2   購入回数（repeat）、豆処理（process）を追加
 // v3   初回購入（date）と最新購入（repeatDate）を分けた
+// v4   写真格納用のURI
 
 @RealmModule(classes = [BeansData::class])
 class BeansDataModule
@@ -29,8 +32,11 @@ open class BeansData : RealmObject() {
 
     var name: String = ""   // 銘柄
     var rating: Float = 0F  // 評価
+
+    @Required
     lateinit var date: Date         // 最初の購入日
     var repeatDate: Date?=null  // 最近の購入日（v3から） なぜか「?」型にしないとmigrationできなかった
+    @Required
     lateinit var recent: Date       // 最近の利用日
     var gram: Float = 0F    // グラム
     var roast: Float = 0F   // 焙煎（深煎り～浅煎りまで）
@@ -40,6 +46,7 @@ open class BeansData : RealmObject() {
     var repeat: Int = 1     // 購入回数（v2から）
     var process: Int = 0    // 豆処理（washedなど、v2から）
     var memo: String = ""   // メモ
+    var imageURI: String=""      // 写真ＵＲＩ（v4から登場）
 }
 
 
@@ -71,6 +78,13 @@ class BeansDataMigration : RealmMigration {
                 .addField("repeatDate", Date::class.java)
             oldVersion++
             beansDataMigrated2to3 = true
+        }
+
+        // Version 4
+        if( oldVersion==3L ) {
+            realmSchema.get("BeansData")!!
+                .addField("imageURI", String::class.java, FieldAttribute.REQUIRED)
+            oldVersion++
         }
     }
 }

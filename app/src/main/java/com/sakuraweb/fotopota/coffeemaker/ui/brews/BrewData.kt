@@ -5,6 +5,7 @@ import com.sakuraweb.fotopota.coffeemaker.HOT_COFFEE
 import io.realm.*
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmModule
+import io.realm.annotations.Required
 import java.util.*
 
 // コーヒーデータのデータ形式Class
@@ -32,6 +33,7 @@ open class BrewData : RealmObject() {
     @PrimaryKey
     var id: Long = 0
 
+    @Required
     lateinit  var date: Date
     var rating: Float = 0.0F
     var methodID: Int = 0   // v5までは内部配列（文字・絵）の番号。v6からは不使用にして、equipIDを使う
