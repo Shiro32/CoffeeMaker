@@ -180,7 +180,7 @@ class BrewDetailsActivity : AppCompatActivity() {
             // おもひで写真
             if( brew.imageURI!="" ) {
 //                brewDetailsMemoText.text = brew.imageURI
-                brewDetailsDebugText.text = brew.imageURI
+                brewDetailsDebugText.text = Uri.parse(brew.imageURI).toString()
 
                 try {
                     brewDetailsBrewImage.setImageURI(Uri.parse(brew.imageURI))

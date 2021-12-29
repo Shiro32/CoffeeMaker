@@ -37,6 +37,7 @@ import java.util.*
 const val REQUEST_CODE_BEANS_NAME_SELECT = 1
 const val REQUEST_BEANS_PHOTO_SELECT = 100
 const val REQUEST_BEANS_PHOTO_TAKE = 101
+const val REQUEST_BEANS_STORAGE_PERMISSION = 102
 
 // BEANS EDIT
 // BEANS LISTから呼び出されて、豆データの編集を行う
@@ -458,12 +459,12 @@ class BeansEditActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         //カメラ起動時のrequestPermissionsの結果が、ここに帰ってくる模様
         //ダイアログを出してユーザー許可を仰ぐので、ＮＧなこともＯＫなこともある
 
         //WRITE_EXTERNAL_STORAGEに対するパーミションダイアログでかつ許可を選択したなら…
-        if(requestCode == 2001 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if(requestCode == REQUEST_BEANS_STORAGE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // これでようやく許可が出た
             // ダイアログの許可結果はどこかに保存する必要は無いよう（次のcheckSelfPermissionではOKになる）
             // カメラ→事前確認で許可なし→許可ダイアログ→許可出た→もう一回カメラ起動
@@ -485,7 +486,7 @@ class BeansEditActivity : AppCompatActivity() {
             //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
             //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
             val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            ActivityCompat.requestPermissions(this, permissions, 2001)
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_BEANS_STORAGE_PERMISSION )
             return
         }
 

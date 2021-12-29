@@ -1,7 +1,6 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -27,7 +26,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
-import androidx.core.content.res.ResourcesCompat
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansNameByID
@@ -52,8 +50,9 @@ const val BREW_EDIT_MODE_COPY = 3
 const val REQUEST_CODE_BEANS_SELECT = 1
 const val REQUEST_CODE_TAKEOUT_SELECT = 2
 const val REQUEST_CODE_EQUIP_SELECT = 3
-const val REQUEST_PHOTO_TAKE        = 4
-const val REQUEST_PHOTO_SELECT      = 5
+const val REQUEST_PHOTO_TAKE        = 444
+const val REQUEST_PHOTO_SELECT      = 5555
+const val REQUEST_BREW_STORAGE_PERMISSION = 6777
 
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 // TODO: 写真を選択しなかった場合はどうなる？（デフォルトの写真？）
@@ -561,6 +560,7 @@ class BrewEditActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+
         when (requestCode) {
             // マメ選択画面
             REQUEST_CODE_BEANS_SELECT -> {
@@ -626,11 +626,13 @@ class BrewEditActivity : AppCompatActivity() {
             }
 
             REQUEST_PHOTO_TAKE -> {
+
                 if( resultCode == RESULT_OK) {
                     //撮影された写真はファイル化されて、外部メモリに格納されているはず
                     //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
                     //なんとなくだけど、intentの中に入っていてgetすべきじゃないかと思うのだけど違うみたい
                     brewEditBrewImage.setImageURI(_imageUri)
+//                    blackToast(applicationContext, "do Nothing!!!!!!!!!!!!")
                 } else {
                     contentResolver.delete(_imageUri, null, null)
                 }
@@ -638,13 +640,8 @@ class BrewEditActivity : AppCompatActivity() {
 
             REQUEST_PHOTO_SELECT -> {
                 if( resultCode == RESULT_OK) {
-                    //撮影された写真はファイル化されて、外部メモリに格納されているはず
-                    //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
-                    //なんとなくだけど、intentの中に入っていてgetすべきじゃないかと思うのだけど違うみたい
                     brewEditBrewImage.setImageURI(data?.data)
                     _imageUri = data?.data  as Uri
-                } else {
-                    _imageUri = Uri.parse("")
                 }
             }
 
@@ -668,7 +665,7 @@ class BrewEditActivity : AppCompatActivity() {
         //ダイアログを出してユーザー許可を仰ぐので、ＮＧなこともＯＫなこともある
 
         //WRITE_EXTERNAL_STORAGEに対するパーミションダイアログでかつ許可を選択したなら…
-        if(requestCode == 2000 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if(requestCode == REQUEST_BREW_STORAGE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // これでようやく許可が出た
             // ダイアログの許可結果はどこかに保存する必要は無いよう（次のcheckSelfPermissionではOKになる）
             // カメラ→事前確認で許可なし→許可ダイアログ→許可出た→もう一回カメラ起動
@@ -699,11 +696,11 @@ class BrewEditActivity : AppCompatActivity() {
     fun onBrewImageSelectBtnClick( view: View ) {
         //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードを2000に設定。
+            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードをREQUEST_STORAGE_PERMISSIONに設定。
             //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
             //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
             val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            ActivityCompat.requestPermissions(this, permissions, 2000)
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_BREW_STORAGE_PERMISSION )
             return
         }
 
@@ -720,28 +717,30 @@ class BrewEditActivity : AppCompatActivity() {
 
         //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードを2000に設定。
+            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードをREQUEST_STORAGE_PERMISSIONに設定。
             //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
             //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
             val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            ActivityCompat.requestPermissions(this, permissions, 2000)
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_BREW_STORAGE_PERMISSION )
             return
         }
 
         // ファイル名を作る作るだけ
-        val photoName	= "coffee"+SimpleDateFormat("yyyyMMddHHmmss").format(Date())+".jpg"
-        val photoContentValue = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, photoName)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        val photoName	= "COFFEE"+SimpleDateFormat("yyyyMMddHHmmss").format(Date())+".jpg"
+        val photoContentValue = ContentValues()
+        photoContentValue.put(MediaStore.Images.Media.TITLE, photoName)
+        photoContentValue.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+
+//        val mediaLocation = MediaStore.Images.Media.getContentUri("external")
+//        val photoUri = contentResolver.insert(mediaLocation, photoContentValue)
+        val photoUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, photoContentValue)
+
+        if( photoUri!=null ) {
+            _imageUri = photoUri
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            startActivityForResult(intent, REQUEST_PHOTO_TAKE)
         }
-
-        val mediaLocation = MediaStore.Images.Media.getContentUri("external")
-        val photoUri = contentResolver.insert(mediaLocation, photoContentValue)
-
-        photoUri?.let { _imageUri = photoUri }
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-        startActivityForResult(intent, REQUEST_PHOTO_TAKE )
     }
 
     fun onBrewImageBtnClick2(view: View) {
@@ -755,14 +754,14 @@ class BrewEditActivity : AppCompatActivity() {
             //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
             //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
             val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            ActivityCompat.requestPermissions(this, permissions, 2000)
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_BREW_STORAGE_PERMISSION)
             return
         }
 
         // ファイル名作るだけ
         //日時データを「yyyyMMddHHmmss」の形式に整形するフォーマッタを生成。
         val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
-        val photoName	= "coffee"+dateFormat.format(Date())+".jpg"
+        val photoName	= "CoffeeDiary"+dateFormat.format(Date())+".jpg"
         val photoDir 	= getExternalFilesDir(Environment.DIRECTORY_DCIM)
         val photoFile	= File( photoDir, photoName )
 
