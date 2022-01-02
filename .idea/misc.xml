@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_brew_edit.xml" value="0.434375" />
+        <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_brew_details_home.xml" value="0.434375" />
+        <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_brew_edit.xml" value="0.3552188552188552" />
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_home.xml" value="0.33" />
       </map>
     </option>

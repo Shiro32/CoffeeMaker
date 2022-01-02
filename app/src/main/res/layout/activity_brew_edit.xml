@@ -941,10 +941,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
                 android:ems="10"
-                android:inputType="text"
+                android:inputType="textMultiLine|text"
+                android:lines="10"
+                android:minLines="4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditBrewImage" />
+
+            <EditText
+                android:id="@+id/brewEditDebugText2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="32dp"
+                android:ems="10"
+                android:inputType="textMultiLine|text"
+                android:lines="10"
+                android:minLines="4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/brewEditDebugText" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline2"

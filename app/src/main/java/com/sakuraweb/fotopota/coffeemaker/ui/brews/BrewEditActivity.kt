@@ -74,7 +74,7 @@ class BrewEditActivity : AppCompatActivity() {
     private var takeoutID: Long = 0L
     private var equipID: Long = 0L
     private var editMode: Int = 0
-    private var _imageUri: Uri = Uri.parse("")
+    private var _imageUri: Uri? = null
     private lateinit var realm: Realm
     private lateinit var inputMethodManager: InputMethodManager
 
@@ -462,10 +462,8 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.sugar = brewSugar
                         brew.milk = brewMilk
                         brew.iceHotSw = brewIceHotSW
-
-//TODO: 写真を選んでないときの処理は必要では？
-                        brew.imageURI  = _imageUri.toString()
-
+                        // nullの時は何もしないことにする
+                        if( _imageUri!=null ) brew.imageURI = _imageUri.toString()
                     }
                     blackToast(applicationContext, "追加しましたぜ")
                 }
@@ -495,9 +493,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.sugar     = brewSugar
                         brew?.milk      = brewMilk
                         brew?.iceHotSw  = brewIceHotSW
-
-//TODO: 写真を選んでないときの処理は必要では？
-                        brew?.imageURI  = _imageUri.toString()
+                        if( _imageUri!=null ) brew?.imageURI  = _imageUri.toString()
                     }
                     blackToast(applicationContext, "修正完了！")
                 }
@@ -630,18 +626,27 @@ class BrewEditActivity : AppCompatActivity() {
                 if( resultCode == RESULT_OK) {
                     //撮影された写真はファイル化されて、外部メモリに格納されているはず
                     //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
-                    //なんとなくだけど、intentの中に入っていてgetすべきじゃないかと思うのだけど違うみたい
+                    blackToast(applicationContext, "写真変更")
                     brewEditBrewImage.setImageURI(_imageUri)
-//                    blackToast(applicationContext, "do Nothing!!!!!!!!!!!!")
+                    brewEditDebugText.setText("_imageUri:${_imageUri.toString()}")
+                    if( data!=null )
+                        brewEditDebugText2.setText("DATA:${data.data.toString()}")
+                    else
+                        brewEditDebugText2.setText("DATA:なし")
                 } else {
-                    contentResolver.delete(_imageUri, null, null)
+                    blackToast(applicationContext, "失敗")
+                    contentResolver.delete(_imageUri as Uri, null, null)
+                    _imageUri = null    // 写真を撮っていない状態に戻す
                 }
             }
 
             REQUEST_PHOTO_SELECT -> {
+
                 if( resultCode == RESULT_OK) {
                     brewEditBrewImage.setImageURI(data?.data)
                     _imageUri = data?.data  as Uri
+                } else {
+                    _imageUri = null
                 }
             }
 
@@ -774,8 +779,6 @@ class BrewEditActivity : AppCompatActivity() {
         //Intentオブジェクトを生成。（imageUriを設定する）
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, _imageUri)
-
-        //アクティビティを起動。
         startActivityForResult(intent, REQUEST_PHOTO_TAKE)
     }
 
