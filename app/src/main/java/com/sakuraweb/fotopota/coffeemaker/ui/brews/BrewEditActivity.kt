@@ -629,12 +629,9 @@ class BrewEditActivity : AppCompatActivity() {
                     blackToast(applicationContext, "写真変更")
                     brewEditBrewImage.setImageURI(_imageUri)
                     brewEditDebugText.setText("_imageUri:${_imageUri.toString()}")
-                    if( data!=null )
-                        brewEditDebugText2.setText("DATA:${data.data.toString()}")
-                    else
-                        brewEditDebugText2.setText("DATA:なし")
+                    brewEditDebugText2.setText("DATA:なし")
                 } else {
-                    blackToast(applicationContext, "失敗")
+                    blackToast(applicationContext, "キャンセル")
                     contentResolver.delete(_imageUri as Uri, null, null)
                     _imageUri = null    // 写真を撮っていない状態に戻す
                 }
@@ -720,6 +717,7 @@ class BrewEditActivity : AppCompatActivity() {
         // XMLレイアウトで直接onclick要素で指定している（引数は自動的にview）→setonclicklistnerをさぼってるだけだけど
         // パーミッション→ファイル名→ContentValues→ContentResolver→Intent→起動
 
+        blackToast( applicationContext, "ContentResolverバージョン" )
         //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードをREQUEST_STORAGE_PERMISSIONに設定。
@@ -755,7 +753,7 @@ class BrewEditActivity : AppCompatActivity() {
         //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードを2000に設定。
+            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。
             //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
             //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
             val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -763,12 +761,18 @@ class BrewEditActivity : AppCompatActivity() {
             return
         }
 
-        // ファイル名作るだけ
+        // ファイル名作る
         //日時データを「yyyyMMddHHmmss」の形式に整形するフォーマッタを生成。
         val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
-        val photoName	= "CoffeeDiary"+dateFormat.format(Date())+".jpg"
-        val photoDir 	= getExternalFilesDir(Environment.DIRECTORY_DCIM)
-        val photoFile	= File( photoDir, photoName )
+        val photoName	= "CoffeeDiaryRecipe"+dateFormat.format(Date())+".jpg"
+
+        // 外部メモリのフォルダを決める（共有できるタイプ）
+        val photoDir    = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DCIM )
+        if( photoDir.exists()==null ) {
+            blackToast( applicationContext, "画像フォルダ新規作成！")
+            photoDir.mkdirs()
+        }
+        val photoFile   = File( photoDir, photoName )
 
         _imageUri = FileProvider.getUriForFile(
             applicationContext,

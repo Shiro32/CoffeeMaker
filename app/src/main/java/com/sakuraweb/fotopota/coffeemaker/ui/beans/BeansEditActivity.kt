@@ -12,6 +12,7 @@ import android.graphics.Paint
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.InputType
 import android.view.Menu
@@ -21,6 +22,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.select.BeansSelectActivity
 import com.warkiz.widget.IndicatorSeekBar
@@ -28,6 +30,7 @@ import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_beans_edit.*
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -49,7 +52,7 @@ const val REQUEST_BEANS_STORAGE_PERMISSION = 102
 class BeansEditActivity : AppCompatActivity() {
     private var editMode: Int = 0
     private var beansID: Long = 0L
-    private var _imageUri: Uri = Uri.parse("")
+    private var _imageUri: Uri? = null
     private lateinit var realm: Realm
     private lateinit var inputMethodManager: InputMethodManager
 
@@ -300,7 +303,7 @@ class BeansEditActivity : AppCompatActivity() {
                         beans.price     = beansPrice
                         beans.memo      = beansMemo
                         beans.repeat    = beansRepeat
-                        beans.imageURI  = _imageUri.toString()
+                        if( _imageUri!=null ) beans.imageURI  = _imageUri.toString()
                     }
                     blackToast(applicationContext, "追加しましたぜ")
                 }
@@ -321,7 +324,7 @@ class BeansEditActivity : AppCompatActivity() {
                         beans?.price    = beansPrice
                         beans?.memo     = beansMemo
                         beans?.repeat   = beansRepeat
-                        beans?.imageURI = _imageUri.toString()
+                        if( _imageUri!=null ) beans?.imageURI = _imageUri.toString()
                     }
                     blackToast(applicationContext, "更新完了！")
                 }
@@ -423,22 +426,21 @@ class BeansEditActivity : AppCompatActivity() {
                 if( resultCode == RESULT_OK) {
                     //撮影された写真はファイル化されて、外部メモリに格納されているはず
                     //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
-                    //なんとなくだけど、intentの中に入っていてgetすべきじゃないかと思うのだけど違うみたい
-                    beansEditImage.setImageURI(_imageUri)
+                    blackToast( applicationContext, "写真変更" )
+                    beansEditImage.setImageURI( _imageUri )
                 } else {
-                    contentResolver.delete(_imageUri, null, null)
+                    blackToast( applicationContext, "キャンセル" )
+                    contentResolver.delete(_imageUri as Uri, null, null)
+                    _imageUri = null
                 }
             }
 
             REQUEST_BEANS_PHOTO_SELECT -> {
                 if( resultCode == RESULT_OK) {
-                    //撮影された写真はファイル化されて、外部メモリに格納されているはず
-                    //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
-                    //なんとなくだけど、intentの中に入っていてgetすべきじゃないかと思うのだけど違うみたい
                     beansEditImage.setImageURI(data?.data)
                     _imageUri = data?.data  as Uri
                 } else {
-                    _imageUri = Uri.parse("")
+                    _imageUri = null
                 }
             }
         }
@@ -503,6 +505,43 @@ class BeansEditActivity : AppCompatActivity() {
         photoUri?.let { _imageUri = photoUri }
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        startActivityForResult(intent, REQUEST_BEANS_PHOTO_TAKE )
+    }
+
+    fun onBeansImageBtnClick2( view: View ){
+        // XMLレイアウトで直接onclick要素で指定している（引数は自動的にview）→setOnClickListenerをさぼってるだけだけど
+
+        //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。
+            //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
+            //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
+            val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_BEANS_STORAGE_PERMISSION )
+            return
+        }
+
+        // ファイル名作る
+        //日時データを「yyyyMMddHHmmss」の形式に整形するフォーマッタを生成。
+        val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
+        val photoName	= "CoffeeDiaryBeans"+dateFormat.format(Date())+".jpg"
+
+        // 外部メモリのフォルダを決める（共有できるタイプ）
+        val photoDir    = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DCIM )
+        if( photoDir.exists()==null ) {
+            blackToast( applicationContext, "画像フォルダ新規作成！")
+            photoDir.mkdirs()
+        }
+
+        val photoFile   = File( photoDir, photoName )
+        _imageUri = FileProvider.getUriForFile(
+            applicationContext,
+            applicationContext.packageName+".fileprovider",
+            photoFile
+        )
+
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, _imageUri)
         startActivityForResult(intent, REQUEST_BEANS_PHOTO_TAKE )
     }
 
