@@ -100,7 +100,7 @@ class BeansDetailsActivity : AppCompatActivity() {
                     if( b.memo != "" ) {
                         calendar.time = b.date
                         val year = calendar.get(Calendar.YEAR)
-                        val month = calendar.get(Calendar.MONTH)
+                        val month = calendar.get(Calendar.MONTH)+1 // Todo:ようやく直した（＾＾）
                         val day = calendar.get(Calendar.DAY_OF_MONTH)
                         comments += "%s（%d/%d/%d）\n\n".format(b.memo, year, month, day)
                     }

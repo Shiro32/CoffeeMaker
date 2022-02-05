@@ -10,6 +10,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Paint
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -461,7 +462,7 @@ class BeansEditActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         //カメラ起動時のrequestPermissionsの結果が、ここに帰ってくる模様
         //ダイアログを出してユーザー許可を仰ぐので、ＮＧなこともＯＫなこともある
 
@@ -479,12 +480,9 @@ class BeansEditActivity : AppCompatActivity() {
     }
 
     fun onBeansImageBtnClick( view: View ){
-        // XMLレイアウトで直接onclick要素で指定している（引数は自動的にview）→setOnClickListenerをさぼってるだけだけど
-        // パーミッション→ファイル名→ContentValues→ContentResolver→Intent→起動
-
         //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードを2000に設定。
+            //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードをREQUEST_STORAGE_PERMISSIONに設定。
             //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
             //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
             val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -492,19 +490,37 @@ class BeansEditActivity : AppCompatActivity() {
             return
         }
 
-        // ファイル名を作る作るだけ
-        val photoName	= "coffee"+ SimpleDateFormat("yyyyMMddHHmmss").format(Date())+".jpg"
-        val photoContentValue = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, photoName)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        // 日付データから一意のファイル名を生成
+        val photoName	= "CoffeeDiaryBeans"+ SimpleDateFormat("yyyyMMddHHmmss").format(Date())+".jpg"
+
+        // Android Versionによって、外部ストレージへのアクセス方法を変える（面倒くさい・・・）
+        if( Build.VERSION_CODES.Q <= Build.VERSION.SDK_INT ) {
+            // V10以降はContentResolver経由でアクセス
+            blackToast(applicationContext, "Android 10以降ですね")
+            val photoContentValue = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, photoName)
+                put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            }
+
+            val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            _imageUri = contentResolver.insert(collection, photoContentValue)!!
+
+        } else {
+            // V9以前はFileProvider経由でアクセスる
+            blackToast( applicationContext, "Android 9以前ですね")
+            // 外部メモリのフォルダを決める（共有できるタイプ）
+            val photoDir    = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DCIM )
+            if( photoDir.exists()==null ) {
+                blackToast( applicationContext, "画像フォルダ新規作成！")
+                photoDir.mkdirs()
+            }
+            val photoFile = File( photoDir, photoName )
+            _imageUri = FileProvider.getUriForFile( applicationContext, applicationContext.packageName+".fileprovider", photoFile )
         }
 
-        val mediaLocation = MediaStore.Images.Media.getContentUri("external")
-        val photoUri = contentResolver.insert(mediaLocation, photoContentValue)
-
-        photoUri?.let { _imageUri = photoUri }
+        // やっと外部ストレージの準備ができたので、intentにぶち込んでカメラ起動！
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, _imageUri)
         startActivityForResult(intent, REQUEST_BEANS_PHOTO_TAKE )
     }
 

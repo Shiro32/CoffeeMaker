@@ -12,6 +12,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Paint
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -628,10 +629,12 @@ class BrewEditActivity : AppCompatActivity() {
                     //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
                     blackToast(applicationContext, "写真変更")
                     brewEditBrewImage.setImageURI(_imageUri)
-                    brewEditDebugText.setText("_imageUri:${_imageUri.toString()}")
-                    brewEditDebugText2.setText("DATA:なし")
+//                    brewEditDebugText.setText("_imageUri:${_imageUri.toString()}")
+//                    brewEditDebugText2.setText("DATA:なし")
                 } else {
                     blackToast(applicationContext, "キャンセル")
+
+//TODO: Android P以前はFileProviderでやっているので、削除不要？
                     contentResolver.delete(_imageUri as Uri, null, null)
                     _imageUri = null    // 写真を撮っていない状態に戻す
                 }
@@ -663,6 +666,7 @@ class BrewEditActivity : AppCompatActivity() {
     // ここから先はカメラ処理
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         //カメラ起動時のrequestPermissionsの結果が、ここに帰ってくる模様
         //ダイアログを出してユーザー許可を仰ぐので、ＮＧなこともＯＫなこともある
 
@@ -714,10 +718,7 @@ class BrewEditActivity : AppCompatActivity() {
     }
 
     fun onBrewImageBtnClick( view: View ){
-        // XMLレイアウトで直接onclick要素で指定している（引数は自動的にview）→setonclicklistnerをさぼってるだけだけど
         // パーミッション→ファイル名→ContentValues→ContentResolver→Intent→起動
-
-        blackToast( applicationContext, "ContentResolverバージョン" )
         //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードをREQUEST_STORAGE_PERMISSIONに設定。
@@ -728,22 +729,37 @@ class BrewEditActivity : AppCompatActivity() {
             return
         }
 
-        // ファイル名を作る作るだけ
-        val photoName	= "COFFEE"+SimpleDateFormat("yyyyMMddHHmmss").format(Date())+".jpg"
-        val photoContentValue = ContentValues()
-        photoContentValue.put(MediaStore.Images.Media.TITLE, photoName)
-        photoContentValue.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        // 日付データから一意のファイル名を生成
+        val photoName = "CoffeeDiaryRecipe"+SimpleDateFormat("yyyyMMddHHmmss").format(Date())+".jpg"
 
-//        val mediaLocation = MediaStore.Images.Media.getContentUri("external")
-//        val photoUri = contentResolver.insert(mediaLocation, photoContentValue)
-        val photoUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, photoContentValue)
+        // Android Versionによって、外部ストレージへのアクセス方法を変える（面倒くさい・・・）
+        if( Build.VERSION_CODES.Q <= Build.VERSION.SDK_INT ) {
+            // V10以降はContentResolver経由でアクセス
+            blackToast( applicationContext, "Android 10以降ですね")
+            val photoContentValue = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, photoName)
+                put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            }
+            val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY) // Q
+            _imageUri = contentResolver.insert(collection, photoContentValue)!!
 
-        if( photoUri!=null ) {
-            _imageUri = photoUri
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-            startActivityForResult(intent, REQUEST_PHOTO_TAKE)
+        } else {
+            // V9以前はFileProvider経由でアクセスる
+            blackToast( applicationContext, "Android 9以前ですね")
+            // 外部メモリのフォルダを決める（共有できるタイプ）
+            val photoDir    = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DCIM )
+            if( photoDir.exists()==null ) {
+                blackToast( applicationContext, "画像フォルダ新規作成！")
+                photoDir.mkdirs()
+            }
+            val photoFile = File( photoDir, photoName )
+            _imageUri = FileProvider.getUriForFile( applicationContext, applicationContext.packageName+".fileprovider", photoFile)
         }
+
+        // やっと外部ストレージの準備ができたので、intentにぶち込んでカメラ起動！
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, _imageUri)
+        startActivityForResult(intent, REQUEST_PHOTO_TAKE)
     }
 
     fun onBrewImageBtnClick2(view: View) {
