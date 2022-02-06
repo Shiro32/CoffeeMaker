@@ -51,7 +51,7 @@ open class MainActivity : AppCompatActivity() {
         // TODO: ここでセットすると落ちる。fragmentが出来上がっていないから？
 //        registerForContextMenu(sampleButton)
 
-        Log.d("SHIRO", "Home / onCreate------------------------")
+        Log.d("SHIRO", "Main / onCreate")
     }
 
 //    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {

@@ -16,6 +16,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.InputType
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -398,7 +399,7 @@ class BeansEditActivity : AppCompatActivity() {
 
         // onCreateでインスタンス化・開いていたDBをようやく閉鎖
         realm.close()
-//        Log.d("SHIRO", "brew-edit / onDestroy")
+        Log.d("SHIRO", "brew-edit / onDestroy")
     }
 
 

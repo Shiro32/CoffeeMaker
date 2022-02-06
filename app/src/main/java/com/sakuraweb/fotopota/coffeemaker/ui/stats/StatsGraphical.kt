@@ -1,5 +1,6 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.stats
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,14 +13,13 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.sakuraweb.fotopota.coffeemaker.BREW_IN_BOTH
-import com.sakuraweb.fotopota.coffeemaker.R
-import com.sakuraweb.fotopota.coffeemaker.brewRealmConfig
+import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.home.calcCupsDrunkOfPeriod
 import io.realm.Realm
 import io.realm.Sort
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_stats_graphical.*
 import java.util.*
 
@@ -28,11 +28,31 @@ private const val ARG_PARAM2 = "param2"
 
 class StatsGraphical : Fragment() {
 
+    // なんとかして再描画してほしい・・・。
+    override fun onStart() {
+        super.onStart()
+//        val ma = activity as MainActivity
+//        spinPosition = ma.sortSpn.selectedItemPosition
+//        spinSelectedItem = ma.sortSpn.selectedItem.toString()
+
+        var stats = prepareToStats(selectedPage, spinPosition, spinSelectedItem )
+        statsGraphCard1Hint.text = stats.msg
+        statsGraphCard1Hint2.text =
+            "合計：" + calcCupsDrunkOfPeriod(BREW_IN_BOTH, stats.begin, stats.last).toString() + "杯"
+
+        blackToast( context as Context, "グラフ再描画！")
+        drawBarGraph( stats )
+    }
+
+
     //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
     // ここから統計データ表示のメイン処理
     // メイン画面から、統計基本情報を含んだStatsPackを受け取る
     // 期間（begin～last）、そこに含まれるbeansID、takeoutID、表示用ヒントなどを含む
     fun onCreateStats( spin:StatsPack ) {
+
+//        return
+
         statsGraphCard1Hint.text = spin.msg
         statsGraphCard1Hint2.text =
             "合計：" + calcCupsDrunkOfPeriod(BREW_IN_BOTH, spin.begin, spin.last).toString() + "杯"

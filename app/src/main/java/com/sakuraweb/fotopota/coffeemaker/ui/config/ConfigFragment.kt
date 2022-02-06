@@ -28,14 +28,34 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
 class ConfigFragment : PreferenceFragmentCompat() {
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+
+    override fun onStart() {
+        super.onStart()
 
         // ツールバー設定（何もないけど）
         val ac = activity as AppCompatActivity
         ac.supportActionBar?.show()
-//        ac.supportActionBar?.title = getString(R.string.titleBeansListFromBtnv)
         ac.supportActionBar?.title = "いろいろ設定"
+
         ac.sortSpn.visibility = View.INVISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+
+/*
+        // ツールバー設定（何もないけど）
+        val ac = activity as AppCompatActivity
+        ac.supportActionBar?.show()
+        ac.supportActionBar?.title = "いろいろ設定"
+
+// 試しにオフ
+//        ac.sortSpn.visibility = View.INVISIBLE
+*/
 
         // プリファレンスをXMLからインフレートする
         addPreferencesFromResource(R.xml.root_preferences)

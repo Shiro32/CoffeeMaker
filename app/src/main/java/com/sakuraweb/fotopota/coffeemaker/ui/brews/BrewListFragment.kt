@@ -73,10 +73,12 @@ lateinit var grind2Labels: Array<String>
 
 private lateinit var sortList: Array<String>
 
+
 class BrewFragment : Fragment() {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
     private lateinit var adapter: BrewRecyclerViewAdapter           // アダプタのインスタンス
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
+    private lateinit var realmResults: RealmResults<BrewData>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
 
@@ -142,6 +144,7 @@ class BrewFragment : Fragment() {
             startActivity(intent)
         }
 
+/*
         // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
         // 「戻る」ボタン
         val ac = activity as AppCompatActivity
@@ -163,6 +166,7 @@ class BrewFragment : Fragment() {
         ac.sortSpn.visibility = View.VISIBLE
         ac.sortSpn.adapter = adapter
         ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
+*/
 
         Log.d("SHIRO", "brew / onCreateView - DB OPEN")
         return root
@@ -173,8 +177,10 @@ class BrewFragment : Fragment() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             // ここで何かしないと、Fragmentが更新できない
             // 何をしたらええねん？
-            // TODO: とりあえずonStartを呼び出してるけど、多重で呼び出しているような・・・。
-            onStart()
+            loadBrewData()
+            adapter = BrewRecyclerViewAdapter( realmResults )
+            brewRecycleView.adapter = adapter
+//            brewRecycleView.adapter?.notifyDataSetChanged()
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -202,7 +208,6 @@ class BrewFragment : Fragment() {
     }
 */
 
-
     // オプションメニュー設置
     // Fragment内からActivity側のToolbarに無理矢理設置する
     // 本来は逆だけど、こうすればFragmentごとに違うメニューが作れる
@@ -225,81 +230,59 @@ class BrewFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-/*    // Details画面からの返事を処理
-    // RESULT_TO_HOMEならホーム画面まで、
-    // RESULT_TO_LISTならリスト画面まで（＝ここ）
-    // だけどスルーされちゃうみたい・・・。
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    private fun setupActionBar() {
+        // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
+        // 「戻る」ボタン
+        val ac = activity as AppCompatActivity
+        ac.supportActionBar?.title = getString(R.string.titleBrewList)
+        ac.supportActionBar?.show()
 
-        super.onActivityResult(requestCode, resultCode, data)
+        // メニュー構築（実装はonCreateOptionsMenu内で）
+        // これを呼び出すことでfragmentがメニューを持つことを明示（https://developer.android.com/guide/components/fragments?hl=ja）
+        // setHasOptionsMenu(true)
 
-        Toast.makeText(activity, "BREW-LIST-キャッチ！", Toast.LENGTH_SHORT).show()
-        if( requestCode == REQUEST_CODE_SHOW_DETAILS) {
-            when( resultCode ) {
-                RESULT_TO_LIST -> {
-                    Toast.makeText(activity, "TO_LIST", Toast.LENGTH_SHORT).show()
-                }
-                RESULT_TO_HOME -> {
-                    Toast.makeText(activity, "TO_HOME", Toast.LENGTH_SHORT).show()
-                }
+        // コンテキストメニューをセット
+        // 長押しで編集メニューとか出せるけど、その操作方法はやめて、無難に編集画面からやるようにしているのでコメントアウト
+//        registerForContextMenu(root)
 
-            }
+        // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
+        // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
+        sortList = resources.getStringArray(R.array.sort_mode_brew)
+        val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+        ac.sortSpn.visibility = View.VISIBLE
+        ac.sortSpn.adapter = adapter
+        ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
+    }
+
+    private fun loadBrewData() {
+        val ma = activity as MainActivity
+
+        when( ma.sortSpn.selectedItem.toString() ) {
+            // 日付順
+            sortList[0] -> realmResults = realm.where<BrewData>().findAll().sort("date", Sort.DESCENDING) // 日付順
+            // 評価準
+            sortList[1] -> realmResults = realm.where<BrewData>().findAll().sort("date", Sort.DESCENDING).sort("rating", Sort.DESCENDING)
+            // 使用豆
+            sortList[2] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.DESCENDING).sort("beansID", Sort.DESCENDING)
+            // メソッド順
+            sortList[3] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.DESCENDING).sort("methodID", Sort.DESCENDING)
+            // 家のみ
+            sortList[4] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.DESCENDING)
+            // 外飲み
+            sortList[5] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_SHOP).findAll().sort("date", Sort.DESCENDING).sort("beansID", Sort.DESCENDING)
+            else ->  realmResults = realm.where<BrewData>().findAll().sort("date", Sort.DESCENDING)
         }
-    }*/
 
+    }
 
     // ━━━━━━━━━　いよいよここでリスト表示　━━━━━━━━━
     // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
     override fun onStart() {
         super.onStart()
+        setupActionBar()
 
-        val ma = activity as MainActivity
-        val realmResults: RealmResults<BrewData>
-
-        when( ma.sortSpn.selectedItem.toString() ) {
-            sortList[0] -> {    // 日付順
-                realmResults = realm.where<BrewData>()
-                    .findAll()
-                    .sort("date", Sort.DESCENDING)
-            }
-            sortList[1] -> {    // 評価順
-                realmResults = realm.where<BrewData>()
-                    .findAll()
-                    .sort("date", Sort.DESCENDING)
-                    .sort("rating", Sort.DESCENDING)
-            }
-            sortList[2] -> {    // 使用豆
-                realmResults = realm.where<BrewData>()
-                    .equalTo("place", BREW_IN_HOME)
-                    .findAll()
-                    .sort("date", Sort.DESCENDING)
-                    .sort("beansID", Sort.DESCENDING)
-            }
-            sortList[3] -> {    // メソッド順
-                realmResults = realm.where<BrewData>()
-                    .equalTo("place", BREW_IN_HOME)
-                    .findAll()
-                    .sort("date", Sort.DESCENDING)
-                    .sort("methodID", Sort.DESCENDING)
-            }
-            sortList[4] -> {    // 外飲み除外
-                realmResults = realm.where<BrewData>()
-                    .equalTo("place", BREW_IN_HOME)
-                    .findAll()
-                    .sort("date", Sort.DESCENDING)
-            }
-            sortList[5] -> {    // 外飲みのみ
-                realmResults = realm.where<BrewData>()
-                    .equalTo("place", BREW_IN_SHOP)
-                    .findAll()
-                    .sort("date", Sort.DESCENDING)
-                    .sort("beansID", Sort.DESCENDING)
-            }
-            else -> {
-                realmResults = realm.where<BrewData>()
-                    .findAll().sort("date", Sort.DESCENDING)
-            }
-        }
+        // 豆データ読み込み
+        loadBrewData()
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
@@ -310,7 +293,8 @@ class BrewFragment : Fragment() {
         adapter = BrewRecyclerViewAdapter( realmResults )
         brewRecycleView.adapter = this.adapter
 
-//        // コンテキストメニューをセット
+        Log.d("SHIRO", "brew / onStart")
+    //        // コンテキストメニューをセット
 //        registerForContextMenu(brewRecycleView)
 
     }
@@ -318,6 +302,7 @@ class BrewFragment : Fragment() {
     // realmの閉め忘れに注意！
     override fun onDestroy() {
         super.onDestroy()
+        Log.d("SHIRO", "brew / onDestroy")
         realm.close()
     }
 }

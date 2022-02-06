@@ -1,9 +1,11 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.stats
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.sakuraweb.fotopota.coffeemaker.*
@@ -29,16 +31,21 @@ lateinit var endPeriod: Date
 // 非常に悪いコードだけど、現在選択中のページ番号を保持（Home/Takeout/Graph）
 var selectedPage: Int = 0
 
+// 同様にスピン関係を覚えておく
+var spinPosition: Int = 0
+var spinSelectedItem: String = ""
+
+
 // 統計画面全体を構成する
 // 統計期間選択用のSpinnerが意外と大変で、その作業が多い
 // この配下に、３つのFragment（HOME/TAKEOUT/GRAPH）を持ち、TabLayoutで制御する
 class StatsFragment : Fragment() {
 
-    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ) : View? {
-        val root = inflater.inflate(R.layout.fragment_stats, container, false)
+    override fun onStart() {
+        super.onStart()
 
         // ツールバーやメニューの装備（ホームなのでメニュー無いけど）
-        val ma: MainActivity = activity as MainActivity
+        val ma = activity as MainActivity
         ma.supportActionBar?.title = getString(R.string.title_stats)
         ma.supportActionBar?.show()
 
@@ -72,6 +79,11 @@ class StatsFragment : Fragment() {
         ma.sortSpn.visibility = View.VISIBLE
         ma.sortSpn.adapter = adapter
         ma.sortSpn.onItemSelectedListener = MonthSpinnerChangeListener()
+    }
+
+
+    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ) : View? {
+        val root = inflater.inflate(R.layout.fragment_stats, container, false)
 
         // 3FragmentのViewer, TabLayoutの設定
         root.statsPager.adapter = StatsTabAdapter(childFragmentManager)
@@ -95,17 +107,22 @@ class StatsFragment : Fragment() {
     // しょうがないので、ページ切り替え完了時に当該ページのFragmentを再描画させる
     // 最初は、各ページのonResumeとか呼び出したけど失敗したので、普通のメソッド（reload）にしてみた
     private inner class PageChangeListener() : ViewPager.SimpleOnPageChangeListener() {
+
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
 
-            val ma = activity as MainActivity
-            val stats = prepareToStats(
-                position,
-                ma.sortSpn.selectedItemPosition,
-                ma.sortSpn.selectedItem.toString()
-            )
-
             selectedPage = position
+
+//            val ma = activity as MainActivity
+//            val spn = ma.findViewById<Spinner>(R.id.sortSpn)
+//            val stats = prepareToStats(
+//                position,
+//                spn.selectedItemPosition,
+//                spn.selectedItem.toString()
+//            )
+
+            var stats = prepareToStats(selectedPage, spinPosition, spinSelectedItem )
+
             // 切り替わったページ（Fragment）のリロードを行う
             when (position) {
                 STATS_HOME -> statsHomeFragment?.onCreateStats(stats)
@@ -123,11 +140,11 @@ class StatsFragment : Fragment() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
             val ma = activity as MainActivity
-            var stats = prepareToStats(
-                selectedPage,
-                ma.sortSpn.selectedItemPosition,
-                ma.sortSpn.selectedItem.toString()
-            )
+
+            spinPosition = ma.sortSpn.selectedItemPosition
+            spinSelectedItem = ma.sortSpn.selectedItem.toString()
+
+            var stats = prepareToStats(selectedPage, spinPosition, spinSelectedItem )
 
 //            blackToast( ma, "PageChange:$selectedPage" )
 
@@ -144,86 +161,8 @@ class StatsFragment : Fragment() {
         override fun onNothingSelected(parent: AdapterView<*>?) { }
     }
 
-    // 子供画面（BREW/TAKEOUT/GRAPH）を呼び出すために準備をする
-    //　期間選択Spinnerから、以下の情報を作り上げる（多すぎるのでグローバル変数で・・・）
-    // １．範囲検索用のbegin, end
-    // ２．範囲内Brewに含まれる、beansIDとtakeoutIDのリスト
-    // ３．ヘッダメッセージ
-    private fun prepareToStats(page: Int, spnPosition: Int, spnItem: String): StatsPack {
-        // 選択肢から期間を求める
-        var begin = getInstance()
-        var last = getInstance()
 
-        var headerMsg: String
-        // 「全期間」を選んだときは全範囲を設定しよう
-        if (spnPosition == 0) {
-            val realm = Realm.getInstance(brewRealmConfig)
-            val brews = realm.where<BrewData>().findAll().sort("date", Sort.ASCENDING)
 
-            if (brews.size > 0) begin.time = brews[0]!!.date
-            realm.close()
-//            last.time = Date()
-
-            headerMsg = when (page) {
-                STATS_HOME -> "アプリの使用開始（%d年%d月）から今日までに家で飲んだコーヒー"
-                STATS_TAKEOUT -> "アプリの使用開始（%d年%d月）から今日までに外で飲んだコーヒー"
-                STATS_GRAPH -> "アプリの使用開始（%d年%d月）から今日までに飲んだコーヒー。左端が初日、右端が今日。"
-                else -> "エラー"
-            }.format(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH) + 1)
-
-        } else {
-            // 特定の月の時はその月をセット
-            val m = spnItem
-            val a = m.split("年", "月")
-            begin.set(a[0].toInt(), a[1].toInt() - 1, 1, 0, 0, 0)
-            last.set(a[0].toInt(), a[1].toInt() - 1, 1, 23, 59, 59)
-            last.set(Calendar.DATE, last.getActualMaximum(Calendar.DATE))
-            headerMsg = when (page) {
-                STATS_HOME -> "%d年%d月に家で飲んだコーヒー"
-                STATS_TAKEOUT -> "%d年%d月に外で飲んだコーヒー"
-                STATS_GRAPH -> "%d年%d月に飲んだコーヒー"
-                else -> "エラー"
-            }.format(
-                begin.get(Calendar.YEAR),
-                begin.get(Calendar.MONTH) + 1,
-                last.get(Calendar.YEAR),
-                last.get(Calendar.MONTH) + 1
-            )
-        }
-
-        beginPeriod = begin.time
-        endPeriod = last.time
-
-        // ここまででBREWの範囲が決まったことになる
-        // 範囲内のBREWが参照しているBEANSとTAKEOUTをリスト化する
-        var brewRealm = Realm.getInstance(brewRealmConfig)
-        var brews = brewRealm.where<BrewData>()
-            .between("date", beginPeriod, endPeriod)
-            .findAll()
-
-        var beansList = arrayOf<Long>()
-        var takeoutList = arrayOf<Long>()
-
-        for (brew in brews) {
-            if (brew.place == BREW_IN_HOME) {
-                // 家飲みの場合はBEANSのリスト追加
-                beansList += brew.beansID
-            } else {
-                takeoutList += brew.takeoutID
-            }
-        }
-        brewRealm.close()
-
-        // ここから急ごしらえで返り値を作り上げる（超適当・・・）
-        val ret = StatsPack()
-        ret.begin = begin
-        ret.last = last
-        ret.beansIDList = beansList
-        ret.takeoutIDList = takeoutList
-        ret.msg = headerMsg
-
-        return ret
-    }
 /*
     // もちろん不要だけど、なんとなく覚えておくために記載が残っている
     override fun onStart() {
@@ -238,4 +177,85 @@ open class StatsPack () {
     lateinit var beansIDList: Array<Long>
     lateinit var takeoutIDList: Array<Long>
     lateinit var msg: String
+}
+
+// 子供画面（BREW/TAKEOUT/GRAPH）を呼び出すために準備をする
+//　期間選択Spinnerから、以下の情報を作り上げる（多すぎるのでグローバル変数で・・・）
+// １．範囲検索用のbegin, end
+// ２．範囲内Brewに含まれる、beansIDとtakeoutIDのリスト
+// ３．ヘッダメッセージ
+fun prepareToStats(page: Int, spnPosition: Int, spnItem: String): StatsPack {
+    // 選択肢から期間を求める
+    var begin = getInstance()
+    var last = getInstance()
+
+    var headerMsg: String
+    // 「全期間」を選んだときは全範囲を設定しよう
+    if (spnPosition == 0) {
+        val realm = Realm.getInstance(brewRealmConfig)
+        val brews = realm.where<BrewData>().findAll().sort("date", Sort.ASCENDING)
+
+        if (brews.size > 0) begin.time = brews[0]!!.date
+        realm.close()
+//            last.time = Date()
+
+        headerMsg = when (page) {
+            STATS_HOME -> "アプリの使用開始（%d年%d月）から今日までに家で飲んだコーヒー"
+            STATS_TAKEOUT -> "アプリの使用開始（%d年%d月）から今日までに外で飲んだコーヒー"
+            STATS_GRAPH -> "アプリの使用開始（%d年%d月）から今日までに飲んだコーヒー。左端が初日、右端が今日。"
+            else -> "エラー"
+        }.format(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH) + 1)
+
+    } else {
+        // 特定の月の時はその月をセット
+        val m = spnItem
+        val a = m.split("年", "月")
+        begin.set(a[0].toInt(), a[1].toInt() - 1, 1, 0, 0, 0)
+        last.set(a[0].toInt(), a[1].toInt() - 1, 1, 23, 59, 59)
+        last.set(Calendar.DATE, last.getActualMaximum(Calendar.DATE))
+        headerMsg = when (page) {
+            STATS_HOME -> "%d年%d月に家で飲んだコーヒー"
+            STATS_TAKEOUT -> "%d年%d月に外で飲んだコーヒー"
+            STATS_GRAPH -> "%d年%d月に飲んだコーヒー"
+            else -> "エラー"
+        }.format(
+            begin.get(Calendar.YEAR),
+            begin.get(Calendar.MONTH) + 1,
+            last.get(Calendar.YEAR),
+            last.get(Calendar.MONTH) + 1
+        )
+    }
+
+    beginPeriod = begin.time
+    endPeriod = last.time
+
+    // ここまででBREWの範囲が決まったことになる
+    // 範囲内のBREWが参照しているBEANSとTAKEOUTをリスト化する
+    var brewRealm = Realm.getInstance(brewRealmConfig)
+    var brews = brewRealm.where<BrewData>()
+        .between("date", beginPeriod, endPeriod)
+        .findAll()
+
+    var beansList = arrayOf<Long>()
+    var takeoutList = arrayOf<Long>()
+
+    for (brew in brews) {
+        if (brew.place == BREW_IN_HOME) {
+            // 家飲みの場合はBEANSのリスト追加
+            beansList += brew.beansID
+        } else {
+            takeoutList += brew.takeoutID
+        }
+    }
+    brewRealm.close()
+
+    // ここから急ごしらえで返り値を作り上げる（超適当・・・）
+    val ret = StatsPack()
+    ret.begin = begin
+    ret.last = last
+    ret.beansIDList = beansList
+    ret.takeoutIDList = takeoutList
+    ret.msg = headerMsg
+
+    return ret
 }

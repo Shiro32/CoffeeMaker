@@ -1,6 +1,7 @@
 package com.sakuraweb.fotopota.coffeemaker. ui.beans
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansEditActivity
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansRecyclerViewAdapter
+import com.sakuraweb.fotopota.coffeemaker.ui.beans.SetBeansListener
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
 import io.realm.Realm
@@ -33,6 +37,8 @@ class BeansFragment : Fragment(), SetBeansListener {
     private lateinit var adapter: BeansRecyclerViewAdapter           // アダプタのインスタンス
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
     private lateinit var sortList: Array<String>
+    private lateinit var realmResults: RealmResults<BeansData>
+
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
         val root = inflater.inflate(R.layout.fragment_beans_list, container, false)
@@ -61,7 +67,7 @@ class BeansFragment : Fragment(), SetBeansListener {
             startActivity(intent)
         }
 
-        // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
+/*        // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
         val ac = activity as AppCompatActivity
         ac.supportActionBar?.show()
 
@@ -84,7 +90,7 @@ class BeansFragment : Fragment(), SetBeansListener {
             ac.sortSpn.visibility = View.VISIBLE
             ac.sortSpn.adapter = adapter
             ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
-        }
+        }*/
 
         return root
     }
@@ -128,10 +134,9 @@ class BeansFragment : Fragment(), SetBeansListener {
     // ソートSpinnerを変更した時のリスナ
     private inner class SortSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            // ここで何かしないと、Fragmentが更新できない
-            // 何をしたらええねん？
-            // TODO: とりあえずonStartを呼び出してるけど、多重で呼び出しているような・・・。
-            onStart()
+            loadBeansData()
+            adapter = BeansRecyclerViewAdapter( realmResults, this@BeansFragment )
+            beansRecycleView.adapter = adapter
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -160,55 +165,72 @@ class BeansFragment : Fragment(), SetBeansListener {
         return super.onOptionsItemSelected(item)
     }
 
-    // いよいよここでリスト表示
-    // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
-    override fun onStart() {
-        super.onStart()
 
-        // 豆の被使用状況を更新
-        updateBeansUsage()
 
-        // 全部の豆データをrealmResults配列に読み込む
-        val realmResults: RealmResults<BeansData>
+    private fun setupActionBar() {
+        // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
+        val ac = activity as AppCompatActivity
+        ac.supportActionBar?.show()
 
+        // Edit経由のTitleはうまくできない・・・。
+        // なのでデフォでEdit経由をセットしておき、Navi経由はここで書き換える
+        if( !isCalledFromBrewEditToBeans ) {
+//            ac.supportActionBar?.title =ac.getString(R.string.beansListFromBtnvTitle)
+            ac.supportActionBar?.title = getString(R.string.titleBeansListFromBtnv)
+        }
+
+        // メニュー構築（実装はonCreateOptionsMenu内で）
+//        setHasOptionsMenu(true)
+
+        // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
+        // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
+        if( !isCalledFromBrewEditToBeans ) {
+            sortList = resources.getStringArray(R.array.sort_mode_beans)
+            val adapter =
+                ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+            ac.sortSpn.visibility = View.VISIBLE
+            ac.sortSpn.adapter = adapter
+            ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
+        }
+    }
+
+
+    // Realmから豆データを読み込む
+    // それだけなんだけど、ソートが面倒なので関数
+    private fun loadBeansData() {
         if( isCalledFromBrewEditToBeans ) {
             realmResults = realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
         } else {
             val ma = activity as MainActivity
             when (ma.sortSpn.selectedItem.toString()) {
-                sortList[0] -> {    // 最新購入日順
-                    realmResults =
-                        realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
-                }
-                sortList[1] -> {    // 仕様日順
-                    realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
-                }
-                sortList[2] -> {     // 評価順
-                    realmResults = realm.where<BeansData>().findAll()
-                        .sort("recent", Sort.DESCENDING)
-                        .sort("rating", Sort.DESCENDING)
-                }
-                sortList[3] -> {    // 回数順
-                    realmResults = realm.where<BeansData>().findAll()
-                        .sort("recent", Sort.DESCENDING)
-                        .sort("count", Sort.DESCENDING)
-                }
-                sortList[4] -> {    // 購入店
-                    realmResults = realm.where<BeansData>().findAll()
-                        .sort("recent", Sort.DESCENDING)
-                        .sort("shop", Sort.DESCENDING)
-                }
-                sortList[5] -> {    // 金額
-                    realmResults = realm.where<BeansData>().findAll()
-                        .sort("recent", Sort.DESCENDING)
-                        .sort("price", Sort.DESCENDING)
-                }
-                else -> {
-                    realmResults =
-                        realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
-                }
+                // 最新購入日順
+                sortList[0] -> realmResults = realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
+                // 仕様日順
+                sortList[1] ->  realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
+                // 評価順
+                sortList[2] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("rating", Sort.DESCENDING)
+                // 回数順
+                sortList[3] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("count", Sort.DESCENDING)
+                // 購入店
+                sortList[4] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("shop", Sort.DESCENDING)
+                // 金額
+                sortList[5] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("price", Sort.DESCENDING)
+                // etc
+                else -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
             }
         }
+    }
+    // いよいよここでリスト表示
+    // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
+    override fun onStart() {
+        super.onStart()
+        setupActionBar()
+
+        // 豆の被使用状況を更新
+        updateBeansUsage()
+
+        // 豆データ読み込み
+        loadBeansData()
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
@@ -216,10 +238,7 @@ class BeansFragment : Fragment(), SetBeansListener {
         beansRecycleView.layoutManager = layoutManager
 
         // アダプターを設定する
-        adapter = BeansRecyclerViewAdapter(
-            realmResults,
-            this
-        )
+        adapter = BeansRecyclerViewAdapter(realmResults, this)
         beansRecycleView.adapter = this.adapter
 
         Log.d("SHIRO", "beans / onStart")
@@ -228,6 +247,7 @@ class BeansFragment : Fragment(), SetBeansListener {
     override fun onDestroy() {
         super.onDestroy()
         realm.close()
+        Log.d( "SHIRO", "beans / onDestroy")
     }
 
     override fun okBtnTapped(ret: BeansData?) {
