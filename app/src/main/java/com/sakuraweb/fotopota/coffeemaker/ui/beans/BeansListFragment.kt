@@ -39,8 +39,25 @@ class BeansFragment : Fragment(), SetBeansListener {
     private lateinit var sortList: Array<String>
     private lateinit var realmResults: RealmResults<BeansData>
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d("SHIRO", "BEANS / onViewCreated")
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("SHIRO", "BEANS / onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("SHIRO", "BEANS / onStop")
+    }
+
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
+        Log.d("SHIRO", "BEANS / onCreateView - DB open")
+
         val root = inflater.inflate(R.layout.fragment_beans_list, container, false)
 
         // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
@@ -56,7 +73,6 @@ class BeansFragment : Fragment(), SetBeansListener {
 
         // Brewの編集画面から呼ばれたかどうかを覚えておく
         isCalledFromBrewEditToBeans = activity?.intent?.getStringExtra("from") == "Edit"
-
 
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
         realm = Realm.getInstance(beansRealmConfig)
@@ -223,6 +239,8 @@ class BeansFragment : Fragment(), SetBeansListener {
     // いよいよここでリスト表示
     // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
     override fun onStart() {
+        Log.d("SHIRO", "BEANS / onStart")
+
         super.onStart()
         setupActionBar()
 
@@ -240,14 +258,12 @@ class BeansFragment : Fragment(), SetBeansListener {
         // アダプターを設定する
         adapter = BeansRecyclerViewAdapter(realmResults, this)
         beansRecycleView.adapter = this.adapter
-
-        Log.d("SHIRO", "beans / onStart")
     }
 
     override fun onDestroy() {
+        Log.d( "SHIRO", "BEANS / onDestroy -- DB close")
         super.onDestroy()
         realm.close()
-        Log.d( "SHIRO", "beans / onDestroy")
     }
 
     override fun okBtnTapped(ret: BeansData?) {

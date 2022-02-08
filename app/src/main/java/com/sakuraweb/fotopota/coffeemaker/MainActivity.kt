@@ -27,6 +27,7 @@ open class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.d("SHIRO", "MAIN / onCreate")
 
         // さっぱりわからないけど、ナビゲーション関係の模様
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -51,7 +52,6 @@ open class MainActivity : AppCompatActivity() {
         // TODO: ここでセットすると落ちる。fragmentが出来上がっていないから？
 //        registerForContextMenu(sampleButton)
 
-        Log.d("SHIRO", "Main / onCreate")
     }
 
 //    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
@@ -65,10 +65,7 @@ open class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("SHIRO", "HOME / onActivityResult" )
-
-
-//Toast.makeText(applicationContext, "MainのonActivityResult", Toast.LENGTH_SHORT).show()
+        Log.d("SHIRO", "MAIN / onActivityResult" )
 
         // ものすご～く気に入らないけど、これで我慢しよう・・・
         // 配下のfragmentのさらにRecyclerViewのAdapterで呼び出した時は、
@@ -79,6 +76,25 @@ open class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        Log.d( "SHIRO", "MAIN / onDestroy")
+        super.onDestroy()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d( "SHIRO", "MAIN / onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d( "SHIRO", "MAIN / onStop")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("SHIRO", "MAIN / onStart")
+    }
     open fun setSpinnerContent() {
         mainToolbar.title = "やっぱり、MainActivityから書き換えよう"
         sortSpn.visibility = View.GONE

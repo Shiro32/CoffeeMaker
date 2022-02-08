@@ -1,10 +1,12 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.stats
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
@@ -14,6 +16,7 @@ import io.realm.RealmConfiguration
 import io.realm.Sort
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_stats_home.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,40 +25,42 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class StatsHome : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    // 回転　： onStart
+    // 切替　： onStart, onResume
+    // なので、onResumeでやることにした
+    //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+    override fun onResume() {
+        super.onResume()
+        blackToast( context as Context, "家のみResume" )
+        drawHomeStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
+        (activity as MainActivity).sortSpn.onItemSelectedListener = HomeSpinnerChangeListener()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stats_home, container, false)
-    }
+    //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+    // 月別Spinnerを変更した際のグラフ再描画処理
+    private inner class HomeSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            blackToast(context as Context, "家飲みSpinner")
 
-    companion object {
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StatsHome().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+            // Spinnerの情報をグローバル変数に保管しておく
+            (activity as MainActivity).sortSpn.apply {
+                spinPosition = selectedItemPosition
+                spinSelectedItem = selectedItem.toString()
             }
+            drawHomeStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
+        }
 
+        // OnItemSelecctedListenerの実装にはこれを入れないといけない（インターフェースなので）
+        // だけど無選択時にやることは無いので、何も書かずさようなら
+        override fun onNothingSelected(parent: AdapterView<*>?) { }
     }
 
     //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
     // ここから統計データ表示のメイン処理
     // メイン画面から、統計基本情報を含んだStatsPackを受け取る
     // 期間（begin～last）、そこに含まれるbeansID、takeoutID、表示用ヒントなどを含む
-    fun onCreateStats(spin:StatsPack ) {
+    fun drawHomeStats(spin:StatsPack ) {
 
         // 期間のラベル
         statsHomeTotalHint.text = spin.msg
@@ -201,4 +206,35 @@ class StatsHome : Fragment() {
         // TODO: １日で一番飲んだ日も見たい？
 
     }
+
+
+    private var param1: String? = null
+    private var param2: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_stats_home, container, false)
+    }
+
+    companion object {
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            StatsHome().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
+
+    }
+
 }

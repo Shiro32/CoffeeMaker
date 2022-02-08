@@ -3,13 +3,15 @@ package com.sakuraweb.fotopota.coffeemaker.ui.stats
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 
 var statsHomeFragment: StatsHome? = null
 var statsTakeoutFragment: StatsTakeout? = null
 var statsGraphicFragment: StatsGraphical? = null
 
 
-class StatsTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class StatsTabAdapter(fm: FragmentManager) :
+    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT ) {
 
     override fun getCount(): Int {
         return 3

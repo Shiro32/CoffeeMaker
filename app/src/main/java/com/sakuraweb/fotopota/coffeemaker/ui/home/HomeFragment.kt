@@ -116,6 +116,8 @@ class HomeFragment : Fragment() {
 //    private lateinit var dashboardViewModel: BeansViewModel
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
+        Log.d("SHIRO", "HOME / onCreateView")
+
 /*
         dashboardViewModel = ViewModelProviders.of(this).get(BeansViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_beans_list, container, false)
@@ -151,22 +153,20 @@ class HomeFragment : Fragment() {
 //        ac.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 //      置くことはできたけど、各フラグメントで動きの実装ができなくて断念
 
-        Log.d("SHIRO", "home / onCreateView")
         return root
     }
 
     override fun onStart() {
+        Log.d("SHIRO", "HOME / onStart")
         super.onStart()
 
         // 逆にツールバーを消したい・・・！ fragmentから
         val ac = activity as AppCompatActivity
         ac.supportActionBar?.hide()
-
-        Log.d("SHIRO", "home / onStart")
     }
 
     override fun onDestroy() {
+        Log.d("SHIRO", "HOME / onDestroy")
         super.onDestroy()
-        Log.d("SHIRO", "home / onDestroy")
     }
 }

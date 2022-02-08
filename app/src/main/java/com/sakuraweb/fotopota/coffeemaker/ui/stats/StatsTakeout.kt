@@ -1,10 +1,12 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.stats
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.home.calcCupsDrunkOfPeriod
@@ -14,6 +16,7 @@ import io.realm.RealmConfiguration
 import io.realm.Sort
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_stats_takeout.*
 import java.util.*
 
@@ -22,58 +25,44 @@ import java.util.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [StatsTakeout.newInstance] factory method to
- * create an instance of this fragment.
- */
 class StatsTakeout : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    // 回転　： onStart
+    // 切替　： onStart, onResume
+    // なので、onResumeでやることにした
+    //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+    override fun onResume() {
+        super.onResume()
+        blackToast( context as Context, "外飲みResume" )
+
+        (activity as MainActivity).sortSpn.onItemSelectedListener = TakeoutSpinnerChangeListener()
+        drawTakeoutStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stats_takeout, container, false)
-    }
+    //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+    // 月別Spinnerを変更した際のグラフ再描画処理
+    private inner class TakeoutSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            blackToast(context as Context, "外飲みSpinner")
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StatsTakeout.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StatsTakeout().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+            // Spinnerの情報をグローバル変数に保管しておく
+            (activity as MainActivity).sortSpn.apply {
+                spinPosition = selectedItemPosition
+                spinSelectedItem = selectedItem.toString()
             }
-    }
+            drawTakeoutStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
+        }
 
+        // OnItemSelecctedListenerの実装にはこれを入れないといけない（インターフェースなので）
+        // だけど無選択時にやることは無いので、何も書かずさようなら
+        override fun onNothingSelected(parent: AdapterView<*>?) { }
+    }
 
     //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
     // ここから統計データ表示のメイン処理
     // メイン画面から、統計基本情報を含んだStatsPackを受け取る
     // 期間（begin～last）、そこに含まれるbeansID、takeoutID、表示用ヒントなどを含む
-    fun onCreateStats( spin:StatsPack ) {
+    fun drawTakeoutStats( spin:StatsPack ) {
 
         // 期間のラベル
         statsTakeoutTotalHint.text = spin.msg
@@ -83,7 +72,7 @@ class StatsTakeout : Fragment() {
 
         // テイクアウト関係ランキングの前処理（とても長いけど）
         // 範囲限定版のTAKEOUT
-        var realm = Realm.getInstance(takeoutRealmConfig)
+        val realm = Realm.getInstance(takeoutRealmConfig)
         var takeouts = realm.where<TakeoutData>()
             .`in`("id", spin.takeoutIDList)
             .findAll()
@@ -123,7 +112,7 @@ class StatsTakeout : Fragment() {
 
         // BREWからの参照を全部調べ上げて、BEANSの各種参照情報を更新する
         // 評価、最終利用日、利用回数
-        var brewRealm = Realm.getInstance(brewRealmConfig)
+        val brewRealm = Realm.getInstance(brewRealmConfig)
         takeouts = tempTakeoutRealm.where<TakeoutData>().findAll()
 
         for( take in takeouts ) {
@@ -216,4 +205,45 @@ class StatsTakeout : Fragment() {
         // TODO: １日で一番飲んだ日も見たい？
 
     }
+
+    // TODO: Rename and change types of parameters
+    private var param1: String? = null
+    private var param2: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_stats_takeout, container, false)
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment StatsTakeout.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            StatsTakeout().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
+    }
+
 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -27,40 +28,47 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class StatsGraphical : Fragment() {
+    // 回転　： onStart
+    // 切替　： onStart, onResume
+    // なので、onResumeでやることにした
+    //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+    override fun onResume() {
+        super.onResume()
+        blackToast( context as Context, "グラフResume!")
 
-    // なんとかして再描画してほしい・・・。
-    override fun onStart() {
-        super.onStart()
-//        val ma = activity as MainActivity
-//        spinPosition = ma.sortSpn.selectedItemPosition
-//        spinSelectedItem = ma.sortSpn.selectedItem.toString()
+        // 以前は、月別Spinnerを親Fragmentで処理していたが、
+        // 各STATSのFragmentで自分で処理するように変更（３フラグメントとも、自分でやる）
+        (activity as MainActivity).sortSpn.onItemSelectedListener = GraphSpinnerChangeListener()
 
-        var stats = prepareToStats(selectedPage, spinPosition, spinSelectedItem )
-        statsGraphCard1Hint.text = stats.msg
-        statsGraphCard1Hint2.text =
-            "合計：" + calcCupsDrunkOfPeriod(BREW_IN_BOTH, stats.begin, stats.last).toString() + "杯"
+        drawBarGraph( prepareToStats(selectedPage, spinPosition, spinSelectedItem ) )
+    }
+    //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+    // 月別Spinnerを変更した際のグラフ再描画処理
+    private inner class GraphSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            blackToast(context as Context, "グラフSpinner")
 
-        blackToast( context as Context, "グラフ再描画！")
-        drawBarGraph( stats )
+            // Spinnerの情報をグローバル変数に保管しておく
+            (activity as MainActivity).sortSpn.apply {
+                spinPosition = selectedItemPosition
+                spinSelectedItem = selectedItem.toString()
+            }
+
+            drawBarGraph( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
+        }
+
+        // OnItemSelecctedListenerの実装にはこれを入れないといけない（インターフェースなので）
+        // だけど無選択時にやることは無いので、何も書かずさようなら
+        override fun onNothingSelected(parent: AdapterView<*>?) { }
     }
 
 
-    //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
-    // ここから統計データ表示のメイン処理
-    // メイン画面から、統計基本情報を含んだStatsPackを受け取る
-    // 期間（begin～last）、そこに含まれるbeansID、takeoutID、表示用ヒントなどを含む
-    fun onCreateStats( spin:StatsPack ) {
-
-//        return
-
+    private fun drawBarGraph( spin:StatsPack ) {
+        // グラフの表題など
         statsGraphCard1Hint.text = spin.msg
         statsGraphCard1Hint2.text =
             "合計：" + calcCupsDrunkOfPeriod(BREW_IN_BOTH, spin.begin, spin.last).toString() + "杯"
 
-        drawBarGraph( spin )
-    }
-
-    private fun drawBarGraph(spin:StatsPack ) {
         // X軸を作る
         chartArea1.xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM

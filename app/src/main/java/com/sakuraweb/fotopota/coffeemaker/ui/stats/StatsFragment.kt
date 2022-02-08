@@ -14,6 +14,7 @@ import io.realm.Realm
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_stats.*
 import kotlinx.android.synthetic.main.fragment_stats.view.*
 import java.util.*
 import java.util.Calendar.getInstance
@@ -57,14 +58,14 @@ class StatsFragment : Fragment() {
         // ツールバー上の日付スピナーを作る（特定の月、または全期間）
         // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
         // TODO: これ、3Fragmentの内容に合わせるべきでは？　→　と思ったけど、みんな同じで大丈夫そう
-        var mList = mutableListOf<String>()
+        val mList = mutableListOf<String>()
 
-        var month = getInstance()
-        var last = getInstance()
+        val month = getInstance()
+        val last = getInstance()
         last.set(Calendar.DATE, last.getActualMaximum(Calendar.DATE))
 
         val realm = Realm.getInstance(brewRealmConfig)
-        var brews = realm.where<BrewData>().sort("date", Sort.ASCENDING).findAll()
+        val brews = realm.where<BrewData>().sort("date", Sort.ASCENDING).findAll()
         if (brews.size > 0) month.time = brews[0]!!.date
         realm.close()
 
@@ -78,7 +79,8 @@ class StatsFragment : Fragment() {
         val adapter = ArrayAdapter<String>(ma, android.R.layout.simple_spinner_dropdown_item, mList)
         ma.sortSpn.visibility = View.VISIBLE
         ma.sortSpn.adapter = adapter
-        ma.sortSpn.onItemSelectedListener = MonthSpinnerChangeListener()
+        // Spinnerは各子Fragmentでチェックするようにしたので、親Fragmentでは不要
+    //        ma.sortSpn.onItemSelectedListener = MonthSpinnerChangeListener()
     }
 
 
@@ -112,27 +114,9 @@ class StatsFragment : Fragment() {
             super.onPageSelected(position)
 
             selectedPage = position
-
-//            val ma = activity as MainActivity
-//            val spn = ma.findViewById<Spinner>(R.id.sortSpn)
-//            val stats = prepareToStats(
-//                position,
-//                spn.selectedItemPosition,
-//                spn.selectedItem.toString()
-//            )
-
-            var stats = prepareToStats(selectedPage, spinPosition, spinSelectedItem )
-
-            // 切り替わったページ（Fragment）のリロードを行う
-            when (position) {
-                STATS_HOME -> statsHomeFragment?.onCreateStats(stats)
-                STATS_TAKEOUT -> statsTakeoutFragment?.onCreateStats(stats)
-                STATS_GRAPH -> statsGraphicFragment?.onCreateStats(stats)
-            }
-        }
     }
 
-    // スピナの選択処理は、結局はメイン画面でしかできないと思われるので、ここでやろう
+/*    // スピナの選択処理は、結局はメイン画面でしかできないと思われるので、ここでやろう
     // 最初は子供（Fragment）側で処理させてたけど、１個のスピナを３画面のonClickで共有すること自体が不自然
     // もともと親側にあるスピナなので、ここでキャッチして、結果を子fragmentに伝える方式に変更
     // と言っても、ページ切り替え時の処理と同様、reloadするだけ
@@ -150,25 +134,18 @@ class StatsFragment : Fragment() {
 
             // 切り替わったページ（Fragment）のリロードを行う
             when (selectedPage) {
-                STATS_HOME -> statsHomeFragment?.onCreateStats(stats)
-                STATS_TAKEOUT -> statsTakeoutFragment?.onCreateStats(stats)
-                STATS_GRAPH -> statsGraphicFragment?.onCreateStats(stats)
+//                STATS_HOME -> statsHomeFragment?.onCreateStats(stats)
+//                STATS_TAKEOUT -> statsTakeoutFragment?.onCreateStats(stats)
+//                STATS_GRAPH -> statsGraphicFragment?.onCreateStats(stats)
             }
         }
 
         // OnItemSelecctedListenerの実装にはこれを入れないといけない（インターフェースなので）
         // だけど無選択時にやることは無いので、何も書かずさようなら
         override fun onNothingSelected(parent: AdapterView<*>?) { }
-    }
-
-
-
-/*
-    // もちろん不要だけど、なんとなく覚えておくために記載が残っている
-    override fun onStart() {
-        super.onStart()
-    }
 */
+
+    }
 }
 
 open class StatsPack () {
@@ -186,10 +163,10 @@ open class StatsPack () {
 // ３．ヘッダメッセージ
 fun prepareToStats(page: Int, spnPosition: Int, spnItem: String): StatsPack {
     // 選択肢から期間を求める
-    var begin = getInstance()
-    var last = getInstance()
+    val begin = getInstance()
+    val last = getInstance()
 
-    var headerMsg: String
+    val headerMsg: String
     // 「全期間」を選んだときは全範囲を設定しよう
     if (spnPosition == 0) {
         val realm = Realm.getInstance(brewRealmConfig)
@@ -231,8 +208,8 @@ fun prepareToStats(page: Int, spnPosition: Int, spnItem: String): StatsPack {
 
     // ここまででBREWの範囲が決まったことになる
     // 範囲内のBREWが参照しているBEANSとTAKEOUTをリスト化する
-    var brewRealm = Realm.getInstance(brewRealmConfig)
-    var brews = brewRealm.where<BrewData>()
+    val brewRealm = Realm.getInstance(brewRealmConfig)
+    val brews = brewRealm.where<BrewData>()
         .between("date", beginPeriod, endPeriod)
         .findAll()
 

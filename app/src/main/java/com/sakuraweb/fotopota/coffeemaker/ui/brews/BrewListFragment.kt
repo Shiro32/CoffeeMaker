@@ -4,7 +4,9 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 //        root.button.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.navigation_settings, null))
 // これよりも、onClickイベントを発生させた方が良いみたい（＾＾）
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
@@ -72,7 +74,8 @@ var configWaterVolumeUnit = "cc"
 lateinit var grind2Labels: Array<String>
 
 private lateinit var sortList: Array<String>
-
+var recyclerPosition: Int = 0
+var recyclerState: Parcelable? = null
 
 class BrewFragment : Fragment() {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
@@ -80,7 +83,25 @@ class BrewFragment : Fragment() {
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
     private lateinit var realmResults: RealmResults<BrewData>
 
+
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("SHIRO", "BREW / onResume")
+
+        (brewRecycleView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(recyclerPosition, 0)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("SHIRO", "BREW / onPause")
+
+//        recyclerState = brewRecycleView.layoutManager?.onSaveInstanceState()
+        recyclerPosition = (brewRecycleView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
+        Log.d("SHIRO", "BREW / onCreateView - DB OPEN")
 
         // このfragment自身を指す。ボタンなどを指定するには、rootが必要
         val root = inflater.inflate(R.layout.fragment_brew_list, container, false)
@@ -143,32 +164,6 @@ class BrewFragment : Fragment() {
             intent.putExtra("mode", BREW_EDIT_MODE_NEW)
             startActivity(intent)
         }
-
-/*
-        // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
-        // 「戻る」ボタン
-        val ac = activity as AppCompatActivity
-        ac.supportActionBar?.title = getString(R.string.titleBrewList)
-        ac.supportActionBar?.show()
-
-        // メニュー構築（実装はonCreateOptionsMenu内で）
-        // これを呼び出すことでfragmentがメニューを持つことを明示（https://developer.android.com/guide/components/fragments?hl=ja）
-        // setHasOptionsMenu(true)
-
-        // コンテキストメニューをセット
-        // 長押しで編集メニューとか出せるけど、その操作方法はやめて、無難に編集画面からやるようにしているのでコメントアウト
-//        registerForContextMenu(root)
-
-        // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
-        // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
-        sortList = resources.getStringArray(R.array.sort_mode_brew)
-        val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
-        ac.sortSpn.visibility = View.VISIBLE
-        ac.sortSpn.adapter = adapter
-        ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
-*/
-
-        Log.d("SHIRO", "brew / onCreateView - DB OPEN")
         return root
     }
 
@@ -187,26 +182,6 @@ class BrewFragment : Fragment() {
             TODO("Not yet implemented")
         }
     }
-
-/*
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // コンテキストメニューをセット
-        // どうやら、RecyclerViewには簡単にContextの利スタ設定ができないみたい・・・！
-//        registerForContextMenu(brewRecycleView)
-//        registerForContextMenu(sampleButton2)
-    }
-
-
-    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-
-        // TODO: インフレーターが見当たらず、activityを使ったけど大丈夫か？
-        activity?.menuInflater?.inflate(R.menu.menu_context_brew, menu)
-
-    }
-*/
 
     // オプションメニュー設置
     // Fragment内からActivity側のToolbarに無理矢理設置する
@@ -237,21 +212,20 @@ class BrewFragment : Fragment() {
         ac.supportActionBar?.title = getString(R.string.titleBrewList)
         ac.supportActionBar?.show()
 
-        // メニュー構築（実装はonCreateOptionsMenu内で）
-        // これを呼び出すことでfragmentがメニューを持つことを明示（https://developer.android.com/guide/components/fragments?hl=ja）
-        // setHasOptionsMenu(true)
-
         // コンテキストメニューをセット
         // 長押しで編集メニューとか出せるけど、その操作方法はやめて、無難に編集画面からやるようにしているのでコメントアウト
 //        registerForContextMenu(root)
 
         // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
         // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
-        sortList = resources.getStringArray(R.array.sort_mode_brew)
-        val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
-        ac.sortSpn.visibility = View.VISIBLE
-        ac.sortSpn.adapter = adapter
-        ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
+        if( ac.sortSpn!=null ) {
+            sortList = resources.getStringArray(R.array.sort_mode_brew)
+            val adapter =
+                ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+            ac.sortSpn.visibility = View.VISIBLE
+            ac.sortSpn.adapter = adapter
+            ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
+        }
     }
 
     private fun loadBrewData() {
@@ -275,10 +249,13 @@ class BrewFragment : Fragment() {
 
     }
 
-    // ━━━━━━━━━　いよいよここでリスト表示　━━━━━━━━━
-    // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
-    override fun onStart() {
-        super.onStart()
+
+    // 画面精製の都度に呼ばれないように、onViewCreatedに記載。onCreateでもいい！？
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("SHIRO", "BREW / onViewCreated")
+
+        // タイトルバー
         setupActionBar()
 
         // 豆データ読み込み
@@ -291,9 +268,35 @@ class BrewFragment : Fragment() {
 
         // アダプターを設定する
         adapter = BrewRecyclerViewAdapter( realmResults )
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         brewRecycleView.adapter = this.adapter
 
-        Log.d("SHIRO", "brew / onStart")
+    }
+    // ━━━━━━━━━　いよいよここでリスト表示　━━━━━━━━━
+    // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
+    override fun onStart() {
+        Log.d("SHIRO", "BREW / onStart")
+        super.onStart()
+
+        brewRecycleView.adapter?.notifyDataSetChanged()
+
+/*
+        setupActionBar()
+
+        // 豆データ読み込み
+        loadBrewData()
+
+        // 1行のViewを表示するレイアウトマネージャーを設定する
+        // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
+        layoutManager = LinearLayoutManager(activity)
+        brewRecycleView.layoutManager = layoutManager
+
+        // アダプターを設定する
+        adapter = BrewRecyclerViewAdapter( realmResults )
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        brewRecycleView.adapter = this.adapter
+*/
+
     //        // コンテキストメニューをセット
 //        registerForContextMenu(brewRecycleView)
 
@@ -302,7 +305,12 @@ class BrewFragment : Fragment() {
     // realmの閉め忘れに注意！
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("SHIRO", "brew / onDestroy")
+        Log.d("SHIRO", "BREW / onDestroy - DB close")
         realm.close()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d( "SHIRO", "BREW / onStop")
     }
 }
