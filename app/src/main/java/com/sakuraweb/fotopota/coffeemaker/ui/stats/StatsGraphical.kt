@@ -2,6 +2,7 @@ package com.sakuraweb.fotopota.coffeemaker.ui.stats
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +35,8 @@ class StatsGraphical : Fragment() {
     //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
     override fun onResume() {
         super.onResume()
-        blackToast( context as Context, "グラフResume!")
+        Log.d("SHIRO", "STATS-GRAPH / onResume")
+//        blackToast( context as Context, "グラフResume!")
 
         // 以前は、月別Spinnerを親Fragmentで処理していたが、
         // 各STATSのFragmentで自分で処理するように変更（３フラグメントとも、自分でやる）
@@ -46,7 +48,8 @@ class StatsGraphical : Fragment() {
     // 月別Spinnerを変更した際のグラフ再描画処理
     private inner class GraphSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            blackToast(context as Context, "グラフSpinner")
+            Log.d("SHIRO", "STATS-GRAPH / Spinner")
+//            blackToast(context as Context, "グラフSpinner")
 
             // Spinnerの情報をグローバル変数に保管しておく
             (activity as MainActivity).sortSpn.apply {

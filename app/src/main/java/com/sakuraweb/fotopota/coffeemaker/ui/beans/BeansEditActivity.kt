@@ -439,10 +439,15 @@ class BeansEditActivity : AppCompatActivity() {
 
             REQUEST_BEANS_PHOTO_SELECT -> {
                 if( resultCode == RESULT_OK) {
-                    beansEditImage.setImageURI(data?.data)
+                    blackToast(applicationContext,"写真選択")
                     _imageUri = data?.data  as Uri
+                    // 選択したファイルに永続的なパーミッションを与える（結局、すべてのエラーはこれが原因・・・！？）
+                    this.contentResolver.takePersistableUriPermission(_imageUri!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+                    beansEditImage.setImageURI(_imageUri)
                 } else {
                     _imageUri = null
+                    blackToast(applicationContext, "キャンセル")
                 }
             }
         }
@@ -497,18 +502,17 @@ class BeansEditActivity : AppCompatActivity() {
         // Android Versionによって、外部ストレージへのアクセス方法を変える（面倒くさい・・・）
         if( Build.VERSION_CODES.Q <= Build.VERSION.SDK_INT ) {
             // V10以降はContentResolver経由でアクセス
-            blackToast(applicationContext, "Android 10以降ですね")
+//            blackToast(applicationContext, "Android 10以降ですね")
             val photoContentValue = ContentValues().apply {
                 put(MediaStore.Images.Media.DISPLAY_NAME, photoName)
                 put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
             }
-
             val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
             _imageUri = contentResolver.insert(collection, photoContentValue)!!
 
         } else {
             // V9以前はFileProvider経由でアクセスる
-            blackToast( applicationContext, "Android 9以前ですね")
+//            blackToast( applicationContext, "Android 9以前ですね")
             // 外部メモリのフォルダを決める（共有できるタイプ）
             val photoDir    = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DCIM )
             if( photoDir.exists()==null ) {

@@ -6,7 +6,6 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
@@ -73,9 +72,6 @@ var configWaterVolumeUnit = "cc"
 
 lateinit var grind2Labels: Array<String>
 
-private lateinit var sortList: Array<String>
-var recyclerPosition: Int = 0
-var recyclerState: Parcelable? = null
 
 class BrewFragment : Fragment() {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
@@ -83,13 +79,19 @@ class BrewFragment : Fragment() {
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
     private lateinit var realmResults: RealmResults<BrewData>
 
+    private lateinit var sortList: Array<String>
+    private var brewSpinPosition:Int = 0
+    private lateinit var brewSpinSelectedItem: String
+
+    private var brewRecyclerPosition: Int = 0
+    private var brewFirstSortSpin: Boolean = true
 
 
     override fun onResume() {
         super.onResume()
         Log.d("SHIRO", "BREW / onResume")
 
-        (brewRecycleView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(recyclerPosition, 0)
+        (brewRecycleView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(brewRecyclerPosition, 0)
     }
 
     override fun onPause() {
@@ -97,7 +99,7 @@ class BrewFragment : Fragment() {
         Log.d("SHIRO", "BREW / onPause")
 
 //        recyclerState = brewRecycleView.layoutManager?.onSaveInstanceState()
-        recyclerPosition = (brewRecycleView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+        brewRecyclerPosition = (brewRecycleView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
@@ -107,7 +109,7 @@ class BrewFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_brew_list, container, false)
 
         // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
-        PreferenceManager.getDefaultSharedPreferences(context).apply {
+        PreferenceManager.getDefaultSharedPreferences(context as Context).apply {
             getString("water_volume_max", "240")?.let { configWaterVolumeMax = it.toFloat() }
             getString("water_volume_min", "0")?.let { configWaterVolumeMin = it.toFloat() }
             configWaterVolumeSw     = getBoolean("water_volume_sw", true)
@@ -164,18 +166,35 @@ class BrewFragment : Fragment() {
             intent.putExtra("mode", BREW_EDIT_MODE_NEW)
             startActivity(intent)
         }
+
+        sortList = resources.getStringArray(R.array.sort_mode_brew)
+        // 初期スピナー
+        brewSpinPosition = 0
+        brewSpinSelectedItem = sortList[brewSpinPosition]
+
         return root
     }
 
     // ソートSpinnerを変更した時のリスナ
     private inner class SortSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            // onCreateView, onViewCreatedではSpinにアクセルできないので、グローバル保管
+            (activity as MainActivity).sortSpn.apply {
+                brewSpinPosition = selectedItemPosition
+                brewSpinSelectedItem = selectedItem.toString()
+
+                if( brewFirstSortSpin ) {
+                    Log.d("SHIRO", "BREW / 偽Spinner")
+                    brewFirstSortSpin = false
+                    return
+                }
+            }
+            Log.d("SHIRO", "BREW / Spinner!")
+
             // ここで何かしないと、Fragmentが更新できない
-            // 何をしたらええねん？
             loadBrewData()
             adapter = BrewRecyclerViewAdapter( realmResults )
             brewRecycleView.adapter = adapter
-//            brewRecycleView.adapter?.notifyDataSetChanged()
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -188,9 +207,7 @@ class BrewFragment : Fragment() {
     // 本来は逆だけど、こうすればFragmentごとに違うメニューが作れる
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
         //  inflater?.inflate(R.menu.menu_opt_menu_1, menu)
-
     }
 
     // オプションメニュー対応
@@ -201,7 +218,6 @@ class BrewFragment : Fragment() {
                 activity?.nav_view?.selectedItemId = R.id.navigation_home
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -218,20 +234,17 @@ class BrewFragment : Fragment() {
 
         // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
         // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
-        if( ac.sortSpn!=null ) {
-            sortList = resources.getStringArray(R.array.sort_mode_brew)
-            val adapter =
-                ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
-            ac.sortSpn.visibility = View.VISIBLE
-            ac.sortSpn.adapter = adapter
-            ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
-        }
+        Log.d("SHIRO", "BREW / Spinner設定")
+        val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+        ac.sortSpn.visibility = View.VISIBLE
+        ac.sortSpn.adapter = adapter
+        brewFirstSortSpin = true
+        ac.sortSpn.setSelection(brewSpinPosition)
+        ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
     }
 
     private fun loadBrewData() {
-        val ma = activity as MainActivity
-
-        when( ma.sortSpn.selectedItem.toString() ) {
+        when( brewSpinSelectedItem ) {
             // 日付順
             sortList[0] -> realmResults = realm.where<BrewData>().findAll().sort("date", Sort.DESCENDING) // 日付順
             // 評価準
@@ -255,18 +268,17 @@ class BrewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Log.d("SHIRO", "BREW / onViewCreated")
 
-        // タイトルバー
-        setupActionBar()
-
-        // 豆データ読み込み
-        loadBrewData()
-
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
         layoutManager = LinearLayoutManager(activity)
         brewRecycleView.layoutManager = layoutManager
 
+        // とりあえずのデータ
+        loadBrewData()
+//        realmResults = realm.where<BrewData>().findAll()
+
         // アダプターを設定する
+        // まだrealmResultsには何も入ってないけど大丈夫か？
         adapter = BrewRecyclerViewAdapter( realmResults )
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         brewRecycleView.adapter = this.adapter
@@ -278,24 +290,13 @@ class BrewFragment : Fragment() {
         Log.d("SHIRO", "BREW / onStart")
         super.onStart()
 
-        brewRecycleView.adapter?.notifyDataSetChanged()
-
-/*
+        // タイトルバーはonStart以降しか作れない
+        // でも、スピナーにリスナーをセットすると、なぜか１度呼ばれて、データがリセット・・・。
         setupActionBar()
 
         // 豆データ読み込み
-        loadBrewData()
-
-        // 1行のViewを表示するレイアウトマネージャーを設定する
-        // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
-        layoutManager = LinearLayoutManager(activity)
-        brewRecycleView.layoutManager = layoutManager
-
-        // アダプターを設定する
-        adapter = BrewRecyclerViewAdapter( realmResults )
-        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        brewRecycleView.adapter = this.adapter
-*/
+//        loadBrewData()
+        brewRecycleView.adapter?.notifyDataSetChanged()
 
     //        // コンテキストメニューをセット
 //        registerForContextMenu(brewRecycleView)

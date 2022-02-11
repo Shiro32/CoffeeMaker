@@ -3,13 +3,18 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.REQUEST_EDIT_BEANS
@@ -41,9 +46,12 @@ import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsCupL
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsBrewImage
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsDebugText
 import kotlinx.android.synthetic.main.activity_brew_details_shop.*
+import java.io.BufferedInputStream
+import java.io.FileDescriptor
 import java.lang.Exception
 
 import java.util.*
+import java.util.jar.Manifest
 
 const val REQUEST_EDIT_BREW = 1
 
@@ -179,11 +187,22 @@ class BrewDetailsActivity : AppCompatActivity() {
 
             // おもひで写真
             if( brew.imageURI!="" ) {
-//                brewDetailsMemoText.text = brew.imageURI
                 brewDetailsDebugText.text = Uri.parse(brew.imageURI).toString()
+
+//                val bitmap  = getBitmapFromUri(Uri.parse(brew.imageURI))
+//                brewDetailsBrewImage.setImageBitmap(bitmap)
 
                 try {
                     brewDetailsBrewImage.setImageURI(Uri.parse(brew.imageURI))
+/*
+                    // 直接アクセスではなく、ContentProvider経由でいただく
+                    val stream = contentResolver.openInputStream(Uri.parse(brew.imageURI))
+                    val bitmap = BitmapFactory.decodeStream(BufferedInputStream(stream))
+                    brewDetailsBrewImage.setImageBitmap(bitmap)
+*/
+
+//                    val bitmap  = getBitmapFromUri(Uri.parse(brew.imageURI))
+//                    brewDetailsBrewImage.setImageBitmap(bitmap)
                 } catch (e:Exception) {
                     // 無い時はカメラアイコンを
                     brewDetailsBrewImage.setImageResource(android.R.drawable.ic_menu_report_image)
@@ -235,6 +254,14 @@ class BrewDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     } // 詳細画面のonCreate
+    private fun getBitmapFromUri(uri: Uri): Bitmap {
+        val parcelFileDescriptor: ParcelFileDescriptor? = contentResolver.openFileDescriptor(uri, "r")
+        val fileDescriptor: FileDescriptor = parcelFileDescriptor!!.fileDescriptor
+        val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        parcelFileDescriptor.close()
+        return image
+    }
+
 
     // ツールバーの「戻る」ボタン
     override fun onSupportNavigateUp(): Boolean {
@@ -333,4 +360,5 @@ class BrewDetailsActivity : AppCompatActivity() {
         realm.close()
         Log.d("SHIRO", "brew-details / onDestroy")
     }
+
 }

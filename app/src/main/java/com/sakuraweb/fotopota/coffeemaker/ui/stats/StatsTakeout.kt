@@ -2,6 +2,7 @@ package com.sakuraweb.fotopota.coffeemaker.ui.stats
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +34,8 @@ class StatsTakeout : Fragment() {
     //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
     override fun onResume() {
         super.onResume()
-        blackToast( context as Context, "外飲みResume" )
+        Log.d("SHIRO", "STATS-TAKEOUT / onResume")
+//        blackToast( context as Context, "外飲みResume" )
 
         (activity as MainActivity).sortSpn.onItemSelectedListener = TakeoutSpinnerChangeListener()
         drawTakeoutStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
@@ -43,7 +45,8 @@ class StatsTakeout : Fragment() {
     // 月別Spinnerを変更した際のグラフ再描画処理
     private inner class TakeoutSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            blackToast(context as Context, "外飲みSpinner")
+            Log.d("SHIRO", "STATS-TAKEOUT / Spinner")
+//            blackToast(context as Context, "外飲みSpinner")
 
             // Spinnerの情報をグローバル変数に保管しておく
             (activity as MainActivity).sortSpn.apply {

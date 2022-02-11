@@ -27,6 +27,7 @@ import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_beans_list.*
 import kotlinx.android.synthetic.main.fragment_beans_list.view.*
+import kotlinx.android.synthetic.main.fragment_brew_list.*
 import java.util.*
 
 var isCalledFromBrewEditToBeans: Boolean = false
@@ -36,22 +37,33 @@ class BeansFragment : Fragment(), SetBeansListener {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
     private lateinit var adapter: BeansRecyclerViewAdapter           // アダプタのインスタンス
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
-    private lateinit var sortList: Array<String>
     private lateinit var realmResults: RealmResults<BeansData>
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d("SHIRO", "BEANS / onViewCreated")
-        super.onViewCreated(view, savedInstanceState)
-    }
+    private lateinit var sortList: Array<String>
+    private var beansSpinPosition:Int = 0
+    private lateinit var beansSpinSelectedItem: String
+
+    private var beansRecyclerPosition: Int = 0
+    private var beansFirstSortSpin: Boolean = true
+
 
     override fun onPause() {
         super.onPause()
         Log.d("SHIRO", "BEANS / onPause")
+
+        beansRecyclerPosition = (beansRecycleView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
     }
 
     override fun onStop() {
         super.onStop()
         Log.d("SHIRO", "BEANS / onStop")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("SHIRO", "BEANS / onResume")
+
+        (beansRecycleView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(beansRecyclerPosition, 0)
     }
 
 
@@ -61,7 +73,7 @@ class BeansFragment : Fragment(), SetBeansListener {
         val root = inflater.inflate(R.layout.fragment_beans_list, container, false)
 
         // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
-        PreferenceManager.getDefaultSharedPreferences(context).apply {
+        PreferenceManager.getDefaultSharedPreferences(context as Context).apply {
 //            settingTermSw   = getBoolean("term_sw", true)
 //            settingKmSw     = getBoolean("km_sw", true)
 //            settingKcalSw   = getBoolean("kcal_sw", true)
@@ -108,6 +120,10 @@ class BeansFragment : Fragment(), SetBeansListener {
             ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
         }*/
 
+        sortList = resources.getStringArray(R.array.sort_mode_beans)
+        beansSpinPosition = 0
+        beansSpinSelectedItem = sortList[beansSpinPosition]
+
         return root
     }
 
@@ -150,6 +166,18 @@ class BeansFragment : Fragment(), SetBeansListener {
     // ソートSpinnerを変更した時のリスナ
     private inner class SortSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            (activity as MainActivity).sortSpn.apply {
+                beansSpinPosition = selectedItemPosition
+                beansSpinSelectedItem = selectedItem.toString()
+
+                if( beansFirstSortSpin ) {
+                    Log.d("SHIRO", "BEANS / 偽Spinner")
+                    beansFirstSortSpin = false
+                    return
+                }
+            }
+            Log.d("SHIRO", "BEANS / Spinner!")
+
             loadBeansData()
             adapter = BeansRecyclerViewAdapter( realmResults, this@BeansFragment )
             beansRecycleView.adapter = adapter
@@ -165,7 +193,6 @@ class BeansFragment : Fragment(), SetBeansListener {
     // 本来は逆だけど、こうすればFragmentごとに違うメニューが作れる
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
 //        if (!isCalledFromBrewEditToBeans) inflater?.inflate(R.menu.menu_opt_menu_1, menu)
     }
 
@@ -177,10 +204,8 @@ class BeansFragment : Fragment(), SetBeansListener {
                 activity?.nav_view?.selectedItemId = R.id.navigation_home
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
-
 
 
     private fun setupActionBar() {
@@ -201,15 +226,15 @@ class BeansFragment : Fragment(), SetBeansListener {
         // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
         // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
         if( !isCalledFromBrewEditToBeans ) {
-            sortList = resources.getStringArray(R.array.sort_mode_beans)
             val adapter =
                 ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
             ac.sortSpn.visibility = View.VISIBLE
             ac.sortSpn.adapter = adapter
+            beansFirstSortSpin = true
+            ac.sortSpn.setSelection(beansSpinPosition)
             ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
         }
     }
-
 
     // Realmから豆データを読み込む
     // それだけなんだけど、ソートが面倒なので関数
@@ -217,8 +242,7 @@ class BeansFragment : Fragment(), SetBeansListener {
         if( isCalledFromBrewEditToBeans ) {
             realmResults = realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
         } else {
-            val ma = activity as MainActivity
-            when (ma.sortSpn.selectedItem.toString()) {
+            when ( beansSpinSelectedItem ) {
                 // 最新購入日順
                 sortList[0] -> realmResults = realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
                 // 仕様日順
@@ -236,6 +260,29 @@ class BeansFragment : Fragment(), SetBeansListener {
             }
         }
     }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d("SHIRO", "BEANS / onViewCreated")
+        super.onViewCreated(view, savedInstanceState)
+
+        // 1行のViewを表示するレイアウトマネージャーを設定する
+        // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
+        layoutManager = LinearLayoutManager(activity)
+        beansRecycleView.layoutManager = layoutManager
+
+        loadBeansData()
+//        realmResults = realm.where<BeansData>().findAll()
+
+        // アダプターを設定する
+        adapter = BeansRecyclerViewAdapter(realmResults, this)
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        beansRecycleView.adapter = this.adapter
+    }
+
+
+
+
     // いよいよここでリスト表示
     // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
     override fun onStart() {
@@ -248,16 +295,9 @@ class BeansFragment : Fragment(), SetBeansListener {
         updateBeansUsage()
 
         // 豆データ読み込み
-        loadBeansData()
+//        loadBeansData()
 
-        // 1行のViewを表示するレイアウトマネージャーを設定する
-        // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
-        layoutManager = LinearLayoutManager(activity)
-        beansRecycleView.layoutManager = layoutManager
-
-        // アダプターを設定する
-        adapter = BeansRecyclerViewAdapter(realmResults, this)
-        beansRecycleView.adapter = this.adapter
+        beansRecycleView.adapter?.notifyDataSetChanged()
     }
 
     override fun onDestroy() {

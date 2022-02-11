@@ -1,6 +1,7 @@
 package com.sakuraweb.fotopota.coffeemaker.ui.brews
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -79,10 +80,24 @@ class BrewEditActivity : AppCompatActivity() {
     private lateinit var realm: Realm
     private lateinit var inputMethodManager: InputMethodManager
 
+    // 回転時（＝Activity再構築）に備えて保存する
+    // たいていのViewは保存されるけど、画像とかは自分でやらないとあかん
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putString( "imageUri", _imageUri.toString() )
+    }
+
+
     // 編集画面開始
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_brew_edit)
+
+        if( savedInstanceState != null )
+            _imageUri = Uri.parse( savedInstanceState.getString("imageUri") )
+        else
+            _imageUri = null
 
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -204,9 +219,10 @@ class BrewEditActivity : AppCompatActivity() {
                     brewEditMilkBar.setProgress(brew.milk)
                     brewEditHotIceSW.isChecked = brew.iceHotSw != HOT_COFFEE
 
-                    if( brew.imageURI!="" ) {
+                    // v3.61から、画面回転（onSaveInstanceState）に対応
+                    if( _imageUri==null && brew.imageURI!="" ) _imageUri = Uri.parse(brew.imageURI)
+                    if( _imageUri!=null ) {
                         try {
-                            _imageUri = Uri.parse(brew.imageURI)
                             brewEditBrewImage.setImageURI( _imageUri )
                         } catch( e:Exception ) {
                             brewEditBrewImage.setImageResource(android.R.drawable.ic_menu_report_image)
@@ -554,6 +570,7 @@ class BrewEditActivity : AppCompatActivity() {
 
     // マメ選択画面から戻ってきたときの処理
     // 豆選択DBと、テイクアウトDBで使い分ける
+    @SuppressLint("WrongConstant")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -628,13 +645,12 @@ class BrewEditActivity : AppCompatActivity() {
                     //撮影された写真はファイル化されて、外部メモリに格納されているはず
                     //そこを指し示す、URIがグローバル変数に入っているので、そこを使う
                     blackToast(applicationContext, "写真変更")
+                    Log.d("SHIRO", "BREW / 写真撮影完了")
                     brewEditBrewImage.setImageURI(_imageUri)
-//                    brewEditDebugText.setText("_imageUri:${_imageUri.toString()}")
-//                    brewEditDebugText2.setText("DATA:なし")
                 } else {
                     blackToast(applicationContext, "キャンセル")
 
-//TODO: Android P以前はFileProviderでやっているので、削除不要？
+//TODO: Android P以前はFileProviderでやっているので、削除不要　→　大丈夫そう
                     contentResolver.delete(_imageUri as Uri, null, null)
                     _imageUri = null    // 写真を撮っていない状態に戻す
                 }
@@ -643,10 +659,21 @@ class BrewEditActivity : AppCompatActivity() {
             REQUEST_PHOTO_SELECT -> {
 
                 if( resultCode == RESULT_OK) {
-                    brewEditBrewImage.setImageURI(data?.data)
+                    blackToast(applicationContext,"写真選択")
+                    Log.d("SHIRO", "BREW / ファイル選択完了")
+
                     _imageUri = data?.data  as Uri
+                    // 選択したファイルに永続的なパーミッションを与える（結局、すべてのエラーはこれが原因・・・！？）
+                    this.contentResolver.takePersistableUriPermission(_imageUri!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+//                    val takeFlags: Int = intent.flags and
+//                            (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+//                    contentResolver.takePersistableUriPermission(_imageUri!!, takeFlags)
+
+                    brewEditBrewImage.setImageURI(_imageUri)
                 } else {
                     _imageUri = null
+                    blackToast(applicationContext, "キャンセル")
                 }
             }
 
@@ -712,6 +739,8 @@ class BrewEditActivity : AppCompatActivity() {
 
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             type = "image/*"
         }
         startActivityForResult(intent, REQUEST_PHOTO_SELECT)
@@ -735,7 +764,7 @@ class BrewEditActivity : AppCompatActivity() {
         // Android Versionによって、外部ストレージへのアクセス方法を変える（面倒くさい・・・）
         if( Build.VERSION_CODES.Q <= Build.VERSION.SDK_INT ) {
             // V10以降はContentResolver経由でアクセス
-            blackToast( applicationContext, "Android 10以降ですね")
+//            blackToast( applicationContext, "Android 10以降ですね")
             val photoContentValue = ContentValues().apply {
                 put(MediaStore.Images.Media.DISPLAY_NAME, photoName)
                 put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
@@ -745,7 +774,7 @@ class BrewEditActivity : AppCompatActivity() {
 
         } else {
             // V9以前はFileProvider経由でアクセスる
-            blackToast( applicationContext, "Android 9以前ですね")
+//            blackToast( applicationContext, "Android 9以前ですね")
             // 外部メモリのフォルダを決める（共有できるタイプ）
             val photoDir    = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DCIM )
             if( photoDir.exists()==null ) {
