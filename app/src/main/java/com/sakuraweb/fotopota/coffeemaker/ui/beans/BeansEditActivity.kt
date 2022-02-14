@@ -58,6 +58,14 @@ class BeansEditActivity : AppCompatActivity() {
     private lateinit var realm: Realm
     private lateinit var inputMethodManager: InputMethodManager
 
+    // 回転時（＝Activity再構築）に備えて保存する
+    // たいていのViewは保存されるけど、画像とかは自分でやらないとあかん
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putString( "imageUri", _imageUri.toString() )
+    }
+
     // 使用マメのIDを保持する
     // 他のBarやMethodのように、Viewに持たせることができないので、ローカル変数に保持する
 //    private var beansID: Long = 0L
@@ -66,6 +74,12 @@ class BeansEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beans_edit)
+
+        // 回転時における、仮選択中の画像復元
+        if( savedInstanceState != null )
+            _imageUri = Uri.parse( savedInstanceState.getString("imageUri") )
+        else
+            _imageUri = null
 
         // ツールバータイトル用（４モード対応）
         val titles:Map<Int,Int> = mapOf(
@@ -146,9 +160,10 @@ class BeansEditActivity : AppCompatActivity() {
                         }
                     }
 
-                    if (beans.imageURI != "") {
+                    // v3.61から、画面回転（onSaveInstanceState）に対応
+                    if( _imageUri==null && beans.imageURI!="") _imageUri = Uri.parse(beans.imageURI)
+                    if( _imageUri!=null) {
                         try {
-                            _imageUri = Uri.parse( beans.imageURI )
                             beansEditImage.setImageURI( _imageUri )
                         } catch( e:Exception ) {
                             beansEditImage.setImageResource(android.R.drawable.ic_menu_report_image)

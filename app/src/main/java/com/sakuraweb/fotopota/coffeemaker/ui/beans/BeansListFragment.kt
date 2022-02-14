@@ -33,6 +33,9 @@ import java.util.*
 var isCalledFromBrewEditToBeans: Boolean = false
 var beansListStyle: Int = 0
 
+// クラス内に書くとCreateのたびに初期化される。ここに書かないといけない
+private var beansRecyclerPosition: Int = 0
+
 class BeansFragment : Fragment(), SetBeansListener {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
     private lateinit var adapter: BeansRecyclerViewAdapter           // アダプタのインスタンス
@@ -43,14 +46,12 @@ class BeansFragment : Fragment(), SetBeansListener {
     private var beansSpinPosition:Int = 0
     private lateinit var beansSpinSelectedItem: String
 
-    private var beansRecyclerPosition: Int = 0
     private var beansFirstSortSpin: Boolean = true
 
-
+    // 他のアクティビティに隠される前に、RecyclerViewの位置を保存する
     override fun onPause() {
         super.onPause()
         Log.d("SHIRO", "BEANS / onPause")
-
         beansRecyclerPosition = (beansRecycleView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
     }
 
@@ -59,10 +60,10 @@ class BeansFragment : Fragment(), SetBeansListener {
         Log.d("SHIRO", "BEANS / onStop")
     }
 
+    // 他のアクテビティから戻ってきたときに、RecyclerViewの位置を復元する
     override fun onResume() {
         super.onResume()
         Log.d("SHIRO", "BEANS / onResume")
-
         (beansRecycleView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(beansRecyclerPosition, 0)
     }
 
@@ -95,31 +96,9 @@ class BeansFragment : Fragment(), SetBeansListener {
             startActivity(intent)
         }
 
-/*        // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
-        val ac = activity as AppCompatActivity
-        ac.supportActionBar?.show()
-
-        // Edit経由のTitleはうまくできない・・・。
-        // なのでデフォでEdit経由をセットしておき、Navi経由はここで書き換える
-        if( !isCalledFromBrewEditToBeans ) {
-//            ac.supportActionBar?.title =ac.getString(R.string.beansListFromBtnvTitle)
-            ac.supportActionBar?.title = getString(R.string.titleBeansListFromBtnv)
-        }
-
-        // メニュー構築（実装はonCreateOptionsMenu内で）
-//        setHasOptionsMenu(true)
-
-        // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
-        // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
-        if( !isCalledFromBrewEditToBeans ) {
-            sortList = resources.getStringArray(R.array.sort_mode_beans)
-            val adapter =
-                ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
-            ac.sortSpn.visibility = View.VISIBLE
-            ac.sortSpn.adapter = adapter
-            ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
-        }*/
-
+        // スピナーの設定
+        // スピナーは親Activityにあり、このタイミングではまだ存在していない（！）
+        // なので定数だけ準備しておくにとどめる
         sortList = resources.getStringArray(R.array.sort_mode_beans)
         beansSpinPosition = 0
         beansSpinSelectedItem = sortList[beansSpinPosition]
@@ -207,35 +186,6 @@ class BeansFragment : Fragment(), SetBeansListener {
         return super.onOptionsItemSelected(item)
     }
 
-
-    private fun setupActionBar() {
-        // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
-        val ac = activity as AppCompatActivity
-        ac.supportActionBar?.show()
-
-        // Edit経由のTitleはうまくできない・・・。
-        // なのでデフォでEdit経由をセットしておき、Navi経由はここで書き換える
-        if( !isCalledFromBrewEditToBeans ) {
-//            ac.supportActionBar?.title =ac.getString(R.string.beansListFromBtnvTitle)
-            ac.supportActionBar?.title = getString(R.string.titleBeansListFromBtnv)
-        }
-
-        // メニュー構築（実装はonCreateOptionsMenu内で）
-//        setHasOptionsMenu(true)
-
-        // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
-        // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
-        if( !isCalledFromBrewEditToBeans ) {
-            val adapter =
-                ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
-            ac.sortSpn.visibility = View.VISIBLE
-            ac.sortSpn.adapter = adapter
-            beansFirstSortSpin = true
-            ac.sortSpn.setSelection(beansSpinPosition)
-            ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
-        }
-    }
-
     // Realmから豆データを読み込む
     // それだけなんだけど、ソートが面倒なので関数
     private fun loadBeansData() {
@@ -287,15 +237,33 @@ class BeansFragment : Fragment(), SetBeansListener {
     // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
     override fun onStart() {
         Log.d("SHIRO", "BEANS / onStart")
-
         super.onStart()
-        setupActionBar()
+
+        val ac = activity as AppCompatActivity
+        ac.supportActionBar?.show()
+
+        // Edit経由のTitleはうまくできない・・・。
+        // なのでデフォでEdit経由をセットしておき、Navi経由はここで書き換える
+        if( !isCalledFromBrewEditToBeans ) {
+//            ac.supportActionBar?.title =ac.getString(R.string.beansListFromBtnvTitle)
+            ac.supportActionBar?.title = getString(R.string.titleBeansListFromBtnv)
+        }
+
+        // 親Activityのスピナー（Sort）をここでセットする
+        // スピナをセットすると自動的に１回呼ばれてしまう（＝Recyclerが初期化されちゃう）ので、フラグで回避
+        if( !isCalledFromBrewEditToBeans ) {
+            beansFirstSortSpin = true
+            val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+            ac.sortSpn.apply {
+                visibility = View.VISIBLE
+                this.adapter = adapter
+                setSelection(beansSpinPosition)
+                onItemSelectedListener = SortSpinnerChangeListener()
+            }
+        }
 
         // 豆の被使用状況を更新
         updateBeansUsage()
-
-        // 豆データ読み込み
-//        loadBeansData()
 
         beansRecycleView.adapter?.notifyDataSetChanged()
     }

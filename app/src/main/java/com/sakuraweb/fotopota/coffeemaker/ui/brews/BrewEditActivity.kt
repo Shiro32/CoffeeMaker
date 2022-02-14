@@ -94,6 +94,7 @@ class BrewEditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_brew_edit)
 
+        // 回転時における、仮選択中の画像復元
         if( savedInstanceState != null )
             _imageUri = Uri.parse( savedInstanceState.getString("imageUri") )
         else

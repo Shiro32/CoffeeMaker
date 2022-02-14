@@ -72,6 +72,9 @@ var configWaterVolumeUnit = "cc"
 
 lateinit var grind2Labels: Array<String>
 
+// クラス内に書くとCreateのたびに初期化される。ここに書かないといけない
+private var brewRecyclerPosition: Int = 0
+
 
 class BrewFragment : Fragment() {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
@@ -83,23 +86,31 @@ class BrewFragment : Fragment() {
     private var brewSpinPosition:Int = 0
     private lateinit var brewSpinSelectedItem: String
 
-    private var brewRecyclerPosition: Int = 0
     private var brewFirstSortSpin: Boolean = true
 
+/*
+    // 回転時（＝Activity再構築）に備えて保存する
+    // たいていのViewは保存されるけど、画像とかは自分でやらないとあかん
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d( "SHIRO", "BREW / onSaveInstanceState")
 
+        brewRecyclerPosition = (brewRecycleView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+    }
+*/
+
+    // 他のアクテビティから戻ってきたときに、RecyclerViewの位置を復元する
     override fun onResume() {
         super.onResume()
-        Log.d("SHIRO", "BREW / onResume")
-
         (brewRecycleView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(brewRecyclerPosition, 0)
+        Log.d("SHIRO", "BREW / onResume (POS:$brewRecyclerPosition)")
     }
 
+    // 他のアクティビティに隠される前に、RecyclerViewの位置を保存する
     override fun onPause() {
         super.onPause()
-        Log.d("SHIRO", "BREW / onPause")
-
-//        recyclerState = brewRecycleView.layoutManager?.onSaveInstanceState()
         brewRecyclerPosition = (brewRecycleView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+        Log.d("SHIRO", "BREW / onPause (POS:$brewRecyclerPosition)")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
@@ -167,8 +178,10 @@ class BrewFragment : Fragment() {
             startActivity(intent)
         }
 
+        // スピナーの設定
+        // スピナーは親Activityにあり、このタイミングではまだ存在していない（！）
+        // なので定数だけ準備しておくにとどめる
         sortList = resources.getStringArray(R.array.sort_mode_brew)
-        // 初期スピナー
         brewSpinPosition = 0
         brewSpinSelectedItem = sortList[brewSpinPosition]
 
@@ -221,28 +234,6 @@ class BrewFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setupActionBar() {
-        // ーーーーーーーーーー　ツールバーやメニューの装備　ーーーーーーーーーー
-        // 「戻る」ボタン
-        val ac = activity as AppCompatActivity
-        ac.supportActionBar?.title = getString(R.string.titleBrewList)
-        ac.supportActionBar?.show()
-
-        // コンテキストメニューをセット
-        // 長押しで編集メニューとか出せるけど、その操作方法はやめて、無難に編集画面からやるようにしているのでコメントアウト
-//        registerForContextMenu(root)
-
-        // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
-        // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
-        Log.d("SHIRO", "BREW / Spinner設定")
-        val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
-        ac.sortSpn.visibility = View.VISIBLE
-        ac.sortSpn.adapter = adapter
-        brewFirstSortSpin = true
-        ac.sortSpn.setSelection(brewSpinPosition)
-        ac.sortSpn.onItemSelectedListener = SortSpinnerChangeListener()
-    }
-
     private fun loadBrewData() {
         when( brewSpinSelectedItem ) {
             // 日付順
@@ -284,23 +275,32 @@ class BrewFragment : Fragment() {
         brewRecycleView.adapter = this.adapter
 
     }
-    // ━━━━━━━━━　いよいよここでリスト表示　━━━━━━━━━
+
+
     // RecyclerViewerのレイアウトマネージャーとアダプターを設定してあげれば、あとは自動
+    // ここまでくれば、親Activityの準備ができている（メニューバー、スピナー他）
     override fun onStart() {
         Log.d("SHIRO", "BREW / onStart")
         super.onStart()
 
         // タイトルバーはonStart以降しか作れない
-        // でも、スピナーにリスナーをセットすると、なぜか１度呼ばれて、データがリセット・・・。
-        setupActionBar()
+        val ac = activity as AppCompatActivity
+        ac.supportActionBar?.title = getString(R.string.titleBrewList)
+        ac.supportActionBar?.show()
 
-        // 豆データ読み込み
-//        loadBrewData()
+        // 親Activityのスピナー（Sort）をここでセットする
+        // スピナをセットすると自動的に１回呼ばれてしまう（＝Recyclerが初期化されちゃう）ので、フラグで回避
+        brewFirstSortSpin = true
+        val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+        ac.sortSpn.apply {
+            visibility = View.VISIBLE
+            this.adapter = adapter
+            setSelection(brewSpinPosition)
+            onItemSelectedListener = SortSpinnerChangeListener()
+        }
+
+        // RecyclerView更新
         brewRecycleView.adapter?.notifyDataSetChanged()
-
-    //        // コンテキストメニューをセット
-//        registerForContextMenu(brewRecycleView)
-
     }
 
     // realmの閉め忘れに注意！
