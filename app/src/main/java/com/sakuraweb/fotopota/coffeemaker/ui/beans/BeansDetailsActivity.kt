@@ -60,6 +60,7 @@ class BeansDetailsActivity : AppCompatActivity() {
             beansDetailsRepeatText.text     = beans.repeat.toString()
             beansDetailsCountText.text      = beans.count.toString()
             beansDetailsProcessText.text    = beansProcessLabels[beans.process]
+            beansDetailsCountryText.text    = beans.country
 
             // おもひで写真
             if( beans.imageURI!="" ) {
@@ -72,7 +73,7 @@ class BeansDetailsActivity : AppCompatActivity() {
             }
 
             // 豆の経過日数を計算する（面倒くせぇ・・・）
-            var days = "（"+((Date().time - beans.date?.time as Long)/(1000*60*60*24)).toString()+"日経過）"
+            val days = "（"+((Date().time - beans.date?.time as Long)/(1000*60*60*24)).toString()+"日経過）"
 
             // 最新購入
             calendar.time = beans.repeatDate

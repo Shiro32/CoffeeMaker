@@ -73,6 +73,34 @@
         <item>Anaerobic</item>
     </array>
 
+    <!-- 豆の原産国 -->
+    <array name="country_labels">
+        <item>インド</item>
+        <item>エクアドル</item>
+        <item>エチオピア</item>
+        <item>エルサルバドル</item>
+        <item>キューバ</item>
+        <item>グアテマラ</item>
+        <item>ケニア</item>
+        <item>コスタリカ</item>
+        <item>コロンビア</item>
+        <item>ザンビア</item>
+        <item>ジャマイカ</item>
+        <item>ドミニカ</item>
+        <item>ニカラグア</item>
+        <item>ハイチ</item>
+        <item>パナマ</item>
+        <item>パプアニューギニア</item>
+        <item>パラグアイ</item>
+        <item>フィリピン</item>
+        <item>ブラジル</item>
+        <item>ベネズエラ</item>
+        <item>ペルー</item>
+        <item>ボリビア</item>
+        <item>ホンジュラス</item>
+        <item>メキシコ</item>
+        <item>コメダ珈琲</item>
+    </array>
 
 
     <!-- 抽出方法の名称（ポップアップメニューやリストで使用） -->

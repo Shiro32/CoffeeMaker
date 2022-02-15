@@ -1,10 +1,8 @@
 <resources>
 
     <string name="app_name">コーヒー日記</string>
-    <string name="mainLabel">【おしらせ】\n
-v3.5で写真添付を実装してから不具合が多発してました。\n
-比較的新しい端末（Android10以降）からOS処理が変わっていたのが原因でしたが、作者は古い端末しか持ってなく、対応に時間がかかってしまいました・・・\n
-再度トラブルに遭遇した方は、機種名・Androidバージョンとともにplayストアに報告いただけると助かります。m(_ _)m</string>
+    <string name="mainLabel">日々、大量に飲むコーヒーのレシピ、豆や市販コーヒーの購入記録を付けられるアプリです。\n抽出方法やお湯の温度、蒸らし時間などの淹れ方や、使った豆の情報管理もできます。
+        \n記録したデータは、超高度な統計手法で分析する・・・予定なんですが、まだ工事中で、簡単なグラフくらいしかでません m(_ _)m</string>
 
     <string name="title_home">ホーム</string>
     <string name="title_brews">コーヒー日記</string>
@@ -181,6 +179,8 @@ v3.5で写真添付を実装してから不具合が多発してました。\n
     <string name="beansEditCommentLabel">感想</string>
     <string name="beansEditDialogGram">豆の量（グラム）を入力</string>
     <string name="beansEditPhotoLabel">写真</string>
+    <string name="beansEditCountryLabel">原産国</string>
+    <string name="beansEditCountryHint">入力 or 選択</string>
 
     <!-- Beans Merge -->
     <string name="titleBeansMergeList">まとめたい豆を選んでください</string>

@@ -13,7 +13,7 @@ import java.util.*
 // コーヒー豆データのデータ形式Class
 // ★★データ項目（名前も）を変えた場合は、migrateメソッドに追記し、VERSIONも+1すること
 // 他の各種ＤＢと違って、元祖ＤＢをv0ではなく、v1から始めてしまった・・・。
-const val BEANS_DATA_VERSION = 4L
+const val BEANS_DATA_VERSION = 5L
 var beansDataMigrated1to2 = false
 var beansDataMigrated2to3 = false
 
@@ -21,6 +21,7 @@ var beansDataMigrated2to3 = false
 // v2   購入回数（repeat）、豆処理（process）を追加
 // v3   初回購入（date）と最新購入（repeatDate）を分けた
 // v4   写真格納用のURI
+// v5   原産国 （2022/2/14）
 
 @RealmModule(classes = [BeansData::class])
 class BeansDataModule
@@ -45,6 +46,7 @@ open class BeansData : RealmObject() {
     var count: Int = 0      // 利用回数
     var repeat: Int = 1     // 購入回数（v2から）
     var process: Int = 0    // 豆処理（washedなど、v2から）
+    var country: String ="" // 原産国（v5から)
     var memo: String = ""   // メモ
     var imageURI: String=""      // 写真ＵＲＩ（v4から登場）
 }
@@ -84,6 +86,13 @@ class BeansDataMigration : RealmMigration {
         if( oldVersion==3L ) {
             realmSchema.get("BeansData")!!
                 .addField("imageURI", String::class.java, FieldAttribute.REQUIRED)
+            oldVersion++
+        }
+
+        // Version 5（原産国追加）
+        if( oldVersion==4L ) {
+            realmSchema.get("BeansData")!!
+                .addField("country", String::class.java, FieldAttribute.REQUIRED)
             oldVersion++
         }
     }

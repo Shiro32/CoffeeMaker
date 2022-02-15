@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toTopOf="@+id/beansEditCancelBtn"
         app:layout_constraintTop_toBottomOf="@+id/beansEditToolbar"
         app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="127dp">
+        tools:layout_editor_absoluteX="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditRepeatDateLabel"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/beansEditRatingHint" />
+                app:layout_constraintTop_toBottomOf="@+id/beansEditProcessLabel" />
 
             <TextView
                 android:id="@+id/beansEditRepeatLabel"
@@ -123,10 +123,20 @@
                 android:id="@+id/beansEditProcessLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="28dp"
                 android:text="@string/beansEditProcessLabel"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/beansEditRepeatLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/beansEditCountryLabel" />
+
+            <TextView
+                android:id="@+id/beansEditCountryLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="4dp"
+                android:text="@string/beansEditCountryLabel"
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
+                app:layout_constraintTop_toBottomOf="@+id/beansEditRatingHint" />
 
             <TextView
                 android:id="@+id/beansEditDateText"
@@ -172,9 +182,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="4dp"
                 android:text="@string/beansEditRoastLabel"
                 app:layout_constraintEnd_toStartOf="@+id/guideline13"
-                app:layout_constraintTop_toBottomOf="@+id/beansEditProcessLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/beansEditRepeatLabel" />
 
             <com.warkiz.widget.IndicatorSeekBar
                 android:id="@+id/beansEditRoastBar"
@@ -329,6 +340,7 @@
                 android:background="@android:drawable/btn_default_small"
                 android:text="@string/beansEditGramLabel"
                 app:layout_constraintBottom_toBottomOf="@+id/beansEditGramBar"
+                app:layout_constraintEnd_toStartOf="@+id/guideline13"
                 app:layout_constraintTop_toTopOf="@+id/beansEditGramBar" />
 
             <com.warkiz.widget.IndicatorSeekBar
@@ -503,14 +515,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="90dp" />
+                app:layout_constraintGuide_begin="100dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="70dp" />
+                app:layout_constraintGuide_begin="90dp" />
 
             <Button
                 android:id="@+id/beansEditSelectBtn"
@@ -529,6 +541,16 @@
                 app:layout_constraintBottom_toBottomOf="@+id/beansEditProcessLabel"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="@+id/beansEditProcessLabel" />
+
+            <AutoCompleteTextView
+                android:id="@+id/beansEditCountryEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/beansEditCountryHint"
+                app:layout_constraintBottom_toBottomOf="@+id/beansEditCountryLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/beansEditCountryLabel" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

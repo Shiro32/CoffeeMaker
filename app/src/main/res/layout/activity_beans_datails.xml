@@ -26,8 +26,8 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/beansDetailsEditBtn"
         app:layout_constraintTop_toBottomOf="@+id/beansDetailsToolbar"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditRepeatDateLabel"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/beansDetailsRatingLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsProcessLabel" />
 
             <TextView
                 android:id="@+id/beansDetailsDateLabel"
@@ -136,8 +136,16 @@
                 android:id="@+id/beansDetailsProcessText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Washed"
+                android:text="Natural"
                 app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsProcessLabel"
+                app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+            <TextView
+                android:id="@+id/beansDetailsCountryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Japan"
+                app:layout_constraintBaseline_toBaselineOf="@+id/beansDetailsCountryLabel"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
             <TextView
@@ -184,7 +192,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditRoastLabel"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/beansDetailsProcessLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsRepeatLabel" />
 
             <TextView
                 android:id="@+id/beansDetailsProcessLabel"
@@ -193,7 +201,16 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/beansEditProcessLabel"
                 app:layout_constraintEnd_toStartOf="@+id/guideline12"
-                app:layout_constraintTop_toBottomOf="@+id/beansDetailsRepeatLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsCountryLabel" />
+
+            <TextView
+                android:id="@+id/beansDetailsCountryLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/beansEditCountryLabel"
+                app:layout_constraintEnd_toStartOf="@+id/guideline12"
+                app:layout_constraintTop_toBottomOf="@+id/beansDetailsRatingLabel" />
 
             <com.warkiz.widget.IndicatorSeekBar
                 android:id="@+id/beansDetailsRoastBar"

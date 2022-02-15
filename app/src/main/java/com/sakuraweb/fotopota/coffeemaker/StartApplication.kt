@@ -65,7 +65,8 @@ lateinit var beansKind: Array<String>   // 以下３種のタイトル配列
 lateinit var beansSpecial: Array<String>
 lateinit var beansBlend: Array<String>
 lateinit var beansPack: Array<String>
-lateinit var beansProcessLabels: Array<String>
+lateinit var beansProcessLabels: Array<String>  // 精製処理
+lateinit var beansCountryLabels: Array<String>  // 原産国
 
 lateinit var takeoutKind: Array<String> // 以下３種のタイトル配列
 lateinit var takeoutConvini: Array<String>
@@ -219,6 +220,7 @@ class StartApplication : Application() {
         milkLabels  = resources.getStringArray(R.array.milk_volume)
         sugarLabels = resources.getStringArray(R.array.sugar_volume)
         beansProcessLabels = resources.getStringArray(R.array.process_labels)
+        beansCountryLabels = resources.getStringArray(R.array.country_labels)
 //        setTakeoutTakeDay()
 
     }

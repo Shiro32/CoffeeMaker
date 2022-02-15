@@ -22,6 +22,7 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
@@ -129,6 +130,16 @@ class BeansEditActivity : AppCompatActivity() {
 
                     beansEditMemoEdit.setText(beans.memo)
                     beansEditProcessSpinner.setSelection(beans.process)
+                    beansEditCountryEdit.setText(beans.country)
+
+                    // 原産国表示処理（手入力を省いたドロップダウンを作るため、意外と面倒）
+                    val countryAdapter = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, beansCountryLabels )
+                    beansEditCountryEdit.setAdapter(countryAdapter)
+                    beansEditCountryEdit.threshold = 1
+                    beansEditCountryEdit.onFocusChangeListener =
+                        View.OnFocusChangeListener { _, hasFocus -> if(hasFocus) beansEditCountryEdit.showDropDown() }
+
+                    beansEditCountryEdit.setOnClickListener { beansEditCountryEdit.showDropDown() }
 
                     when (editMode) {
                         BEANS_EDIT_MODE_EDIT -> {
@@ -157,6 +168,8 @@ class BeansEditActivity : AppCompatActivity() {
                             beansEditPriceEdit.isEnabled = false
                             beansEditProcessSpinner.focusable = View.NOT_FOCUSABLE
                             beansEditProcessSpinner.isEnabled = false
+                            beansEditCountryEdit.focusable = View.NOT_FOCUSABLE
+                            beansEditCountryEdit.isEnabled = false
                         }
                     }
 
@@ -267,7 +280,7 @@ class BeansEditActivity : AppCompatActivity() {
 
     // OKButton（保存）のリスナがあまりに巨大化してきたので独立
     // RealmDBに１件分のBEANSデータを修正・追加する （intentのmodeによって、編集と新規作成両方やる）
-    private inner class OKButtonListener() : View.OnClickListener {
+    private inner class OKButtonListener : View.OnClickListener {
 
         override fun onClick(v: View?) {
             // 各View（Barなどなど）からローカル変数に読み込んでおく
@@ -297,6 +310,7 @@ class BeansEditActivity : AppCompatActivity() {
             val beansPrice = if (beansEditPriceEdit.text.isNullOrEmpty()) 0 else beansEditPriceEdit.text.toString().toInt()
             val beansRepeat      = beansEditRepeatText.text.toString().toInt()
             val beansProcess = beansEditProcessSpinner.selectedItemPosition
+            val country = beansEditCountryEdit.text.toString()
 
             // Realmに書き込む
             when (editMode) {
@@ -320,6 +334,7 @@ class BeansEditActivity : AppCompatActivity() {
                         beans.price     = beansPrice
                         beans.memo      = beansMemo
                         beans.repeat    = beansRepeat
+                        beans.country   = country
                         if( _imageUri!=null ) beans.imageURI  = _imageUri.toString()
                     }
                     blackToast(applicationContext, "追加しましたぜ")
@@ -341,6 +356,7 @@ class BeansEditActivity : AppCompatActivity() {
                         beans?.price    = beansPrice
                         beans?.memo     = beansMemo
                         beans?.repeat   = beansRepeat
+                        beans?.country  = country
                         if( _imageUri!=null ) beans?.imageURI = _imageUri.toString()
                     }
                     blackToast(applicationContext, "更新完了！")
@@ -361,6 +377,7 @@ class BeansEditActivity : AppCompatActivity() {
                         beans?.price    = beansPrice
                         beans?.memo     = beansMemo
                         beans?.repeat   = beansRepeat
+                        beans?.country  = country
                         beans?.imageURI = _imageUri.toString()
                     }
                     blackToast(applicationContext, "更新完了！")
