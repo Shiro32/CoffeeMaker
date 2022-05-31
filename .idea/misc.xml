@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/drawable/border.xml" value="0.427" />
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_beans_datails.xml" value="0.434375" />
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_beans_edit.xml" value="0.44798301486199577" />
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_brew_details_home.xml" value="0.434375" />
@@ -10,7 +11,7 @@
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_main.xml" value="0.434375" />
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_brew_list.xml" value="0.434375" />
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_config.xml" value="0.434375" />
-        <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_home.xml" value="0.5" />
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_stats.xml" value="0.434375" />
       </map>
     </option>

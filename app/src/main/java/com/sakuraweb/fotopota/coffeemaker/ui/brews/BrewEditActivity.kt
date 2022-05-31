@@ -58,8 +58,6 @@ const val REQUEST_BREW_STORAGE_PERMISSION = 6777
 
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 // TODO: 写真を選択しなかった場合はどうなる？（デフォルトの写真？）
-// TODO: 任意の画像も選びたい（COFFEEMAKERフォルダ内のでいいので）
-// TODO: 画像が見つからない（削除された）時に落ちない？
 
 // Brewの各カードの編集画面
 // 事実上、全画面表示のダイアログ
@@ -84,7 +82,9 @@ class BrewEditActivity : AppCompatActivity() {
     // たいていのViewは保存されるけど、画像とかは自分でやらないとあかん
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        Log.d("SHIRO", "brew-edit / onSaveInstanceState")
 
+        // TODO: なにか他にも保存し忘れがあったはず！
         outState.putString( "imageUri", _imageUri.toString() )
     }
 
@@ -92,6 +92,9 @@ class BrewEditActivity : AppCompatActivity() {
     // 編集画面開始
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("SHIRO", "brew-edit / onCreate")
+
+        // 編集画面を作る
         setContentView(R.layout.activity_brew_edit)
 
         // 回転時における、仮選択中の画像復元
@@ -104,6 +107,8 @@ class BrewEditActivity : AppCompatActivity() {
 
         // 設定メニューで表示・非表示を切り替える
         // BrewEditは必ずBrewDetailsから呼ばれ、すでにConfigは読み込み済みのはず
+        // だったけど、Sleep中にKillされることがあるので再読み込み
+        readBrewConfig( applicationContext )
 
         if( !configSteamTimeSw ) {  // 蒸らし時間
             brewEditSteamBar.visibility = View.GONE
@@ -374,7 +379,6 @@ class BrewEditActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        Log.d("SHIRO", "brew-edit / onCreate")
     } // 編集画面のonCreate
 
 

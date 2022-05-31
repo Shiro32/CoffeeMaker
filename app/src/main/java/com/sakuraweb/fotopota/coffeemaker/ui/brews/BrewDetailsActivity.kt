@@ -254,6 +254,8 @@ class BrewDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     } // 詳細画面のonCreate
+
+
     private fun getBitmapFromUri(uri: Uri): Bitmap {
         val parcelFileDescriptor: ParcelFileDescriptor? = contentResolver.openFileDescriptor(uri, "r")
         val fileDescriptor: FileDescriptor = parcelFileDescriptor!!.fileDescriptor

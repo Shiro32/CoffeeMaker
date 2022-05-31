@@ -132,15 +132,6 @@ class BeansEditActivity : AppCompatActivity() {
                     beansEditProcessSpinner.setSelection(beans.process)
                     beansEditCountryEdit.setText(beans.country)
 
-                    // 原産国表示処理（手入力を省いたドロップダウンを作るため、意外と面倒）
-                    val countryAdapter = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, beansCountryLabels )
-                    beansEditCountryEdit.setAdapter(countryAdapter)
-                    beansEditCountryEdit.threshold = 1
-                    beansEditCountryEdit.onFocusChangeListener =
-                        View.OnFocusChangeListener { _, hasFocus -> if(hasFocus) beansEditCountryEdit.showDropDown() }
-
-                    beansEditCountryEdit.setOnClickListener { beansEditCountryEdit.showDropDown() }
-
                     when (editMode) {
                         BEANS_EDIT_MODE_EDIT -> {
                             beansEditRepeatText.text = beans.repeat.toString()
@@ -196,6 +187,14 @@ class BeansEditActivity : AppCompatActivity() {
 
         // ここまでで基本的に画面構成終了
         // ーーーーーーーーーー　ここから各種ボタンのリスナ群設定　－－－－－－－－－－
+        // 原産国表示処理（手入力を省いたドロップダウンを作るため、意外と面倒）
+        val countryAdapter = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, beansCountryLabels )
+        beansEditCountryEdit.setAdapter(countryAdapter)
+        beansEditCountryEdit.threshold = 1
+        beansEditCountryEdit.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus -> if(hasFocus) beansEditCountryEdit.showDropDown() }
+        beansEditCountryEdit.setOnClickListener { beansEditCountryEdit.showDropDown() }
+
+
         beansEditGramButton.setOnClickListener { inputNumberDialog(getString(R.string.beansEditDialogGram), beansEditGramBar, false) }
 
         beansEditDateText.visibility        = View.INVISIBLE

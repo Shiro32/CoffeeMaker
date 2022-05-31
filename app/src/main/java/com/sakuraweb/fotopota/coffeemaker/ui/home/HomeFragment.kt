@@ -3,6 +3,7 @@ package com.sakuraweb.fotopota.coffeemaker.ui.home
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -133,11 +134,11 @@ class HomeFragment : Fragment() {
         root.sinceText.text = theFirstBrew
 
         // copyrightメッセージにURLを埋め込む
-        root.copyRightText.setText(Html.fromHtml("v3.6 ©2020,21 Shiro, <a href=\"http://fotopota.sakuraweb.com\">フォトポタ日記2.0</a>"))
+        root.copyRightText.setText(Html.fromHtml("v3.66 ©2022 Shiro, <a href=\"http://fotopota.sakuraweb.com\">フォトポタ日記2.0</a>"))
         root.copyRightText.movementMethod = LinkMovementMethod.getInstance()
 
         // privacy policyにURLを埋め込む
-        root.ppText.setText(Html.fromHtml("<a href=\"http://fotopota.sakuraweb.com/privacy-coffee.html\">プライバシーポリシー</a>"))
+        root.ppText.setText(Html.fromHtml("<a href=\"http://fotopota.sakuraweb.com/privacy-coffee.html\">プライバシー\n\nポリシー</a>"))
         root.ppText.movementMethod = LinkMovementMethod.getInstance()
 
 
@@ -154,6 +155,13 @@ class HomeFragment : Fragment() {
 //      置くことはできたけど、各フラグメントで動きの実装ができなくて断念
 
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d("SHIRO", "HOME / onViewCreated")
+        super.onViewCreated(view, savedInstanceState)
+
+        homeHistoryText.movementMethod = ScrollingMovementMethod()
     }
 
     override fun onStart() {

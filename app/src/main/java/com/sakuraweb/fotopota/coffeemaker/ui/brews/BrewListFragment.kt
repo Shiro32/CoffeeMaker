@@ -75,6 +75,57 @@ lateinit var grind2Labels: Array<String>
 // クラス内に書くとCreateのたびに初期化される。ここに書かないといけない
 private var brewRecyclerPosition: Int = 0
 
+// Sleep中にアクティビティがKillされることがあるので、リロード簡単にできるよう、関数化した
+// メモリの少ないRakute miniでは頻発する模様・・・。
+fun readBrewConfig( context: Context ) {
+    // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
+    PreferenceManager.getDefaultSharedPreferences(context).apply {
+        getString("water_volume_max", "240")?.let { configWaterVolumeMax = it.toFloat() }
+        getString("water_volume_min", "0")?.let { configWaterVolumeMin = it.toFloat() }
+        configWaterVolumeSw     = getBoolean("water_volume_sw", true)
+        configWaterVolumeDispSw = getBoolean("water_volume_disp_sw", true)
+
+        getString("mill_min", "00")?.let { configMillMin = it.toFloat() }
+        getString("mill_max", "20")?.let { configMillMax = it.toFloat() }
+        configMillUnit = if( getString("mill_unit_sw", "") == "int" ) GRIND_UNIT_INT else GRIND_UNIT_FLOAT
+        configMillDispSw = getBoolean("mill_disp_sw", true)
+
+        getString("steam_min", "00")?.let { configSteamTimeMin = it.toFloat() }
+        getString("steam_max", "60")?.let { configSteamTimeMax = it.toFloat() }
+        configSteamTimeSw       = getBoolean("steam_sw", true)
+        configSteamTimeDispSw   = getBoolean("steam_disp_sw", true)
+
+        getString("brew_min", "000")?.let { configBrewTimeMin = it.toFloat() }
+        getString("brew_max", "120")?.let { configBrewTimeMax = it.toFloat() }
+        configBrewTimeSw        = getBoolean("brew_sw", true)
+        configBrewTimeDispSw    = getBoolean("brew_disp_sw",true)
+
+        getString("temp_min", "0")?.let { configTempMin = it.toFloat() }
+        getString("temp_max", "120")?.let { configTempMax = it.toFloat() }
+        configTempSw        = getBoolean("temp_sw", true)
+        configTempDispSw    = getBoolean("temp_disp_sw",true)
+
+        configBeansSw       = getBoolean("beans_sw", true)
+        configBeansDispSw   = getBoolean("beans_disp_sw", true)
+
+        configMilkSw        = getBoolean("milk_sw", true)
+        configMilkDispSw    = getBoolean("milk_disp_sw", false)
+
+        configSugarSw       = getBoolean("sugar_sw", true)
+        configSugarDispSw   = getBoolean("sugar_disp_sw", false)
+
+        configCupsBrewedSw      = getBoolean("cups_brewed_sw", true)
+        configCupsBrewedDispSw  = getBoolean("cups_brewed_disp_sw", false)
+
+        configCupsDrunkSw       = getBoolean("cups_drunk_sw", true)
+        configCupsDrunkDispSw   = getBoolean("cups_drunk_disp_sw", false)
+
+        brewListLayoutStyle = if( getString("list_sw", "") == "card" ) CARD_STYLE else FLAT_STYLE
+        grind2Labels = arrayOf( "0", configMillMax.toInt().toString() )
+
+        getString("water_volume_unit", "cc")?.let { configWaterVolumeUnit = it }
+    }
+}
 
 class BrewFragment : Fragment() {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
@@ -120,52 +171,7 @@ class BrewFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_brew_list, container, false)
 
         // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
-        PreferenceManager.getDefaultSharedPreferences(context as Context).apply {
-            getString("water_volume_max", "240")?.let { configWaterVolumeMax = it.toFloat() }
-            getString("water_volume_min", "0")?.let { configWaterVolumeMin = it.toFloat() }
-            configWaterVolumeSw     = getBoolean("water_volume_sw", true)
-            configWaterVolumeDispSw = getBoolean("water_volume_disp_sw", true)
-
-            getString("mill_min", "00")?.let { configMillMin = it.toFloat() }
-            getString("mill_max", "20")?.let { configMillMax = it.toFloat() }
-            configMillUnit = if( getString("mill_unit_sw", "") == "int" ) GRIND_UNIT_INT else GRIND_UNIT_FLOAT
-            configMillDispSw = getBoolean("mill_disp_sw", true)
-
-            getString("steam_min", "00")?.let { configSteamTimeMin = it.toFloat() }
-            getString("steam_max", "60")?.let { configSteamTimeMax = it.toFloat() }
-            configSteamTimeSw       = getBoolean("steam_sw", true)
-            configSteamTimeDispSw   = getBoolean("steam_disp_sw", true)
-
-            getString("brew_min", "000")?.let { configBrewTimeMin = it.toFloat() }
-            getString("brew_max", "120")?.let { configBrewTimeMax = it.toFloat() }
-            configBrewTimeSw        = getBoolean("brew_sw", true)
-            configBrewTimeDispSw    = getBoolean("brew_disp_sw",true)
-
-            getString("temp_min", "0")?.let { configTempMin = it.toFloat() }
-            getString("temp_max", "120")?.let { configTempMax = it.toFloat() }
-            configTempSw        = getBoolean("temp_sw", true)
-            configTempDispSw    = getBoolean("temp_disp_sw",true)
-
-            configBeansSw       = getBoolean("beans_sw", true)
-            configBeansDispSw   = getBoolean("beans_disp_sw", true)
-
-            configMilkSw        = getBoolean("milk_sw", true)
-            configMilkDispSw    = getBoolean("milk_disp_sw", false)
-
-            configSugarSw       = getBoolean("sugar_sw", true)
-            configSugarDispSw   = getBoolean("sugar_disp_sw", false)
-
-            configCupsBrewedSw      = getBoolean("cups_brewed_sw", true)
-            configCupsBrewedDispSw  = getBoolean("cups_brewed_disp_sw", false)
-
-            configCupsDrunkSw       = getBoolean("cups_drunk_sw", true)
-            configCupsDrunkDispSw   = getBoolean("cups_drunk_disp_sw", false)
-
-            brewListLayoutStyle = if( getString("list_sw", "") == "card" ) CARD_STYLE else FLAT_STYLE
-            grind2Labels = arrayOf( "0", configMillMax.toInt().toString() )
-
-            getString("water_volume_unit", "cc")?.let { configWaterVolumeUnit = it }
-        }
+        readBrewConfig( context as Context )
 
         // ーーーーーーーーーー　リスト表示（RecyclerView）　ーーーーーーーーーー
         // realmのインスタンスを作る。Configはグローバル化してあるので、そのままインスタンスを作るだけ
