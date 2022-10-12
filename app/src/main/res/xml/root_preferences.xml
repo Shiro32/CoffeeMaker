@@ -276,6 +276,17 @@
             android:title="@string/config_inputs_display" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/config_inputs_buy_beans_title"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSpaceReserved="false">
+        <EditTextPreference
+            android:defaultValue="500"
+            android:dialogTitle="@string/config_inputs_buy_beans_max_label"
+            android:key="beans_buy_max"
+            android:title="@string/config_inputs_buy_beans_max_label"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
 
 
 

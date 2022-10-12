@@ -101,6 +101,10 @@ class ConfigFragment : PreferenceFragmentCompat() {
             editText.inputType = InputType.TYPE_CLASS_NUMBER
         }
 
+        findPreference<EditTextPreference>("beans_buy_max")?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+
         findPreference<Preference>("backup")?.setOnPreferenceClickListener {
             backupData()
             true
@@ -244,7 +248,7 @@ class ConfigFragment : PreferenceFragmentCompat() {
                 show()
             }
         } // BREWデータのレストア終了
-        else msgBox( getString(R.string.dialog_backup_nothing_title), String.format( getString(R.string.dialog_backup_brew_nothing_message), dst.name, brew_list_backup ) )
+        else msgBox( getString(R.string.dialog_backup_nothing_title), String.format( getString(R.string.dialog_backup_brew_nothing_message), src.path, brew_list_backup ) )
     }
 
 
@@ -271,7 +275,7 @@ class ConfigFragment : PreferenceFragmentCompat() {
                 show()
             }
         } // BEANSデータのレストア終了
-        else msgBox( getString(R.string.dialog_backup_nothing_title), String.format( getString(R.string.dialog_backup_beans_nothing_message), dst.name, bean_list_backup ) )
+        else msgBox( getString(R.string.dialog_backup_nothing_title), String.format( getString(R.string.dialog_backup_beans_nothing_message), src.path, bean_list_backup ) )
     }
 
     private fun restoreTakeoutData2() {
@@ -297,7 +301,7 @@ class ConfigFragment : PreferenceFragmentCompat() {
                 show()
             }
         } // TAKEOUTデータのレストア終了
-        else msgBox( getString(R.string.dialog_backup_nothing_title), String.format( getString(R.string.dialog_backup_takeout_nothing_message), dst.name, takeout_list_backup ) )
+        else msgBox( getString(R.string.dialog_backup_nothing_title), String.format( getString(R.string.dialog_backup_takeout_nothing_message), src.path, takeout_list_backup ) )
     }
 
     private fun restoreEquipData2() {
@@ -323,7 +327,7 @@ class ConfigFragment : PreferenceFragmentCompat() {
                 show()
             }
         } // TAKEOUTデータのレストア終了
-        else msgBox( getString(R.string.dialog_backup_nothing_title), String.format( getString(R.string.dialog_backup_equip_nothing_message), dst.name, equip_list_backup ) )
+        else msgBox( getString(R.string.dialog_backup_nothing_title), String.format( getString(R.string.dialog_backup_equip_nothing_message), src.path, equip_list_backup ) )
     }
 
     private fun restoreBrewData() {

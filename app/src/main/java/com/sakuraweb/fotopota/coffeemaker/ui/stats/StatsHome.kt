@@ -48,11 +48,13 @@ class StatsHome : Fragment() {
 //            blackToast(context as Context, "家飲みSpinner")
 
             // Spinnerの情報をグローバル変数に保管しておく
-            (activity as MainActivity).sortSpn.apply {
-                spinPosition = selectedItemPosition
-                spinSelectedItem = selectedItem.toString()
+            if( activity!=null ) {
+                (activity as MainActivity).sortSpn.apply {
+                    spinPosition = selectedItemPosition
+                    spinSelectedItem = selectedItem.toString()
+                }
+                drawHomeStats(prepareToStats(selectedPage, spinPosition, spinSelectedItem))
             }
-            drawHomeStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
         }
 
         // OnItemSelecctedListenerの実装にはこれを入れないといけない（インターフェースなので）

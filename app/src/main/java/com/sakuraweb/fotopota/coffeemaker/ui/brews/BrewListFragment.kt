@@ -76,7 +76,7 @@ lateinit var grind2Labels: Array<String>
 private var brewRecyclerPosition: Int = 0
 
 // Sleep中にアクティビティがKillされることがあるので、リロード簡単にできるよう、関数化した
-// メモリの少ないRakute miniでは頻発する模様・・・。
+// メモリの少ないRakuten miniでは頻発する模様・・・。
 fun readBrewConfig( context: Context ) {
     // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
     PreferenceManager.getDefaultSharedPreferences(context).apply {

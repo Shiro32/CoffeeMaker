@@ -49,6 +49,9 @@ class BeansDetailsActivity : AppCompatActivity() {
         // Realmからデータの読み込み
         val beans = realm.where<BeansData>().equalTo("id", intentID).findFirst()
         if (beans != null) {
+            beansDetailsGramBar.max         = configBeansBuyMax
+
+
             beansDetailsRatingBar.rating    = beans.rating
             beansDetailsRatingText.text     = "%.1f".format( beans.rating )
             beansDetailsNameText.text       = beans.name

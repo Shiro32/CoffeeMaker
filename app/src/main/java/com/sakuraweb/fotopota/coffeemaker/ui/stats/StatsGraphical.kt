@@ -52,11 +52,12 @@ class StatsGraphical : Fragment() {
 //            blackToast(context as Context, "グラフSpinner")
 
             // Spinnerの情報をグローバル変数に保管しておく
-            (activity as MainActivity).sortSpn.apply {
-                spinPosition = selectedItemPosition
-                spinSelectedItem = selectedItem.toString()
+            if( activity!=null ) {
+                (activity as MainActivity).sortSpn.apply {
+                    spinPosition = selectedItemPosition
+                    spinSelectedItem = selectedItem.toString()
+                }
             }
-
             drawBarGraph( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
         }
 

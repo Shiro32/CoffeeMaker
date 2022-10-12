@@ -27,14 +27,32 @@ import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_beans_list.*
 import kotlinx.android.synthetic.main.fragment_beans_list.view.*
-import kotlinx.android.synthetic.main.fragment_brew_list.*
 import java.util.*
 
 var isCalledFromBrewEditToBeans: Boolean = false
+
+// 各種表示設定（設定画面で設定したものの保持用）
 var beansListStyle: Int = 0
+var configBeansBuyMax = 500F
 
 // クラス内に書くとCreateのたびに初期化される。ここに書かないといけない
 private var beansRecyclerPosition: Int = 0
+
+// Sleep中にアクティビティがKillされることがあるので、リロード簡単にできるよう、関数化した
+// メモリの少ないRakuten miniでは頻発する模様・・・。
+fun readBeansConfig( context: Context ) {
+    // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
+    PreferenceManager.getDefaultSharedPreferences(context as Context).apply {
+//            settingTermSw   = getBoolean("term_sw", true)
+//            settingKmSw     = getBoolean("km_sw", true)
+//            settingKcalSw   = getBoolean("kcal_sw", true)
+//            settingMemoSw   = getBoolean("memo_sw", true)
+//            settingMenuSw   = getBoolean("menu_sw", true)
+//            settingPlaceSw  = getBoolean("place_sw", true)
+        beansListStyle = if( getString("list_sw", "") == "card" ) R.layout.one_beans_card else R.layout.one_beans_flat
+        getString("beans_buy_max", "00")?.let { configBeansBuyMax = it.toFloat() }
+    }
+}
 
 class BeansFragment : Fragment(), SetBeansListener {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
@@ -67,22 +85,13 @@ class BeansFragment : Fragment(), SetBeansListener {
         (beansRecycleView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(beansRecyclerPosition, 0)
     }
 
-
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
         Log.d("SHIRO", "BEANS / onCreateView - DB open")
 
         val root = inflater.inflate(R.layout.fragment_beans_list, container, false)
 
         // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
-        PreferenceManager.getDefaultSharedPreferences(context as Context).apply {
-//            settingTermSw   = getBoolean("term_sw", true)
-//            settingKmSw     = getBoolean("km_sw", true)
-//            settingKcalSw   = getBoolean("kcal_sw", true)
-//            settingMemoSw   = getBoolean("memo_sw", true)
-//            settingMenuSw   = getBoolean("menu_sw", true)
-//            settingPlaceSw  = getBoolean("place_sw", true)
-            beansListStyle = if( getString("list_sw", "") == "card" ) R.layout.one_beans_card else R.layout.one_beans_flat
-        }
+        readBeansConfig( context as Context )
 
         // Brewの編集画面から呼ばれたかどうかを覚えておく
         isCalledFromBrewEditToBeans = activity?.intent?.getStringExtra("from") == "Edit"

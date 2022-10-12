@@ -28,6 +28,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.select.BeansSelectActivity
+import com.sakuraweb.fotopota.coffeemaker.ui.brews.readBrewConfig
 import com.warkiz.widget.IndicatorSeekBar
 import io.realm.Realm
 import io.realm.kotlin.createObject
@@ -91,6 +92,13 @@ class BeansEditActivity : AppCompatActivity() {
         )
 
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        // 設定メニューで表示・非表示を切り替える
+        // BrewEditは必ずBrewDetailsから呼ばれ、すでにConfigは読み込み済みのはず
+        // だったけど、Sleep中にKillされることがあるので再読み込み
+        readBeansConfig( applicationContext )
+
+        beansEditGramBar.max = configBeansBuyMax
 
         // Realmのインスタンスを生成
         // Edit画面終了まで維持（onDestroy）でclose。configはStartActivityで生成済み
