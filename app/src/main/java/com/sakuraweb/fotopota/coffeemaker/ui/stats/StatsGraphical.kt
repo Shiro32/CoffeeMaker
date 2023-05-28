@@ -51,12 +51,11 @@ class StatsGraphical : Fragment() {
             Log.d("SHIRO", "STATS-GRAPH / Spinner")
 //            blackToast(context as Context, "グラフSpinner")
 
+            // 以前はここでヌルポチェックをやっていたが、3.70から廃止
             // Spinnerの情報をグローバル変数に保管しておく
-            if( activity!=null ) {
-                (activity as MainActivity).sortSpn.apply {
-                    spinPosition = selectedItemPosition
-                    spinSelectedItem = selectedItem.toString()
-                }
+            (activity as MainActivity).sortSpn.apply {
+                spinPosition = selectedItemPosition
+                spinSelectedItem = selectedItem.toString()
             }
             drawBarGraph( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
         }

@@ -134,7 +134,7 @@ class HomeFragment : Fragment() {
         root.sinceText.text = theFirstBrew
 
         // copyrightメッセージにURLを埋め込む
-        root.copyRightText.setText(Html.fromHtml("v3.66 ©2022 Shiro, <a href=\"http://fotopota.sakuraweb.com\">フォトポタ日記2.0</a>"))
+        root.copyRightText.setText(Html.fromHtml("v3.70 ©2023 Shiro, <a href=\"http://fotopota.sakuraweb.com\">フォトポタ日記2.0</a>"))
         root.copyRightText.movementMethod = LinkMovementMethod.getInstance()
 
         // privacy policyにURLを埋め込む

@@ -42,8 +42,14 @@ var spinSelectedItem: String = ""
 // この配下に、３つのFragment（HOME/TAKEOUT/GRAPH）を持ち、TabLayoutで制御する
 class StatsFragment : Fragment() {
 
-    override fun onStart() {
-        super.onStart()
+    // 統計Fragmentがクラッシュする原因調査（2023/5/29）
+    // その結果、どうも、Spinnerの設定関係であることが分かったものの根本的な原因はよくわからない
+    // onStartではなく、onResumeでリスナ設定する（遅らせる）と回避できそうな感じ
+    // 個別のfragmentでやっていた、ヌルポチェックは廃止する
+    //    override fun onStart() {
+//        super.onStart()
+    override fun onResume() {
+        super.onResume()
 
         // ツールバーやメニューの装備（ホームなのでメニュー無いけど）
         val ma = activity as MainActivity
