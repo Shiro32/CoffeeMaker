@@ -40,14 +40,16 @@ var spinSelectedItem: String = ""
 // 統計画面全体を構成する
 // 統計期間選択用のSpinnerが意外と大変で、その作業が多い
 // この配下に、３つのFragment（HOME/TAKEOUT/GRAPH）を持ち、TabLayoutで制御する
+
 class StatsFragment : Fragment() {
 
     // 統計Fragmentがクラッシュする原因調査（2023/5/29）
-    // その結果、どうも、Spinnerの設定関係であることが分かったものの根本的な原因はよくわからない
+    // その結果、Spinnerの設定関係であることが分かったものの根本的な原因はよくわからない
     // onStartではなく、onResumeでリスナ設定する（遅らせる）と回避できそうな感じ
+    // onStartのタイミングではまだSpinnerが用意できていないのか、子供要素のFragmentが起動していないのか
     // 個別のfragmentでやっていた、ヌルポチェックは廃止する
-    //    override fun onStart() {
-//        super.onStart()
+    // （やったことは、onStartをonResumeに書き換えただけ
+
     override fun onResume() {
         super.onResume()
 

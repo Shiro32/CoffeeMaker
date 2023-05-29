@@ -46,9 +46,10 @@ class StatsTakeout : Fragment() {
     private inner class TakeoutSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             Log.d("SHIRO", "STATS-TAKEOUT / Spinner")
-//            blackToast(context as Context, "外飲みSpinner")
 
             // 以前はここでヌルポチェックをやっていたが、3.70から廃止
+//            if( activity==null ) return
+
             // Spinnerの情報をグローバル変数に保管しておく
             (activity as MainActivity).sortSpn.apply {
                 spinPosition = selectedItemPosition

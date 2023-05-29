@@ -154,6 +154,10 @@ class BeansFragment : Fragment(), SetBeansListener {
     // ソートSpinnerを変更した時のリスナ
     private inner class SortSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+            // TODO: 2023/5/29 ヌルぽ対策カット（これが必要なのはStatFragment内だけの模様）
+//            if( activity==null ) return
+
             (activity as MainActivity).sortSpn.apply {
                 beansSpinPosition = selectedItemPosition
                 beansSpinSelectedItem = selectedItem.toString()

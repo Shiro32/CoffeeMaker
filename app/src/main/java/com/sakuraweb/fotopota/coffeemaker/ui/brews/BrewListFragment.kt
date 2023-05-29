@@ -75,6 +75,7 @@ lateinit var grind2Labels: Array<String>
 // クラス内に書くとCreateのたびに初期化される。ここに書かないといけない
 private var brewRecyclerPosition: Int = 0
 
+
 // Sleep中にアクティビティがKillされることがあるので、リロード簡単にできるよう、関数化した
 // メモリの少ないRakuten miniでは頻発する模様・・・。
 fun readBrewConfig( context: Context ) {
@@ -102,17 +103,17 @@ fun readBrewConfig( context: Context ) {
 
         getString("temp_min", "0")?.let { configTempMin = it.toFloat() }
         getString("temp_max", "120")?.let { configTempMax = it.toFloat() }
-        configTempSw        = getBoolean("temp_sw", true)
-        configTempDispSw    = getBoolean("temp_disp_sw",true)
+        configTempSw            = getBoolean("temp_sw", true)
+        configTempDispSw        = getBoolean("temp_disp_sw",true)
 
-        configBeansSw       = getBoolean("beans_sw", true)
-        configBeansDispSw   = getBoolean("beans_disp_sw", true)
+        configBeansSw           = getBoolean("beans_sw", true)
+        configBeansDispSw       = getBoolean("beans_disp_sw", true)
 
-        configMilkSw        = getBoolean("milk_sw", true)
-        configMilkDispSw    = getBoolean("milk_disp_sw", false)
+        configMilkSw            = getBoolean("milk_sw", true)
+        configMilkDispSw        = getBoolean("milk_disp_sw", false)
 
-        configSugarSw       = getBoolean("sugar_sw", true)
-        configSugarDispSw   = getBoolean("sugar_disp_sw", false)
+        configSugarSw           = getBoolean("sugar_sw", true)
+        configSugarDispSw       = getBoolean("sugar_disp_sw", false)
 
         configCupsBrewedSw      = getBoolean("cups_brewed_sw", true)
         configCupsBrewedDispSw  = getBoolean("cups_brewed_disp_sw", false)
@@ -123,7 +124,7 @@ fun readBrewConfig( context: Context ) {
         brewListLayoutStyle = if( getString("list_sw", "") == "card" ) CARD_STYLE else FLAT_STYLE
         grind2Labels = arrayOf( "0", configMillMax.toInt().toString() )
 
-        getString("water_volume_unit", "cc")?.let { configWaterVolumeUnit = it }
+        getString("water_volume_unit", "cc")?.let { configWaterVolumeUnit = it } // 水の使用量の単位（カップ、cc）
     }
 }
 
@@ -197,6 +198,10 @@ class BrewFragment : Fragment() {
     // ソートSpinnerを変更した時のリスナ
     private inner class SortSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            // TODO: 2023/5/29 ヌルぽ対策カット（この対策が必要なのはSTAT Fragmentだけの模様）
+//            if( activity==null ) return
+
+
             // onCreateView, onViewCreatedではSpinにアクセルできないので、グローバル保管
             (activity as MainActivity).sortSpn.apply {
                 brewSpinPosition = selectedItemPosition

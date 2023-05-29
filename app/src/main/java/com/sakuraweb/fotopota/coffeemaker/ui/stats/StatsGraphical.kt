@@ -49,9 +49,11 @@ class StatsGraphical : Fragment() {
     private inner class GraphSpinnerChangeListener() : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             Log.d("SHIRO", "STATS-GRAPH / Spinner")
-//            blackToast(context as Context, "グラフSpinner")
 
             // 以前はここでヌルポチェックをやっていたが、3.70から廃止
+//            if( activity==null ) return
+
+
             // Spinnerの情報をグローバル変数に保管しておく
             (activity as MainActivity).sortSpn.apply {
                 spinPosition = selectedItemPosition

@@ -45,9 +45,10 @@ class StatsHome : Fragment() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             Log.d("SHIRO", "STATS-HOME / Spinner")
 
-//            blackToast(context as Context, "家飲みSpinner")
-
             // 以前はヌルポチェックをやっていたが、3.70から廃止
+            // おおもとのStatFragmentでonStart→onResume化で回避できたか？
+//            if( activity==null ) return
+
             // Spinnerの情報をグローバル変数に保管しておく
             (activity as MainActivity).sortSpn.apply {
                 spinPosition = selectedItemPosition
