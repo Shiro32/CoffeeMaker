@@ -41,6 +41,7 @@ import java.util.*
 // TODO: ほんの少しでも編集したら「戻る」も要確認　どうやって検出するの？
 // TODO: 起動時に、一回、全データをBREWSからの参照チェックやるべき。いつやる？ Takeoutも同じだけど。
 
+
 const val REQUEST_CODE_BEANS_NAME_SELECT = 1
 const val REQUEST_BEANS_PHOTO_SELECT = 100
 const val REQUEST_BEANS_PHOTO_TAKE = 101
