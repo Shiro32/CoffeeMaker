@@ -33,7 +33,6 @@ class StatsHome : Fragment() {
     //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
     override fun onResume() {
         super.onResume()
-//        blackToast( context as Context, "家のみResume" )
         Log.d("SHIRO", "STATS-HOME / onResume")
         drawHomeStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
         (activity as MainActivity).sortSpn.onItemSelectedListener = HomeSpinnerChangeListener()
@@ -67,6 +66,7 @@ class StatsHome : Fragment() {
     // メイン画面から、統計基本情報を含んだStatsPackを受け取る
     // 期間（begin～last）、そこに含まれるbeansID、takeoutID、表示用ヒントなどを含む
     fun drawHomeStats(spin:StatsPack ) {
+        // v3.70以前はここでヌルぽチェックをしていたが、削除
 
         // 期間のラベル
         statsHomeTotalHint.text = spin.msg
@@ -74,10 +74,9 @@ class StatsHome : Fragment() {
         // 全体のカップ数
         statsHomeTotalCupsText.text = calcCupsDrunkOfPeriod(BREW_IN_HOME, spin.begin, spin.last).toString()
 
-
         // 豆関係ランキングの前処理（とても長いけど）
         // 範囲限定版のBEANS
-        var realm = Realm.getInstance(beansRealmConfig)
+        val realm = Realm.getInstance(beansRealmConfig)
         var beans = realm.where<BeansData>()
             .`in`("id", spin.beansIDList)
             .findAll()
@@ -91,24 +90,27 @@ class StatsHome : Fragment() {
             .build()
         val tempBeansRealm = Realm.getInstance(tempRealmConfig)
 
-        var temps = tempBeansRealm.where<BeansData>().findAll()
+        val temps = tempBeansRealm.where<BeansData>().findAll()
         tempBeansRealm.executeTransaction { temps.deleteAllFromRealm() }
 
         tempBeansRealm.beginTransaction()
         for( org in beans) {
-            var dst = tempBeansRealm.createObject<BeansData>(org.id)
-            dst.date    = org.date
-            dst.name    = org.name
-            dst.gram    = org.gram
-            dst.roast   = org.roast
-            dst.shop    = org.shop
-            dst.price   = org.price
-            dst.memo    = org.memo
 
-            // ここから下のプロパティは範囲限定の際は意味なし
-            dst.recent  = org.recent
-            dst.rating  = org.rating
-            dst.count   = org.count
+            // applyを使って、dst側の一時変数を回避（いかにもKotlinらしい？）
+            tempBeansRealm.createObject<BeansData>(org.id).apply {
+                date    = org.date
+                name    = org.name
+                gram    = org.gram
+                roast   = org.roast
+                shop    = org.shop
+                price   = org.price
+                memo    = org.memo
+
+                // ここから下のプロパティは範囲限定の際は意味なし
+                recent  = org.recent
+                rating  = org.rating
+                count   = org.count
+            }
         }
         tempBeansRealm.commitTransaction()
 

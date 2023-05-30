@@ -55,6 +55,8 @@ const val REQUEST_BEANS_STORAGE_PERMISSION = 102
 //      BEANS_EDIT_MODE_NEW : 新規データ入力
 //      BEANS_EDIT_MODE_REPEAT: 再購入データの入力（既存データをコピーしてカウント＋１）
 class BeansEditActivity : AppCompatActivity() {
+
+    // 他のBarやMethodのように、Viewに持たせることができないので、ローカル変数に保持する
     private var editMode: Int = 0
     private var beansID: Long = 0L
     private var _imageUri: Uri? = null
@@ -65,13 +67,8 @@ class BeansEditActivity : AppCompatActivity() {
     // たいていのViewは保存されるけど、画像とかは自分でやらないとあかん
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
         outState.putString( "imageUri", _imageUri.toString() )
     }
-
-    // 使用マメのIDを保持する
-    // 他のBarやMethodのように、Viewに持たせることができないので、ローカル変数に保持する
-//    private var beansID: Long = 0L
 
     // 編集画面構築開始
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +96,7 @@ class BeansEditActivity : AppCompatActivity() {
         // だったけど、Sleep中にKillされることがあるので再読み込み
         readBeansConfig( applicationContext )
 
+        // config値に基づいた各種設定
         beansEditGramBar.max = configBeansBuyMax
 
         // Realmのインスタンスを生成
@@ -174,7 +172,7 @@ class BeansEditActivity : AppCompatActivity() {
                     }
 
                     // v3.61から、画面回転（onSaveInstanceState）に対応
-                    if( _imageUri==null && beans.imageURI!="") _imageUri = Uri.parse(beans.imageURI)
+                    if( _imageUri==null && beans.imageURI!="" ) _imageUri = Uri.parse(beans.imageURI)
                     if( _imageUri!=null) {
                         try {
                             beansEditImage.setImageURI( _imageUri )
