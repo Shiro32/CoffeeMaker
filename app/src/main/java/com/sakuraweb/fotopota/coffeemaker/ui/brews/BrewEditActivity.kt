@@ -304,12 +304,13 @@ class BrewEditActivity : AppCompatActivity() {
         // マメ選択ボタンリスナ
         // 抽出方法が店飲みの場合は、店飲みDBを選択する
         brewEditBeansText.setOnClickListener {
-            // 店飲みDBを呼び出す
             if( equipID == EQUIP_SHOP ) {
+                // 店飲みDBを呼び出す
                 val intent = Intent(this, TakeoutListActivity::class.java)
                 intent.putExtra("from", "Edit")
                 startActivityForResult(intent, REQUEST_CODE_TAKEOUT_SELECT) // これで見分ける
             } else {
+                // 普通の家飲み用の豆選択画面を呼び出す
                 val intent = Intent(this, BeansListActivity::class.java)
                 intent.putExtra("from", "Edit")
                 startActivityForResult(intent, REQUEST_CODE_BEANS_SELECT)

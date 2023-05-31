@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -55,7 +56,7 @@ class StatsGraphical : Fragment() {
 
 
             // Spinnerの情報をグローバル変数に保管しておく
-            (activity as MainActivity).sortSpn.apply {
+            (activity as AppCompatActivity).sortSpn.apply {
                 spinPosition = selectedItemPosition
                 spinSelectedItem = selectedItem.toString()
             }

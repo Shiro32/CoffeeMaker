@@ -13,6 +13,9 @@ import kotlinx.android.synthetic.main.activity_beans_list.*
 // ナビゲーション（BottomNavigation）で表示するのとは違い、Brew一覧＞Brew編集＞マメ選択、と来た場合
 // 一覧表の中身は、ナビゲーションできた場合と同じにしたいので、そいつのFragmentをinflateするだけ
 
+
+// TODO: 2023/05/31 豆選択画面で何らかのソートをさせたい
+// 実際には子供のfragmentに丸投げなので、BeansListFragmentをいじるしかないか・・・？
 class BeansListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

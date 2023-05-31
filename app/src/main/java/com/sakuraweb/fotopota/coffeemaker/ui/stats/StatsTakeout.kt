@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.appcompat.app.AppCompatActivity
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.home.calcCupsDrunkOfPeriod
@@ -51,7 +52,7 @@ class StatsTakeout : Fragment() {
 //            if( activity==null ) return
 
             // Spinnerの情報をグローバル変数に保管しておく
-            (activity as MainActivity).sortSpn.apply {
+            (activity as AppCompatActivity).sortSpn.apply {
                 spinPosition = selectedItemPosition
                 spinSelectedItem = selectedItem.toString()
             }

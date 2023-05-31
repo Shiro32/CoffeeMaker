@@ -49,8 +49,8 @@ class StatsFragment : Fragment() {
     // 個別のfragmentでやっていた、ヌルポチェックは廃止する
     // （やったことは、onStartをonResumeに書き換えただけ）
 
-    override fun onResume() {   // v3.70以前はonStartだった
-        super.onResume()
+    override fun onStart() {   // v3.70以前はonStartだった
+        super.onStart()
 
         // ツールバーやメニューの装備（ホームなのでメニュー無いけど）
         val ma = activity as MainActivity

@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Selection.setSelection
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
@@ -64,6 +65,7 @@ class BeansFragment : Fragment(), SetBeansListener {
     private var beansSpinPosition:Int = 0
     private lateinit var beansSpinSelectedItem: String
 
+    // これ、何のフラグだ！？
     private var beansFirstSortSpin: Boolean = true
 
     // 他のアクティビティに隠される前に、RecyclerViewの位置を保存する
@@ -88,6 +90,8 @@ class BeansFragment : Fragment(), SetBeansListener {
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View? {
         Log.d("SHIRO", "BEANS / onCreateView - DB open")
 
+        // フラグメントのメイン画面を作る
+        // Spinnerは上位層（Activityで実装している模様）
         val root = inflater.inflate(R.layout.fragment_beans_list, container, false)
 
         // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
@@ -158,7 +162,7 @@ class BeansFragment : Fragment(), SetBeansListener {
             // TODO: 2023/5/29 ヌルぽ対策カット（これが必要なのはStatFragment内だけの模様）
 //            if( activity==null ) return
 
-            (activity as MainActivity).sortSpn.apply {
+            (activity as AppCompatActivity).sortSpn.apply {
                 beansSpinPosition = selectedItemPosition
                 beansSpinSelectedItem = selectedItem.toString()
 
@@ -202,25 +206,21 @@ class BeansFragment : Fragment(), SetBeansListener {
     // Realmから豆データを読み込む
     // それだけなんだけど、ソートが面倒なので関数
     private fun loadBeansData() {
-        if( isCalledFromBrewEditToBeans ) {
-            realmResults = realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
-        } else {
-            when ( beansSpinSelectedItem ) {
-                // 最新購入日順
-                sortList[0] -> realmResults = realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
-                // 仕様日順
-                sortList[1] ->  realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
-                // 評価順
-                sortList[2] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("rating", Sort.DESCENDING)
-                // 回数順
-                sortList[3] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("count", Sort.DESCENDING)
-                // 購入店
-                sortList[4] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("shop", Sort.DESCENDING)
-                // 金額
-                sortList[5] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("price", Sort.DESCENDING)
-                // etc
-                else -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
-            }
+        when ( beansSpinSelectedItem ) {
+            // 最新購入日順
+            sortList[0] -> realmResults = realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
+            // 仕様日順
+            sortList[1] ->  realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
+            // 評価順
+            sortList[2] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("rating", Sort.DESCENDING)
+            // 回数順
+            sortList[3] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("count", Sort.DESCENDING)
+            // 購入店
+            sortList[4] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("shop", Sort.DESCENDING)
+            // 金額
+            sortList[5] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("price", Sort.DESCENDING)
+            // etc
+            else -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
         }
     }
 
@@ -262,9 +262,11 @@ class BeansFragment : Fragment(), SetBeansListener {
             ac.supportActionBar?.title = getString(R.string.titleBeansListFromBtnv)
         }
 
+
         // 親Activityのスピナー（Sort）をここでセットする
         // スピナをセットすると自動的に１回呼ばれてしまう（＝Recyclerが初期化されちゃう）ので、フラグで回避
-        if( !isCalledFromBrewEditToBeans ) {
+//        if( !isCalledFromBrewEditToBeans ) {
+        if( true ) {
             beansFirstSortSpin = true
             val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
             ac.sortSpn.apply {
@@ -279,6 +281,7 @@ class BeansFragment : Fragment(), SetBeansListener {
         updateBeansUsage()
 
         beansRecycleView.adapter?.notifyDataSetChanged()
+
     }
 
     override fun onDestroy() {
