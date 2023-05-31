@@ -205,6 +205,7 @@ class BeansFragment : Fragment(), SetBeansListener {
 
     // Realmから豆データを読み込む
     // それだけなんだけど、ソートが面倒なので関数
+    // v3.7まではBrewEditから呼ばれた際はSpineerが無かったが、実装した
     private fun loadBeansData() {
         when ( beansSpinSelectedItem ) {
             // 最新購入日順
@@ -265,16 +266,15 @@ class BeansFragment : Fragment(), SetBeansListener {
 
         // 親Activityのスピナー（Sort）をここでセットする
         // スピナをセットすると自動的に１回呼ばれてしまう（＝Recyclerが初期化されちゃう）ので、フラグで回避
+        // v3.7まではBrewEditから呼ばれた際はSpineerが無かったが、実装した
 //        if( !isCalledFromBrewEditToBeans ) {
-        if( true ) {
-            beansFirstSortSpin = true
-            val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
-            ac.sortSpn.apply {
-                visibility = View.VISIBLE
-                this.adapter = adapter
-                setSelection(beansSpinPosition)
-                onItemSelectedListener = SortSpinnerChangeListener()
-            }
+        beansFirstSortSpin = true
+        val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
+        ac.sortSpn.apply {
+            visibility = View.VISIBLE
+            this.adapter = adapter
+            setSelection(beansSpinPosition)
+            onItemSelectedListener = SortSpinnerChangeListener()
         }
 
         // 豆の被使用状況を更新

@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_beans_list.*
 // 一覧表の中身は、ナビゲーションできた場合と同じにしたいので、そいつのFragmentをinflateするだけ
 
 
-// TODO: 2023/05/31 豆選択画面で何らかのソートをさせたい
+// TODO: 2023/05/31 豆選択画面で何らかのソートをさせたい→できるようにしたよ
 // 実際には子供のfragmentに丸投げなので、BeansListFragmentをいじるしかないか・・・？
 class BeansListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
