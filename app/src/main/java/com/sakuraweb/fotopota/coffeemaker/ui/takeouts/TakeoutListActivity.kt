@@ -104,14 +104,13 @@ class TakeoutListActivity : AppCompatActivity(), SetTakeoutListener {
 
         // ーーーーーーーーーー　ツールバー上のソートスピナーを作る　ーーーーーーーーーー
         // fragmentごとにスピナの中身を作り、リスナもセットする（セットし忘れると死ぬ）
-        if( !isCalledFromBrewEditToTakeout ) {
-            sortList = resources.getStringArray(R.array.sort_mode_takeout)
-            val adapter =
-                ArrayAdapter<String>(applicationContext, android.R.layout.simple_spinner_dropdown_item, sortList)
-            sortSpn2.visibility = View.VISIBLE
-            sortSpn2.adapter = adapter
-            sortSpn2.onItemSelectedListener = SortSpinnerChangeListener()
-        }
+        // V3.7以降、商品選択時もソートできるようになった（isCalledFromBrewEditToTakeoutを見ない）
+        sortList = resources.getStringArray(R.array.sort_mode_takeout)
+        val adapter =
+            ArrayAdapter<String>(applicationContext, android.R.layout.simple_spinner_dropdown_item, sortList)
+        sortSpn2.visibility = View.VISIBLE
+        sortSpn2.adapter = adapter
+        sortSpn2.onItemSelectedListener = SortSpinnerChangeListener()
     }
 
 
@@ -138,8 +137,26 @@ class TakeoutListActivity : AppCompatActivity(), SetTakeoutListener {
         // こうすることで、最近利用する商品や最近登録した商品が上にくるようになる（気が付くねぇ・・・）
         val realmResults: RealmResults<TakeoutData>
 
-//        val realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)//.sort("first", Sort.DESCENDING)
+        when (sortSpn2.selectedItem.toString()) {
+            // 使用日順（イマイチ悩ましい）
+            sortList[0] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)
+            sortList[1] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.ASCENDING)
+            // 評価順
+            sortList[2] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING).sort("rating", Sort.DESCENDING)
+            sortList[3] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING).sort("rating", Sort.ASCENDING)
+            // 使用回数
+            sortList[4] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING).sort("count", Sort.DESCENDING)
+            sortList[5] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING).sort("count", Sort.ASCENDING)
+            // 購入店
+            sortList[6] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING).sort("chain", Sort.DESCENDING)
+            sortList[7] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING).sort("chain", Sort.ASCENDING)            // TODO: 回数×金額でソートもしたいけど、ものすごく面倒？ いや簡単？
+            // etc
+            else -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)
+        }
 
+
+//        val realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)//.sort("first", Sort.DESCENDING)
+        /*
         if( isCalledFromBrewEditToTakeout ) {
             realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)
         } else {
@@ -170,6 +187,7 @@ class TakeoutListActivity : AppCompatActivity(), SetTakeoutListener {
                 }
             }
         }
+*/
 
         // 1行のViewを表示するレイアウトマネージャーを設定する
         // LinearLayout、GridLayout、独自も選べるが無難にLinearLayoutManagerにする
