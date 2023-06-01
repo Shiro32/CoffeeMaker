@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.sakuraweb.fotopota.coffeemaker.*
@@ -53,7 +54,8 @@ class StatsFragment : Fragment() {
         super.onStart()
 
         // ツールバーやメニューの装備（ホームなのでメニュー無いけど）
-        val ma = activity as MainActivity
+        // 2023/6/1 MainActivitiy→AppCompatActivity
+        val ma = activity as AppCompatActivity
 
         // スコープを使ってみたけど、あまり楽にならない
         ma.supportActionBar?.apply {

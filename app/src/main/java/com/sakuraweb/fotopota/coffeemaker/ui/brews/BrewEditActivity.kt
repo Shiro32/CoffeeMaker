@@ -463,6 +463,7 @@ class BrewEditActivity : AppCompatActivity() {
                         val nextID = (maxID?.toLong() ?: 0L) + 1L
 
                         // ここから書き込み
+                        // 両辺で同じメンバ名を使っているので、Applyは使えない！
                         val brew = realm.createObject<BrewData>(nextID)
                         brew.date = brewDate
                         brew.rating = brewRating

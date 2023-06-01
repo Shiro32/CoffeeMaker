@@ -38,7 +38,8 @@ class StatsTakeout : Fragment() {
         Log.d("SHIRO", "STATS-TAKEOUT / onResume")
 //        blackToast( context as Context, "外飲みResume" )
 
-        (activity as MainActivity).sortSpn.onItemSelectedListener = TakeoutSpinnerChangeListener()
+        // 2023/6/1 MainActivity→AppCompatActivity
+        (activity as AppCompatActivity).sortSpn.onItemSelectedListener = TakeoutSpinnerChangeListener()
         drawTakeoutStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
     }
 
@@ -95,21 +96,22 @@ class StatsTakeout : Fragment() {
         tempTakeoutRealm.executeTransaction { tempTakeouts.deleteAllFromRealm() }
 
         tempTakeoutRealm.beginTransaction()
-        for( org in takeouts) {
-            var dst = tempTakeoutRealm.createObject<TakeoutData>(org.id)
-            dst.first   = org.first
-            dst.name    = org.name
-            dst.chain   = org.chain
-            dst.shop    = org.shop
-            dst.price   = org.price
-            dst.size    = org.size
-            dst.memo    = org.memo
+        for( org in takeouts)
+            tempTakeoutRealm.createObject<TakeoutData>(org.id).apply {
+                first   = org.first
+                name    = org.name
+                chain   = org.chain
+                shop    = org.shop
+                price   = org.price
+                size    = org.size
+                memo    = org.memo
 
-            // ここから下のプロパティは範囲限定の際は意味なし
-            dst.recent  = org.recent
-            dst.rating  = org.rating
-            dst.count   = org.count
-        }
+                // ここから下のプロパティは範囲限定の際は意味なし
+                recent  = org.recent
+                rating  = org.rating
+                count   = org.count
+            }
+
         tempTakeoutRealm.commitTransaction()
 
         // これでオリジナルは用無しなので閉める

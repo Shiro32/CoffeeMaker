@@ -36,7 +36,9 @@ class StatsHome : Fragment() {
         super.onResume()
         Log.d("SHIRO", "STATS-HOME / onResume")
         drawHomeStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
-        (activity as MainActivity).sortSpn.onItemSelectedListener = HomeSpinnerChangeListener()
+
+        // 2023/6/1 MainActivity→AppCompatActivity
+        (activity as AppCompatActivity).sortSpn.onItemSelectedListener = HomeSpinnerChangeListener()
     }
 
     //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－

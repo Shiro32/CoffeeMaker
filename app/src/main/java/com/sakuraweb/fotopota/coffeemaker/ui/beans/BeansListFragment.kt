@@ -30,40 +30,40 @@ import kotlinx.android.synthetic.main.fragment_beans_list.*
 import kotlinx.android.synthetic.main.fragment_beans_list.view.*
 import java.util.*
 
+// 普通にホーム画面から呼ばれた時と、Brewから呼ばれた時（選択用）を区別するためのフラグ
 var isCalledFromBrewEditToBeans: Boolean = false
 
-// 各種表示設定（設定画面で設定したものの保持用）
+// 各種表示設定（CONFIG画面で設定したものの保持用）
 var beansListStyle: Int = 0
 var configBeansBuyMax = 500F
 
 // クラス内に書くとCreateのたびに初期化される。ここに書かないといけない
+// リサイクラーのポジションを記憶させておく
 private var beansRecyclerPosition: Int = 0
 
 // Sleep中にアクティビティがKillされることがあるので、リロード簡単にできるよう、関数化した
 // メモリの少ないRakuten miniでは頻発する模様・・・。
+// 他の項目はBREWでのやり方を参照する
 fun readBeansConfig( context: Context ) {
-    // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
+    // 表示項目のON/OFFをPreferenceから読んでおく
     PreferenceManager.getDefaultSharedPreferences(context as Context).apply {
-//            settingTermSw   = getBoolean("term_sw", true)
-//            settingKmSw     = getBoolean("km_sw", true)
-//            settingKcalSw   = getBoolean("kcal_sw", true)
-//            settingMemoSw   = getBoolean("memo_sw", true)
-//            settingMenuSw   = getBoolean("menu_sw", true)
-//            settingPlaceSw  = getBoolean("place_sw", true)
         beansListStyle = if( getString("list_sw", "") == "card" ) R.layout.one_beans_card else R.layout.one_beans_flat
         getString("beans_buy_max", "00")?.let { configBeansBuyMax = it.toFloat() }
     }
 }
 
+
+
+// ようやくBeansFragmentの定義開始
 class BeansFragment : Fragment(), SetBeansListener {
     private lateinit var realm: Realm                               // とりあえず、Realmのインスタンスを作る
-    private lateinit var adapter: BeansRecyclerViewAdapter           // アダプタのインスタンス
+    private lateinit var adapter: BeansRecyclerViewAdapter          // アダプタのインスタンス
     private lateinit var layoutManager: RecyclerView.LayoutManager  // レイアウトマネージャーのインスタンス
-    private lateinit var realmResults: RealmResults<BeansData>
+    private lateinit var realmResults: RealmResults<BeansData>      // 豆リストの配列（REALM)
 
-    private lateinit var sortList: Array<String>
-    private var beansSpinPosition:Int = 0
-    private lateinit var beansSpinSelectedItem: String
+    private lateinit var sortList: Array<String>                    // SortSpinnerの配列（購入日順、金額順・・・）
+    private var beansSpinPosition:Int = 0                           // そのポジション（↑）
+    private lateinit var beansSpinSelectedItem: String              // その文字列（↑）
 
     // これ、何のフラグだ！？
     private var beansFirstSortSpin: Boolean = true
@@ -166,6 +166,9 @@ class BeansFragment : Fragment(), SetBeansListener {
                 beansSpinPosition = selectedItemPosition
                 beansSpinSelectedItem = selectedItem.toString()
 
+                // TODO: 2023/6/1 なんらかの対策だとは思われるが不明
+                // どうも、SpinnerのListenerを実装したときに、思わず１回呼ばれちゃうみたい
+                // その１回目では何も処理をさせたくなくて、ここで返しちゃう（良く思いついたな・・・）
                 if( beansFirstSortSpin ) {
                     Log.d("SHIRO", "BEANS / 偽Spinner")
                     beansFirstSortSpin = false
@@ -206,26 +209,33 @@ class BeansFragment : Fragment(), SetBeansListener {
     // Realmから豆データを読み込む
     // それだけなんだけど、ソートが面倒なので関数
     // v3.7まではBrewEditから呼ばれた際はSpineerが無かったが、実装した
+    // 本当はUP/DOWNを選ばせたいが作るの面倒なので、選択肢を倍増でごまかす(DESCENDING/ASCENDING)
     private fun loadBeansData() {
         when ( beansSpinSelectedItem ) {
             // 最新購入日順
             sortList[0] -> realmResults = realm.where<BeansData>().findAll().sort("repeatDate", Sort.DESCENDING)
-            // 仕様日順
-            sortList[1] ->  realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
+            sortList[1] -> realmResults = realm.where<BeansData>().findAll().sort("repeatDate", Sort.ASCENDING)
+            // 使用日順
+            sortList[2] ->  realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
+            sortList[3] ->  realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.ASCENDING)
             // 評価順
-            sortList[2] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("rating", Sort.DESCENDING)
+            sortList[4] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("rating", Sort.DESCENDING)
+            sortList[5] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("rating", Sort.ASCENDING)
             // 回数順
-            sortList[3] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("count", Sort.DESCENDING)
+            sortList[6] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("count", Sort.DESCENDING)
+            sortList[7] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("count", Sort.ASCENDING)
             // 購入店
-            sortList[4] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("shop", Sort.DESCENDING)
+            sortList[8] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("shop", Sort.DESCENDING)
+            sortList[9] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("shop", Sort.ASCENDING)
             // 金額
-            sortList[5] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("price", Sort.DESCENDING)
+            sortList[10] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("price", Sort.DESCENDING)
+            sortList[11] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("price", Sort.ASCENDING)
             // etc
             else -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
         }
     }
 
-
+    // Fragment構築の最初のcall
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d("SHIRO", "BEANS / onViewCreated")
         super.onViewCreated(view, savedInstanceState)
@@ -236,14 +246,12 @@ class BeansFragment : Fragment(), SetBeansListener {
         beansRecycleView.layoutManager = layoutManager
 
         loadBeansData()
-//        realmResults = realm.where<BeansData>().findAll()
 
         // アダプターを設定する
         adapter = BeansRecyclerViewAdapter(realmResults, this)
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         beansRecycleView.adapter = this.adapter
     }
-
 
 
 

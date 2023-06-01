@@ -203,7 +203,8 @@ class BrewFragment : Fragment() {
 
 
             // onCreateView, onViewCreatedではSpinにアクセルできないので、グローバル保管
-            (activity as MainActivity).sortSpn.apply {
+            // 2023/6/1 どうもMainActivityではなく、AppCompatActivityが正しい模様（これが原因で落ちている）
+            (activity as AppCompatActivity).sortSpn.apply {
                 brewSpinPosition = selectedItemPosition
                 brewSpinSelectedItem = selectedItem.toString()
 
@@ -246,19 +247,25 @@ class BrewFragment : Fragment() {
     }
 
     private fun loadBrewData() {
+
+        // V3.7から選択肢を倍増（UP/DOWN）
         when( brewSpinSelectedItem ) {
             // 日付順
-            sortList[0] -> realmResults = realm.where<BrewData>().findAll().sort("date", Sort.DESCENDING) // 日付順
+            sortList[0] -> realmResults = realm.where<BrewData>().findAll().sort("date", Sort.DESCENDING) // 日付順UP
+            sortList[1] -> realmResults = realm.where<BrewData>().findAll().sort("date", Sort.ASCENDING) // 日付順DOWN
             // 評価準
-            sortList[1] -> realmResults = realm.where<BrewData>().findAll().sort("date", Sort.DESCENDING).sort("rating", Sort.DESCENDING)
+            sortList[2] -> realmResults = realm.where<BrewData>().findAll().sort("date", Sort.DESCENDING).sort("rating", Sort.DESCENDING)
+            sortList[3] -> realmResults = realm.where<BrewData>().findAll().sort("date", Sort.ASCENDING).sort("rating", Sort.DESCENDING)
             // 使用豆
-            sortList[2] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.DESCENDING).sort("beansID", Sort.DESCENDING)
+            sortList[4] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.DESCENDING).sort("beansID", Sort.DESCENDING)
+            sortList[5] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.ASCENDING).sort("beansID", Sort.DESCENDING)
             // メソッド順
-            sortList[3] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.DESCENDING).sort("methodID", Sort.DESCENDING)
+            sortList[6] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.DESCENDING).sort("methodID", Sort.DESCENDING)
+            sortList[7] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.ASCENDING).sort("methodID", Sort.DESCENDING)
             // 家のみ
-            sortList[4] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.DESCENDING)
+            sortList[8] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_HOME).findAll().sort("date", Sort.DESCENDING)
             // 外飲み
-            sortList[5] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_SHOP).findAll().sort("date", Sort.DESCENDING).sort("beansID", Sort.DESCENDING)
+            sortList[9] -> realmResults = realm.where<BrewData>().equalTo("place", BREW_IN_SHOP).findAll().sort("date", Sort.DESCENDING).sort("beansID", Sort.DESCENDING)
             else ->  realmResults = realm.where<BrewData>().findAll().sort("date", Sort.DESCENDING)
         }
 

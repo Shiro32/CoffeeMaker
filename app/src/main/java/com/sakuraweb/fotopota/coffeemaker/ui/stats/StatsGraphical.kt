@@ -41,7 +41,8 @@ class StatsGraphical : Fragment() {
 
         // 以前は、月別Spinnerを親Fragmentで処理していたが、
         // 各STATSのFragmentで自分で処理するように変更（３フラグメントとも、自分でやる）
-        (activity as MainActivity).sortSpn.onItemSelectedListener = GraphSpinnerChangeListener()
+        // 2023/6/1 MainActivity→AppCompatActivity
+        (activity as AppCompatActivity).sortSpn.onItemSelectedListener = GraphSpinnerChangeListener()
 
         drawBarGraph( prepareToStats(selectedPage, spinPosition, spinSelectedItem ) )
     }
@@ -53,7 +54,6 @@ class StatsGraphical : Fragment() {
 
             // 以前はここでヌルポチェックをやっていたが、3.70から廃止
 //            if( activity==null ) return
-
 
             // Spinnerの情報をグローバル変数に保管しておく
             (activity as AppCompatActivity).sortSpn.apply {

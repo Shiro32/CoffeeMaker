@@ -11,21 +11,31 @@
     </array>
 
     <array name="sort_mode_brew">
-        <item>日付順</item>
-        <item>評価順</item>
-        <item>使用豆順</item>
-        <item>抽出法順</item>
+        <item>日付順(↑)</item>
+        <item>日付順(↓)</item>
+        <item>評価順(UP)</item>
+        <item>評価順(DOWN)</item>
+        <item>使用豆順(UP)</item>
+        <item>使用豆順(DOWN)</item>
+        <item>抽出法順(UP)</item>
+        <item>抽出法順(DOWN)</item>
         <item>市販除外</item>
         <item>市販だけ</item>
     </array>
 
     <array name="sort_mode_beans">
-        <item>購入日順</item>
-        <item>使用日順</item>
-        <item>評価順</item>
-        <item>使用回数</item>
-        <item>購入店</item>
-        <item>金額順</item>
+        <item>購入日順(UP)</item>
+        <item>購入日順(DOWN)</item>
+        <item>使用日順(UP)</item>
+        <item>使用日順(DOWN)</item>
+        <item>評価順(UP)</item>
+        <item>評価順(DOWN)</item>
+        <item>使用回数(UP)</item>
+        <item>使用回数(DOWN)</item>
+        <item>購入店(UP)</item>
+        <item>購入店(DOWN)</item>
+        <item>金額順(UP)</item>
+        <item>金額順(DOWN)</item>
     </array>
 
     <array name="sort_mode_takeout">
