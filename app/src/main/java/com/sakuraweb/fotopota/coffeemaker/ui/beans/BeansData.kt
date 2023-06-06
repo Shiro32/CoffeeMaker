@@ -48,7 +48,7 @@ open class BeansData : RealmObject() {
     var process: Int = 0    // 豆処理（washedなど、v2から）
     var country: String ="" // 原産国（v5から)
     var memo: String = ""   // メモ
-    var imageURI: String=""      // 写真ＵＲＩ（v4から登場）
+    var imageURI: String="" // 写真ＵＲＩ（v4から登場）
 }
 
 

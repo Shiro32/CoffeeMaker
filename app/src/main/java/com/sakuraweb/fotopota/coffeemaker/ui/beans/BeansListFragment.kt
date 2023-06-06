@@ -230,6 +230,9 @@ class BeansFragment : Fragment(), SetBeansListener {
             // 金額
             sortList[10] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("price", Sort.DESCENDING)
             sortList[11] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("price", Sort.ASCENDING)
+            // あいうえお順
+            sortList[12] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("name", Sort.DESCENDING)
+            sortList[13] -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING).sort("name", Sort.ASCENDING)
             // etc
             else -> realmResults = realm.where<BeansData>().findAll().sort("recent", Sort.DESCENDING)
         }

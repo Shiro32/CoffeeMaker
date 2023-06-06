@@ -150,6 +150,9 @@ class TakeoutListActivity : AppCompatActivity(), SetTakeoutListener {
             // 購入店
             sortList[6] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING).sort("chain", Sort.DESCENDING)
             sortList[7] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING).sort("chain", Sort.ASCENDING)            // TODO: 回数×金額でソートもしたいけど、ものすごく面倒？ いや簡単？
+            // 名前順
+            sortList[8] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING).sort("name", Sort.DESCENDING)
+            sortList[9] -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING).sort("name", Sort.ASCENDING)            // TODO: 回数×金額でソートもしたいけど、ものすごく面倒？ いや簡単？
             // etc
             else -> realmResults = realm.where<TakeoutData>().findAll().sort("recent", Sort.DESCENDING)
         }

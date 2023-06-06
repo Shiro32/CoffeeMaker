@@ -36,6 +36,8 @@
         <item>▼購入店</item>
         <item>▲金額順</item>
         <item>▼金額順</item>
+        <item>▲読み順</item>
+        <item>▼読み順</item>
     </array>
 
     <array name="sort_mode_takeout">
@@ -47,6 +49,8 @@
         <item>▼使用回数</item>
         <item>▲購入店</item>
         <item>▼購入店</item>
+        <item>▲読み順</item>
+        <item>▼読み順</item>
     </array>
 
 
