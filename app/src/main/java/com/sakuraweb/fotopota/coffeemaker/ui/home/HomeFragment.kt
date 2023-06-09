@@ -91,6 +91,8 @@ fun calcCupsDrunkOfPeriod(place: Int, begin: Calendar, end:Calendar) : Int {
     return cups
 }
 
+// トップページで全期間でのコーヒーカップ数を表示するためだけの関数
+// 全く無駄に、全部のBrewsデータベースをチェックしている
 fun calcCupsOfMonth(y:Int, m:Int): Int {
     var begin: Date
     var end: Date
@@ -134,7 +136,7 @@ class HomeFragment : Fragment() {
         root.sinceText.text = theFirstBrew
 
         // copyrightメッセージにURLを埋め込む
-        root.copyRightText.setText(Html.fromHtml("v3.70 ©2023 Shiro, <a href=\"http://fotopota.sakuraweb.com\">フォトポタ日記2.0</a>"))
+        root.copyRightText.setText(Html.fromHtml("v3.80 ©2023 Shiro, <a href=\"http://fotopota.sakuraweb.com\">フォトポタ日記2.0</a>"))
         root.copyRightText.movementMethod = LinkMovementMethod.getInstance()
 
         // privacy policyにURLを埋め込む

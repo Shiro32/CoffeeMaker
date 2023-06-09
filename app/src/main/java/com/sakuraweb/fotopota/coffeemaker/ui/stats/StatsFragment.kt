@@ -49,9 +49,12 @@ class StatsFragment : Fragment() {
     // onStartのタイミングではまだSpinnerが用意できていないのか、子要素のFragmentが起動していないのか
     // 個別のfragmentでやっていた、ヌルポチェックは廃止する
     // （やったことは、onStartをonResumeに書き換えただけ）
+    // v3.71くらいで再度、onStartに戻っていたため（謎）、onResumeに再修正
+    // v3.71では、MainActivityではなく、AppCompatActivityでうまくいけそうだったので、各地のヌルポチェックをやめた
+    // でも、問題はそこではなく、やはり、再描画のタイミングだった模様（onStart→onResume）
 
-    override fun onStart() {   // v3.70以前はonStartだった
-        super.onStart()
+    override fun onResume() {   // v3.70以前はonStartだった
+        super.onResume()
 
         // ツールバーやメニューの装備（ホームなのでメニュー無いけど）
         // 2023/6/1 MainActivitiy→AppCompatActivity
