@@ -35,10 +35,13 @@ class StatsHome : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d("SHIRO", "STATS-HOME / onResume")
-        drawHomeStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
+
+        // このタイミングでのタイトル描画は早すぎるのかもしれない・・・。
+        drawHomeStats( prepareToStats( 0, spinPosition, spinSelectedItem) )
 
         // 2023/6/1 MainActivity→AppCompatActivity
         (activity as AppCompatActivity).sortSpn.onItemSelectedListener = HomeSpinnerChangeListener()
+
     }
 
     //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－

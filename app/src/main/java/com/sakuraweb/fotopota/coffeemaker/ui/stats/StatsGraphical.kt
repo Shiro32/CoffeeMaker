@@ -44,7 +44,7 @@ class StatsGraphical : Fragment() {
         // 2023/6/1 MainActivity→AppCompatActivity
         (activity as AppCompatActivity).sortSpn.onItemSelectedListener = GraphSpinnerChangeListener()
 
-        drawBarGraph( prepareToStats(selectedPage, spinPosition, spinSelectedItem ) )
+        drawBarGraph( prepareToStats( 2, spinPosition, spinSelectedItem ) )
     }
     //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
     // 月別Spinnerを変更した際のグラフ再描画処理

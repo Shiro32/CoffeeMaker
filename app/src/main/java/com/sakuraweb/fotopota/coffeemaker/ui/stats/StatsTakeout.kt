@@ -40,7 +40,7 @@ class StatsTakeout : Fragment() {
 
         // 2023/6/1 MainActivity→AppCompatActivity
         (activity as AppCompatActivity).sortSpn.onItemSelectedListener = TakeoutSpinnerChangeListener()
-        drawTakeoutStats( prepareToStats(selectedPage, spinPosition, spinSelectedItem) )
+        drawTakeoutStats( prepareToStats( 1, spinPosition, spinSelectedItem) )
     }
 
     //　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
