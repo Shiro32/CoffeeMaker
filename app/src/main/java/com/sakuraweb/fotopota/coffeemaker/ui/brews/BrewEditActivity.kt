@@ -94,6 +94,8 @@ class BrewEditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d("SHIRO", "brew-edit / onCreate")
 
+        var waterTicks: Int = 0
+
         // 編集画面を作る
         setContentView(R.layout.activity_brew_edit)
 
@@ -132,6 +134,9 @@ class BrewEditActivity : AppCompatActivity() {
         } else {
             brewEditWaterVolumeBar.max = configWaterVolumeMax
             brewEditWaterVolumeBar.min = configWaterVolumeMin
+            val waterWidth = configWaterVolumeMax - configWaterVolumeMin
+
+            waterTicks = ( waterWidth / if(waterWidth<=240.0) 5 else 10 ).toInt()+1
         }
 
         if( !configTempSw ) { // 温度
@@ -215,7 +220,11 @@ class BrewEditActivity : AppCompatActivity() {
                     brewEditGrindSw.isChecked = (brew.beansGrindSw == GRIND_SW_ROTATION)
                     brewEditGrind1Bar.setProgress(brew.beansGrind)
                     brewEditGrind2Bar.setProgress(brew.beansGrind2)
+
+                    // 水量だけは5ml単位にしてほしいとの意見が・・・
                     brewEditWaterVolumeBar.setProgress(brew.waterVolume)
+                    brewEditWaterVolumeBar.tickCount = waterTicks
+
                     brewEditBeansUseBar.setProgress(brew.beansUse)
                     brewEditTempBar.setProgress(brew.temp)
                     brewEditSteamBar.setProgress(brew.steam)
