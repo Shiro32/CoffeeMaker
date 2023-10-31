@@ -134,8 +134,10 @@ class BrewEditActivity : AppCompatActivity() {
         } else {
             brewEditWaterVolumeBar.max = configWaterVolumeMax
             brewEditWaterVolumeBar.min = configWaterVolumeMin
-            val waterWidth = configWaterVolumeMax - configWaterVolumeMin
+            brewEditWaterVolumeMinLabel.text = configWaterVolumeMin.toInt().toString()
+            brewEditWaterVolumeMaxLabel.text = configWaterVolumeMax.toInt().toString()
 
+            val waterWidth = configWaterVolumeMax - configWaterVolumeMin
             waterTicks = ( waterWidth / if(waterWidth<=240.0) 5 else 10 ).toInt()+1
         }
 

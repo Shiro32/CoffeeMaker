@@ -187,6 +187,23 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toBottomOf="@+id/brewEditHotIceSWLabel" />
 
+            <TextView
+                android:id="@+id/brewEditWaterVolumeMinLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="00"
+                app:layout_constraintBottom_toBottomOf="@+id/brewEditWaterVolumeBar"
+                app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+            <TextView
+                android:id="@+id/brewEditWaterVolumeMaxLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="120"
+                app:layout_constraintBottom_toBottomOf="@+id/brewEditWaterVolumeBar"
+                app:layout_constraintEnd_toEndOf="@+id/brewEditWaterVolumeBar" />
+
             <com.warkiz.widget.IndicatorSeekBar
                 android:id="@+id/brewEditWaterVolumeBar"
                 android:layout_width="0dp"
