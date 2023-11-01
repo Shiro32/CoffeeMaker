@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId "com.sakuraweb.fotopota.coffeemaker"
         minSdkVersion 26
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 35
         versionName "3.75"
 

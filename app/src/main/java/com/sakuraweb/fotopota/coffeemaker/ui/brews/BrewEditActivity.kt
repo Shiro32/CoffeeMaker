@@ -138,7 +138,7 @@ class BrewEditActivity : AppCompatActivity() {
             // シークバー（InformationSeekBar）の仕様でカウントは40までなので、こういう面倒な処理になる
             val waterWidth = (configWaterVolumeMax - configWaterVolumeMin).toInt()
             val waterSteps = when( waterWidth ) {
-                in   0..240   -> 5
+                in   0..240 -> 5
                 in 241..400 -> 10
                 in 401..900 -> 20
                 else        -> (waterWidth / 40).toInt()
