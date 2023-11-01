@@ -100,10 +100,7 @@ class BrewEditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_brew_edit)
 
         // 回転時における、仮選択中の画像復元
-        if( savedInstanceState != null )
-            _imageUri = Uri.parse( savedInstanceState.getString("imageUri") )
-        else
-            _imageUri = null
+        _imageUri = if ( savedInstanceState!=null ) Uri.parse( savedInstanceState.getString( "imageUri")) else null
 
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
