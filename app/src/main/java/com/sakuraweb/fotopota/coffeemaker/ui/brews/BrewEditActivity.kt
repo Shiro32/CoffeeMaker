@@ -137,8 +137,16 @@ class BrewEditActivity : AppCompatActivity() {
             brewEditWaterVolumeMinLabel.text = configWaterVolumeMin.toInt().toString()
             brewEditWaterVolumeMaxLabel.text = configWaterVolumeMax.toInt().toString()
 
-            val waterWidth = configWaterVolumeMax - configWaterVolumeMin
-            waterTicks = ( waterWidth / if(waterWidth<=240.0) 5 else 10 ).toInt()+1
+            // 水量の上限・下限の幅から、シークバーのステップを決める
+            // シークバー（InformationSeekBar）の仕様でカウントは40までなので、こういう面倒な処理になる
+            val waterWidth = (configWaterVolumeMax - configWaterVolumeMin).toInt()
+            val waterSteps = when( waterWidth ) {
+                in   0..240   -> 5
+                in 241..400 -> 10
+                in 401..900 -> 20
+                else        -> (waterWidth / 40).toInt()
+            }
+            waterTicks =  waterWidth / waterSteps + 1
         }
 
         if( !configTempSw ) { // 温度

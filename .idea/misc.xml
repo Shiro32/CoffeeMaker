@@ -16,14 +16,16 @@
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_config.xml" value="0.434375" />
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_home.xml" value="0.5" />
         <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_stats.xml" value="0.434375" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_brew_edit.xml" value="0.5" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_main.xml" value="0.1859375" />
+        <entry key="..\:/Users/dm/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_stats_home.xml" value="0.3875" />
+        <entry key="..\:/Users/dm/Documents/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_brew_edit.xml" value="0.37552083333333336" />
+        <entry key="..\:/Users/dm/Documents/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_config.xml" value="0.37552083333333336" />
+        <entry key="..\:/Users/dm/Documents/AndroidStudioProjects/CoffeeMaker/app/src/main/res/xml/root_preferences.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_takeout_list.xml" value="0.33" />
         <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_takeout_select.xml" value="0.18703703703703703" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

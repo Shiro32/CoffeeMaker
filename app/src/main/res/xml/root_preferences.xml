@@ -147,6 +147,8 @@
 
     <PreferenceCategory
         android:title="@string/config_inputs_water_volume_title"
+        android:summary="@string/config_appearance_header"
+
         app:icon="@android:drawable/ic_menu_manage"
         app:iconSpaceReserved="false">
         <SwitchPreferenceCompat
