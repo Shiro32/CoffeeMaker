@@ -89,9 +89,9 @@ class ConfigFragment : PreferenceFragmentCompat() {
             editText.inputType = InputType.TYPE_CLASS_NUMBER
         }
 
-        findPreference<EditTextPreference>("water_volume_max")?.setOnBindEditTextListener { editText ->
-            editText.inputType = InputType.TYPE_CLASS_NUMBER
-        }
+//        findPreference<EditTextPreference>("water_volume_max")?.setOnBindEditTextListener { editText ->
+//            editText.inputType = InputType.TYPE_CLASS_NUMBER
+//        }
 
         findPreference<EditTextPreference>("temp_min")?.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER

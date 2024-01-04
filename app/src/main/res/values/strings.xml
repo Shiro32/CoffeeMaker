@@ -311,7 +311,7 @@ V3.22までは新しい豆を購入の都度、別データとして登録せざ
     <string name="config_inputs_water_volume_min_label">最小量</string>
     <string name="config_inputs_water_volume_max_label">最大量</string>
     <string name="config_inputs_water_volume_unit">湯量の単位</string>
-
+    <string name="config_inputs_water_volume_label">湯量の最大値</string>
 
     <string name="config_inputs_temp_title">湯温の設定</string>
     <string name="config_inputs_temp_min_label">最小温度(℃)</string>

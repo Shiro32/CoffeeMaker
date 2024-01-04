@@ -126,9 +126,23 @@ class BrewEditActivity : AppCompatActivity() {
         }
 
         if( !configWaterVolumeSw ) {   // 抽出cc
+            // （まずないと思うけど）水量設定を不要としている場合
             brewEditWaterVolumeBar.visibility = View.GONE
             brewEditWaterVolumeLabel.visibility = View.GONE
         } else {
+            // 水量設定がある場合、スライドバーをセットする必要があり、これがとてつもなく面倒くさい
+            brewEditWaterVolumeBar.min = 0F  // 設定は残っているけど、とにかく０にしちゃう
+            brewEditWaterVolumeMinLabel.text = configWaterVolumeMin.toInt().toString()
+            brewEditWaterVolumeMaxLabel.text = configWaterVolumeMax.toInt().toString()
+
+            // 最大値をconfigから読み込み→刻み値決定→ticks決定（非常に面倒）
+            val waterMax = configWaterVolumeMax // configから最大値読み込み
+            val waterStep = waterVolumeSteps[waterMax.toInt()]
+            if( waterStep!=null )  waterTicks = (waterMax / waterStep ).toInt()
+
+            // TODO: 入力済みの水量が刻み値に合わないなら、ticksをやめる（無段階）
+            // TODO: でも、この段階では入力済みの水量がわからないので、DB読み込み時に積み残し
+        /*
             brewEditWaterVolumeBar.max = configWaterVolumeMax
             brewEditWaterVolumeBar.min = configWaterVolumeMin
             brewEditWaterVolumeMinLabel.text = configWaterVolumeMin.toInt().toString()
@@ -136,14 +150,25 @@ class BrewEditActivity : AppCompatActivity() {
 
             // 水量の上限・下限の幅から、シークバーのステップを決める
             // シークバー（InformationSeekBar）の仕様でカウントは40までなので、こういう面倒な処理になる
+
+            // waterWidth   : 水量のふり幅（max-min）
+            // waterStep    ： 水量の調整幅（5ccおき、10ccおき・・・）
+            // waterTicks   : 水量の分割数（≒waterWIdth / waterStep）
+
+
             val waterWidth = (configWaterVolumeMax - configWaterVolumeMin).toInt()
-            val waterSteps = when( waterWidth ) {
+            val waterStep = when( waterWidth ) {
                 in   0..240 -> 5
                 in 241..400 -> 10
                 in 401..900 -> 20
                 else        -> (waterWidth / 40).toInt()
             }
-            waterTicks =  waterWidth / waterSteps + 1
+
+            // 他データを複製（COPY）したとき、すでにtickに整合しないデータが入っていた場合の処理
+            // しょうがないので、tickを0にして無断設定可能にするしかない・・・。
+            waterTicks =  waterWidth / waterStep + 1
+*/
+
         }
 
         if( !configTempSw ) { // 温度
