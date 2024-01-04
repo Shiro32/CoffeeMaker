@@ -19,8 +19,8 @@ android {
         applicationId "com.sakuraweb.fotopota.coffeemaker"
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode 37
-        versionName "3.75"
+        versionCode 38
+        versionName "3.76"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

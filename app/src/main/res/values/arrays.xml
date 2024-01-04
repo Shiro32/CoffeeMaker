@@ -418,7 +418,7 @@
         <item>show</item>
     </array>
 
-    <array name="water_volume_max_selects">
+    <string-array name="water_volume_max_selects">
         <item>100（10刻み）</item>
         <item>150（10刻み）</item>
         <item>200（10刻み）</item>
@@ -433,9 +433,9 @@
         <item>800（20刻み）</item>
         <item>900（30刻み）</item>
         <item>1000（50刻み）</item>
-    </array>
+    </string-array>
 
-    <array name="water_volume_max_values">
+    <string-array name="water_volume_max_values">
         <item>100</item>
         <item>150</item>
         <item>200</item>
@@ -450,23 +450,24 @@
         <item>800</item>
         <item>900</item>
         <item>1000</item>
-    </array>
+    </string-array>
 
     <array name="water_volume_steps">
-        <item>100</item>
-        <item>150</item>
-        <item>200</item>
-        <item>250</item>
-        <item>300</item>
-        <item>350</item>
-        <item>400</item>
-        <item>450</item>
-        <item>500</item>
-        <item>600</item>
-        <item>700</item>
-        <item>800</item>
-        <item>900</item>
-        <item>1000</item>
+        <item>10</item>
+        <item>10</item>
+        <item>10</item>
+        <item>10</item>
+        <item>10</item>
+        <item>10</item>
+        <item>20</item>
+        <item>25</item>
+        <item>20</item>
+        <item>20</item>
+        <item>20</item>
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+
     </array>
 
 </resources>

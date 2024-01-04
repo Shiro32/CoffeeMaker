@@ -137,9 +137,11 @@ class BrewEditActivity : AppCompatActivity() {
 
             // 最大値をconfigから読み込み→刻み値決定→ticks決定（非常に面倒）
             val waterMax = configWaterVolumeMax // configから最大値読み込み
-            val waterStep = waterVolumeSteps[waterMax.toInt()]
-            if( waterStep!=null )  waterTicks = (waterMax / waterStep ).toInt()
+            val waterStep = waterVolumeSteps[waterMax.toFloat()]
+            if( waterStep!=null ) waterTicks = (waterMax / waterStep).toInt()+1
 
+            brewEditWaterVolumeBar.max = waterMax
+            brewEditWaterVolumeBar.tickCount = waterTicks
             // TODO: 入力済みの水量が刻み値に合わないなら、ticksをやめる（無段階）
             // TODO: でも、この段階では入力済みの水量がわからないので、DB読み込み時に積み残し
         /*
@@ -255,6 +257,10 @@ class BrewEditActivity : AppCompatActivity() {
 
                     // 水量だけは5ml単位にしてほしいとの意見が・・・
                     brewEditWaterVolumeBar.setProgress(brew.waterVolume)
+
+                    // TODO: デフォルトのTickで設定できる数字の場合はそのまま
+                    // TODO: そうでない場合は、tickCountを0にしちゃう（1ccにもどす）
+                    // TODO: デフォルトのTickで表現できているかのチェックが面倒化もしれない
                     brewEditWaterVolumeBar.tickCount = waterTicks
 
                     brewEditBeansUseBar.setProgress(brew.beansUse)
@@ -444,6 +450,9 @@ class BrewEditActivity : AppCompatActivity() {
             setPositiveButton("OK",
                 object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
+                        // どんな値も設定できるように、バーの設定を変更する（descreteをオフにする）
+                        bar.tickCount = 0
+
                         var v = input.text.toString().toFloat()
                         if( v<bar.min ) v=bar.min
                         if( v>bar.max ) v=bar.max

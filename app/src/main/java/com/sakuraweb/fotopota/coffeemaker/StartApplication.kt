@@ -82,20 +82,20 @@ lateinit var milkLabels:  Array<String>
 // 水量ごとの刻み値
 // 本当はマップでやるべきだとは思うのだけど、やり方わからず(valueの方に、300/10とか書く？
 val waterVolumeSteps = mutableMapOf(
-    100 to 10,
-    150 to 10,
-    200 to 10,
-    250 to 10,
-    300 to 10,
-    350 to 10,
-    400 to 20,
-    450 to 25,
-    500 to 20,
-    600 to 20,
-    700 to 20,
-    800 to 20,
-    900 to 30,
-    1000 to 50
+    100.0F to 10,
+    150.0F to 10,
+    200.0F to 10,
+    250.0F to 10,
+    300.0F to 10,
+    350.0F to 10,
+    400.0F to 20,
+    450.0F to 25,
+    500.0F to 20,
+    600.0F to 20,
+    700.0F to 20,
+    800.0F to 20,
+    900.0F to 30,
+    1000.0F to 50
 )
 
 const val brew_list_backup      = "brew_list_backup.realm"
