@@ -45,6 +45,7 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
     var miniBrewTimeText:TextView?= null
     var miniSugarText:  TextView? = null
     var miniMilkText:   TextView? = null
+    var miniCBRText:    TextView? = null
     var miniCupsBrewedText: TextView? = null
     var miniCupsDrunkText:  TextView? = null
 
@@ -56,6 +57,7 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
     var miniBrewTime:   LinearLayout? = null
     var miniSugar:      LinearLayout? = null
     var miniMilk:       LinearLayout? = null
+    var miniCBR:        LinearLayout? = null
     var miniCupsBrewed: LinearLayout? = null
     var miniCupsDrunk:  LinearLayout? = null
 
@@ -81,6 +83,7 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         miniBrewTimeText= iv.miniBrewTimeText
         miniSugarText   = iv.miniSugarText
         miniMilkText    = iv.miniMilkText
+        miniCBRText     = iv.miniCBRText
         miniCupsBrewedText = iv.miniCupsBrewedText
         miniCupsDrunkText  = iv.miniCupsDrunkText
 
@@ -91,6 +94,7 @@ class BrewViewHolder(iv: View) : RecyclerView.ViewHolder(iv){
         miniVolume      = iv.miniVolume
         miniBrewTime    = iv.miniBrewTime
         miniMilk        = iv.miniMilk
+        miniCBR         = iv.miniCBR
         miniSugar       = iv.miniSugar
         miniCupsBrewed  = iv.miniCupsBrewed
         miniCupsDrunk   = iv.miniCupsDrunk

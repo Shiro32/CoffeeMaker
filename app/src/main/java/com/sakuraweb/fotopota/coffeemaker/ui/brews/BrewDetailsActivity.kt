@@ -105,7 +105,12 @@ class BrewDetailsActivity : AppCompatActivity() {
                     brewDetailsWaterVolumeLabel.visibility = View.GONE
                 } else {
                     brewDetailsWaterVolumeBar.max = configWaterVolumeMax
-                    brewDetailsWaterVolumeBar.min = configWaterVolumeMin
+//                    brewDetailsWaterVolumeBar.min =  configWaterVolumeMin
+                }
+
+                if( !configCBRSw ) {
+                    brewDetailsCBRBar.visibility = View.GONE
+                    brewDetailsCBRLabel.visibility = View.GONE
                 }
 
                 if( !configTempSw ) { // 温度
@@ -149,6 +154,8 @@ class BrewDetailsActivity : AppCompatActivity() {
                 brewDetailsBrewTimeBar.setProgress(brew.brewTime)
                 brewDetailsWaterVolumeBar.setProgress(brew.waterVolume)
                 brewDetailsWaterVolumeLabel.text = getString(R.string.brewEditWaterVolumeLabel).format(configWaterVolumeUnit)
+                brewDetailsCBRBar.setProgress(brew.CBR)
+                brewDetailsCBRBar.setDecimalScale(1)
 
                 // 豆の経過日数を計算する
                 if(brew.beansID>0L) {

@@ -21,9 +21,15 @@
         <entry key="..\:/Users/dm/Documents/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_config.xml" value="0.37552083333333336" />
         <entry key="..\:/Users/dm/Documents/AndroidStudioProjects/CoffeeMaker/app/src/main/res/xml/root_preferences.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_beans_edit.xml" value="0.30833333333333335" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_brew_edit.xml" value="0.30833333333333335" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_brew_details_home.xml" value="0.2766447368421053" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_brew_edit.xml" value="0.2766447368421053" />
         <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/activity_takeout_list.xml" value="0.33" />
         <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/fragment_takeout_select.xml" value="0.18703703703703703" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/one_beans_card.xml" value="0.2766447368421053" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/one_beans_flat.xml" value="0.2766447368421053" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/one_brew_card_home.xml" value="0.33" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/one_brew_card_shop.xml" value="0.2766447368421053" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/layout/one_brew_flat_home.xml" value="0.2766447368421053" />
         <entry key="..\:/Users/user/AndroidStudioProjects/CoffeeMaker/app/src/main/res/xml/root_preferences.xml" value="0.4009259259259259" />
       </map>
     </option>

@@ -41,14 +41,15 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
                 .inflate( if(brewListLayoutStyle==0) R.layout.one_brew_card_home else R.layout.one_brew_flat_home, parent, false)
 
             // ここで表示・非表示処理。FlexboxLayoutで前に詰める＆折り返す
-            if( !configMillDispSw )         view.miniGrind.visibility = View.GONE
-            if( !configBeansDispSw )        view.miniBeans.visibility = View.GONE
-            if( !configTempDispSw )         view.miniTemp.visibility = View.GONE
-            if( !configSteamTimeDispSw )    view.miniSteam.visibility = View.GONE
+            if( !configMillDispSw )         view.miniGrind  .visibility = View.GONE
+            if( !configBeansDispSw )        view.miniBeans  .visibility = View.GONE
+            if( !configTempDispSw )         view.miniTemp   .visibility = View.GONE
+            if( !configSteamTimeDispSw )    view.miniSteam  .visibility = View.GONE
             if( !configBrewTimeDispSw )     view.miniBrewTime.visibility = View.GONE
-            if( !configWaterVolumeDispSw)   view.miniVolume.visibility = View.GONE
-            if( !configMilkDispSw )         view.miniMilk.visibility = View.GONE
-            if( !configSugarDispSw)         view.miniSugar.visibility = View.GONE
+            if( !configWaterVolumeDispSw)   view.miniVolume .visibility = View.GONE
+            if( !configCBRDispSw)           view.miniCBR    .visibility = View.GONE
+            if( !configMilkDispSw )         view.miniMilk   .visibility = View.GONE
+            if( !configSugarDispSw)         view.miniSugar  .visibility = View.GONE
             if( !configCupsBrewedDispSw )   view.miniCupsBrewed.visibility = View.GONE
             if( !configCupsDrunkDispSw )    view.miniCupsDrunk.visibility = View.GONE
 
@@ -94,6 +95,7 @@ class BrewRecyclerViewAdapter(brewsRealm: RealmResults<BrewData>):
 
                 holder.miniSugarText?.text      = sugarLabels[(bp.sugar/33.3F).toInt()]
                 holder.miniMilkText?.text       = milkLabels[(bp.milk/25F).toInt()]
+                holder.miniCBRText?.text        = bp.CBR.toString()
                 holder.miniCupsBrewedText?.text = bp.cups.toInt().toString()+"杯"
                 holder.miniCupsDrunkText?.text  = bp.cupsDrunk.toInt().toString()+"杯"
 

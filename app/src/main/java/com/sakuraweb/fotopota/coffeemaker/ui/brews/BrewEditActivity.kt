@@ -27,6 +27,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
@@ -65,6 +66,9 @@ const val REQUEST_BREW_STORAGE_PERMISSION = 6777
 // Edit - 当該データのRealm IDをIntentで送ってくる
 // FAB  - もちろん何もない
 
+var waterTicks: Int = 0
+var waterStep: Int = 0
+
 class BrewEditActivity : AppCompatActivity() {
     // 使用マメのIDを保持する
     // 他のBarやMethodのように、Viewに持たせることができないので、ローカル変数に保持する
@@ -93,8 +97,6 @@ class BrewEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("SHIRO", "brew-edit / onCreate")
-
-        var waterTicks: Int = 0
 
         // 編集画面を作る
         setContentView(R.layout.activity_brew_edit)
@@ -131,19 +133,14 @@ class BrewEditActivity : AppCompatActivity() {
             brewEditWaterVolumeLabel.visibility = View.GONE
         } else {
             // 水量設定がある場合、スライドバーをセットする必要があり、これがとてつもなく面倒くさい
-            brewEditWaterVolumeBar.min = 0F  // 設定は残っているけど、とにかく０にしちゃう
-            brewEditWaterVolumeMinLabel.text = configWaterVolumeMin.toInt().toString()
-            brewEditWaterVolumeMaxLabel.text = configWaterVolumeMax.toInt().toString()
-
             // 最大値をconfigから読み込み→刻み値決定→ticks決定（非常に面倒）
-            val waterMax = configWaterVolumeMax // configから最大値読み込み
-            val waterStep = waterVolumeSteps[waterMax.toFloat()]
-            if( waterStep!=null ) waterTicks = (waterMax / waterStep).toInt()+1
+            brewEditWaterVolumeMaxLabel.text = configWaterVolumeMax.toInt().toString()
+            brewEditWaterVolumeBar.max = configWaterVolumeMax // configから最大値読み込み
 
-            brewEditWaterVolumeBar.max = waterMax
+            waterStep = waterVolumeSteps.getOrDefault(configWaterVolumeMax, 1)
+            waterTicks = (configWaterVolumeMax / waterStep).toInt()+1
             brewEditWaterVolumeBar.tickCount = waterTicks
-            // TODO: 入力済みの水量が刻み値に合わないなら、ticksをやめる（無段階）
-            // TODO: でも、この段階では入力済みの水量がわからないので、DB読み込み時に積み残し
+
         /*
             brewEditWaterVolumeBar.max = configWaterVolumeMax
             brewEditWaterVolumeBar.min = configWaterVolumeMin
@@ -199,6 +196,12 @@ class BrewEditActivity : AppCompatActivity() {
             brewEditMilkBar.visibility = View.GONE
             brewEditMilkLabel.visibility = View.GONE
         }
+
+        if( !configCBRSw ) {
+            brewEditCBRBar.visibility = View.GONE
+            brewEditCBRLabel.visibility = View.GONE
+        }
+
         if( !configSugarSw ) {
             brewEditSugarBar.visibility = View.GONE
             brewEditSugarLabel.visibility = View.GONE
@@ -255,13 +258,12 @@ class BrewEditActivity : AppCompatActivity() {
                     brewEditGrind1Bar.setProgress(brew.beansGrind)
                     brewEditGrind2Bar.setProgress(brew.beansGrind2)
 
-                    // 水量だけは5ml単位にしてほしいとの意見が・・・
-                    brewEditWaterVolumeBar.setProgress(brew.waterVolume)
-
                     // TODO: デフォルトのTickで設定できる数字の場合はそのまま
-                    // TODO: そうでない場合は、tickCountを0にしちゃう（1ccにもどす）
-                    // TODO: デフォルトのTickで表現できているかのチェックが面倒化もしれない
-                    brewEditWaterVolumeBar.tickCount = waterTicks
+                    // TODO: そうでない場合は、tickCountを0にしちゃう（無段階設定）
+                    // 先にtickを設定しないと、丸められちゃう！（勉強になりました・・・）
+                    if ( brew.waterVolume.toInt() % waterStep != 0 ) brewEditWaterVolumeBar.tickCount = 0
+
+                    brewEditWaterVolumeBar.setProgress(brew.waterVolume)
 
                     brewEditBeansUseBar.setProgress(brew.beansUse)
                     brewEditTempBar.setProgress(brew.temp)
@@ -270,6 +272,8 @@ class BrewEditActivity : AppCompatActivity() {
                     brewEditShopText.setText(brew.shop)
                     brewEditSugarBar.setProgress(brew.sugar)
                     brewEditMilkBar.setProgress(brew.milk)
+                    brewEditCBRBar.setProgress(brew.CBR)
+                    brewEditCBRBar.setDecimalScale(1)
                     brewEditHotIceSW.isChecked = brew.iceHotSw != HOT_COFFEE
 
                     // v3.61から、画面回転（onSaveInstanceState）に対応
@@ -297,6 +301,7 @@ class BrewEditActivity : AppCompatActivity() {
 
         brewEditSugarBar.setIndicatorTextFormat("\${TICK_TEXT}")
         brewEditMilkBar.setIndicatorTextFormat("\${TICK_TEXT}")
+        brewEditCBRBar.setIndicatorTextFormat("\${TICK_TEXT}")
 
         brewEditGrindSw.setOnCheckedChangeListener { _, isChecked ->
             if( isChecked ) {
@@ -306,7 +311,7 @@ class BrewEditActivity : AppCompatActivity() {
                 // バーを使わず手入力する場合
                 brewEditGrindLabel.visibility = View.VISIBLE
                 brewEditGrindLabel2.visibility = View.GONE
-                brewEditGrindLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogGrind2), brewEditGrind2Bar, configMillUnit== GRIND_UNIT_FLOAT ) }
+                brewEditGrindLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogGrind2), brewEditGrind2Bar, configMillUnit== GRIND_UNIT_FLOAT, false ) }
             } else {
                 brewEditGrind1Bar.setIndicatorTextFormat("\${TICK_TEXT}")
                 brewEditGrind1Bar.visibility = View.VISIBLE
@@ -326,7 +331,7 @@ class BrewEditActivity : AppCompatActivity() {
             // バーを使わず手入力する場合
             brewEditGrindLabel.visibility = View.VISIBLE
             brewEditGrindLabel2.visibility = View.GONE
-            brewEditGrindLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogGrind2), brewEditGrind2Bar, configMillUnit== GRIND_UNIT_FLOAT ) }
+            brewEditGrindLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogGrind2), brewEditGrind2Bar, configMillUnit== GRIND_UNIT_FLOAT, false ) }
         } else {
             // 名前表示
             brewEditGrind1Bar.setIndicatorTextFormat("\${TICK_TEXT}")
@@ -411,13 +416,14 @@ class BrewEditActivity : AppCompatActivity() {
 
         // すべてのスライドバーに手入力オプションを付ける
         // GrindBarだけはSWによって処理を分けるので、前段のリスナ等で設定
-        brewEditWaterVolumeLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogWaterVolume).format(configWaterVolumeUnit), brewEditWaterVolumeBar, false ) }
-        brewEditCupLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogCups), brewEditCupsBar, false) }
-        brewEditCupDrunkLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogCupsDrunk), brewEditCupsDrunkBar, false) }
-        brewEditBeansUseLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogBeansUse), brewEditBeansUseBar, false ) }
-        brewEditTempLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogTemp), brewEditTempBar, false ) }
-        brewEditSteamLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogSteam), brewEditSteamBar, false ) }
-        brewEditBrewTimeLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogBrewTime), brewEditBrewTimeBar, false ) }
+        brewEditWaterVolumeLabel.setOnClickListener { inputNumberDialog(getString(R.string.brewEditDialogWaterVolume).format(configWaterVolumeUnit), brewEditWaterVolumeBar, isFloat = false , isWaterVolumeBar = true) }
+        brewEditCupLabel.setOnClickListener         { inputNumberDialog(getString(R.string.brewEditDialogCups)  , brewEditCupsBar       , isFloat = false, isWaterVolumeBar = false ) }
+        brewEditCupDrunkLabel.setOnClickListener    { inputNumberDialog(getString(R.string.brewEditDialogCupsDrunk) , brewEditCupsDrunkBar  , isFloat = false, isWaterVolumeBar = false ) }
+        brewEditBeansUseLabel.setOnClickListener    { inputNumberDialog(getString(R.string.brewEditDialogBeansUse)  , brewEditBeansUseBar   , isFloat = false, isWaterVolumeBar = false ) }
+        brewEditTempLabel.setOnClickListener        { inputNumberDialog(getString(R.string.brewEditDialogTemp)     , brewEditTempBar        , isFloat = false, isWaterVolumeBar = false ) }
+        brewEditSteamLabel.setOnClickListener       { inputNumberDialog(getString(R.string.brewEditDialogSteam)     , brewEditSteamBar      , isFloat = false, isWaterVolumeBar = false ) }
+        brewEditBrewTimeLabel.setOnClickListener    { inputNumberDialog(getString(R.string.brewEditDialogBrewTime)      , brewEditBrewTimeBar   , isFloat = false, isWaterVolumeBar = false ) }
+        brewEditCBRLabel.setOnClickListener         { inputNumberDialog(getString(R.string.brewEditDialogCBR),           brewEditCBRBar, isFloat = true, isWaterVolumeBar = false) }
 
         // ーーーーーーーーーー　ツールバー関係　ーーーーーーーーーー
         setSupportActionBar(brewEditToolbar) // これやらないと落ちるよ
@@ -429,8 +435,9 @@ class BrewEditActivity : AppCompatActivity() {
 
     } // 編集画面のonCreate
 
-
-    private fun inputNumberDialog(title:String, bar:IndicatorSeekBar, isFloat:Boolean ) {
+    // 編集画面内で使う数字入力ダイアログ
+    // スライドバーの横のラベル（ボタン）にこっそりと設定されている
+    private fun inputNumberDialog(title:String, bar:IndicatorSeekBar, isFloat:Boolean, isWaterVolumeBar:Boolean ) {
         val input = EditText(this)
         input.textAlignment = View.TEXT_ALIGNMENT_CENTER
         if( isFloat ) {
@@ -450,10 +457,11 @@ class BrewEditActivity : AppCompatActivity() {
             setPositiveButton("OK",
                 object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
-                        // どんな値も設定できるように、バーの設定を変更する（descreteをオフにする）
-                        bar.tickCount = 0
-
                         var v = input.text.toString().toFloat()
+
+                        // 湯量バーは、偶然、tickに従った（＝刻み値の倍数）数字の場合は、
+                        // どんな値も設定できるように、バーの設定を変更する（discreteをオフにする）
+                        if( isWaterVolumeBar ) bar.tickCount = if (v.toInt() % waterStep!=0 ) 0 else waterTicks
                         if( v<bar.min ) v=bar.min
                         if( v>bar.max ) v=bar.max
                         bar.setProgress( v )
@@ -462,7 +470,6 @@ class BrewEditActivity : AppCompatActivity() {
             show()
         }
     }
-
 
 
     // 外飲み（equipID==EQUIP_SHOP）か家のみかで、表示項目を変更する
@@ -501,6 +508,7 @@ class BrewEditActivity : AppCompatActivity() {
 
             val brewSugar   = brewEditSugarBar.progressFloat
             val brewMilk    = brewEditMilkBar.progressFloat
+            val brewCBR     = brewEditCBRBar.progressFloat
             val brewIceHotSW = if( brewEditHotIceSW.isChecked ) ICE_COFFEE else HOT_COFFEE
 
             when( editMode ) {
@@ -535,6 +543,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew.memo = brewMemo
                         brew.sugar = brewSugar
                         brew.milk = brewMilk
+                        brew.CBR = brewCBR
                         brew.iceHotSw = brewIceHotSW
                         // nullの時は何もしないことにする
                         if( _imageUri!=null ) brew.imageURI = _imageUri.toString()
@@ -566,6 +575,7 @@ class BrewEditActivity : AppCompatActivity() {
                         brew?.memo      = brewMemo
                         brew?.sugar     = brewSugar
                         brew?.milk      = brewMilk
+                        brew?.CBR       = brewCBR
                         brew?.iceHotSw  = brewIceHotSW
                         if( _imageUri!=null ) brew?.imageURI  = _imageUri.toString()
                     }
@@ -755,7 +765,7 @@ class BrewEditActivity : AppCompatActivity() {
         //ダイアログを出してユーザー許可を仰ぐので、ＮＧなこともＯＫなこともある
 
         //WRITE_EXTERNAL_STORAGEに対するパーミションダイアログでかつ許可を選択したなら…
-        if(requestCode == REQUEST_BREW_STORAGE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == REQUEST_BREW_STORAGE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // これでようやく許可が出た
             // ダイアログの許可結果はどこかに保存する必要は無いよう（次のcheckSelfPermissionではOKになる）
             // カメラ→事前確認で許可なし→許可ダイアログ→許可出た→もう一回カメラ起動
@@ -785,7 +795,8 @@ class BrewEditActivity : AppCompatActivity() {
 
     fun onBrewImageSelectBtnClick( view: View ) {
         //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+            && ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードをREQUEST_STORAGE_PERMISSIONに設定。
             //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
             //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
@@ -806,7 +817,8 @@ class BrewEditActivity : AppCompatActivity() {
     fun onBrewImageBtnClick( view: View ){
         // パーミッション→ファイル名→ContentValues→ContentResolver→Intent→起動
         //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+            && ActivityCompat.checkSelfPermission(applicationContext , Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードをREQUEST_STORAGE_PERMISSIONに設定。
             //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
             //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了

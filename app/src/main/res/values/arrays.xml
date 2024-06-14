@@ -419,8 +419,8 @@
     </array>
 
     <string-array name="water_volume_max_selects">
-        <item>100（10刻み）</item>
-        <item>150（10刻み）</item>
+        <item>100（5刻み）</item>
+        <item>150（5刻み）</item>
         <item>200（10刻み）</item>
         <item>250（10刻み）</item>
         <item>300（10刻み）</item>
@@ -453,8 +453,8 @@
     </string-array>
 
     <array name="water_volume_steps">
-        <item>10</item>
-        <item>10</item>
+        <item>5</item>
+        <item>5</item>
         <item>10</item>
         <item>10</item>
         <item>10</item>

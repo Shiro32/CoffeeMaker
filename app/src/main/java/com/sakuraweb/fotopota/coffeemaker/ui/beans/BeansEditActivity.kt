@@ -525,7 +525,8 @@ class BeansEditActivity : AppCompatActivity() {
 
     fun onBeansImageBtnClick( view: View ){
         //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードをREQUEST_STORAGE_PERMISSIONに設定。
             //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
             //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
@@ -622,7 +623,8 @@ class BeansEditActivity : AppCompatActivity() {
 
     fun onBeansImageSelectBtnClick( view: View ) {
         //WRITE_EXTERNAL_STORAGEの許可が下りていないなら…
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if( Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //WRITE_EXTERNAL_STORAGEの許可を求めるダイアログを表示。その際、リクエストコードを2000に設定。
             //自分でパーミッションを獲得するためのメソッドを呼び出す（requestPermissions)
             //ダイアログの結果は、別のResultで受け取るのでこの関数はいったん終了
@@ -633,6 +635,8 @@ class BeansEditActivity : AppCompatActivity() {
 
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             type = "image/*"
         }
         startActivityForResult(intent, REQUEST_BEANS_PHOTO_SELECT)

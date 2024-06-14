@@ -19,7 +19,7 @@ import java.util.*
 // v4   挽度合いの表示を切り替えるSWを追加
 // v5   ミルク・砂糖の有無、アイス・ホットのＳＷ
 
-const val BREW_DATA_VERSION = 8L
+const val BREW_DATA_VERSION = 9L
 var brewDataMigrated5to6 = false
 var brewDataMigrated7to8 = false
 
@@ -50,6 +50,7 @@ open class BrewData : RealmObject() {
     var cups: Float = 0.0F
     var cupsDrunk: Float = 0.0F
     var waterVolume: Float = 0.0F // v8
+    var CBR: Float = 0.0F   // V9
     var temp: Float = 0.0F
     var steam: Float = 0.0F
     var imageURI: String = ""
@@ -123,6 +124,12 @@ class BrewDataMigration : RealmMigration {
             oldVersion++
 
             brewDataMigrated7to8 = true
+        }
+        if( oldVersion==8L ) {
+            // CBR登場！
+            realmSchema.get("BrewData")!!
+                .addField("CBR", Float::class.java )
+            oldVersion++
         }
     }
 }

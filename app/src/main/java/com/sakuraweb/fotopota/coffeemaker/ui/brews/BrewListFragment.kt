@@ -44,14 +44,16 @@ var configBrewTimeMin = 0F
 var configBrewTimeDispSw = true
 
 var configWaterVolumeSw = true
-var configWaterVolumeMax = 240F
-var configWaterVolumeMin = 0F
+var configWaterVolumeMax = 300F
 var configWaterVolumeDispSw = true
 
 var configTempSw = true
 var configTempMax = 120F
 var configTempMin = 0F
 var configTempDispSw = true
+
+var configCBRSw = true
+var configCBRDispSw = true
 
 var configBeansSw = true
 var configBeansDispSw = true
@@ -81,8 +83,8 @@ private var brewRecyclerPosition: Int = 0
 fun readBrewConfig( context: Context ) {
     // ーーーーーーーーーー　表示項目のON/OFFをPreferenceから読んでおく　ーーーーーーーーーー
     PreferenceManager.getDefaultSharedPreferences(context).apply {
-        getString("water_volume_max", "240")?.let { configWaterVolumeMax = it.toFloat() }
-        getString("water_volume_min", "0")?.let { configWaterVolumeMin = it.toFloat() }
+        getString("water_volume_max", "300")?.let { configWaterVolumeMax = it.toFloat() }
+//        getString("water_volume_min", "0")?.let { configWaterVolumeMin = it.toFloat() }
         configWaterVolumeSw     = getBoolean("water_volume_sw", true)
         configWaterVolumeDispSw = getBoolean("water_volume_disp_sw", true)
 
@@ -105,6 +107,9 @@ fun readBrewConfig( context: Context ) {
         getString("temp_max", "120")?.let { configTempMax = it.toFloat() }
         configTempSw            = getBoolean("temp_sw", true)
         configTempDispSw        = getBoolean("temp_disp_sw",true)
+
+        configCBRSw             = getBoolean( "cbr_sw", true)
+        configCBRDispSw         = getBoolean( "cbr_disp_sw", true)
 
         configBeansSw           = getBoolean("beans_sw", true)
         configBeansDispSw       = getBoolean("beans_disp_sw", true)
