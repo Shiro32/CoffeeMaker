@@ -3,7 +3,6 @@ package com.sakuraweb.fotopota.coffeemaker.ui.brews
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -14,8 +13,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.core.app.ActivityCompat
-import androidx.core.content.res.ResourcesCompat
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.REQUEST_EDIT_BEANS
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.findBeansDateByID
@@ -46,12 +43,9 @@ import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsCupL
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsBrewImage
 import kotlinx.android.synthetic.main.activity_brew_details_home.brewDetailsDebugText
 import kotlinx.android.synthetic.main.activity_brew_details_shop.*
-import java.io.BufferedInputStream
 import java.io.FileDescriptor
 import java.lang.Exception
-
 import java.util.*
-import java.util.jar.Manifest
 
 const val REQUEST_EDIT_BREW = 1
 
@@ -167,7 +161,7 @@ class BrewDetailsActivity : AppCompatActivity() {
             } else {
                 // 外のみの場合諸表示（すごく少ない）
                 setContentView(R.layout.activity_brew_details_shop)
-                brewDetailsShopText.setText(brew.shop)
+                brewDetailsShopText.text = brew.shop
             }
 
             // 家飲み・店飲み共通項目 設定画面の項目を反映
@@ -184,7 +178,7 @@ class BrewDetailsActivity : AppCompatActivity() {
             brewDetailsRatingBar.rating = brew.rating
             brewDetailsMethodText.text = findEquipNameByID(brew.equipID)
             brewDetailsBeansText.text = findBeansNameByID(brew.place, brew.beansID, brew.takeoutID) + days
-            brewDetailsMemoText.setText(brew.memo)
+            brewDetailsMemoText.text = brew.memo
             brewDetailsSugarBar.setProgress(brew.sugar)
             brewDetailsMilkBar.setProgress(brew.milk)
             brewDetailsHotIceSw.isChecked = (brew.iceHotSw != HOT_COFFEE)

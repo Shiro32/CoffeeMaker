@@ -4,7 +4,6 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Selection.setSelection
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
@@ -15,10 +14,6 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sakuraweb.fotopota.coffeemaker.*
-import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansData
-import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansEditActivity
-import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansRecyclerViewAdapter
-import com.sakuraweb.fotopota.coffeemaker.ui.beans.SetBeansListener
 import com.sakuraweb.fotopota.coffeemaker.ui.brews.BrewData
 import com.sakuraweb.fotopota.coffeemaker.ui.takeouts.TakeoutData
 import io.realm.Realm
@@ -48,7 +43,9 @@ fun readBeansConfig( context: Context ) {
     // 表示項目のON/OFFをPreferenceから読んでおく
     PreferenceManager.getDefaultSharedPreferences(context as Context).apply {
         beansListStyle = if( getString("list_sw", "") == "card" ) R.layout.one_beans_card else R.layout.one_beans_flat
+
         getString("beans_buy_max", "00")?.let { configBeansBuyMax = it.toFloat() }
+        beansSpinPosition = getInt("beans_spin",0)
     }
 }
 
@@ -62,7 +59,9 @@ class BeansFragment : Fragment(), SetBeansListener {
     private lateinit var realmResults: RealmResults<BeansData>      // 豆リストの配列（REALM)
 
     private lateinit var sortList: Array<String>                    // SortSpinnerの配列（購入日順、金額順・・・）
-    private var beansSpinPosition:Int = 0                           // そのポジション（↑）
+
+    // 2024.6.18 スピナーをグローバル変数化した
+    // private var beansSpinPosition:Int = 0                           // そのポジション（↑）
     private lateinit var beansSpinSelectedItem: String              // その文字列（↑）
 
     // これ、何のフラグだ！？
@@ -113,7 +112,7 @@ class BeansFragment : Fragment(), SetBeansListener {
         // スピナーは親Activityにあり、このタイミングではまだ存在していない（！）
         // なので定数だけ準備しておくにとどめる
         sortList = resources.getStringArray(R.array.sort_mode_beans)
-        beansSpinPosition = 0
+//        beansSpinPosition = 0 // 2024.6.18 設定保存のために不要とした
         beansSpinSelectedItem = sortList[beansSpinPosition]
 
         return root
@@ -134,7 +133,7 @@ class BeansFragment : Fragment(), SetBeansListener {
                 // 最新利用日のセット
                 val recent = brews[0]?.date
                 // 利用側（BREW）での評価の算出
-                var rate:Float = 0.0F
+                var rate = 0.0F
                 for( b in brews)  rate += b.rating
 
                 // 当該豆情報を更新
@@ -177,6 +176,7 @@ class BeansFragment : Fragment(), SetBeansListener {
             }
             Log.d("SHIRO", "BEANS / Spinner!")
 
+            context?.let { PreferenceManager.getDefaultSharedPreferences(it).edit().putInt("beans_spin", beansSpinPosition ).apply() }
             loadBeansData()
             adapter = BeansRecyclerViewAdapter( realmResults, this@BeansFragment )
             beansRecycleView.adapter = adapter
@@ -208,7 +208,7 @@ class BeansFragment : Fragment(), SetBeansListener {
 
     // Realmから豆データを読み込む
     // それだけなんだけど、ソートが面倒なので関数
-    // v3.7まではBrewEditから呼ばれた際はSpineerが無かったが、実装した
+    // v3.7まではBrewEditから呼ばれた際はSpinnerが無かったが、実装した
     // 本当はUP/DOWNを選ばせたいが作るの面倒なので、選択肢を倍増でごまかす(DESCENDING/ASCENDING)
     private fun loadBeansData() {
         when ( beansSpinSelectedItem ) {
@@ -277,7 +277,7 @@ class BeansFragment : Fragment(), SetBeansListener {
 
         // 親Activityのスピナー（Sort）をここでセットする
         // スピナをセットすると自動的に１回呼ばれてしまう（＝Recyclerが初期化されちゃう）ので、フラグで回避
-        // v3.7まではBrewEditから呼ばれた際はSpineerが無かったが、実装した
+        // v3.7まではBrewEditから呼ばれた際はSpinnerが無かったが、実装した
 //        if( !isCalledFromBrewEditToBeans ) {
         beansFirstSortSpin = true
         val adapter = ArrayAdapter<String>(ac, android.R.layout.simple_spinner_dropdown_item, sortList)
@@ -314,18 +314,18 @@ class BeansFragment : Fragment(), SetBeansListener {
 
 
 fun findBeansNameByID( place:Int, beansID: Long, takeoutID: Long ): String {
-    if (place == BREW_IN_HOME) {
+    return if (place == BREW_IN_HOME) {
         val realm = Realm.getInstance(beansRealmConfig)
         val bean = realm.where<BeansData>().equalTo("id", beansID).findFirst()
-        var name = bean?.name.toString()
+        val name = bean?.name.toString()
         realm.close()
-        if (name != "null") return name else return "データなし"
+        if (name != "null") name else "データなし"
     } else {
         val realm = Realm.getInstance(takeoutRealmConfig)
         val bean = realm.where<TakeoutData>().equalTo("id", takeoutID).findFirst()
-        var name = bean?.name.toString()
+        val name = bean?.name.toString()
         realm.close()
-        if (name != "null") return name else return "データなし"
+        if (name != "null") name else "データなし"
     }
 }
 
@@ -334,9 +334,8 @@ fun findBeansNameByID( place:Int, beansID: Long, takeoutID: Long ): String {
 fun findBeansDateByID( id:Long): Date? {
     val realm = Realm.getInstance(beansRealmConfig)
     val bean = realm.where<BeansData>().equalTo("id",id).findFirst()
-    var d1 = bean?.repeatDate
+    val d1 = bean?.repeatDate
 
     realm.close()
-
     return d1
 }

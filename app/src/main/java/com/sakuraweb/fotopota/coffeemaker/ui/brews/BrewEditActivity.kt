@@ -27,7 +27,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.sakuraweb.fotopota.coffeemaker.*
 import com.sakuraweb.fotopota.coffeemaker.ui.beans.BeansListActivity
@@ -152,7 +151,7 @@ class BrewEditActivity : AppCompatActivity() {
 
             // waterWidth   : 水量のふり幅（max-min）
             // waterStep    ： 水量の調整幅（5ccおき、10ccおき・・・）
-            // waterTicks   : 水量の分割数（≒waterWIdth / waterStep）
+            // waterTicks   : 水量の分割数（≒waterWidth / waterStep）
 
 
             val waterWidth = (configWaterVolumeMax - configWaterVolumeMin).toInt()
@@ -846,7 +845,7 @@ class BrewEditActivity : AppCompatActivity() {
 //            blackToast( applicationContext, "Android 9以前ですね")
             // 外部メモリのフォルダを決める（共有できるタイプ）
             val photoDir    = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DCIM )
-            if( photoDir.exists()==null ) {
+            if( photoDir.exists()==false ) {
                 blackToast( applicationContext, "画像フォルダ新規作成！")
                 photoDir.mkdirs()
             }
@@ -882,7 +881,7 @@ class BrewEditActivity : AppCompatActivity() {
 
         // 外部メモリのフォルダを決める（共有できるタイプ）
         val photoDir    = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DCIM )
-        if( photoDir.exists()==null ) {
+        if( photoDir.exists()==false ) {
             blackToast( applicationContext, "画像フォルダ新規作成！")
             photoDir.mkdirs()
         }

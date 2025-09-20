@@ -108,8 +108,8 @@ fun readBrewConfig( context: Context ) {
         configTempSw            = getBoolean("temp_sw", true)
         configTempDispSw        = getBoolean("temp_disp_sw",true)
 
-        configCBRSw             = getBoolean( "cbr_sw", true)
-        configCBRDispSw         = getBoolean( "cbr_disp_sw", true)
+        configCBRSw             = getBoolean("cbr_sw", true)
+        configCBRDispSw         = getBoolean("cbr_disp_sw", true)
 
         configBeansSw           = getBoolean("beans_sw", true)
         configBeansDispSw       = getBoolean("beans_disp_sw", true)
@@ -126,10 +126,13 @@ fun readBrewConfig( context: Context ) {
         configCupsDrunkSw       = getBoolean("cups_drunk_sw", true)
         configCupsDrunkDispSw   = getBoolean("cups_drunk_disp_sw", false)
 
-        brewListLayoutStyle = if( getString("list_sw", "") == "card" ) CARD_STYLE else FLAT_STYLE
-        grind2Labels = arrayOf( "0", configMillMax.toInt().toString() )
+        brewListLayoutStyle     = if( getString("list_sw", "") == "card" ) CARD_STYLE else FLAT_STYLE
+        grind2Labels            = arrayOf( "0", configMillMax.toInt().toString() )
 
         getString("water_volume_unit", "cc")?.let { configWaterVolumeUnit = it } // 水の使用量の単位（カップ、cc）
+
+        // 2024.6.18 スピナーの位置
+        brewSpinPosition        = getInt("brew_spin", 0)
     }
 }
 
@@ -140,10 +143,12 @@ class BrewFragment : Fragment() {
     private lateinit var realmResults: RealmResults<BrewData>
 
     private lateinit var sortList: Array<String>
-    private var brewSpinPosition:Int = 0
+    private var brewFirstSortSpin: Boolean = true
+
+    // 2024.06.18 グローバル変数化しました
+//    private var brewSpinPosition:Int = 0
     private lateinit var brewSpinSelectedItem: String
 
-    private var brewFirstSortSpin: Boolean = true
 
 /*
     // 回転時（＝Activity再構築）に備えて保存する
@@ -191,10 +196,11 @@ class BrewFragment : Fragment() {
         }
 
         // スピナーの設定
-        // スピナーは親Activityにあり、このタイミングではまだ存在していない（！）
-        // なので定数だけ準備しておくにとどめる
+        // スピナーは親Activityにあり、このタイミングではまだ存在していない（！）ので定数だけ準備しておくにとどめる
+        // スピナーを実装するのは onStartの模様
+        // TODO: ここで初期値を設定できるのかな？
         sortList = resources.getStringArray(R.array.sort_mode_brew)
-        brewSpinPosition = 0
+//        brewSpinPosition = 0 // 2024.6.18 設定保存のために不要とした
         brewSpinSelectedItem = sortList[brewSpinPosition]
 
         return root
@@ -221,6 +227,7 @@ class BrewFragment : Fragment() {
             }
             Log.d("SHIRO", "BREW / Spinner!")
 
+            context?.let { PreferenceManager.getDefaultSharedPreferences(it).edit().putInt("brew_spin", brewSpinPosition).apply() }
             // ここで何かしないと、Fragmentが更新できない
             loadBrewData()
             adapter = BrewRecyclerViewAdapter( realmResults )

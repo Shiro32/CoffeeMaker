@@ -78,6 +78,9 @@ lateinit var grindLabels: Array<String>
 lateinit var sugarLabels: Array<String>
 lateinit var milkLabels:  Array<String>
 
+// 各画面のスピナーの状態をキープ
+var brewSpinPosition:Int = 0    // BREW用
+var beansSpinPosition:Int = 0   // BEANS用
 
 // 水量ごとの刻み値
 // 本当はマップでやるべきだとは思うのだけど、やり方わからず(valueの方に、300/10とか書く？
